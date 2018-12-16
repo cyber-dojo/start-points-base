@@ -1,14 +1,20 @@
-
-def shas_filename
-  '/app/repos/shas.txt'
-end
+require 'json'
 
 def root_dir
   ARGV[0]
 end
 
-puts "root_dir==#{root_dir}"
-puts `ls -al #{root_dir}`
+def shas_filename
+  "#{root_dir}/shas.txt"
+end
 
-puts "shas"
-puts `cat #{root_dir}/shas.txt`
+lines = `cat #{shas_filename}`.lines
+repos = Hash[lines.map { |line|
+  index,sha,url = line.split
+  [index, { sha:sha, url:url }]
+}]
+
+repos.keys.sort.each do |key|
+  puts JSON.pretty_generate(repos[key])
+  puts `ls -al #{root_dir}/#{key}`
+end
