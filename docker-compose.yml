@@ -6,8 +6,6 @@ services:
   start-points:
     build:
       context: .
-      args:
-        - SHA
     user: nobody
     image: cyberdojo/start-points-base
     init: true
