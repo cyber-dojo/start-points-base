@@ -2,6 +2,5 @@ FROM  cyberdojo/start-points-base
 LABEL maintainer=jon@jaggersoft.com
 
 ARG HOME=/app
-ARG REPO_NAMES_FILE
-COPY ${REPO_NAMES_FILE} ${HOME}
-RUN cat ${HOME}/${REPO_NAMES_FILE} | ruby ${HOME}/src/clone_all.rb
+COPY . ${HOME}/repos
+RUN ruby ${HOME}/src/check_all.rb ${HOME}/repos
