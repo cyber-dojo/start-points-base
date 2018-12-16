@@ -9,5 +9,6 @@
 
 #-----!Except these files
 
+!Dockerfile.derived
 !config.ru
 !up.sh
