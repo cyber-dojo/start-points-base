@@ -1,6 +1,0 @@
-FROM  cyberdojo/start-points-base
-LABEL maintainer=jon@jaggersoft.com
-
-ARG HOME=/app
-COPY . ${HOME}/repos
-RUN ruby ${HOME}/src/check_all.rb ${HOME}/repos
