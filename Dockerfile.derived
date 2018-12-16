@@ -1,0 +1,10 @@
+FROM  cyberdojo/start-points-base
+LABEL maintainer=jon@jaggersoft.com
+
+ARG HOME=/app
+ARG SHA
+RUN echo ${SHA} > ${HOME}/sha.txt
+
+ARG REPO_NAMES_FILE
+COPY ${REPO_NAMES_FILE} ${HOME}
+RUN cat ${HOME}/${REPO_NAMES_FILE} | ruby ${HOME}/src/clone_all.rb
