@@ -7,10 +7,14 @@ There are 3 kinds of start-points
 - exercises
 - custom
 
-Use the build_cyber_dojo_start_points_image.sh script to create your own
+Use the
+[build_cyber_dojo_start_points_image.sh](
+  start-points-base/build_cyber_dojo_start_point_image.sh
+) script to create your own
 cyber-dojo start-point image. For example
 ```
 $ build_cyber_dojo_start_points_image.sh --help
+
 $ build_cyber_dojo_start_points_image.sh \
     acme/my-start-points \
       https://github.com/cyber-dojo/start-points.git
