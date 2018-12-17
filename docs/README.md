@@ -7,7 +7,7 @@ script:
 ```
 $ build_cyber_dojo_start_points_image.sh --help
 use: build_cyber_dojo_start_point_image.sh <image-name> <git-repo-urls>
-...
+
 $ build_cyber_dojo_start_points_image.sh \
     acme/my-start-points \
       https://github.com/cyber-dojo/start-points.git
