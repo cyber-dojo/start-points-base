@@ -14,6 +14,11 @@ show_use()
   echo "Create a cyber-dojo start-point image."
   echo "Its base image will be cyberdojo/start-points-base"
   echo "and it will contain clones of all the specific git repos."
+  echo "Examples"
+  echo "\$ ${MY_NAME} acme/one-start-point file:///.../asm-assert"
+  echo "\$ ${MY_NAME} acme/start-points https://github.com/cyber-dojo/start-points.git"
+  #TODO: explain you must end up with one of each of the 3 kinds
+  #TODO: or, provide defaults for each of the 3?
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -53,12 +58,12 @@ check_args()
   fi
   if [ "${IMAGE_NAME}" = '' ]; then
     show_use
-    echo 'NO image_name'
+    echo 'ERROR: missing <image_name>'
     exit_fail
   fi
   if [ "${REPO_NAMES}" = '' ]; then
     show_use
-    echo 'NO git-repo-urls'
+    echo 'ERROR: missing <git-repo-urls>'
     exit_fail
   fi
 }
