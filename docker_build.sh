@@ -36,8 +36,9 @@ check_git_is_installed()
 
 # - - - - - - - - - - - - - - - - -
 # todo: check $1==image-name is provided
+echo "IMAGE_NAME=:${IMAGE_NAME}:"
 # todo: check at least 1 repo-name is provided
-
+echo "REPO_NAME=:${REPO_NAMES}:"
 # git clone all repos into docker context
 check_git_is_installed
 check_docker_is_installed
