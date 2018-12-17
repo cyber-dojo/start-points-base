@@ -8,7 +8,7 @@ There are 3 kinds of start-points
 - custom
 
 Use the
-[build_cyber_dojo_start_points_image.sh](build_cyber_dojo_start_point_image.sh)
+[build_cyber_dojo_start_points_image.sh](../build_cyber_dojo_start_point_image.sh)
 script to create your own cyber-dojo start-point image. For example
 ```
 $ build_cyber_dojo_start_points_image.sh --help
