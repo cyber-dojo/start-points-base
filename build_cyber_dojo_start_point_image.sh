@@ -7,6 +7,8 @@ readonly REPO_NAMES="${@:2}"
 
 # - - - - - - - - - - - - - - - - -
 
+error() { echo "ERROR: ${2}"; exit ${1}; }
+
 show_use()
 {
   echo "use: ${MY_NAME} <image-name> <git-repo-urls>"
@@ -23,56 +25,21 @@ show_use()
 
 # - - - - - - - - - - - - - - - - -
 
-exit_fail()
-{
-  exit 1
-}
-
-# - - - - - - - - - - - - - - - - -
-
-check_git_is_installed()
-{
-  if ! hash git 2> /dev/null; then
-    echo 'git needs to be installed'
-    exit_fail
-  fi
-}
-
-# - - - - - - - - - - - - - - - - -
-
-check_docker_is_installed()
-{
-  if ! hash docker 2> /dev/null; then
-    echo 'docker needs to be installed'
-    exit_fail
-  fi
-}
-
-# - - - - - - - - - - - - - - - - -
-
-check_args()
-{
-  if [ "${IMAGE_NAME}" = '--help' ];  then
-    show_use
-    exit_fail
-  fi
-  if [ "${IMAGE_NAME}" = '' ]; then
-    show_use
-    echo 'ERROR: missing <image_name>'
-    exit_fail
-  fi
-  if [ "${REPO_NAMES}" = '' ]; then
-    show_use
-    echo 'ERROR: missing <git-repo-urls>'
-    exit_fail
-  fi
-}
-
-# - - - - - - - - - - - - - - - - -
-
-check_git_is_installed
-check_docker_is_installed
-check_args
+if [ "${IMAGE_NAME}" = '--help' ];  then
+  show_use; exit 0
+fi
+if ! hash git 2> /dev/null; then
+  error 1 'git needs to be installed'
+fi
+if ! hash docker 2> /dev/null; then
+  error 2 'docker needs to be installed'
+fi
+if [ "${IMAGE_NAME}" = '' ]; then
+  show_use; error 3 'missing <image_name>'
+fi
+if [ "${REPO_NAMES}" = '' ]; then
+  show_use; error 4 'missing <git-repo-urls>'
+fi
 
 # git clone all repos into docker context
 readonly CONTEXT_DIR=$(mktemp -d /tmp/cyber-dojo-start-points.XXXXXXXXX)

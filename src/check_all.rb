@@ -15,6 +15,7 @@ repos = Hash[lines.map { |line|
 }]
 
 repos.keys.sort.each do |key|
+  puts key
   puts JSON.pretty_generate(repos[key])
   puts `ls -al #{root_dir}/#{key}`
 end
