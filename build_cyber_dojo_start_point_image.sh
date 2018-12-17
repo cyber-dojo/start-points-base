@@ -1,12 +1,20 @@
 #!/bin/bash
 set -e
 
+readonly MY_NAME=`basename "$0"`
 readonly CONTEXT_DIR=$(mktemp -d /tmp/start-points.XXXXXXXXX)
 readonly DOCKERFILE=${CONTEXT_DIR}/Dockerfile
 readonly DOCKER_IGNORE=${CONTEXT_DIR}/.dockerignore
 readonly IMAGE_NAME=${1}
 shift
 readonly REPO_NAMES=$#
+
+# - - - - - - - - - - - - - - - - -
+
+show_use()
+{
+  echo "Use: ${MY_NAME} <image-name> [git-repo-url...]"
+}
 
 # - - - - - - - - - - - - - - - - -
 
@@ -43,6 +51,7 @@ echo "REPO_NAMES=:${REPO_NAMES}:"
 
 
 # git clone all repos into docker context
+show_use
 check_git_is_installed
 check_docker_is_installed
 cd ${CONTEXT_DIR}
