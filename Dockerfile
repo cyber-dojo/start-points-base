@@ -1,9 +1,8 @@
-FROM  cyberdojo/rack-base
+FROM cyberdojo/rack-base
 LABEL maintainer=jon@jaggersoft.com
 
-ARG                            HOME=/app
-COPY .                       ${HOME}
-RUN  chown -R nobody:nogroup ${HOME}
+COPY . /app
+RUN  chown -R nobody:nogroup /app
 
 EXPOSE 4547
 USER nobody
