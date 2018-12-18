@@ -19,3 +19,7 @@ repos.keys.sort.each do |key|
   puts JSON.pretty_generate(repos[key])
   puts `ls -al #{root_dir}/#{key}`
 end
+
+# TODO:
+# starting moving commander's start-point checking code
+# to here, with tests.
