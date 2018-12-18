@@ -6,7 +6,9 @@ readonly SCRIPT=build_cyber_dojo_start_points_image.sh
 readonly MY_IMAGE_NAME=cyberdojo/start-points-base-test
 
 # build the FROM image so it won't be docker pulled
-${MY_DIR}/build_docker_images.sh
+docker build \
+  --tag cyberdojo/start-points-base \
+  ${MY_DIR}/..
 
 # smoke test building an image
 ./${SCRIPT} \
