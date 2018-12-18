@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ev
 
 readonly MY_NAME=`basename "$0"`
 readonly IMAGE_NAME="${1}"
