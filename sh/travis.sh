@@ -8,7 +8,7 @@ readonly MY_IMAGE_NAME=cyberdojo/start-points-base-test
 
 ${MY_DIR}/build_docker_images.sh
 
-chmod +x ./${SCRIPT}
+#chmod +x ./${SCRIPT}
 
 ./${SCRIPT} \
   ${MY_IMAGE_NAME} \
