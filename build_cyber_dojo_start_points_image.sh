@@ -1,5 +1,5 @@
 #!/bin/bash
-set -exv
+set -e
 
 readonly MY_NAME=`basename "$0"`
 readonly IMAGE_NAME="${1}"
@@ -43,26 +43,16 @@ fi
 
 # git clone all repos into docker context
 readonly CONTEXT_DIR=$(mktemp -d /tmp/cyber-dojo-start-points.XXXXXXXXX)
-echo "CONTEXT_DIR=:${CONTEXT_DIR}:"
-ls -al ${CONTEXT_DIR}
-
-echo "xxxx" >> ${CONTEXT_DIR}/try-me.txt
-
 cleanup() { rm -rf ${CONTEXT_DIR} > /dev/null; }
 trap cleanup EXIT
 declare index=0
 for repo_name in $REPO_NAMES; do
     cd ${CONTEXT_DIR}
-    pwd
     git clone --verbose --depth 1 ${repo_name} ${index}
     cd ${index}
-    pwd
     declare sha=$(git rev-parse HEAD)
-    echo "sha=:${sha}:"
-    echo "repo_name=:${repo_name}:"
     echo "${index} ${sha} ${repo_name}" >> ${CONTEXT_DIR}/shas.txt
-    #((index++)) This is failing!?
-    index=$((index + 1))
+    index=$((index + 1)) #((index++)) This was failing!?
 done
 
 # create a Dockerfile in the docker context
