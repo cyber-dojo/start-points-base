@@ -43,13 +43,19 @@ fi
 
 # git clone all repos into docker context
 readonly CONTEXT_DIR=$(mktemp -d /tmp/cyber-dojo-start-points.XXXXXXXXX)
+echo "CONTEXT_DIR=:${CONTEXT_DIR}:"
+
 cleanup() { rm -rf ${CONTEXT_DIR} > /dev/null; }
 trap cleanup EXIT
-cd ${CONTEXT_DIR}
 declare index=0
 for repo_name in $REPO_NAMES; do
+    cd ${CONTEXT_DIR}
+    pwd
     git clone --verbose --depth 1 ${repo_name} ${index}
-    declare sha=$(cd ${index} && git rev-parse HEAD)
+    cd ${index}
+    pwd
+    declare sha=$(git rev-parse HEAD)
+    echo "sha=:${sha}:"
     echo "${index} ${sha} ${repo_name}" >> ${CONTEXT_DIR}/shas.txt
     ((index++))
 done
