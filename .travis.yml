@@ -6,4 +6,4 @@ git:
   quiet: true
 
 script:
-    - ./ci_scripts/travis.sh
+    - ./_ci_scripts/travis.sh
