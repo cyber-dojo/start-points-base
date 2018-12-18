@@ -52,7 +52,7 @@ for repo_name in $REPO_NAMES; do
     cd ${index}
     declare sha=$(git rev-parse HEAD)
     echo "${index} ${sha} ${repo_name}" >> ${CONTEXT_DIR}/shas.txt
-    index=$((index + 1)) #((index++)) This was failing!?
+    index=$((index + 1)) #((index++)) failed on Travis!?
 done
 
 # create a Dockerfile in the docker context
