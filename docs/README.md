@@ -10,7 +10,9 @@ use: build_cyber_dojo_start_point_image.sh <image-name> <git-repo-urls>
 
 $ build_cyber_dojo_start_points_image.sh \
     acme/my-start-points \
-      https://github.com/cyber-dojo/start-points.git
+      https://github.com/cyber-dojo/start-points-languages.git \
+      https://github.com/cyber-dojo/start-points-exercises.git \
+      https://github.com/cyber-dojo/start-points-custom.git    \
 ```
 
 There are 3 kinds of start-points
