@@ -41,7 +41,9 @@ if [ "${REPO_NAMES}" = '' ]; then
   show_use; error 4 'missing <git-repo-urls>'
 fi
 
-# git clone all repos into docker context
+# - - - - - - - - - - - - - - - - -
+
+# git clone all repos into temp docker context
 readonly CONTEXT_DIR=$(mktemp -d /tmp/cyber-dojo-start-points.XXXXXXXXX)
 cleanup() { rm -rf ${CONTEXT_DIR} > /dev/null; }
 trap cleanup EXIT
@@ -55,14 +57,14 @@ for repo_name in $REPO_NAMES; do
     index=$((index + 1)) #((index++)) failed on Travis!?
 done
 
-# create a Dockerfile in the docker context
+# create a Dockerfile in the temp docker context
 readonly DOCKERFILE=${CONTEXT_DIR}/Dockerfile
-echo 'FROM  cyberdojo/start-points-base'      >> ${DOCKERFILE}
+echo 'FROM cyberdojo/start-points-base'       >> ${DOCKERFILE}
 echo 'ARG HOME=/app/repos'                    >> ${DOCKERFILE}
 echo 'COPY . ${HOME}'                         >> ${DOCKERFILE}
 echo 'RUN ruby /app/src/check_all.rb ${HOME}' >> ${DOCKERFILE}
 
-# remove unwanted files from docker image
+# remove the Dockerfile from docker image
 readonly DOCKER_IGNORE=${CONTEXT_DIR}/.dockerignore
 echo "Dockerfile"    >> ${DOCKER_IGNORE}
 echo ".dockerignore" >> ${DOCKER_IGNORE}
