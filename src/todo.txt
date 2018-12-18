@@ -1,0 +1,3 @@
+
+# starting moving commander's start-point checking code
+# to check_all.rb (with tests).

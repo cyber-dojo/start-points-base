@@ -3,7 +3,7 @@ set -e
 
 readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 readonly SCRIPT=build_cyber_dojo_start_points_image.sh
-readonly MY_IMAGE_NAME=cyberdojo/start-points-base-test
+readonly IMAGE_NAME=cyberdojo/start-points
 
 # build the FROM image so it won't be docker pulled
 docker build \
@@ -12,7 +12,7 @@ docker build \
 
 # smoke test building an image
 ./${SCRIPT} \
-  ${MY_IMAGE_NAME} \
+  ${IMAGE_NAME} \
     https://github.com/cyber-dojo/start-points-languages.git \
     https://github.com/cyber-dojo/start-points-exercises.git \
     https://github.com/cyber-dojo/start-points-custom.git    \
@@ -21,5 +21,7 @@ docker build \
 echo "${DOCKER_PASSWORD}" \
   | docker login -u "${DOCKER_USERNAME}" --password-stdin
 
-# save the image
+# save the base image
 docker push cyberdojo/start-points-base
+# save the start-points image
+docker push ${IMAGE_NAME}
