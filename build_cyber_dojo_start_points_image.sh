@@ -61,7 +61,8 @@ for repo_name in $REPO_NAMES; do
     echo "sha=:${sha}:"
     echo "repo_name=:${repo_name}:"
     echo "${index} ${sha} ${repo_name}" >> ${CONTEXT_DIR}/shas.txt
-    ((index++))
+    #((index++)) This is failing!?
+    index=$((index + 1))
 done
 
 # create a Dockerfile in the docker context
