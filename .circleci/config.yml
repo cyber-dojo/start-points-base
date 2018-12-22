@@ -1,0 +1,33 @@
+version: 2
+jobs:
+  build-image:
+
+    machine:
+      enabled: true
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: build start-points-base docker image and push image to docker hub
+          command: |
+            set -e
+            echo "${DOCKER_PASS}" \
+              | docker login -u "${DOCKER_USER}" --password-stdin
+            ./pipe_build_up_test.sh
+            docker tag  cyberdojo/start-points-base:latest cyberdojo/start-points-base:${CIRCLE_SHA1:0:7}
+            docker tag  cyberdojo/start-points-base:latest cyberdojo/start-points-base:beta
+            docker push cyberdojo/start-points-base:${CIRCLE_SHA1:0:7}
+            docker push cyberdojo/start-points-base:beta
+
+workflows:
+  version: 2
+  build-publish:
+    jobs:
+      - build-image:
+          context: cyberdojo-context
+          filters:
+            branches:
+              only:
+                  - master
