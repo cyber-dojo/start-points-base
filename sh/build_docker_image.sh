@@ -11,7 +11,7 @@ docker build \
   ${MY_DIR}/..
 
 # smoke test building an image
-./${SCRIPT} \
+${MY_DIR}/../${SCRIPT} \
   ${IMAGE_NAME} \
     https://github.com/cyber-dojo/start-points-languages.git \
     https://github.com/cyber-dojo/start-points-exercises.git \

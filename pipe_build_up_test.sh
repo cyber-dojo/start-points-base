@@ -3,4 +3,4 @@ set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
-"${ROOT_DIR}/.circleci/run.sh"
+"${ROOT_DIR}/sh/build_docker_image.sh"
