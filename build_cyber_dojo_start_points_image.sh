@@ -25,6 +25,8 @@ show_use()
 
 # - - - - - - - - - - - - - - - - -
 
+# TODO: check docker installed
+
 if [ "${IMAGE_NAME}" = '--help' ];  then
   show_use; exit 0
 fi
