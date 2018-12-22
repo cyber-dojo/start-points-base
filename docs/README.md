@@ -1,4 +1,8 @@
 
+[![CircleCI](https://circleci.com/gh/cyber-dojo/start-points-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/start-points-base)
+
+Work-in-progress. Not used yet.
+
 The source for the cyberdojo/start-points-base docker-image
 which acts as a base image for creating a cyber-dojo docker-image
 containing specified cyber-dojo start-points using the
