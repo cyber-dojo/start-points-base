@@ -1,7 +1,8 @@
 
-[![CircleCI](https://circleci.com/gh/cyber-dojo/start-points-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/start-points-base)
+<img src="https://raw.githubusercontent.com/cyber-dojo/nginx/master/images/home_page_logo.png" alt="cyber-dojo yin/yang logo" width="50px" height="50px"/>
 
-Work-in-progress. Not used yet.
+New architecture (not live yet)
+[![CircleCI](https://circleci.com/gh/cyber-dojo/start-points-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/start-points-base)
 
 The source for the cyberdojo/start-points-base docker-image.
 Use the [build_cyber_dojo_start_points_image.sh](../build_cyber_dojo_start_point_image.sh)
