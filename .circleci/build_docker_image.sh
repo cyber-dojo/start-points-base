@@ -8,10 +8,10 @@ readonly IMAGE_NAME=cyberdojo/start-points
 # build the FROM image so it won't be docker pulled
 docker build \
   --tag cyberdojo/start-points-base \
-  ${MY_DIR}/..
+  "${MY_DIR}/.."
 
 # smoke test building an image
-${MY_DIR}/../${SCRIPT} \
+"${MY_DIR}/../${SCRIPT}" \
   ${IMAGE_NAME} \
     https://github.com/cyber-dojo/start-points-languages.git \
     https://github.com/cyber-dojo/start-points-exercises.git \
