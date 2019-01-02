@@ -3,20 +3,24 @@ set -e
 
 readonly MY_NAME=$(basename "$0")
 readonly IMAGE_NAME="${1}"
-readonly REPO_NAMES="${@:2}"
+readonly REPO_NAMES="${*:2}"
 
 # - - - - - - - - - - - - - - - - -
 
 show_use()
 {
-  echo "use: ${MY_NAME} <image-name> <git-repo-urls>"
-  echo ""
-  echo "Create a cyber-dojo start-point image."
-  echo "Its base image will be cyberdojo/start-points-base"
-  echo "and it will contain clones of all the specified git repos."
-  echo "Examples"
-  echo "\$ ${MY_NAME} acme/one-start-point file:///.../asm-assert"
-  echo "\$ ${MY_NAME} acme/start-points https://github.com/cyber-dojo/start-points.git"
+  cat <<- EOF
+
+  Use: ./${MY_NAME} <image-name> <git-repo-urls>
+
+  Create a cyber-dojo start-point image named <image-name>.
+  Its base image will be cyberdojo/start-points-base
+  and it will contain clones of all the specified git repos.
+  Examples
+  \$ ${MY_NAME} acme/one-start-point file:///.../asm-assert
+  \$ ${MY_NAME} acme/start-points    https://github.com/cyber-dojo/start-points.git
+
+EOF
   #TODO: explain you must end up with one of each of the 3 kinds
   #TODO: or, provide defaults for each of the 3?
 }
