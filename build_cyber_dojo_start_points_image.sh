@@ -65,16 +65,15 @@ for repo_name in $REPO_NAMES; do
 done
 
 # create a Dockerfile in the temp docker context
-readonly DOCKERFILE=${CONTEXT_DIR}/Dockerfile
-echo 'FROM cyberdojo/start-points-base'       >> "${DOCKERFILE}"
-echo 'ARG HOME=/app/repos'                    >> "${DOCKERFILE}"
-echo 'COPY . ${HOME}'                         >> "${DOCKERFILE}"
-echo 'RUN ruby /app/src/check_all.rb ${HOME}' >> "${DOCKERFILE}"
+{ echo 'FROM cyberdojo/start-points-base';
+  echo 'COPY . /app/repos';
+  echo 'RUN ruby /app/src/check_all.rb /app/repos';
+} >> "${CONTEXT_DIR}/Dockerfile"
 
 # remove the Dockerfile from docker image
-readonly DOCKER_IGNORE=${CONTEXT_DIR}/.dockerignore
-echo "Dockerfile"    >> "${DOCKER_IGNORE}"
-echo ".dockerignore" >> "${DOCKER_IGNORE}"
+{ echo "Dockerfile";
+  echo ".dockerignore";
+} >> "${CONTEXT_DIR}/.dockerignore"
 
 # build the image
 docker build --tag "${IMAGE_NAME}" "${CONTEXT_DIR}"
