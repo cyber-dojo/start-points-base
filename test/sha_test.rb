@@ -12,7 +12,7 @@ class ShaTest < TestBase
     body,stderr = sha(200)
     assert_equal({}, stderr)
     sha = body['sha']
-    assert_equal 40, sha.size
+    assert_equal 40, sha.size, body
     sha.each_char do |ch|
       assert "0123456789abcdef".include?(ch)
     end

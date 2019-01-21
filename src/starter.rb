@@ -18,6 +18,10 @@ class Starter
 
   # - - - - - - - - - - - - - - - - -
 
+  def ready?
+    true
+  end
+
   def sha
     ENV['SHA']
   end

@@ -13,18 +13,20 @@ class RackDispatcher
     request = @request.new(env)
     name, args = validated_name_args(request)
     result = @starter.public_send(name, *args)
-    json_response(200, { name => result })
+    json_response(200, plain({ name => result }))
   rescue Exception => error
-    info = {
+    diagnostic = pretty({
       'exception' => {
-        'class' => error.class.name,
+        'path' => path,
+        'body' => body,
+        'class' => 'StarterService',
         'message' => error.message,
         'backtrace' => error.backtrace
       }
-    }
-    $stderr.puts(pretty(info))
+    })
+    $stderr.puts(diagnostic)
     $stderr.flush
-    json_response(status(error), info)
+    json_response(code(error), diagnostic)
   end
 
   private # = = = = = = = = = = = =
@@ -33,6 +35,7 @@ class RackDispatcher
     name = request.path_info[1..-1] # lose leading /
     @args = JSON.parse(request.body.read)
     args = case name
+      when /^ready$/                 then []
       when /^sha$/                   then []
       when /^language_start_points$/ then []
       when /^custom_start_points$/   then []
@@ -41,25 +44,37 @@ class RackDispatcher
       else
         raise ClientError, 'json:malformed'
     end
+    name += '?' if query?(name)
     [name, args]
   end
 
   # - - - - - - - - - - - - - - - -
 
   def json_response(status, body)
-    [ status, { 'Content-Type' => 'application/json' }, [ pretty(body) ] ]
+    [ status,
+      { 'Content-Type' => 'application/json' },
+      [ body ]
+    ]
   end
 
-  def pretty(o)
-    JSON.pretty_generate(o)
-  end
-
-  def status(error)
+  def code(error)
     if error.is_a?(ClientError)
       400
     else
       500
     end
+  end
+
+  def plain(body)
+    JSON.generate(body)
+  end
+
+  def pretty(body)
+    JSON.pretty_generate(body)
+  end
+
+  def query?(name)
+    ['ready'].include?(name)
   end
 
   # - - - - - - - - - - - - - - - -
