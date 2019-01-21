@@ -1,0 +1,22 @@
+
+version: '2.2'
+
+services:
+
+  starter-base:
+    build:
+      context: .
+      args:
+        - SHA
+    image: cyberdojo/start-points-base
+
+  starter:
+    user: nobody
+    image: cyberdojo/start-points
+    init: true
+    container_name: test-starter-server
+    read_only: true
+    tmpfs: /tmp
+    restart: 'no'
+    ports:
+      - 4527:4527

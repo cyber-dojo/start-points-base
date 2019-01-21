@@ -47,7 +47,7 @@ class TestBase < HexMiniTest
   def assert_rack_call_raw(status, path_info, args)
     env = { body:args, path_info:path_info }
     response,stderr = with_captured_stderr { rack.call(env) }
-    assert_equal status, response[0]
+    assert_equal status, response[0], stderr
     assert_equal({ 'Content-Type' => 'application/json' }, response[1])
     body = JSON.parse(response[2][0])
     stderr = (stderr == '') ? {} : JSON.parse(stderr)

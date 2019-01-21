@@ -42,11 +42,13 @@ cd "${L_TMP_DIR}" && create_git_repo
 
 # - - - - - - - - - - - - - - - - -
 # build the FROM image so it won't be docker pulled
-docker build \
-  --tag cyberdojo/start-points-base \
-  "${ROOT_DIR}"
+export SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
 
-  # - - - - - - - - - - - - - - - - -
+docker-compose \
+  --file "${ROOT_DIR}/docker-compose.yml" \
+    build
+
+# - - - - - - - - - - - - - - - - -
 # smoke test building an image
 "${ROOT_DIR}/${SCRIPT}" \
   ${IMAGE_NAME} \

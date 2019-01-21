@@ -22,7 +22,7 @@ class RackDispatcher
         'backtrace' => error.backtrace
       }
     }
-    $stderr.puts pretty(info)
+    $stderr.puts(pretty(info))
     $stderr.flush
     json_response(status(error), info)
   end

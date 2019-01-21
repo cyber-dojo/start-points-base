@@ -5,6 +5,9 @@ WORKDIR /app
 COPY . .
 RUN chown -R nobody:nogroup .
 
-EXPOSE 4547
+ARG SHA
+ENV SHA=${SHA}
+
+EXPOSE 4527
 USER nobody
 CMD [ "./up.sh" ]
