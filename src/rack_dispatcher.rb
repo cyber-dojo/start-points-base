@@ -11,7 +11,9 @@ class RackDispatcher
 
   def call(env)
     request = @request.new(env)
-    name, args = validated_name_args(request)
+    path = request.path_info[1..-1] # lose leading /
+    body = request.body.read
+    name, args = validated_name_args(path, body)
     result = @starter.public_send(name, *args)
     json_response(200, plain({ name => result }))
   rescue Exception => error
@@ -19,7 +21,7 @@ class RackDispatcher
       'exception' => {
         'path' => path,
         'body' => body,
-        'class' => 'StarterService',
+        'class' => error.class.name,
         'message' => error.message,
         'backtrace' => error.backtrace
       }
@@ -31,9 +33,8 @@ class RackDispatcher
 
   private # = = = = = = = = = = = =
 
-  def validated_name_args(request)
-    name = request.path_info[1..-1] # lose leading /
-    @args = JSON.parse(request.body.read)
+  def validated_name_args(name, body)
+    @args = JSON.parse(body)
     args = case name
       when /^ready$/                 then []
       when /^sha$/                   then []

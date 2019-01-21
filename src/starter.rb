@@ -63,39 +63,45 @@ class Starter
 
   attr_reader :cache
 
-  def display_names(sub_dir)
+  def display_names(type)
     display_names = []
-    pattern = "#{start_points_dir}/#{sub_dir}/**/manifest.json"
-    Dir.glob(pattern).each do |filename|
-      json = JSON.parse!(IO.read(filename))
-      display_names << json['display_name']
+    markers = "#{start_points_dir}/**/#{type}.marker"
+    Dir.glob(markers).each do |marker_filename|
+      pattern = "#{File.dirname(marker_filename)}/**/manifest.json"
+      Dir.glob(pattern).each do |manifest_filename|
+        json = JSON.parse!(IO.read(manifest_filename))
+        display_names << json['display_name']
+      end
     end
     display_names.sort
   end
 
-  def manifests(sub_dir)
+  def manifests(type)
     manifests = {}
-    pattern = "#{start_points_dir}/#{sub_dir}/**/manifest.json"
-    Dir.glob(pattern).each do |manifest_filename|
-      manifest = JSON.parse!(IO.read(manifest_filename))
-      display_name = manifest['display_name']
-      visible_filenames = manifest['visible_filenames']
-      dir = File.dirname(manifest_filename)
-      manifest['visible_files'] =
-        Hash[visible_filenames.map { |filename|
-          [ filename,
-            {
-              'content' => IO.read("#{dir}/#{filename}")
-            }
-          ]
-        }]
-      manifest.delete('visible_filenames')
-      manifest.delete('runner_choice')
-      fe = manifest['filename_extension']
-      if fe.is_a?(String)
-        manifest['filename_extension'] = [ fe ]
+    markers = "#{start_points_dir}/**/#{type}.marker"
+    Dir.glob(markers).each do |marker_filename|
+      pattern = "#{File.dirname(marker_filename)}/**/manifest.json"
+      Dir.glob(pattern).each do |manifest_filename|
+        manifest = JSON.parse!(IO.read(manifest_filename))
+        display_name = manifest['display_name']
+        visible_filenames = manifest['visible_filenames']
+        dir = File.dirname(manifest_filename)
+        manifest['visible_files'] =
+          Hash[visible_filenames.map { |filename|
+            [ filename,
+              {
+                'content' => IO.read("#{dir}/#{filename}")
+              }
+            ]
+          }]
+        manifest.delete('visible_filenames')
+        manifest.delete('runner_choice')
+        fe = manifest['filename_extension']
+        if fe.is_a?(String)
+          manifest['filename_extension'] = [ fe ]
+        end
+        manifests[display_name] = manifest
       end
-      manifests[display_name] = manifest
     end
     manifests
   end
@@ -104,13 +110,15 @@ class Starter
 
   def exercises
     result = {}
-    pattern = "#{start_points_dir}/exercises/**/instructions"
-    Dir.glob(pattern).each do |filename|
-      # eg /app/start_points/exercises/Bowling_Game/instructions
-      name = filename.split('/')[-2] # eg Bowling_Game
-      result[name] = {
-        'content' => IO.read(filename)
-      }
+    markers = "#{start_points_dir}/**/exercises.marker"
+    Dir.glob(markers).each do |marker_filename|
+      pattern = "#{File.dirname(marker_filename)}/**/instructions"
+      Dir.glob(pattern).each do |filename|
+        name = filename.split('/')[-2] # eg Bowling_Game
+        result[name] = {
+          'content' => IO.read(filename)
+        }
+      end
     end
     result
   end
@@ -136,7 +144,7 @@ class Starter
   # - - - - - - - - - - - - - - - - - - - -
 
   def start_points_dir
-    '/app/start_points'
+    '/app/repos'
   end
 
   # - - - - - - - - - - - - - - - - - - - -
