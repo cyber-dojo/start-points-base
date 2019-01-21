@@ -1,4 +1,0 @@
-
-# move code from
-# repo=cyberdojo/starter
-# dir=test

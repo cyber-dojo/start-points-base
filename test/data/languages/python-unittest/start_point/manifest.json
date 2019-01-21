@@ -1,0 +1,24 @@
+{
+  "display_name": "Python, unittest",
+
+  "visible_filenames": [
+    "test_hiker.py",
+    "hiker.py",
+    "cyber-dojo.sh"
+  ],
+
+  "hidden_filenames": [ "\\.coverage" ],
+
+  "image_name": "cyberdojofoundation/python_unittest",
+
+  "filename_extension": ".py",
+
+  "tab_size": 4,
+
+  "progress_regexs": [
+    "FAILED \\(failures=\\d+\\)",
+    "OK"
+  ],
+
+  "runner_choice": "stateless"
+}

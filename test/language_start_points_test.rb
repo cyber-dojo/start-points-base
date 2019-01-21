@@ -13,8 +13,8 @@ class LanguageStartPointsTest < TestBase
     body,stderr = language_start_points(200)
     assert_equal({}, stderr)
     start_points = body['language_start_points']
-    expected = [ 'Ruby, MiniTest' ]
-    assert_equal expected, start_points['languages'], body
+    expected = [ 'Ruby, MiniTest', 'C#, NUnit', 'Python, unittest' ]
+    assert_equal expected.sort, start_points['languages'].sort, body
   end
 
   # - - - - - - - - - - - - - - - - - - - -
