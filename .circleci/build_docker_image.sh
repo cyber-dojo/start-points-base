@@ -19,26 +19,26 @@ cleanup()
 }
 trap cleanup EXIT
 
+create_git_repo()
+{
+  git init
+  git config --global user.email "jon@jaggersoft.com"
+  git config --global user.name "Jon Jagger"
+  git add .
+  git commit -m "initial commit" > /dev/null
+}
+
 readonly C_TARGET_DIR="${ROOT_DIR}/test/data/custom"
 cp -R "${C_TARGET_DIR}/" "${C_TMP_DIR}"
-cd "${C_TMP_DIR}" \
-  && git init \
-  && git add . \
-  && git commit -m "initial commit" > /dev/null
+cd "${C_TMP_DIR}" && create_git_repo
 
 readonly E_TARGET_DIR="${ROOT_DIR}/test/data/exercises"
 cp -R "${E_TARGET_DIR}/" "${E_TMP_DIR}"
-cd "${E_TMP_DIR}" \
-  && git init \
-  && git add . \
-  && git commit -m "initial commit" > /dev/null
+cd "${E_TMP_DIR}" && create_git_repo
 
 readonly L_TARGET_DIR="${ROOT_DIR}/test/data/languages"
 cp -R "${L_TARGET_DIR}/" "${L_TMP_DIR}"
-cd "${L_TMP_DIR}" \
-  && git init \
-  && git add . \
-  && git commit -m "initial commit" > /dev/null
+cd "${L_TMP_DIR}" && create_git_repo
 
 # - - - - - - - - - - - - - - - - -
 # build the FROM image so it won't be docker pulled
