@@ -7,15 +7,24 @@ readonly IMAGE_NAME=cyberdojo/start-points
 
 # - - - - - - - - - - - - - - - - -
 # create temporary git repos from test-data
-readonly E_TMP_DIR=$(mktemp -d /tmp/cyber-dojo-start-point-exercises.XXXXXXXXX)
 readonly C_TMP_DIR=$(mktemp -d /tmp/cyber-dojo-start-point-custom.XXXXXXXXX)
+readonly E_TMP_DIR=$(mktemp -d /tmp/cyber-dojo-start-point-exercises.XXXXXXXXX)
+readonly L_TMP_DIR=$(mktemp -d /tmp/cyber-dojo-start-point-languages.XXXXXXXXX)
 
 cleanup()
 {
-  rm -rf "${E_TMP_DIR}" > /dev/null
   rm -rf "${C_TMP_DIR}" > /dev/null
+  rm -rf "${E_TMP_DIR}" > /dev/null
+  rm -rf "${L_TMP_DIR}" > /dev/null
 }
 trap cleanup EXIT
+
+readonly C_TARGET_DIR="${ROOT_DIR}/test/data/custom"
+cp -R "${C_TARGET_DIR}/" "${C_TMP_DIR}"
+cd "${C_TMP_DIR}" \
+  && git init \
+  && git add . \
+  && git commit -m "initial commit" > /dev/null
 
 readonly E_TARGET_DIR="${ROOT_DIR}/test/data/exercises"
 cp -R "${E_TARGET_DIR}/" "${E_TMP_DIR}"
@@ -24,9 +33,9 @@ cd "${E_TMP_DIR}" \
   && git add . \
   && git commit -m "initial commit" > /dev/null
 
-readonly C_TARGET_DIR="${ROOT_DIR}/test/data/custom"
-cp -R "${C_TARGET_DIR}/" "${C_TMP_DIR}"
-cd "${C_TMP_DIR}" \
+readonly L_TARGET_DIR="${ROOT_DIR}/test/data/languages"
+cp -R "${L_TARGET_DIR}/" "${L_TMP_DIR}"
+cd "${L_TMP_DIR}" \
   && git init \
   && git add . \
   && git commit -m "initial commit" > /dev/null
@@ -41,6 +50,6 @@ docker build \
 # smoke test building an image
 "${ROOT_DIR}/${SCRIPT}" \
   ${IMAGE_NAME} \
-    file://${E_TMP_DIR} \
     file://${C_TMP_DIR} \
-    https://github.com/cyber-dojo/start-points-languages.git
+    file://${E_TMP_DIR} \
+    file://${L_TMP_DIR} \
