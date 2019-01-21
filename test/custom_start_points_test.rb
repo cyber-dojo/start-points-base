@@ -3,7 +3,7 @@ require_relative 'test_base'
 class CustomStartPointsTest < TestBase
 
   def self.hex_prefix
-    '72110'
+    '721'
   end
 
   # - - - - - - - - - - - - - - - - - - - -
