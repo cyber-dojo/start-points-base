@@ -3,7 +3,7 @@ require_relative 'test_base'
 class LanguageStartPointsTest < TestBase
 
   def self.hex_prefix
-    'F4DB3'
+    'F4D'
   end
 
   # - - - - - - - - - - - - - - - - - - - -

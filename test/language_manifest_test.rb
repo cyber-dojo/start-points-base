@@ -3,7 +3,7 @@ require_relative 'test_base'
 class LanguageManifestTest < TestBase
 
   def self.hex_prefix
-    '3D915'
+    '3D9'
   end
 
   # - - - - - - - - - - - - - - - - - - - -

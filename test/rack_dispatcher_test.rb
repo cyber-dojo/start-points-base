@@ -5,7 +5,7 @@ require_relative 'test_base'
 class RackDispatcherTest < TestBase
 
   def self.hex_prefix
-    'D06F7'
+    'D06'
   end
 
   # - - - - - - - - - - - - - - - - -
