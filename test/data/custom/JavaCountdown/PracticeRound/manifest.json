@@ -1,0 +1,15 @@
+{
+  "display_name": "Java Countdown, Practice Round",
+  "visible_filenames": [
+    "CountDown.java",
+    "cyber-dojo.sh",
+    "rules",
+    "Scorer.java",
+    "Tokens.java"
+  ],
+  "highlight_filenames": ["CountDown.java"],
+  "runner_choice":"stateless",
+  "image_name": "cyberdojofoundation/java_junit",
+  "filename_extension": ".java",
+  "tab_size": 4
+}
