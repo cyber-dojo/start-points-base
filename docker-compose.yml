@@ -3,13 +3,6 @@ version: '2.2'
 
 services:
 
-  starter-base:
-    build:
-      context: .
-      args:
-        - SHA
-    image: cyberdojo/start-points-base
-
   starter:
     user: nobody
     image: cyberdojo/start-points
