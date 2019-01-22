@@ -103,7 +103,7 @@ Returns the git commit sha used to create the docker image.
 
 - - - -
 
-## GET language_manifest(display_name, exercise_name)
+## GET language_manifest(display_name,exercise_name)
 - parameters, display_name and exercise_name from a previous call to
 the language_start_points method above, eg
 ```
