@@ -31,10 +31,19 @@ mkdir "{CONTEXT_DIR}/custom"
 declare type=""
 declare index=0
 for repo_name in $REPO_NAMES; do
-    case "${repo_name}";
-    when "--languages"; type="languages"; continue;
-    when "--exercises"; type="exercises"; continue;
-    when "--custom";    type="custom";    continue;
+    case "${repo_name}" in
+    --languages)
+      type=languages
+      continue
+      ;;
+    --exercises)
+      type=exercises
+      continue
+      ;;
+    --custom)
+      type=custom
+      continue
+      ;;
     esac
     if [ -z "${type}" ]; then
       error ...
