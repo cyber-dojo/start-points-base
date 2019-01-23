@@ -1,3 +1,59 @@
+
+Change script as follows:
+$ build_cyber_dojo_start_points_image.sh \
+     acme/my-start-points \
+     --languages \
+     https://github.com/cyber-dojo-languages/ruby-minitest.git \
+     https://github.com/cyber-dojo-languages/python-pytest.git \
+     --exercises \
+     https://github.com/cyber-dojo/start-points-exercises.git \
+     --custom \
+     https://github.com/cyber-dojo/start-points-custom.git    \
+
+
+
+You can drop the marker files.
+Also drop the start_point_type.json files.
+script has to process the --languages options.
+
+
+readonly MY_NAME=$(basename "$0")
+readonly IMAGE_NAME="${1}"
+readonly REPO_NAMES="${*:2}"
+
+readonly CONTEXT_DIR=$(mktemp -d /tmp/cyber-dojo-start-points.XXXXXXXXX)
+cleanup() { rm -rf "${CONTEXT_DIR}" > /dev/null; }
+trap cleanup EXIT
+mkdir "{CONTEXT_DIR}/languages"
+mkdir "{CONTEXT_DIR}/exercises"
+mkdir "{CONTEXT_DIR}/custom"
+
+declare type=""
+declare index=0
+for repo_name in $REPO_NAMES; do
+    case "${repo_name}";
+    when "--languages"; type="languages"; continue;
+    when "--exercises"; type="exercises"; continue;
+    when "--custom";    type="custom";    continue;
+    esac
+    if [ -z "${type}" ]; then
+      error ...
+    fi
+    cd "${CONTEXT_DIR}/${type}"
+    git clone --verbose --depth 1 "${repo_name}" ${index}
+    cd ${index}
+    declare sha
+    sha=$(git rev-parse HEAD)
+    echo "${index} ${sha} ${repo_name}" >> "${CONTEXT_DIR}/shas.txt"
+    index=$((index + 1))
+done
+
+
+Everything should still work as before, but the source code
+only needs a single level of Dir.globs...
+
+--------------------------------------------------------
+
 It may prove convenient (eg testing) to have an option
 to select only one of the start-points inside the git-cloneable URLs.
 Something like this...
@@ -11,7 +67,13 @@ $ build_cyber_dojo_start_points_image.sh \
         --only Tennis
 ```
 
+Or would it be better if script allowed names of git-repo-URLs
+to be passed via stdin?
+
 Suppose someone like James creates a new start-points image
 from start-points-base and there are only _custom_ start points.
 Should this be allowed?
 And simply drop the [default setup] button from the web server?
+
+# starting moving commander's start-point checking code
+# to check_all.rb (with tests).

@@ -1,6 +1,0 @@
-
-# starting moving commander's start-point checking code
-# to check_all.rb (with tests).
-
-would be nice if script allowed names of git-repo-URLs
-to be passed via stdin.
