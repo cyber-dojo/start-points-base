@@ -5,7 +5,7 @@
 #-----!Except these dirs
 
 !src
-!test
+!test_server
 
 #-----!Except these files
 

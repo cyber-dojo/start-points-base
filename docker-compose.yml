@@ -5,7 +5,7 @@ services:
 
   starter_client:
     build:
-      context: client
+      context: test_client
     user: nobody
     image: cyberdojo/starter-client
     init: true
