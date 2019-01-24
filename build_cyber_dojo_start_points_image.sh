@@ -11,25 +11,39 @@ show_use()
 {
   cat <<- EOF
 
-  Use: ./${MY_NAME} <image-name> \
-    --languages <git-repo-urls> \
-    --exercises <git-repo-urls> \
-    --custom    <git-repo-urls>
+  Use: ./${MY_NAME} <image-name> \\
+    --languages <git-repo-urls> \\
+    --exercises <git-repo-urls> \\
+    --custom    <git-repo-urls> \\
 
-  Create a cyber-dojo start-point image named <image-name>.
-  Its base image will be cyberdojo/start-points-base
-  and it will contain clones of all the specified git repos.
+  Creates a cyber-dojo start-point image named <image-name>.
+  Its base image will be cyberdojo/start-points-base.
+  It will contain git clones of all the specified repos.
 
-  Examples
-  \$ ${MY_NAME} acme/one-start-point \
-    --languages file:///.../asm-assert \
-    --exercises file:///.../katas \
-    --custom    file:///.../Yahtzee-refactoring
+  Example
+  \$ ${MY_NAME} acme/a-start-point \\
+    --languages file:///.../asm-assert \\
+                file:///.../java-junit \\
+    --exercises file:///.../katas      \\
+    --custom    file:///.../yahtzee    \\
 
-  \$ ${MY_NAME} acme/start-points    \
-    --languages https://github.com/.../my-languages.git \
-    --exercises https://github.com/.../my-exercises.git \
-    --custom    https://github.com/.../my-custom.git \
+  Example
+  \$ ${MY_NAME} acme/another-start-point \\
+    --languages https://github.com/.../my-languages.git \\
+    --exercises https://github.com/.../my-exercises.git \\
+    --custom    https://github.com/.../my-custom.git    \\
+
+  Example
+  \$ ${MY_NAME} acme/yet-another \\
+    --languages "\$(< my-language-selection.txt)"        \\
+    --exercises https://github.com/.../my-exercises.git \\
+    --custom    https://github.com/.../my-custom.git    \\
+
+  \$ cat my-language-selection.txt
+  https://github.com/cyber-dojo-languages/java-junit
+  https://github.com/cyber-dojo-languages/javascript-jasmine
+  https://github.com/cyber-dojo-languages/python-pytest
+  https://github.com/cyber-dojo-languages/ruby-minitest
 
 EOF
 }
@@ -44,6 +58,9 @@ error()
 
 # - - - - - - - - - - - - - - - - -
 
+if [ -z "${IMAGE_NAME}" ];  then
+  show_use; exit 0
+fi
 if [ "${IMAGE_NAME}" = '--help' ];  then
   show_use; exit 0
 fi

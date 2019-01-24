@@ -1,15 +1,30 @@
 
-Allow names of git-repo-URLs to be passed via stdin
+1. Allow names of git-repo-URLs to be passed via stdin
+   $ mycommand "$(< file.txt)"
 
-provide defaults for each of the 3 options
+2. defaults...
   --languages
-  --exercises
-  --custom
+   https://github.com/cyber-dojo-languages/clangplusplus-googlemock
+   https://github.com/cyber-dojo-languages/csharp-nunit
+   https://github.com/cyber-dojo-languages/csharp-specflow
+   https://github.com/cyber-dojo-languages/gcc-assert
+   https://github.com/cyber-dojo-languages/gcc-googletest
+   https://github.com/cyber-dojo-languages/gplusplus-catch
+   https://github.com/cyber-dojo-languages/gplusplus-googlemock
+   https://github.com/cyber-dojo-languages/java-junit
+   https://github.com/cyber-dojo-languages/java-powermockito
+   https://github.com/cyber-dojo-languages/javascript-cucumber
+   https://github.com/cyber-dojo-languages/javascript-jasmine
+   https://github.com/cyber-dojo-languages/javascript-mocha-chai-sinon
+   https://github.com/cyber-dojo-languages/python-behave
+   https://github.com/cyber-dojo-languages/python-pytest
+   https://github.com/cyber-dojo-languages/python-unittest
+   https://github.com/cyber-dojo-languages/ruby-cucumber
+   https://github.com/cyber-dojo-languages/ruby-minitest
+ --exercises
+   https://github.com/cyber-dojo/start-points-exercises.git
+ --custom
+   https://github.com/cyber-dojo/start-points-custom.git
 
-Suppose someone like James creates a new start-points image
-from start-points-base and there are only _custom_ start points.
-Should this be allowed?
-And simply drop the [default setup] button from the web server?
-
-# starting moving commander's start-point checking code
-# to check_all.rb (with tests).
+3. starting moving commander's start-point checking code
+   to check_all.rb (with tests).
