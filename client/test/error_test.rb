@@ -14,7 +14,7 @@ class ErrorTest < TestBase
       starter.language_manifest('C#, NUnit', nil)
     }
     assert_equal 'ServiceError', error.class.name
-    assert_equal 'StarterService', error.service_name
+    assert_equal 'HttpHelper', error.service_name
     assert_equal 'language_manifest', error.method_name
     json = JSON.parse(error.message)
     assert_equal 'ArgumentError', json['class']

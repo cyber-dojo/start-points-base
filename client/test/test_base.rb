@@ -10,6 +10,14 @@ class TestBase < HexMiniTest
 
   # - - - - - - - - - - - - - - - - - -
 
+  def ready?
+    starter.ready?
+  end
+
+  def sha
+    starter.sha
+  end
+
   def language_start_points
     starter.language_start_points
   end
