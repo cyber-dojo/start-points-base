@@ -3,39 +3,81 @@ require_relative 'starter_service'
 class Demo
 
   def call(_env)
-    @html = ''
-    #TODO
-    [ 200, { 'Content-Type' => 'text/html' }, [ @html ] ]
+    inner_call
+  rescue => error
+    [ 400, { 'Content-Type' => 'text/html' }, [ error.message ] ]
   end
 
   private
 
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  def ragger
-    RaggerService.new
+  def inner_call
+    html = [
+      pre('language_start_points') {
+        starter.language_start_points
+      },
+      pre('language_manifest') {
+        starter.language_manifest('C#, NUnit', 'Tiny_Maze')
+      },
+      pre('custom_start_points') {
+        starter.custom_start_points
+      },
+      pre('custom_manifest') {
+        starter.custom_manifest('Yahtzee refactoring, Java JUnit')
+      },
+    ].join
+    [ 200, { 'Content-Type' => 'text/html' }, [ html ] ]
   end
+
+  # - - - - - - - - - - - - - - - - -
 
   def timed
     started = Time.now
-    yield
+    result = yield
     finished = Time.now
-    '%.2f' % (finished - started)
+    duration = '%.4f' % (finished - started)
+    [result,duration]
   end
 
-  def pre(name, duration, colour = 'white', quad = nil)
-    border = 'border: 1px solid black;'
-    padding = 'padding: 5px;'
-    margin = 'margin-left: 30px; margin-right: 30px;'
-    background = "background: #{colour};"
-    whitespace = "white-space: pre-wrap;"
-    html = "<pre>/#{name}(#{duration}s)</pre>"
-    unless quad.nil?
-      html += "<pre style='#{whitespace}#{margin}#{border}#{padding}#{background}'>" +
-              "#{JSON.pretty_unparse(quad)}" +
-              '</pre>'
-    end
-    html
+  # - - - - - - - - - - - - - - - - -
+
+  def pre(name, &block)
+    result,duration = *timed { block.call }
+    [
+      "<pre>/#{name}(#{duration}s)</pre>",
+      "<pre style='#{style}'>",
+        "#{JSON.pretty_unparse(result)}",
+      '</pre>'
+    ].join
+  end
+
+  def style
+    [whitespace,margin,border,padding,background].join
+  end
+
+  def border
+    'border: 1px solid black;'
+  end
+
+  def padding
+    'padding: 10px;'
+  end
+
+  def margin
+    'margin-left: 30px; margin-right: 30px;'
+  end
+
+  def background
+    'background: white;'
+  end
+
+  def whitespace
+    'white-space: pre-wrap;'
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  def starter
+    StarterService.new
   end
 
 end

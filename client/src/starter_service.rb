@@ -1,35 +1,31 @@
-require_relative 'http_json_service'
+require_relative 'http_helper'
 
 class StarterService
 
+  def sha
+    http.get
+  end
+
   def language_start_points
-    get([], __method__)
+    http.get
   end
 
   def language_manifest(display_name, exercise_name)
-    get([display_name,exercise_name], __method__)
+    http.get(display_name, exercise_name)
   end
 
-  # - - - - - - - - - - - - - - - - - - - - -
-
   def custom_start_points
-    get([], __method__)
+    http.get
   end
 
   def custom_manifest(display_name)
-    get([display_name], __method__)
+    http.get(display_name)
   end
 
   private
 
-  include HttpJsonService
-
-  def hostname
-    'starter'
-  end
-
-  def port
-    4527
+  def http
+    HttpHelper.new(self, 'starter', 4527)
   end
 
 end
