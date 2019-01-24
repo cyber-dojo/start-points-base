@@ -1,14 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-readonly MY_NAME=$(basename "$0")
-readonly IMAGE_NAME="${1}"
-readonly REPO_NAMES="${*:2}"
-
-# - - - - - - - - - - - - - - - - -
-
 show_use()
 {
+  readonly MY_NAME=$(basename "$0")
   cat <<- EOF
 
   Use: ./${MY_NAME} <image-name> \\
@@ -58,11 +53,12 @@ error()
 
 # - - - - - - - - - - - - - - - - -
 
-if [ -z "${IMAGE_NAME}" ];  then
-  show_use; exit 0
-fi
-if [ "${IMAGE_NAME}" = '--help' ];  then
-  show_use; exit 0
+readonly IMAGE_NAME="${1}"
+readonly REPO_NAMES="${*:2}"
+
+if [ -z "${IMAGE_NAME}" ] || [ "${IMAGE_NAME}" = '--help' ];  then
+  show_use
+  exit 0
 fi
 if ! hash git 2> /dev/null; then
   error 1 'git needs to be installed'
@@ -71,10 +67,12 @@ if ! hash docker 2> /dev/null; then
   error 2 'docker needs to be installed'
 fi
 if [ -z "${IMAGE_NAME}" ]; then
-  show_use; error 3 'missing <image_name>'
+  show_use
+  error 3 'missing <image_name>'
 fi
 if [ -z "${REPO_NAMES}" ]; then
-  show_use; error 4 'missing <git-repo-urls>'
+  show_use
+  error 4 'missing <git-repo-urls>'
 fi
 
 # - - - - - - - - - - - - - - - - -
