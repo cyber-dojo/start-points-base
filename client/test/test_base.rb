@@ -4,12 +4,6 @@ require 'json'
 
 class TestBase < HexMiniTest
 
-  def starter
-    StarterService.new
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
   def ready?
     starter.ready?
   end
@@ -26,14 +20,16 @@ class TestBase < HexMiniTest
     starter.language_manifest(display_name, exercise_name)
   end
 
-  # - - - - - - - - - - - - - - - - - -
-
   def custom_start_points
     starter.custom_start_points
   end
 
   def custom_manifest(display_name)
     starter.custom_manifest(display_name)
+  end
+
+  def starter
+    StarterService.new
   end
 
 end

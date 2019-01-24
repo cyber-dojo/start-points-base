@@ -6,9 +6,7 @@ class ReadyTest < TestBase
     '0B2'
   end
 
-  # - - - - - - - - - - - - - - - - -
-
-  test '602', %w( ready is exposed via API ) do
+  test '602', %w( ready ) do
     assert ready?
   end
 
