@@ -11,18 +11,27 @@ show_use()
 {
   cat <<- EOF
 
-  Use: ./${MY_NAME} <image-name> <git-repo-urls>
+  Use: ./${MY_NAME} <image-name> \
+    --languages <git-repo-urls> \
+    --exercises <git-repo-urls> \
+    --custom    <git-repo-urls>
 
   Create a cyber-dojo start-point image named <image-name>.
   Its base image will be cyberdojo/start-points-base
   and it will contain clones of all the specified git repos.
+
   Examples
-  \$ ${MY_NAME} acme/one-start-point file:///.../asm-assert
-  \$ ${MY_NAME} acme/start-points    https://github.com/cyber-dojo/start-points.git
+  \$ ${MY_NAME} acme/one-start-point \
+    --languages file:///.../asm-assert \
+    --exercises file:///.../katas \
+    --custom    file:///.../Yahtzee-refactoring
+
+  \$ ${MY_NAME} acme/start-points    \
+    --languages https://github.com/.../my-languages.git \
+    --exercises https://github.com/.../my-exercises.git \
+    --custom    https://github.com/.../my-custom.git \
 
 EOF
-  #TODO: explain you must end up with one of each of the 3 kinds
-  #TODO: or, provide defaults for each of the 3?
 }
 
 # - - - - - - - - - - - - - - - - -

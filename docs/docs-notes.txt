@@ -1,6 +1,11 @@
 
 Allow names of git-repo-URLs to be passed via stdin
 
+provide defaults for each of the 3 options
+  --languages
+  --exercises
+  --custom
+
 Suppose someone like James creates a new start-points image
 from start-points-base and there are only _custom_ start points.
 Should this be allowed?
