@@ -1,8 +1,5 @@
 
-1. Allow names of git-repo-URLs to be passed via stdin
-   $ mycommand "$(< file.txt)"
-
-2. defaults...
+1. defaults...
   --languages
    https://github.com/cyber-dojo-languages/clangplusplus-googlemock
    https://github.com/cyber-dojo-languages/csharp-nunit
@@ -26,5 +23,5 @@
  --custom
    https://github.com/cyber-dojo/start-points-custom.git
 
-3. starting moving commander's start-point checking code
+2. starting moving commander's start-point checking code
    to check_all.rb (with tests).

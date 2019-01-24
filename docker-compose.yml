@@ -3,6 +3,23 @@ version: '2.2'
 
 services:
 
+  starter_client:
+    build:
+      context: client
+    user: nobody
+    image: cyberdojo/starter-client
+    init: true
+    container_name: test-starter-client
+    read_only: true
+    tmpfs: /tmp
+    depends_on:
+      - starter
+    restart: 'no'
+    ports:
+      - 4528:4528
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   starter:
     user: nobody
     image: cyberdojo/start-points
