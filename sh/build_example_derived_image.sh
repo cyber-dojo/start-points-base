@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e
 
-readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-readonly SCRIPT=build_cyber_dojo_start_points_image.sh
-readonly IMAGE_NAME=cyberdojo/start-points
-
 # - - - - - - - - - - - - - - - - -
 # create temporary git repos from test-data
 readonly C_TMP_DIR=$(mktemp -d /tmp/cyber-dojo-start-point-custom.XXXXXXXXX)
@@ -28,6 +24,8 @@ create_git_repo()
   git commit -m "initial commit" > /dev/null
 }
 
+readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+
 readonly C_TARGET_DIR="${ROOT_DIR}/test/data/custom"
 cp -R "${C_TARGET_DIR}/" "${C_TMP_DIR}"
 cd "${C_TMP_DIR}" && create_git_repo
@@ -41,12 +39,15 @@ cp -R "${L_TARGET_DIR}/" "${L_TMP_DIR}"
 cd "${L_TMP_DIR}" && create_git_repo
 
 # - - - - - - - - - - - - - - - - -
-# build the named image from the named repos
-"${ROOT_DIR}/${SCRIPT}" \
-  ${IMAGE_NAME} \
-    --custom \
+# build the named image from the temporary git repos
+readonly SCRIPT=build_cyber_dojo_start_points_image.sh
+readonly IMAGE_NAME=cyberdojo/start-points
+
+"${ROOT_DIR}/${SCRIPT}"   \
+  ${IMAGE_NAME}           \
+    --custom              \
       file://${C_TMP_DIR} \
-    --exercises \
+    --exercises           \
       file://${E_TMP_DIR} \
-    --languages \
+    --languages           \
       file://${L_TMP_DIR} \

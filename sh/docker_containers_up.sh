@@ -64,4 +64,5 @@ wait_until_ready  "test-${MY_NAME}-server" 4527
 exit_unless_clean "test-${MY_NAME}-server"
 
 wait_until_ready  "test-${MY_NAME}-client" 4528
+# Why does the server start cleanly but not the client???
 #exit_unless_clean "test-${MY_NAME}-client"
