@@ -12,6 +12,12 @@ class Demo
 
   def inner_call
     html = [
+      pre('ready?') {
+        starter.ready?
+      },
+      pre('sha') {
+        starter.sha
+      },
       pre('language_start_points') {
         starter.language_start_points
       },

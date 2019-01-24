@@ -2,6 +2,10 @@ require_relative 'http_helper'
 
 class StarterService
 
+  def ready?
+    http.get
+  end
+
   def sha
     http.get
   end
