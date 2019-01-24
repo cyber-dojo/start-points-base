@@ -44,6 +44,9 @@ cd "${L_TMP_DIR}" && create_git_repo
 # build the named image from the named repos
 "${ROOT_DIR}/${SCRIPT}" \
   ${IMAGE_NAME} \
-    file://${C_TMP_DIR} \
-    file://${E_TMP_DIR} \
-    file://${L_TMP_DIR} \
+    --custom \
+      file://${C_TMP_DIR} \
+    --exercises \
+      file://${E_TMP_DIR} \
+    --languages \
+      file://${L_TMP_DIR} \

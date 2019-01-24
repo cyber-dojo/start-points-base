@@ -54,17 +54,39 @@ fi
 # - - - - - - - - - - - - - - - - -
 
 # git clone all repos into temp docker context
-readonly CONTEXT_DIR=$(mktemp -d /tmp/cyber-dojo-start-points.XXXXXXXXX)
+readonly CONTEXT_DIR=$(mktemp -d /tmp/cyber-dojo-start-points-base.XXXXXXXXX)
 cleanup() { rm -rf "${CONTEXT_DIR}" > /dev/null; }
 trap cleanup EXIT
+mkdir "${CONTEXT_DIR}/languages"
+mkdir "${CONTEXT_DIR}/exercises"
+mkdir "${CONTEXT_DIR}/custom"
+
+declare type=""
 declare index=0
 for repo_name in $REPO_NAMES; do
-    cd "${CONTEXT_DIR}"
+    case "${repo_name}" in
+    --languages)
+      type=languages
+      continue
+      ;;
+    --exercises)
+      type=exercises
+      continue
+      ;;
+    --custom)
+      type=custom
+      continue
+      ;;
+    esac
+    if [ -z "${type}" ]; then
+      error 5 'missing --languages/--exercises/--custom'
+    fi
+    cd "${CONTEXT_DIR}/${type}"
     git clone --verbose --depth 1 "${repo_name}" ${index}
     cd ${index}
     declare sha
     sha=$(git rev-parse HEAD)
-    echo "${index} ${sha} ${repo_name}" >> "${CONTEXT_DIR}/shas.txt"
+    echo "${type} ${index} ${sha} ${repo_name}" >> "${CONTEXT_DIR}/shas.txt"
     index=$((index + 1))
 done
 

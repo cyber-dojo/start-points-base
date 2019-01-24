@@ -17,9 +17,12 @@ use: build_cyber_dojo_start_point_image.sh <image-name> <git-clone-urls>
 
 $ build_cyber_dojo_start_points_image.sh \
     acme/my-start-points \
-      https://github.com/cyber-dojo/start-points-languages.git \
-      https://github.com/cyber-dojo/start-points-exercises.git \
-      https://github.com/cyber-dojo/start-points-custom.git    \
+      --languages \
+        https://github.com/cyber-dojo/start-points-languages.git \
+      --exercises \
+        https://github.com/cyber-dojo/start-points-exercises.git \
+      --custom \
+        https://github.com/cyber-dojo/start-points-custom.git    \
 ```
 
 There are 3 kinds of start-points

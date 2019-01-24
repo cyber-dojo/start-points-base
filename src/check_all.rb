@@ -10,12 +10,13 @@ end
 
 lines = `cat #{shas_filename}`.lines
 repos = Hash[lines.map { |line|
-  index,sha,url = line.split
-  [index, { sha:sha, url:url }]
+  type,index,sha,url = line.split
+  [index, { type:type, sha:sha, url:url }]
 }]
 
 repos.keys.sort.each do |key|
+  type = repos[key][:type]
   puts key
   puts JSON.pretty_generate(repos[key])
-  puts `ls -al #{root_dir}/#{key}`
+  puts `ls -al #{root_dir}/#{type}/#{key}`
 end
