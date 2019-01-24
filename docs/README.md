@@ -12,13 +12,15 @@ The first argument is the name of the image you want to create.
 The subsequent arguments are git-cloneable URLs containing the source for the start-points.
 
 ```bash
-$ build_cyber_dojo_start_points_image.sh --help
+$ ./build_cyber_dojo_start_points_image.sh --help
 Use: ./build_cyber_dojo_start_points_image.sh <image-name> \
     --languages <git-repo-urls> \
     --exercises <git-repo-urls> \
     --custom    <git-repo-urls> \
+```
 
-$ build_cyber_dojo_start_points_image.sh \
+```bash
+$ ./build_cyber_dojo_start_points_image.sh \
     acme/my-start-points \
       --languages \
         https://github.com/cyber-dojo/start-points-languages.git \
