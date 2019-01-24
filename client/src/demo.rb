@@ -4,32 +4,34 @@ class Demo
 
   def call(_env)
     inner_call
-  rescue => error
-    [ 400, { 'Content-Type' => 'text/html' }, [ error.message ] ]
   end
 
   private
 
   def inner_call
+    starter = StarterService.new
     html = [
-      pre('ready?') {
+      pre('ready?()') {
         starter.ready?
       },
-      pre('sha') {
+      pre('sha()') {
         starter.sha
       },
-      pre('language_start_points') {
+      pre('language_start_points()') {
         starter.language_start_points
       },
-      pre('language_manifest') {
+      pre('language_manifest("C#, NUnit", "Tiny_Maze")') {
         starter.language_manifest('C#, NUnit', 'Tiny_Maze')
       },
-      pre('custom_start_points') {
+      pre('custom_start_points()') {
         starter.custom_start_points
       },
-      pre('custom_manifest') {
+      pre('custom_manifest("Yahtzee refactoring, Java JUnit")') {
         starter.custom_manifest('Yahtzee refactoring, Java JUnit')
       },
+      pre('wibble()') {
+        starter.wibble
+      }
     ].join
     [ 200, { 'Content-Type' => 'text/html' }, [ html ] ]
   end
@@ -47,9 +49,15 @@ class Demo
   # - - - - - - - - - - - - - - - - -
 
   def pre(name, &block)
-    result,duration = *timed { block.call }
+    result,duration = *timed {
+      begin
+        block.call
+      rescue => error
+        JSON.parse(error.message)
+      end
+    }
     [
-      "<pre>/#{name}(#{duration}s)</pre>",
+      "<pre>/#{name}[#{duration}s]</pre>",
       "<pre style='#{style}'>",
         "#{JSON.pretty_unparse(result)}",
       '</pre>'
@@ -78,12 +86,6 @@ class Demo
 
   def whitespace
     'white-space: pre-wrap;'
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def starter
-    StarterService.new
   end
 
 end

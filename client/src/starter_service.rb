@@ -26,6 +26,10 @@ class StarterService
     http.get(display_name)
   end
 
+  def wibble # unknown
+    http.get
+  end
+
   private
 
   def http
