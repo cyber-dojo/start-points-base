@@ -13,7 +13,10 @@ The subsequent arguments are git-cloneable URLs containing the source for the st
 
 ```bash
 $ build_cyber_dojo_start_points_image.sh --help
-use: build_cyber_dojo_start_point_image.sh <image-name> <git-clone-urls>
+Use: ./build_cyber_dojo_start_points_image.sh <image-name> \
+    --languages <git-repo-urls> \
+    --exercises <git-repo-urls> \
+    --custom    <git-repo-urls> \
 
 $ build_cyber_dojo_start_points_image.sh \
     acme/my-start-points \
