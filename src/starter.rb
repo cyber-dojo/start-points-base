@@ -65,7 +65,7 @@ class Starter
 
   def display_names(type)
     display_names = []
-    pattern = "#{start_points_dir}/#{type}/**/manifest.json"
+    pattern = "#{start_points_dir(type)}/**/manifest.json"
     Dir.glob(pattern).each do |manifest_filename|
       json = JSON.parse!(IO.read(manifest_filename))
       display_names << json['display_name']
@@ -75,7 +75,7 @@ class Starter
 
   def manifests(type)
     manifests = {}
-    pattern = "#{start_points_dir}/#{type}/**/manifest.json"
+    pattern = "#{start_points_dir(type)}/**/manifest.json"
     Dir.glob(pattern).each do |manifest_filename|
       manifest = JSON.parse!(IO.read(manifest_filename))
       display_name = manifest['display_name']
@@ -104,7 +104,7 @@ class Starter
 
   def exercises
     result = {}
-    pattern = "#{start_points_dir}/exercises/**/instructions"
+    pattern = "#{start_points_dir('exercises')}/**/instructions"
     Dir.glob(pattern).each do |filename|
       name = filename.split('/')[-2] # eg Bowling_Game
       result[name] = {
@@ -134,8 +134,8 @@ class Starter
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def start_points_dir
-    '/app/repos'
+  def start_points_dir(type)
+    "/app/repos/#{type}"
   end
 
   # - - - - - - - - - - - - - - - - - - - -
