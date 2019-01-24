@@ -1,3 +1,8 @@
+# Detects if the start-point data contains an error.
+# Run as the last line of the Dockerfile
+# RUN ruby /app/src/check_all.rb /app/repos
+# If this command fails and the image build fails.
+
 require 'json'
 
 def root_dir
@@ -14,9 +19,12 @@ repos = Hash[lines.map { |line|
   [index, { type:type, sha:sha, url:url }]
 }]
 
+# For now, just printing some stuff...
 repos.keys.sort.each do |key|
   type = repos[key][:type]
   puts key
   puts JSON.pretty_generate(repos[key])
   puts `ls -al #{root_dir}/#{type}/#{key}`
 end
+#... and always succeeding
+exit(0)

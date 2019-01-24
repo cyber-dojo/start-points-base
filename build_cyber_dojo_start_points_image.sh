@@ -110,5 +110,5 @@ done
   echo ".dockerignore";
 } >> "${CONTEXT_DIR}/.dockerignore"
 
-# build the image
+# Attempt to build the image
 docker build --tag "${IMAGE_NAME}" "${CONTEXT_DIR}"
