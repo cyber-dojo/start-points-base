@@ -3,6 +3,9 @@ set -e
 
 readonly MY_NAME=$(basename "$0")
 readonly IMAGE_NAME="${1}"
+if [ ! -z "${IMAGE_NAME}" ]; then
+  shift
+fi
 
 # - - - - - - - - - - - - - - - - -
 
@@ -31,7 +34,7 @@ show_use_full()
   It will contain checked git clones of all the specified repos.
 
   Example: local git-repo-urls
-  
+
   \$ ${MY_NAME} \\
     acme/first-start-point \\
       --languages file:///.../java-junit \\
@@ -139,9 +142,17 @@ declare use_custom_defaults='true'
 git_clone_one_repo_to_context_dir()
 {
   local type="${1}"
-  local repo_name="${2}"
+  local repo_url="${2}"
   cd "${CONTEXT_DIR}/${type}"
-  git clone --quiet --depth 1 "${repo_name}" "${index}"
+  #local branches=$(git ls-remote --heads ${repo_url})
+  #if [[ "${branches}" =~ 'refs/heads/start-point' ]]; then
+  #  echo "using start-point branch"
+  #  git clone --quiet ${repo_url} --branch start-point --single-branch ${index}
+  #else
+  #  echo "using master branch"
+  #  git clone --quiet --depth 1 "${repo_url}" "${index}"
+  #fi
+  git clone --quiet --depth 1 "${repo_url}" "${index}"
   case "${type}" in
   languages) use_language_defaults='false';;
   exercises) use_exercise_defaults='false';;
@@ -149,7 +160,7 @@ git_clone_one_repo_to_context_dir()
   esac
   declare sha
   sha=$(cd ${index} && git rev-parse HEAD)
-  echo "${type} ${index} ${sha} ${repo_name}" >> "${CONTEXT_DIR}/shas.txt"
+  echo "${type} ${index} ${sha} ${repo_url}" >> "${CONTEXT_DIR}/shas.txt"
   rm -rf "${CONTEXT_DIR}/${type}/${index}/.git"
   index=$((index + 1))
 }
@@ -182,8 +193,13 @@ git_clone_default_repos_to_context_dir()
   if [ "${use_language_defaults}" = 'true' ]; then
     echo 'using default for --languages'
     git_clone_all_repos_to_context_dir --languages \
-      https://github.com/cyber-dojo-languages/clangplusplus-googlemock \
-      https://github.com/cyber-dojo-languages/java-junit
+      https://github.com/cyber-dojo-languages/csharp-nunit                 \
+      https://github.com/cyber-dojo-languages/gcc-googletest               \
+      https://github.com/cyber-dojo-languages/gplusplus-googlemock         \
+      https://github.com/cyber-dojo-languages/java-junit                   \
+      https://github.com/cyber-dojo-languages/javascript-jasmine           \
+      https://github.com/cyber-dojo-languages/python-pytest                \
+      https://github.com/cyber-dojo-languages/ruby-minitest
   fi
   if [ "${use_exercise_defaults}" = 'true' ]; then
     echo 'using default for --exercises'
@@ -221,7 +237,6 @@ build_the_image_from_context_dir()
 # - - - - - - - - - - - - - - - - -
 
 check_arguments
-shift
 git_clone_all_repos_to_context_dir ${*}
 git_clone_default_repos_to_context_dir
 write_Dockerfile_to_context_dir
