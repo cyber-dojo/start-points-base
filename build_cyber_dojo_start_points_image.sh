@@ -123,6 +123,7 @@ git_clone_one_repo_to_context_dir()
   declare sha
   sha=$(cd ${index} && git rev-parse HEAD)
   echo "${type} ${index} ${sha} ${repo_name}" >> "${CONTEXT_DIR}/shas.txt"
+  rm -rf "${CONTEXT_DIR}/${type}/${index}/.git"
 }
 
 # - - - - - - - - - - - - - - - - -
