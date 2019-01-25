@@ -165,10 +165,16 @@ git_clone_default_repos_to_context_dir()
     echo 'use_language_defaults=true'
   fi
   if [ "${use_exercise_defaults}" = 'true' ]; then
-    echo 'use_exercise_defaults=true'
+    local exercises_url="https://github.com/cyber-dojo/start-points-exercises.git"
+    echo 'using default for --exercises'
+    echo "${exercises_url}"
+    git_clone_one_repo_to_context_dir "exercises" "${exercises_url}" "default_1"
   fi
   if [ "${use_custom_defaults}" = 'true' ]; then
-    echo 'use_custom_defaults=true'
+    local custom_url="https://github.com/cyber-dojo/start-points-exercises.git"
+    echo 'using default for --custom'
+    echo ${custom_url}""
+    git_clone_one_repo_to_context_dir "custom" "${custom_url}" "default_2"
   fi
 }
 
