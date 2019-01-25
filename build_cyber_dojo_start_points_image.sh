@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-readonly IMAGE_NAME="${1}"
-readonly REPO_NAMES="${*:2}"
-
 show_use()
 {
   readonly my_name=$(basename "$0")
@@ -16,7 +13,7 @@ show_use()
 
   Creates a cyber-dojo start-point image named <image-name>.
   Its base image will be cyberdojo/start-points-base.
-  It will contain git clones of all the specified repos.
+  It will contain checked git clones of all the specified repos.
 
   Example
   \$ ${my_name} acme/a-start-point \\
@@ -48,10 +45,37 @@ EOF
 
 # - - - - - - - - - - - - - - - - -
 
+readonly CONTEXT_DIR=$(mktemp -d /tmp/cyber-dojo-start-points-base.XXXXXXXXX)
+mkdir "${CONTEXT_DIR}/languages"
+mkdir "${CONTEXT_DIR}/exercises"
+mkdir "${CONTEXT_DIR}/custom"
+cleanup() { rm -rf "${CONTEXT_DIR}" > /dev/null; }
+trap cleanup EXIT
+
+readonly IMAGE_NAME="${1}"
+readonly REPO_NAMES="${*:2}"
+
+# - - - - - - - - - - - - - - - - -
+
 error()
 {
   echo "ERROR: ${2}"
   exit "${1}"
+}
+
+# - - - - - - - - - - - - - - - - -
+
+missing_image_name()
+{
+  if [ "${IMAGE_NAME}" = '--languages' ]; then
+    true
+  elif [ "${IMAGE_NAME}" = '--exercises' ]; then
+    true
+  elif [ "${IMAGE_NAME}" = '--custom' ]; then
+    true
+  else
+    false
+  fi
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -68,7 +92,7 @@ check_arguments()
   if ! hash docker 2> /dev/null; then
     error 2 'docker needs to be installed'
   fi
-  if [ -z "${IMAGE_NAME}" ]; then
+  if missing_image_name; then
     show_use
     error 3 'missing <image_name>'
   fi
@@ -80,74 +104,83 @@ check_arguments()
 
 # - - - - - - - - - - - - - - - - -
 
-# git clone all repos into temp docker context
-readonly CONTEXT_DIR=$(mktemp -d /tmp/cyber-dojo-start-points-base.XXXXXXXXX)
-cleanup() { rm -rf "${CONTEXT_DIR}" > /dev/null; }
-trap cleanup EXIT
+declare need_language_defaults='true'
+declare need_exercise_defaults='true'
+declare need_custom_defaults='true'
 
-declare seen_languages='false'
-declare seen_exercises='false'
-declare seen_custom='false'
-
-# - - - - - - - - - - - - - - - - -
-
-git_clone_into_context_dir()
+git_clone_one_repo_to_context_dir()
 {
   local type="${1}"
   local repo_name="${2}"
   local index="${3}"
   cd "${CONTEXT_DIR}/${type}"
-  git clone --verbose --depth 1 "${repo_name}" ${index}
+  git clone --quiet --depth 1 "${repo_name}" "${index}"
   case "${type}" in
-  languages) seen_languages='true';;
-  exercises) seen_exercises='true';;
-  custom)    seen_custom='true'   ;;
+  languages) need_language_defaults='false';;
+  exercises) need_exercise_defaults='false';;
+  custom)    need_custom_defaults='false'  ;;
   esac
-  cd ${index}
   declare sha
-  sha=$(git rev-parse HEAD)
+  sha=$(cd ${index} && git rev-parse HEAD)
   echo "${type} ${index} ${sha} ${repo_name}" >> "${CONTEXT_DIR}/shas.txt"
 }
 
 # - - - - - - - - - - - - - - - - -
 
+git_clone_all_repos_to_context_dir()
+{
+  echo "${IMAGE_NAME}"
+  declare type=''
+  declare index=0
+  for repo_name in $REPO_NAMES; do
+      echo "${repo_name}"
+      case "${repo_name}" in
+      --languages) type=languages; continue;;
+      --exercises) type=exercises; continue;;
+      --custom)    type=custom;    continue;;
+      esac
+      if [ -z "${type}" ]; then
+        error 5 "repo ${repo_name} without preceeding --languages/--exercises/--custom"
+      fi
+      git_clone_one_repo_to_context_dir "${type}" "${repo_name}" "${index}"
+      index=$((index + 1))
+  done
+}
+
+# - - - - - - - - - - - - - - - - -
+
+git_clone_default_repos_to_context_dir()
+{
+  echo "need_language_defaults=${need_language_defaults}"
+  echo "need_exercise_defaults=${need_exercise_defaults}"
+  echo "need_custom_defaults=${need_custom_defaults}"
+}
+
+# - - - - - - - - - - - - - - - - -
+
+write_Dockerfile_to_context_dir()
+{
+  { echo 'FROM cyberdojo/start-points-base';
+    echo 'COPY . /app/repos';
+    echo 'RUN ruby /app/src/check_all.rb /app/repos';
+  } >> "${CONTEXT_DIR}/Dockerfile"
+
+  { echo "Dockerfile";
+    echo ".dockerignore";
+  } >> "${CONTEXT_DIR}/.dockerignore"
+}
+
+# - - - - - - - - - - - - - - - - -
+
+build_the_image_from_context_dir()
+{
+  docker build --tag "${IMAGE_NAME}" "${CONTEXT_DIR}"
+}
+
+# - - - - - - - - - - - - - - - - -
+
 check_arguments
-
-mkdir "${CONTEXT_DIR}/languages"
-mkdir "${CONTEXT_DIR}/exercises"
-mkdir "${CONTEXT_DIR}/custom"
-
-declare type=''
-declare index=0
-for repo_name in $REPO_NAMES; do
-    case "${repo_name}" in
-    --languages) type=languages; continue;;
-    --exercises) type=exercises; continue;;
-    --custom)    type=custom;    continue;;
-    esac
-    if [ -z "${type}" ]; then
-      error 5 "repo ${repo_name} without preceeding --languages/--exercises/--custom"
-    fi
-    git_clone_into_context_dir "${type}" "${repo_name}" "${index}"
-    index=$((index + 1))
-done
-
-# set defaults
-#echo "seen_languages=${seen_languages}"
-#echo "seen_exercises=${seen_exercises}"
-#echo "seen_custom=${seen_custom}"
-#exit 1
-
-# create a Dockerfile in the temp docker context
-{ echo 'FROM cyberdojo/start-points-base';
-  echo 'COPY . /app/repos';
-  echo 'RUN ruby /app/src/check_all.rb /app/repos';
-} >> "${CONTEXT_DIR}/Dockerfile"
-
-# remove the Dockerfile from docker image
-{ echo "Dockerfile";
-  echo ".dockerignore";
-} >> "${CONTEXT_DIR}/.dockerignore"
-
-# Attempt to build the image
-docker build --tag "${IMAGE_NAME}" "${CONTEXT_DIR}"
+git_clone_all_repos_to_context_dir
+git_clone_default_repos_to_context_dir
+write_Dockerfile_to_context_dir
+build_the_image_from_context_dir

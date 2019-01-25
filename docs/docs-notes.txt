@@ -1,4 +1,6 @@
 
+0. can you git clone and arrange for the .git dir to be somewhere else?
+
 1. defaults...
   --languages
    https://github.com/cyber-dojo-languages/clangplusplus-googlemock
