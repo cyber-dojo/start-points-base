@@ -104,9 +104,9 @@ check_arguments()
 
 # - - - - - - - - - - - - - - - - -
 
-declare need_language_defaults='true'
-declare need_exercise_defaults='true'
-declare need_custom_defaults='true'
+declare use_language_defaults='true'
+declare use_exercise_defaults='true'
+declare use_custom_defaults='true'
 
 git_clone_one_repo_to_context_dir()
 {
@@ -116,9 +116,9 @@ git_clone_one_repo_to_context_dir()
   cd "${CONTEXT_DIR}/${type}"
   git clone --quiet --depth 1 "${repo_name}" "${index}"
   case "${type}" in
-  languages) need_language_defaults='false';;
-  exercises) need_exercise_defaults='false';;
-  custom)    need_custom_defaults='false'  ;;
+  languages) use_language_defaults='false';;
+  exercises) use_exercise_defaults='false';;
+  custom)    use_custom_defaults='false'  ;;
   esac
   declare sha
   sha=$(cd ${index} && git rev-parse HEAD)
@@ -152,9 +152,15 @@ git_clone_all_repos_to_context_dir()
 
 git_clone_default_repos_to_context_dir()
 {
-  echo "need_language_defaults=${need_language_defaults}"
-  echo "need_exercise_defaults=${need_exercise_defaults}"
-  echo "need_custom_defaults=${need_custom_defaults}"
+  if [ "${use_language_defaults}" = 'true' ]; then
+    echo 'use_language_defaults=true'
+  fi
+  if [ "${use_exercise_defaults}" = 'true' ]; then
+    echo 'use_exercise_defaults=true'
+  fi
+  if [ "${use_custom_defaults}" = 'true' ]; then
+    echo 'use_custom_defaults=true'
+  fi
 }
 
 # - - - - - - - - - - - - - - - - -
