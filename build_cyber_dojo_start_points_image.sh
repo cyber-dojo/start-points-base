@@ -15,7 +15,7 @@ show_use_brief()
       <image-name> \\
         --languages <git-repo-urls> \\
         --exercises <git-repo-urls> \\
-        --custom    <git-repo-urls> \\
+        --custom    <git-repo-urls>
 
 EOF
 }
@@ -31,38 +31,43 @@ show_use_full()
   It will contain checked git clones of all the specified repos.
 
   Example: local git-repo-urls
+  
   \$ ${MY_NAME} \\
     acme/first-start-point \\
       --languages file:///.../java-junit \\
       --exercises file:///.../katas      \\
-      --custom    file:///.../yahtzee    \\
+      --custom    file:///.../yahtzee
 
   Example: non-local git-repo-urls
+
   \$ ${MY_NAME} \\
     acme/second-start-point \\
       --languages https://github.com/.../my-languages.git \\
       --exercises https://github.com/.../my-exercises.git \\
-      --custom    https://github.com/.../my-custom.git    \\
+      --custom    https://github.com/.../my-custom.git
 
   Example: multiple git-repo-urls for --languages
+
   \$ ${MY_NAME} \\
     acme/third-start-point \\
       --languages file:///.../asm-assert \\
                   file:///.../java-junit \\
       --exercises file:///.../katas      \\
-      --custom    file:///.../yahtzee    \\
+      --custom    file:///.../yahtzee
 
   Example:  defaulted --languages and --exercises
+
   \$ ${MY_NAME} \\
     acme/fourth-start-point \\
-      --custom    file:///.../yahtzee    \\
+      --custom    file:///.../yahtzee
 
   Example: git-repo-urls from a file
+
   \$ ${MY_NAME} \\
     acme/fifth-start-point \\
       --languages "\$(< my-language-selection.txt)"        \\
       --exercises https://github.com/.../my-exercises.git \\
-      --custom    https://github.com/.../my-custom.git    \\
+      --custom    https://github.com/.../my-custom.git
 
   \$ cat my-language-selection.txt
   https://github.com/cyber-dojo-languages/java-junit
@@ -153,7 +158,7 @@ git_clone_one_repo_to_context_dir()
 
 git_clone_all_repos_to_context_dir()
 {
-  declare repo_names="${1}"
+  declare repo_names="${*}"
   declare type=''
   for repo_name in ${repo_names}; do
     echo "${repo_name}"
@@ -176,19 +181,19 @@ git_clone_default_repos_to_context_dir()
 {
   if [ "${use_language_defaults}" = 'true' ]; then
     echo 'using default for --languages'
-    #TODO...
+    git_clone_all_repos_to_context_dir --languages \
+      https://github.com/cyber-dojo-languages/clangplusplus-googlemock \
+      https://github.com/cyber-dojo-languages/java-junit
   fi
   if [ "${use_exercise_defaults}" = 'true' ]; then
-    local exercises_url="https://github.com/cyber-dojo/start-points-exercises.git"
     echo 'using default for --exercises'
-    echo "${exercises_url}"
-    git_clone_one_repo_to_context_dir "exercises" "${exercises_url}"
+    git_clone_all_repos_to_context_dir --exercises \
+      https://github.com/cyber-dojo/start-points-exercises.git
   fi
   if [ "${use_custom_defaults}" = 'true' ]; then
-    local custom_url="https://github.com/cyber-dojo/start-points-exercises.git"
     echo 'using default for --custom'
-    echo ${custom_url}""
-    git_clone_one_repo_to_context_dir "custom" "${custom_url}"
+    git_clone_all_repos_to_context_dir --custom \
+      https://github.com/cyber-dojo/start-points-custom.git
   fi
 }
 
@@ -215,10 +220,9 @@ build_the_image_from_context_dir()
 
 # - - - - - - - - - - - - - - - - -
 
-readonly REPO_NAMES="${*:2}"
-
 check_arguments
-git_clone_all_repos_to_context_dir "${REPO_NAMES}"
+shift
+git_clone_all_repos_to_context_dir ${*}
 git_clone_default_repos_to_context_dir
 write_Dockerfile_to_context_dir
 build_the_image_from_context_dir

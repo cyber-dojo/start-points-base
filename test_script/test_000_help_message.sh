@@ -16,7 +16,7 @@ test_000_help_message()
   assert_stdout_includes "${help_line2}"
   assert_stdout_includes "${help_line3}"
   assert_stdout_includes "${help_line4}"
-  assert_stdout_line_count_equals 51
+  assert_stdout_line_count_equals 56
   assert_stderr_equals ''
   assert_status_equals 0
 
@@ -25,7 +25,7 @@ test_000_help_message()
   assert_stdout_includes "${help_line2}"
   assert_stdout_includes "${help_line3}"
   assert_stdout_includes "${help_line4}"
-  assert_stdout_line_count_equals 51
+  assert_stdout_line_count_equals 56
   assert_stderr_equals ''
   assert_status_equals 0
 }
