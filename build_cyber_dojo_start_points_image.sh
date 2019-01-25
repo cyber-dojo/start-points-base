@@ -1,35 +1,49 @@
 #!/usr/bin/env bash
 set -e
 
-show_use()
+readonly MY_NAME=$(basename "$0")
+readonly IMAGE_NAME="${1}"
+readonly REPO_NAMES="${*:2}"
+
+# - - - - - - - - - - - - - - - - -
+
+show_use_brief()
 {
-  readonly my_name=$(basename "$0")
   cat <<- EOF
 
-  Use: ./${my_name} <image-name> \\
+  Use: ./${MY_NAME} <image-name> \\
     --languages <git-repo-urls> \\
     --exercises <git-repo-urls> \\
     --custom    <git-repo-urls> \\
 
+EOF
+}
+
+# - - - - - - - - - - - - - - - - -
+
+show_use()
+{
+  show_use_brief
+  cat <<- EOF
   Creates a cyber-dojo start-point image named <image-name>.
   Its base image will be cyberdojo/start-points-base.
   It will contain checked git clones of all the specified repos.
 
   Example
-  \$ ${my_name} acme/a-start-point \\
+  \$ ${MY_NAME} acme/a-start-point \\
     --languages file:///.../asm-assert \\
                 file:///.../java-junit \\
     --exercises file:///.../katas      \\
     --custom    file:///.../yahtzee    \\
 
   Example
-  \$ ${my_name} acme/another-start-point \\
+  \$ ${MY_NAME} acme/another-start-point \\
     --languages https://github.com/.../my-languages.git \\
     --exercises https://github.com/.../my-exercises.git \\
     --custom    https://github.com/.../my-custom.git    \\
 
   Example
-  \$ ${my_name} acme/yet-another \\
+  \$ ${MY_NAME} acme/yet-another \\
     --languages "\$(< my-language-selection.txt)"        \\
     --exercises https://github.com/.../my-exercises.git \\
     --custom    https://github.com/.../my-custom.git    \\
@@ -52,9 +66,6 @@ mkdir "${CONTEXT_DIR}/custom"
 cleanup() { rm -rf "${CONTEXT_DIR}" > /dev/null; }
 trap cleanup EXIT
 
-readonly IMAGE_NAME="${1}"
-readonly REPO_NAMES="${*:2}"
-
 # - - - - - - - - - - - - - - - - -
 
 error()
@@ -67,15 +78,12 @@ error()
 
 missing_image_name()
 {
-  if [ "${IMAGE_NAME}" = '--languages' ]; then
-    true
-  elif [ "${IMAGE_NAME}" = '--exercises' ]; then
-    true
-  elif [ "${IMAGE_NAME}" = '--custom' ]; then
-    true
-  else
-    false
-  fi
+  case "${IMAGE_NAME}" in
+    --languages) true;;
+    --exercises) true;;
+    --custom)    true;;
+    *)           false;;
+  esac
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -93,11 +101,12 @@ check_arguments()
     error 2 'docker needs to be installed'
   fi
   if missing_image_name; then
-    show_use
+    show_use_brief
     error 3 'missing <image_name>'
   fi
+  # TODO: Drop this once defaults are in place...
   if [ -z "${REPO_NAMES}" ]; then
-    show_use
+    show_use_brief
     error 4 'missing <git-repo-urls>'
   fi
 }
