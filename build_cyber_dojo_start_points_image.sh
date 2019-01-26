@@ -9,7 +9,7 @@ fi
 
 # - - - - - - - - - - - - - - - - -
 
-show_use_small()
+show_use()
 {
   cat <<- EOF
 
@@ -20,15 +20,6 @@ show_use_small()
         [--exercises <git-repo-urls>] \\
         [--custom    <git-repo-urls>]
 
-EOF
-}
-
-# - - - - - - - - - - - - - - - - -
-
-show_use_large()
-{
-  show_use_small
-  cat <<- EOF
   Creates a cyber-dojo start-point image named <image-name>.
   Its base image will be cyberdojo/start-points-base.
   It will contain checked git clones of all the specified repo-urls.
@@ -95,7 +86,7 @@ mkdir "${CONTEXT_DIR}/custom"
 
 error()
 {
-  echo "ERROR: ${2}"
+  >&2 echo "ERROR: ${2}"
   exit "${1}"
 }
 
@@ -118,11 +109,11 @@ check_docker_installed()
 check_image_name()
 {
   case "${IMAGE_NAME}" in
-    '')          show_use_large; exit 0;;
-    --help)      show_use_large; exit 0;;
-    --languages) show_use_small; error 3 'missing <image_name>';;
-    --exercises) show_use_small; error 3 'missing <image_name>';;
-    --custom)    show_use_small; error 3 'missing <image_name>';;
+    '')          show_use; exit 0;;
+    --help)      show_use; exit 0;;
+    --languages) error 3 'missing <image_name>';;
+    --exercises) error 4 'missing <image_name>';;
+    --custom)    error 5 'missing <image_name>';;
   esac
 }
 
@@ -156,35 +147,35 @@ git_clone_one_repo_to_context_dir()
 
 git_clone_all_repos_to_context_dir()
 {
-  declare repo_names="${*}"
+  declare git_repo_urls="${*}"
   declare type=''
-  for repo_name in ${repo_names}; do
-    case "${repo_name}" in
+  for git_repo_url in ${git_repo_urls}; do
+    case "${git_repo_url}" in
     --languages) type=languages; continue;;
     --exercises) type=exercises; continue;;
     --custom)    type=custom;    continue;;
     esac
-    echo "${repo_name}"
     if [ -z "${type}" ]; then
-      error 4 "repo ${repo_name} without preceeding --languages/--exercises/--custom"
+      error 6 "git-repo-url ${git_repo_url} without preceeding --languages/--exercises/--custom"
     fi
-    git_clone_one_repo_to_context_dir "${type}" "${repo_name}"
+    #echo "${repo_name}"
+    git_clone_one_repo_to_context_dir "${type}" "${git_repo_url}"
   done
 
-  if [ "${repo_name}" = '--languages' ] &&
+  if [ "${git_repo_url}" = '--languages' ] &&
      [ "${use_language_defaults}" = 'true' ]
   then
-    error 5 '--languages requires a following <git-repo-url>'
+    error 7 '--languages requires a following <git-repo-url>'
   fi
-  if [ "${repo_name}" = '--exercises' ] &&
+  if [ "${git_repo_url}" = '--exercises' ] &&
      [ "${use_exercise_defaults}" = 'true' ]
   then
-    error 6 '--exercises requires a following <git-repo-url>'
+    error 8 '--exercises requires a following <git-repo-url>'
   fi
-  if [ "${repo_name}" = '--custom' ] &&
+  if [ "${git_repo_url}" = '--custom' ] &&
      [ "${use_custom_defaults}" = 'true' ]
   then
-    error 7 '--custom requires a following <git-repo-url>'
+    error 9 '--custom requires a following <git-repo-url>'
   fi
 }
 
