@@ -9,29 +9,29 @@ fi
 
 # - - - - - - - - - - - - - - - - -
 
-show_use_brief()
+show_use_small()
 {
   cat <<- EOF
 
   Use:
     \$ ./${MY_NAME} \\
       <image-name> \\
-        --languages <git-repo-urls> \\
-        --exercises <git-repo-urls> \\
-        --custom    <git-repo-urls>
+        [--languages <git-repo-urls>] \\
+        [--exercises <git-repo-urls>] \\
+        [--custom    <git-repo-urls>]
 
 EOF
 }
 
 # - - - - - - - - - - - - - - - - -
 
-show_use_full()
+show_use_large()
 {
-  show_use_brief
+  show_use_small
   cat <<- EOF
   Creates a cyber-dojo start-point image named <image-name>.
   Its base image will be cyberdojo/start-points-base.
-  It will contain checked git clones of all the specified repos.
+  It will contain checked git clones of all the specified repo-urls.
 
   Example: local git-repo-urls
 
@@ -58,7 +58,7 @@ show_use_full()
       --exercises file:///.../katas      \\
       --custom    file:///.../yahtzee
 
-  Example:  defaulted --languages and --exercises
+  Example: use defaults for --languages and --exercises
 
   \$ ${MY_NAME} \\
     acme/fourth-start-point \\
@@ -83,12 +83,13 @@ EOF
 
 # - - - - - - - - - - - - - - - - -
 
-readonly CONTEXT_DIR=$(mktemp -d /tmp/cyber-dojo-start-points-base.XXXXXXXXX)
+readonly tmp_dir=/tmp/cyber-dojo-start-points-base.XXXXXXXXX
+readonly CONTEXT_DIR=$(mktemp -d ${tmp_dir})
+cleanup() { rm -rf "${CONTEXT_DIR}" > /dev/null; }
+trap cleanup EXIT
 mkdir "${CONTEXT_DIR}/languages"
 mkdir "${CONTEXT_DIR}/exercises"
 mkdir "${CONTEXT_DIR}/custom"
-cleanup() { rm -rf "${CONTEXT_DIR}" > /dev/null; }
-trap cleanup EXIT
 
 # - - - - - - - - - - - - - - - - -
 
@@ -100,35 +101,29 @@ error()
 
 # - - - - - - - - - - - - - - - - -
 
-missing_image_name()
+check_git_installed()
 {
-  # check_arguments() has already checked for empty IMAGE_NAME
-  case "${IMAGE_NAME}" in
-    --languages) true;;
-    --exercises) true;;
-    --custom)    true;;
-    *)           false;;
-  esac
-}
-
-# - - - - - - - - - - - - - - - - -
-
-check_arguments()
-{
-  if [ -z "${IMAGE_NAME}" ] || [ "${IMAGE_NAME}" = '--help' ]; then
-    show_use_full
-    exit 0
-  fi
   if ! hash git 2> /dev/null; then
     error 1 'git needs to be installed'
   fi
+}
+
+check_docker_installed()
+{
   if ! hash docker 2> /dev/null; then
     error 2 'docker needs to be installed'
   fi
-  if missing_image_name; then
-    show_use_brief
-    error 3 'missing <image_name>'
-  fi
+}
+
+check_image_name()
+{
+  case "${IMAGE_NAME}" in
+    '')          show_use_large; exit 0;;
+    --help)      show_use_large; exit 0;;
+    --languages) show_use_small; error 3 'missing <image_name>';;
+    --exercises) show_use_small; error 3 'missing <image_name>';;
+    --custom)    show_use_small; error 3 'missing <image_name>';;
+  esac
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -144,14 +139,6 @@ git_clone_one_repo_to_context_dir()
   local type="${1}"
   local repo_url="${2}"
   cd "${CONTEXT_DIR}/${type}"
-  #local branches=$(git ls-remote --heads ${repo_url})
-  #if [[ "${branches}" =~ 'refs/heads/start-point' ]]; then
-  #  echo "using start-point branch"
-  #  git clone --quiet ${repo_url} --branch start-point --single-branch ${index}
-  #else
-  #  echo "using master branch"
-  #  git clone --quiet --depth 1 "${repo_url}" "${index}"
-  #fi
   git clone --quiet --depth 1 "${repo_url}" "${index}"
   case "${type}" in
   languages) use_language_defaults='false';;
@@ -172,18 +159,33 @@ git_clone_all_repos_to_context_dir()
   declare repo_names="${*}"
   declare type=''
   for repo_name in ${repo_names}; do
-    echo "${repo_name}"
     case "${repo_name}" in
     --languages) type=languages; continue;;
     --exercises) type=exercises; continue;;
     --custom)    type=custom;    continue;;
     esac
+    echo "${repo_name}"
     if [ -z "${type}" ]; then
       error 4 "repo ${repo_name} without preceeding --languages/--exercises/--custom"
     fi
     git_clone_one_repo_to_context_dir "${type}" "${repo_name}"
   done
-  #TODO: check for --languages and no following git-repo-url
+
+  if [ "${repo_name}" = '--languages' ] &&
+     [ "${use_language_defaults}" = 'true' ]
+  then
+    error 5 '--languages requires a following <git-repo-url>'
+  fi
+  if [ "${repo_name}" = '--exercises' ] &&
+     [ "${use_exercise_defaults}" = 'true' ]
+  then
+    error 6 '--exercises requires a following <git-repo-url>'
+  fi
+  if [ "${repo_name}" = '--custom' ] &&
+     [ "${use_custom_defaults}" = 'true' ]
+  then
+    error 7 '--custom requires a following <git-repo-url>'
+  fi
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -191,23 +193,23 @@ git_clone_all_repos_to_context_dir()
 git_clone_default_repos_to_context_dir()
 {
   if [ "${use_language_defaults}" = 'true' ]; then
-    echo 'using default for --languages'
+    echo 'using default <git-repo-urls> for --languages'
     git_clone_all_repos_to_context_dir --languages \
-      https://github.com/cyber-dojo-languages/csharp-nunit                 \
-      https://github.com/cyber-dojo-languages/gcc-googletest               \
-      https://github.com/cyber-dojo-languages/gplusplus-googlemock         \
-      https://github.com/cyber-dojo-languages/java-junit                   \
-      https://github.com/cyber-dojo-languages/javascript-jasmine           \
-      https://github.com/cyber-dojo-languages/python-pytest                \
+      https://github.com/cyber-dojo-languages/csharp-nunit         \
+      https://github.com/cyber-dojo-languages/gcc-googletest       \
+      https://github.com/cyber-dojo-languages/gplusplus-googlemock \
+      https://github.com/cyber-dojo-languages/java-junit           \
+      https://github.com/cyber-dojo-languages/javascript-jasmine   \
+      https://github.com/cyber-dojo-languages/python-pytest        \
       https://github.com/cyber-dojo-languages/ruby-minitest
   fi
   if [ "${use_exercise_defaults}" = 'true' ]; then
-    echo 'using default for --exercises'
+    echo 'using default <git-repo-url> for --exercises'
     git_clone_all_repos_to_context_dir --exercises \
       https://github.com/cyber-dojo/start-points-exercises.git
   fi
   if [ "${use_custom_defaults}" = 'true' ]; then
-    echo 'using default for --custom'
+    echo 'using default <git-repo-url> for --custom'
     git_clone_all_repos_to_context_dir --custom \
       https://github.com/cyber-dojo/start-points-custom.git
   fi
@@ -236,7 +238,10 @@ build_the_image_from_context_dir()
 
 # - - - - - - - - - - - - - - - - -
 
-check_arguments
+check_git_installed
+check_docker_installed
+check_image_name
+
 git_clone_all_repos_to_context_dir ${*}
 git_clone_default_repos_to_context_dir
 write_Dockerfile_to_context_dir

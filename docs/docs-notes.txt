@@ -1,3 +1,24 @@
 
 move commander's start-point checking code
    to check_all.rb (with tests).
+
+
+
+Considered checking for a start-point branch in the named git-repo-urls.
+This would help not git clone repos with large docker/ dirs (eg jars).
+Not doing this because CircleCI build-times are pretty good without it
+and it would be better to rewrite the Dockerfiles to do 'proper'
+installs rather than baking the jar files which get prgressively older
+and older.
+
+git_clone_one_repo_to_context_dir()
+{
+#local branches=$(git ls-remote --heads ${repo_url})
+#if [[ "${branches}" =~ 'refs/heads/start-point' ]]; then
+#  echo "using start-point branch"
+#  git clone --quiet ${repo_url} --branch start-point --single-branch ${index}
+#else
+#  echo "using master branch"
+#  git clone --quiet --depth 1 "${repo_url}" "${index}"
+#fi
+}
