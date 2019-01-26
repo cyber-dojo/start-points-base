@@ -121,6 +121,9 @@ check_image_name()
 
 # - - - - - - - - - - - - - - - - -
 
+# Two or more git-repo-urls could have the same name.
+# So git clone each repo into its own unique directory
+# based on a simple incrementing index.
 declare index=0
 
 declare use_language_defaults='true'
