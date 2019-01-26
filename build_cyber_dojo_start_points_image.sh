@@ -94,14 +94,16 @@ error()
 
 check_git_installed()
 {
-  if ! hash git 2> /dev/null; then
+  local git="${GIT_PROGRAM:-git}"
+  if ! hash "${git}" 2> /dev/null; then
     error 1 'git is not installed!'
   fi
 }
 
 check_docker_installed()
 {
-  if ! hash docker 2> /dev/null; then
+  local docker="${DOCKER_PROGRAM:-docker}"
+  if ! hash "${docker}" 2> /dev/null; then
     error 2 'docker is not installed!'
   fi
 }
