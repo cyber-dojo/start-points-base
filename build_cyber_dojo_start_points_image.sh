@@ -95,14 +95,14 @@ error()
 check_git_installed()
 {
   if ! hash git 2> /dev/null; then
-    error 1 'git needs to be installed'
+    error 1 'git is not installed!'
   fi
 }
 
 check_docker_installed()
 {
   if ! hash docker 2> /dev/null; then
-    error 2 'docker needs to be installed'
+    error 2 'docker is not installed!'
   fi
 }
 
@@ -111,9 +111,9 @@ check_image_name()
   case "${IMAGE_NAME}" in
     '')          show_use; exit 0;;
     --help)      show_use; exit 0;;
-    --languages) error 3 'missing <image_name>';;
-    --exercises) error 4 'missing <image_name>';;
-    --custom)    error 5 'missing <image_name>';;
+    --languages) error 3 '--languages requires preceding <image_name>';;
+    --exercises) error 4 '--exercises requires preceding <image_name>';;
+    --custom)    error 5 '--custom requires preceding <image_name>';;
   esac
 }
 
@@ -156,26 +156,25 @@ git_clone_all_repos_to_context_dir()
     --custom)    type=custom;    continue;;
     esac
     if [ -z "${type}" ]; then
-      error 6 "git-repo-url ${git_repo_url} without preceeding --languages/--exercises/--custom"
+      error 6 "git-repo-url ${git_repo_url} without preceding --languages/--exercises/--custom"
     fi
-    #echo "${repo_name}"
     git_clone_one_repo_to_context_dir "${type}" "${git_repo_url}"
   done
 
   if [ "${git_repo_url}" = '--languages' ] &&
      [ "${use_language_defaults}" = 'true' ]
   then
-    error 7 '--languages requires a following <git-repo-url>'
+    error 7 '--languages requires at least one <git-repo-url>'
   fi
   if [ "${git_repo_url}" = '--exercises' ] &&
      [ "${use_exercise_defaults}" = 'true' ]
   then
-    error 8 '--exercises requires a following <git-repo-url>'
+    error 8 '--exercises requires at least one <git-repo-url>'
   fi
   if [ "${git_repo_url}" = '--custom' ] &&
      [ "${use_custom_defaults}" = 'true' ]
   then
-    error 9 '--custom requires a following <git-repo-url>'
+    error 9 '--custom requires at least one <git-repo-url>'
   fi
 }
 
