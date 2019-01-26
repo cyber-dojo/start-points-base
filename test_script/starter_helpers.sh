@@ -1,10 +1,10 @@
 
 readonly shell_dir="$( cd "$( dirname "${0}" )" && pwd )"
-readonly BUILD_IMAGE_SCRIPT=${shell_dir}/../build_cyber_dojo_start_points_image.sh
+readonly BUILD_START_POINTS_IMAGE=${shell_dir}/../build_cyber_dojo_start_points_image.sh
 
-build_image()
+build_start_points_image()
 {
-  ${BUILD_IMAGE_SCRIPT} ${*} >${stdoutF} 2>${stderrF}
+  ${BUILD_START_POINTS_IMAGE} ${*} >${stdoutF} 2>${stderrF}
   status=$?
   echo ${status} >${statusF}
 }

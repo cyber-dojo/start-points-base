@@ -6,13 +6,13 @@ readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 
 test_000_help_message()
 {
-  build_image
+  build_start_points_image
   assert_stdout_includes_use
   assert_stdout_line_count_equals 56
   assert_stderr_equals ''
   assert_status_equals 0
 
-  build_image --help
+  build_start_points_image --help
   assert_stdout_includes_use
   assert_stdout_line_count_equals 56
   assert_stderr_equals ''
