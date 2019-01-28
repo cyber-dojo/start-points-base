@@ -3,7 +3,7 @@ set -e
 
 readonly MY_NAME=$(basename "$0")
 readonly IMAGE_NAME="${1}"
-if [ ! -z "${IMAGE_NAME}" ]; then
+if [ -n "${IMAGE_NAME}" ]; then
   shift
 fi
 
@@ -237,7 +237,7 @@ check_git_installed
 check_docker_installed
 check_image_name
 
-git_clone_all_repos_to_context_dir ${*}
+git_clone_all_repos_to_context_dir "${*}"
 git_clone_default_repos_to_context_dir
 write_Dockerfile_to_context_dir
 build_the_image_from_context_dir
