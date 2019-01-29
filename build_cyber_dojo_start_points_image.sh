@@ -215,10 +215,7 @@ git_clone_default_repos_to_context_dir()
 
 write_Dockerfile_to_context_dir()
 {
-  { echo 'FROM cyberdojo/start-points-base';
-    echo 'COPY . /app/repos';
-    echo 'RUN ruby /app/src/check_all.rb /app/repos';
-  } >> "${CONTEXT_DIR}/Dockerfile"
+  echo 'FROM cyberdojo/start-points-base' > "${CONTEXT_DIR}/Dockerfile"
 
   { echo "Dockerfile";
     echo ".dockerignore";
