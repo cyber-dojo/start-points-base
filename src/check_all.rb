@@ -1,7 +1,14 @@
-# Detects if the start-point data contains an error.
-# Run as the last line of the Dockerfile
-# RUN ruby /app/src/check_all.rb /app/repos
-# If this command fails and the image build fails.
+# The job of this Ruby script is to detect faults in the
+# start-point data git-cloned from the git-repo-urls
+# specified as arguments to the main Bash script
+#   build_cyber_dojo_start_points_image.sh
+# The main Bash script runs a [docker build] command
+# using a generated Dockerfile written to a temporary
+# context dir. The last line of this Dockerfile is
+#   RUN ruby /app/src/check_all.rb /app/repos
+# Thus, if this Ruby script returns a non-zero exit status
+# the [docker build] fails and the main Bash script
+# fails to build a docker image.
 
 require 'json'
 
@@ -14,7 +21,6 @@ def shas_filename
 end
 
 lines = `cat #{shas_filename}`.lines
-#puts lines
 repos = Hash[lines.map { |line|
   type,index,sha,url = line.split
   [index.to_i, { type:type, sha:sha, url:url }]
