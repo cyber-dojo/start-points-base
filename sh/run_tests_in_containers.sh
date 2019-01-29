@@ -19,7 +19,7 @@ run_server_tests()
     --user nobody \
     --env COVERAGE_ROOT=${COVERAGE_ROOT} \
     "${SERVER_CID}" \
-    sh -c "/app/test_server/util/run.sh ${*}"
+    sh -c "/app/test/util/run.sh ${*}"
 
   server_status=$?
 
@@ -28,10 +28,10 @@ run_server_tests()
     tar Ccf \
       "$(dirname "${COVERAGE_ROOT}")" \
       - "$(basename "${COVERAGE_ROOT}")" \
-        | tar Cxf "${ROOT_DIR}/" -
+        | tar Cxf "${ROOT_DIR}/test_server/" -
 
-  echo "Coverage report copied to ${MY_NAME}/coverage/"
-  cat "${ROOT_DIR}/coverage/done.txt"
+  echo "Coverage report copied to ${MY_NAME}/test_server/coverage/"
+  cat "${ROOT_DIR}/test_server/coverage/done.txt"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -

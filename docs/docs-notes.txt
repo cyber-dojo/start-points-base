@@ -1,9 +1,43 @@
 
+Dont put test_server into image.
+volume-mount it in docker-compose.yml instead.
+
+
+
+
 move commander's start-point checking code
    to check_all.rb (with tests).
 
+check_all.rb should not be in src/
+It is not a "necessary" part of the image;
+if one of its fails the [docker build] fails and you don't get an image.
+However, it is run from the Dockerfile so it has to have a COPY
+command in the Dockerfile so there can be a subsequent RUN.
+Issues...
+o) Best way to run the tests. It feels like they should be
+script based tests since they should be checking
+  - the image fails to build
+  - the specific stderr messages
+  - the specific status $?
+So, maybe put the check_all.rb file into non src/ or test/
+dir so it does not interfere with 100% test coverage.
+>>>>>How is it not already affecting 100% test coverage?<<<<<
+check_all only needs to be in the base image....
 
 
+Also, what is the best way to setup the specific test data
+for each script based test? I don't want the tests to be
+fragile in the sense that the stderr output is known only
+because the order of the specific checks is known. In other
+words, the test data should be crafted so that the _only_
+thing wrong with it is the specific thing being tested.
+I don't want to create the specific test data using bash commands.
+So, maybe each script based test could volume-mount a /tmp
+dir on the host into a dedicated container whose job is to
+populate a dir in /tmp (using Ruby) with the specific test data
+for the given test.
+
+----------------------------------------------------
 Considered checking for a start-point branch in the named git-repo-urls.
 This would help not git clone repos with large docker/ dirs (eg jars).
 Not doing this because CircleCI build-times are pretty good without it

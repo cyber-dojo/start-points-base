@@ -25,6 +25,8 @@ services:
     image: cyberdojo/start-points-test
     init: true
     container_name: test-starter-server
+    volumes:
+      - ./test_server:/app/test:ro
     read_only: true
     tmpfs: /tmp
     restart: 'no'
