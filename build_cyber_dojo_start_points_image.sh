@@ -213,20 +213,11 @@ git_clone_default_repos_to_context_dir()
 
 # - - - - - - - - - - - - - - - - -
 
-write_Dockerfile_to_context_dir()
-{
-  echo 'FROM cyberdojo/start-points-base' > "${CONTEXT_DIR}/Dockerfile"
-
-  { echo "Dockerfile";
-    echo ".dockerignore";
-  } >> "${CONTEXT_DIR}/.dockerignore"
-}
-
-# - - - - - - - - - - - - - - - - -
-
 build_the_image_from_context_dir()
 {
-  docker build --tag "${IMAGE_NAME}" "${CONTEXT_DIR}"
+  local dockerfile='FROM cyberdojo/start-points-base'
+  cd "${CONTEXT_DIR}" \
+   && echo "${dockerfile}" | docker build --tag "${IMAGE_NAME}" -f - .
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -237,5 +228,4 @@ check_image_name
 
 git_clone_all_repos_to_context_dir "${*}"
 git_clone_default_repos_to_context_dir
-write_Dockerfile_to_context_dir
 build_the_image_from_context_dir

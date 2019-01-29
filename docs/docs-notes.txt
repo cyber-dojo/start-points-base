@@ -1,10 +1,4 @@
 
-Can the .dockerignore in the main Bash script
-be used to not copy the .git repos?
-
-main Bash script's Dockerfile is now one line.
-Pipe the Dockerfile from stdin?
-
 move commander's start-point checking code
    to check_all.rb (with tests).
 
