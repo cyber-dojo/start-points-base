@@ -22,7 +22,7 @@ services:
 
   starter:
     user: nobody
-    image: cyberdojo/start-points
+    image: cyberdojo/start-points-test
     init: true
     container_name: test-starter-server
     read_only: true

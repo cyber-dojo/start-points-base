@@ -41,7 +41,7 @@ cd "${L_TMP_DIR}" && create_git_repo
 # - - - - - - - - - - - - - - - - -
 # build the named image from the temporary git repos
 readonly SCRIPT=build_cyber_dojo_start_points_image.sh
-readonly IMAGE_NAME=cyberdojo/start-points
+readonly IMAGE_NAME=cyberdojo/start-points-test
 
 "${ROOT_DIR}/${SCRIPT}"   \
   ${IMAGE_NAME}           \
