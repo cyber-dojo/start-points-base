@@ -19,7 +19,14 @@ I don't want to create the specific test data using bash commands.
 So, maybe each script based test could volume-mount a /tmp
 dir on the host into a dedicated container whose job is to
 populate a dir in /tmp (using Ruby) with the specific test data
-for the given test.
+for the given test. This custom container could quite easily
+ensure the generated test data (off /tmp) was also put into a git repo.
+Hmmm, build_example_derived_image.sh is already creating such
+git repos...this assume git is installed...
+So the custom container should have git installed inside it
+and could be used to do what build_example_derived_image.sh
+already does. Which is, of course, a positive test case.
+
 
 ----------------------------------------------------
 Considered checking for a start-point branch in the named git-repo-urls.
