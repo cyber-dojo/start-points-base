@@ -51,14 +51,15 @@ exit_unless_clean()
 # - - - - - - - - - - - - - - - - - - - -
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+readonly MY_NAME=starter
 
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
   up \
   -d  \
-  --force-recreate
-
-readonly MY_NAME=starter
+  --force-recreate \
+  "${MY_NAME}" \
+  "${MY_NAME}_client"
 
 wait_until_ready  "test-${MY_NAME}-server" 4527
 exit_unless_clean "test-${MY_NAME}-server"
