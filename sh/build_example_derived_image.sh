@@ -1,11 +1,9 @@
 #!/bin/bash
 set -e
 
-# - - - - - - - - - - - - - - - - -
-# create temporary git repos from test-data
-readonly C_TMP_DIR=$(mktemp -d /tmp/cyber-dojo-start-point-custom.XXXXXXXXX)
-readonly E_TMP_DIR=$(mktemp -d /tmp/cyber-dojo-start-point-exercises.XXXXXXXXX)
-readonly L_TMP_DIR=$(mktemp -d /tmp/cyber-dojo-start-point-languages.XXXXXXXXX)
+readonly C_TMP_DIR=$(mktemp -d)
+readonly E_TMP_DIR=$(mktemp -d)
+readonly L_TMP_DIR=$(mktemp -d)
 
 cleanup()
 {
@@ -15,28 +13,13 @@ cleanup()
 }
 trap cleanup EXIT
 
-create_git_repo()
-{
-  git init
-  git config --global user.email "jon@jaggersoft.com"
-  git config --global user.name "Jon Jagger"
-  git add .
-  git commit -m "initial commit" > /dev/null
-}
-
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
-readonly C_TARGET_DIR="${ROOT_DIR}/test_data/custom"
-cp -R "${C_TARGET_DIR}/" "${C_TMP_DIR}"
-cd "${C_TMP_DIR}" && create_git_repo
-
-readonly E_TARGET_DIR="${ROOT_DIR}/test_data/exercises"
-cp -R "${E_TARGET_DIR}/" "${E_TMP_DIR}"
-cd "${E_TMP_DIR}" && create_git_repo
-
-readonly L_TARGET_DIR="${ROOT_DIR}/test_data/languages"
-cp -R "${L_TARGET_DIR}/" "${L_TMP_DIR}"
-cd "${L_TMP_DIR}" && create_git_repo
+# - - - - - - - - - - - - - - - - -
+# create temporary git repos from test-data
+"${ROOT_DIR}/test_data/setup_data_set.sh" "${C_TMP_DIR}" custom
+"${ROOT_DIR}/test_data/setup_data_set.sh" "${E_TMP_DIR}" exercises
+"${ROOT_DIR}/test_data/setup_data_set.sh" "${L_TMP_DIR}" languages
 
 # - - - - - - - - - - - - - - - - -
 # build the named image from the temporary git repos
