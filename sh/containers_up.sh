@@ -9,14 +9,14 @@ wait_until_ready()
   local cmd="curl --silent --fail --data '{}' -X GET http://localhost:${port}/ready"
   cmd+=" > /dev/null 2>&1"
 
-  if [ ! -z ${DOCKER_MACHINE_NAME} ]; then
+  if [ -n "${DOCKER_MACHINE_NAME}" ]; then
     cmd="docker-machine ssh ${DOCKER_MACHINE_NAME} ${cmd}"
   fi
   echo -n "Waiting until ${name} is ready"
   for _ in $(seq ${max_tries})
   do
     echo -n '.'
-    if eval ${cmd} ; then
+    if eval "${cmd}" ; then
       echo 'OK'
       return
     else
@@ -25,7 +25,7 @@ wait_until_ready()
   done
   echo 'FAIL'
   echo "${name} not ready after ${max_tries} tries"
-  docker logs ${name}
+  docker logs "${name}"
   exit 1
 }
 
