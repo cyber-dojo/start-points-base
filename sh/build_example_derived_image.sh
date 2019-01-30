@@ -14,21 +14,20 @@ trap rm_tmp_dir EXIT
 
 create_git_repo_from_named_data_set()
 {
-  local dir_name="${1}"
-  local data_set_name="${2}"
+  local data_set_name="${1}"
   docker run \
     --user root \
     --rm \
     --tmpfs /tmp \
-    --volume "${TMP_DIR}/${dir_name}:/app/tmp/${dir_name}:rw" \
+    --volume "${TMP_DIR}/${data_set_name}:/app/tmp/${data_set_name}:rw" \
     cyberdojo/create-start-points-test-data \
-      "/app/tmp/${dir_name}" \
+      "/app/tmp/${data_set_name}" \
       "${data_set_name}"
 }
 
-create_git_repo_from_named_data_set cust "${1}"
-create_git_repo_from_named_data_set ex   "${2}"
-create_git_repo_from_named_data_set ltf  "${3}"
+create_git_repo_from_named_data_set good_custom
+create_git_repo_from_named_data_set good_exercises
+create_git_repo_from_named_data_set good_languages
 
 # - - - - - - - - - - - - - - - - -
 # build the named image from the git repos in the tmp dirs
@@ -38,8 +37,8 @@ readonly IMAGE_NAME=cyberdojo/start-points-test
 "${ROOT_DIR}/${SCRIPT}"     \
   "${IMAGE_NAME}"           \
     --custom                \
-      "file://${TMP_DIR}/cust" \
+      "file://${TMP_DIR}/good_custom" \
     --exercises             \
-      "file://${TMP_DIR}/ex" \
+      "file://${TMP_DIR}/good_exercises" \
     --languages             \
-      "file://${TMP_DIR}/ltf" \
+      "file://${TMP_DIR}/good_languages" \
