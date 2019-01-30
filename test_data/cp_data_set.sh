@@ -3,12 +3,17 @@ set -e
 
 readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
-create_git_repo()
+copy_data_set_to_mounted_volume()
 {
   local target_dir="${1}"
   local data_set_name="${2}"
   mkdir -p "${target_dir}"
   cp -R "${MY_DIR}/${data_set_name}" "${target_dir}"
+}
+
+create_git_repo()
+{
+  local target_dir="${1}"
   cd "${target_dir}"
   git init
   git config --global user.email "jon@jaggersoft.com"
@@ -17,4 +22,5 @@ create_git_repo()
   git commit -m "initial commit" > /dev/null
 }
 
-create_git_repo "${1}" "${2}"
+copy_data_set_to_mounted_volume "${1}" "${2}"
+create_git_repo "${1}"
