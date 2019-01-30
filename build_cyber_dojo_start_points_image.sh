@@ -74,8 +74,7 @@ EOF
 
 # - - - - - - - - - - - - - - - - -
 
-readonly tmp_dir=/tmp/cyber-dojo-start-points-base.XXXXXXXXX
-readonly CONTEXT_DIR=$(mktemp -d ${tmp_dir})
+readonly CONTEXT_DIR=$(mktemp -d)
 cleanup() { rm -rf "${CONTEXT_DIR}" > /dev/null; }
 trap cleanup EXIT
 mkdir "${CONTEXT_DIR}/languages"
@@ -108,15 +107,15 @@ exit_unless_docker_installed()
   fi
 }
 
-exit_if_show_use_requested()
+exit_if_show_use()
 {
-  case "${IMAGE_NAME}" in
-    '')     show_use; exit 0;;
-    --help) show_use; exit 0;;
-  esac
+  if [ "${IMAGE_NAME}" = '' ] || [ "${IMAGE_NAME}" = '--help' ]; then
+    show_use
+    exit 0
+  fi
 }
 
-exit_if_bad_image_name()
+exit_if_no_image_name()
 {
   case "${IMAGE_NAME}" in
     --languages) error 3 '--languages requires preceding <image_name>';;
@@ -233,8 +232,8 @@ build_the_image_from_context_dir()
 
 exit_unless_git_installed
 exit_unless_docker_installed
-exit_if_show_use_requested
-exit_if_bad_image_name
+exit_if_show_use
+exit_if_no_image_name
 
 git_clone_all_repos_to_context_dir "${*}"
 git_clone_default_repos_to_context_dir
