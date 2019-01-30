@@ -6,6 +6,12 @@ readonly IMAGE_NAME="${1}"
 if [ -n "${IMAGE_NAME}" ]; then
   shift
 fi
+readonly CONTEXT_DIR=$(mktemp -d)
+cleanup() { rm -rf "${CONTEXT_DIR}" > /dev/null; }
+trap cleanup EXIT
+mkdir "${CONTEXT_DIR}/languages"
+mkdir "${CONTEXT_DIR}/exercises"
+mkdir "${CONTEXT_DIR}/custom"
 
 # - - - - - - - - - - - - - - - - -
 
@@ -71,15 +77,6 @@ show_use()
 
 EOF
 }
-
-# - - - - - - - - - - - - - - - - -
-
-readonly CONTEXT_DIR=$(mktemp -d)
-cleanup() { rm -rf "${CONTEXT_DIR}" > /dev/null; }
-trap cleanup EXIT
-mkdir "${CONTEXT_DIR}/languages"
-mkdir "${CONTEXT_DIR}/exercises"
-mkdir "${CONTEXT_DIR}/custom"
 
 # - - - - - - - - - - - - - - - - -
 
@@ -221,7 +218,7 @@ git_clone_default_repos_to_context_dir()
 
 # - - - - - - - - - - - - - - - - -
 
-build_the_image_from_context_dir()
+build_image_from_context_dir()
 {
   local from_stdin='-'
   echo 'FROM cyberdojo/start-points-base' \
@@ -240,4 +237,4 @@ exit_non_zero_if_no_image_name
 
 git_clone_all_repos_to_context_dir "${*}"
 git_clone_default_repos_to_context_dir
-build_the_image_from_context_dir
+build_image_from_context_dir
