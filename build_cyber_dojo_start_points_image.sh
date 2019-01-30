@@ -92,7 +92,7 @@ error()
 
 # - - - - - - - - - - - - - - - - -
 
-check_git_installed()
+exit_unless_git_installed()
 {
   local git="${GIT_PROGRAM:-git}"
   if ! hash "${git}" 2> /dev/null; then
@@ -100,7 +100,7 @@ check_git_installed()
   fi
 }
 
-check_docker_installed()
+exit_unless_docker_installed()
 {
   local docker="${DOCKER_PROGRAM:-docker}"
   if ! hash "${docker}" 2> /dev/null; then
@@ -108,11 +108,17 @@ check_docker_installed()
   fi
 }
 
-check_image_name()
+exit_if_show_use_requested()
 {
   case "${IMAGE_NAME}" in
-    '')          show_use; exit 0;;
-    --help)      show_use; exit 0;;
+    '')     show_use; exit 0;;
+    --help) show_use; exit 0;;
+  esac
+}
+
+exit_if_bad_image_name()
+{
+  case "${IMAGE_NAME}" in
     --languages) error 3 '--languages requires preceding <image_name>';;
     --exercises) error 4 '--exercises requires preceding <image_name>';;
     --custom)    error 5 '--custom requires preceding <image_name>';;
@@ -225,9 +231,10 @@ build_the_image_from_context_dir()
 
 # - - - - - - - - - - - - - - - - -
 
-check_git_installed
-check_docker_installed
-check_image_name
+exit_unless_git_installed
+exit_unless_docker_installed
+exit_if_show_use_requested
+exit_if_bad_image_name
 
 git_clone_all_repos_to_context_dir "${*}"
 git_clone_default_repos_to_context_dir
