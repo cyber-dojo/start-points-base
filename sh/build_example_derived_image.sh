@@ -3,10 +3,6 @@ set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
-readonly CUSTOM=${1}
-readonly EXERCISES=${2}
-readonly LANGUAGES=${3}
-
 # - - - - - - - - - - - - - - - - -
 # create tmp dirs
 # This off root-dir (and not /tmp say) so it works for Docker-Toolbox.
@@ -30,13 +26,13 @@ create_git_repo_from_named_data_set()
       "${data_set_name}"
 }
 
-create_git_repo_from_named_data_set custom "${CUSTOM}"
+readonly CUSTOM=${1}
+readonly EXERCISES=${2}
+readonly LANGUAGES=${3}
 
-# create git repos in tmp dirs from named test-data-sets
-readonly CP_DATA_SET="${ROOT_DIR}/test_data/cp_data_set.sh"
-"${CP_DATA_SET}" "${TMP_DIR}/exercises" "${EXERCISES}"
-"${CP_DATA_SET}" "${TMP_DIR}/languages" "${LANGUAGES}"
-
+create_git_repo_from_named_data_set custom    "${CUSTOM}"
+create_git_repo_from_named_data_set exercises "${EXERCISES}"
+create_git_repo_from_named_data_set languages "${LANGUAGES}"
 
 # - - - - - - - - - - - - - - - - -
 # build the named image from the git repos in the tmp dirs
