@@ -26,15 +26,15 @@ create_git_repo()
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
-readonly C_TARGET_DIR="${ROOT_DIR}/test_server/data/custom"
+readonly C_TARGET_DIR="${ROOT_DIR}/test_data/custom"
 cp -R "${C_TARGET_DIR}/" "${C_TMP_DIR}"
 cd "${C_TMP_DIR}" && create_git_repo
 
-readonly E_TARGET_DIR="${ROOT_DIR}/test_server/data/exercises"
+readonly E_TARGET_DIR="${ROOT_DIR}/test_data/exercises"
 cp -R "${E_TARGET_DIR}/" "${E_TMP_DIR}"
 cd "${E_TMP_DIR}" && create_git_repo
 
-readonly L_TARGET_DIR="${ROOT_DIR}/test_server/data/languages"
+readonly L_TARGET_DIR="${ROOT_DIR}/test_data/languages"
 cp -R "${L_TARGET_DIR}/" "${L_TMP_DIR}"
 cd "${L_TMP_DIR}" && create_git_repo
 
