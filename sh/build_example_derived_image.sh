@@ -14,9 +14,11 @@ trap rm_tmp_dir EXIT
 # - - - - - - - - - - - - - - - - -
 # create git repos in tmp dirs from named test-data-sets
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-readonly CP_DATA_SETS="${ROOT_DIR}/test_data/cp_data_sets.sh"
+readonly CP_DATA_SET="${ROOT_DIR}/test_data/cp_data_set.sh"
 
-"${CP_DATA_SETS}" "${TMP_DIR}" "${CUSTOM}" "${EXERCISES}" "${LANGUAGES}"
+"${CP_DATA_SET}" "${TMP_DIR}/custom"    "${CUSTOM}"
+"${CP_DATA_SET}" "${TMP_DIR}/exercises" "${EXERCISES}"
+"${CP_DATA_SET}" "${TMP_DIR}/languages" "${LANGUAGES}"
 
 # - - - - - - - - - - - - - - - - -
 # build the named image from the git repos in the tmp dirs

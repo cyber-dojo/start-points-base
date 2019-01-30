@@ -7,7 +7,7 @@ create_git_repo()
 {
   local target_dir="${1}"
   local data_set_name="${2}"
-  mkdir "${target_dir}"
+  mkdir -p "${target_dir}"
   cp -R "${MY_DIR}/${data_set_name}" "${target_dir}"
   cd "${target_dir}"
   git init
@@ -17,6 +17,4 @@ create_git_repo()
   git commit -m "initial commit" > /dev/null
 }
 
-create_git_repo "${1}/custom"    "${2}"
-create_git_repo "${1}/exercises" "${3}"
-create_git_repo "${1}/languages" "${4}"
+create_git_repo "${1}" "${2}"
