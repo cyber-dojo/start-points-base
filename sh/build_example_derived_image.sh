@@ -18,11 +18,10 @@ create_git_repo_from_named_data_set()
   docker run \
     --user root \
     --rm \
-    --tmpfs /tmp \
     --volume "${TMP_DIR}/${data_set_name}:/app/tmp/${data_set_name}:rw" \
     cyberdojo/create-start-points-test-data \
-      "/app/tmp/${data_set_name}" \
-      "${data_set_name}"
+      "${data_set_name}" \
+      "/app/tmp/${data_set_name}"
 }
 
 create_git_repo_from_named_data_set good_custom
