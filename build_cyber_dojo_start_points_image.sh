@@ -91,7 +91,7 @@ error()
 
 # - - - - - - - - - - - - - - - - -
 
-exit_unless_git_installed()
+exit_non_zero_if_git_not_installed()
 {
   local git="${GIT_PROGRAM:-git}"
   if ! hash "${git}" 2> /dev/null; then
@@ -99,7 +99,7 @@ exit_unless_git_installed()
   fi
 }
 
-exit_unless_docker_installed()
+exit_non_zero_if_docker_not_installed()
 {
   local docker="${DOCKER_PROGRAM:-docker}"
   if ! hash "${docker}" 2> /dev/null; then
@@ -107,20 +107,20 @@ exit_unless_docker_installed()
   fi
 }
 
-exit_if_show_use()
+exit_non_zero_if_show_use()
 {
   if [ "${IMAGE_NAME}" = '' ] || [ "${IMAGE_NAME}" = '--help' ]; then
     show_use
-    exit 0
+    exit 3
   fi
 }
 
-exit_if_no_image_name()
+exit_non_zero_if_no_image_name()
 {
   case "${IMAGE_NAME}" in
-    --languages) error 3 '--languages requires preceding <image_name>';;
-    --exercises) error 4 '--exercises requires preceding <image_name>';;
-    --custom)    error 5 '--custom requires preceding <image_name>';;
+    --languages) error 4 '--languages requires preceding <image_name>';;
+    --exercises) error 5 '--exercises requires preceding <image_name>';;
+    --custom)    error 6 '--custom requires preceding <image_name>';;
   esac
 }
 
@@ -230,10 +230,10 @@ build_the_image_from_context_dir()
 
 # - - - - - - - - - - - - - - - - -
 
-exit_unless_git_installed
-exit_unless_docker_installed
-exit_if_show_use
-exit_if_no_image_name
+exit_non_zero_if_git_not_installed
+exit_non_zero_if_docker_not_installed
+exit_non_zero_if_show_use
+exit_non_zero_if_no_image_name
 
 git_clone_all_repos_to_context_dir "${*}"
 git_clone_default_repos_to_context_dir

@@ -10,13 +10,13 @@ test_000_help_message()
   assert_stdout_includes_use
   assert_stdout_line_count_equals 56
   assert_stderr_equals ''
-  assert_status_equals 0
+  assert_status_equals 3
 
   build_start_points_image --help
   assert_stdout_includes_use
   assert_stdout_line_count_equals 56
   assert_stderr_equals ''
-  assert_status_equals 0
+  assert_status_equals 3
 }
 
 . ${my_dir}/shunit2_helpers.sh

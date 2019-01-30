@@ -31,7 +31,7 @@ test_001c_languages_requires_image_name()
   build_start_points_image --languages
   assert_stdout_equals ''
   assert_stderr_equals 'ERROR: --languages requires preceding <image_name>'
-  assert_status_equals 3
+  assert_status_equals 4
 }
 
 test_001d_exercises_requires_image_name()
@@ -39,7 +39,7 @@ test_001d_exercises_requires_image_name()
   build_start_points_image --exercises
   assert_stdout_equals ''
   assert_stderr_equals 'ERROR: --exercises requires preceding <image_name>'
-  assert_status_equals 4
+  assert_status_equals 5
 }
 
 test_001e_custom_requires_image_name()
@@ -47,7 +47,7 @@ test_001e_custom_requires_image_name()
   build_start_points_image --custom
   assert_stdout_equals ''
   assert_stderr_equals 'ERROR: --custom requires preceding <image_name>'
-  assert_status_equals 5
+  assert_status_equals 6
 }
 
 test_001f_git_repo_url_requires_preceeding_languages_or_exercises_or_custom()
