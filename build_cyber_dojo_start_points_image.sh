@@ -128,29 +128,24 @@ exit_non_zero_if_no_image_name()
 # based on a simple incrementing index.
 declare git_repo_index=0
 
-declare use_language_defaults='true'
-declare use_exercise_defaults='true'
-declare use_custom_defaults='true'
-
 git_clone_one_repo_to_context_dir()
 {
   local git_repo_type="${1}"
   local git_repo_url="${2}"
-  case "${git_repo_type}" in
-  languages) use_language_defaults='false';;
-  exercises) use_exercise_defaults='false';;
-  custom)    use_custom_defaults='false'  ;;
-  esac
   cd "${CONTEXT_DIR}/${git_repo_type}"
   git clone --quiet --depth 1 "${git_repo_url}" "${git_repo_index}"
   local git_repo_sha=$(cd ${git_repo_index} && git rev-parse HEAD)
-  echo -e "--${git_repo_type} \t ${git_repo_sha} \t ${git_repo_url}"
-  echo -e   "${git_repo_type} \t ${git_repo_sha} \t ${git_repo_url} \t ${git_repo_index}" >> "${CONTEXT_DIR}/shas.txt"
+  echo -e "--${git_repo_type} \t ${git_repo_url}"
+  echo -e   "${git_repo_type} \t ${git_repo_url} \t ${git_repo_sha} \t ${git_repo_index}" >> "${CONTEXT_DIR}/shas.txt"
   rm -rf "${CONTEXT_DIR}/${git_repo_type}/${git_repo_index}/.git"
   git_repo_index=$((git_repo_index + 1))
 }
 
 # - - - - - - - - - - - - - - - - -
+
+declare use_language_defaults='true'
+declare use_exercise_defaults='true'
+declare use_custom_defaults='true'
 
 git_clone_all_repos_to_context_dir()
 {
@@ -166,6 +161,11 @@ git_clone_all_repos_to_context_dir()
       error 6 "git-repo-url ${git_repo_url} without preceding --languages/--exercises/--custom"
     fi
     git_clone_one_repo_to_context_dir "${git_repo_type}" "${git_repo_url}"
+    case "${git_repo_type}" in
+    languages) use_language_defaults='false';;
+    exercises) use_exercise_defaults='false';;
+    custom)    use_custom_defaults='false'  ;;
+    esac
   done
 
   if [ "${git_repo_url}" = '--languages' ] &&

@@ -22,8 +22,8 @@ end
 
 lines = `cat #{shas_filename}`.lines
 repos = Hash[lines.map { |line|
-  type,sha,url,index = line.split
-  [index.to_i, { type:type, sha:sha, url:url }]
+  type,url,sha,index = line.split
+  [index.to_i, { type:type, url:url, sha:sha }]
 }]
 
 # For now, just printing some stuff...
