@@ -9,30 +9,34 @@ readonly LANGUAGES=${3}
 
 # - - - - - - - - - - - - - - - - -
 # create tmp dirs
-# Put this off root-dir so it works for DockerToolbox.
+# This off root-dir (and not /tmp say) so it works for Docker-Toolbox.
 readonly TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
 rm_tmp_dir() { rm -rf "${TMP_DIR}" > /dev/null; }
 trap rm_tmp_dir EXIT
 
 # - - - - - - - - - - - - - - - - -
+
+create_git_repo_from_named_data_set()
+{
+  local repo_type="${1}"
+  local data_set_name="${2}"
+  docker run \
+    --user root \
+    --rm \
+    --tmpfs /tmp \
+    --volume "${TMP_DIR}/${repo_type}:/app/tmp/${repo_type}:rw" \
+    cyberdojo/create-start-points-test-data \
+      "/app/tmp/${repo_type}" \
+      "${data_set_name}"
+}
+
+create_git_repo_from_named_data_set custom "${CUSTOM}"
+
 # create git repos in tmp dirs from named test-data-sets
 readonly CP_DATA_SET="${ROOT_DIR}/test_data/cp_data_set.sh"
-
-#"${CP_DATA_SET}" "${TMP_DIR}/custom"    "${CUSTOM}"
 "${CP_DATA_SET}" "${TMP_DIR}/exercises" "${EXERCISES}"
 "${CP_DATA_SET}" "${TMP_DIR}/languages" "${LANGUAGES}"
 
-# problem here is docker-machine means TMP_DIR will
-# not be visible outside the default VM...
-# I think I need to specify a more local dir
-docker run \
-  --user root \
-  --rm \
-  --tmpfs /tmp \
-  --volume "${TMP_DIR}/custom:/app/tmp/custom:rw" \
-  cyberdojo/create-start-points-test-data \
-    "/app/tmp/custom" \
-    "${CUSTOM}"
 
 # - - - - - - - - - - - - - - - - -
 # build the named image from the git repos in the tmp dirs
