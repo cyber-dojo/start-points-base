@@ -215,9 +215,12 @@ git_clone_default_repos_to_context_dir()
 
 build_the_image_from_context_dir()
 {
-  local dockerfile='FROM cyberdojo/start-points-base'
-  cd "${CONTEXT_DIR}" \
-   && echo "${dockerfile}" | docker build --tag "${IMAGE_NAME}" -f - .
+  local from_stdin='-'
+  echo 'FROM cyberdojo/start-points-base' \
+    | docker build                        \
+        --file "${from_stdin}"            \
+        --tag "${IMAGE_NAME}"             \
+        "${CONTEXT_DIR}"
 }
 
 # - - - - - - - - - - - - - - - - -
