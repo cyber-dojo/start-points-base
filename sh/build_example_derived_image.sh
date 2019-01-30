@@ -14,16 +14,16 @@ cleanup()
 trap cleanup EXIT
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-readonly TEST_DATA_DIR="${ROOT_DIR}/test_data"
+readonly CP_DATA_SET="${ROOT_DIR}/test_data/cp_data_set.sh"
 # - - - - - - - - - - - - - - - - -
 # create temporary git repos from test-data
 readonly CUSTOM=${1}
 readonly EXERCISES=${2}
 readonly LANGUAGES=${3}
 
-"${TEST_DATA_DIR}/setup_data_set.sh" "${C_TMP_DIR}" "${CUSTOM}"
-"${TEST_DATA_DIR}/setup_data_set.sh" "${E_TMP_DIR}" "${EXERCISES}"
-"${TEST_DATA_DIR}/setup_data_set.sh" "${L_TMP_DIR}" "${LANGUAGES}"
+"${CP_DATA_SET}" "${C_TMP_DIR}" "${CUSTOM}"
+"${CP_DATA_SET}" "${E_TMP_DIR}" "${EXERCISES}"
+"${CP_DATA_SET}" "${L_TMP_DIR}" "${LANGUAGES}"
 
 # - - - - - - - - - - - - - - - - -
 # build the named image from the temporary git repos
