@@ -147,7 +147,7 @@ declare use_language_defaults='true'
 declare use_exercise_defaults='true'
 declare use_custom_defaults='true'
 
-git_clone_all_repos_to_context_dir()
+git_clone_named_repos_into_context_dir()
 {
   local git_repo_urls="${*}"
   local git_repo_type=''
@@ -158,7 +158,7 @@ git_clone_all_repos_to_context_dir()
     --custom)    git_repo_type=custom;    continue;;
     esac
     if [ -z "${git_repo_type}" ]; then
-      error 6 "git-repo-url ${git_repo_url} without preceding --languages/--exercises/--custom"
+      error 6 "<git-repo-url> ${git_repo_url} without preceding --languages/--exercises/--custom"
     fi
     git_clone_one_repo_to_context_dir "${git_repo_type}" "${git_repo_url}"
     case "${git_repo_type}" in
@@ -187,7 +187,7 @@ git_clone_all_repos_to_context_dir()
 
 # - - - - - - - - - - - - - - - - -
 
-git_clone_default_repos_to_context_dir()
+git_clone_default_repos_into_context_dir()
 {
   if [ "${use_language_defaults}" = 'true' ]; then
     echo 'using default <git-repo-urls> for --languages'
@@ -234,6 +234,6 @@ exit_non_zero_if_docker_not_installed
 exit_non_zero_if_show_use
 exit_non_zero_if_no_image_name
 
-git_clone_all_repos_to_context_dir "${*}"
-git_clone_default_repos_to_context_dir
+git_clone_named_repos_into_context_dir "${*}"
+git_clone_default_repos_into_context_dir
 build_image_from_context_dir

@@ -56,7 +56,7 @@ test_001f_git_repo_url_requires_preceeding_languages_or_exercises_or_custom()
   local git_repo_url=file://a/b/c
   build_start_points_image ${image_name} ${git_repo_url}
   assert_stdout_equals ''
-  assert_stderr_equals "ERROR: git-repo-url ${git_repo_url} without preceding --languages/--exercises/--custom"
+  assert_stderr_equals "ERROR: <git-repo-url> ${git_repo_url} without preceding --languages/--exercises/--custom"
   assert_status_equals 6
 }
 
