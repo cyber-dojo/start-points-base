@@ -35,8 +35,8 @@ services:
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  starter_test_data:
+  create_starter_test_data:
     build:
-      context: test_data      
+      context: test_data
     user: nobody
-    image: cyberdojo/start-points-test-data
+    image: cyberdojo/create-start-points-test-data
