@@ -195,24 +195,27 @@ git_clone_default_repos_to_context_dir()
 {
   if [ "${use_language_defaults}" = 'true' ]; then
     echo 'using default <git-repo-urls> for --languages'
-    git_clone_all_repos_to_context_dir --languages \
-      https://github.com/cyber-dojo-languages/csharp-nunit         \
-      https://github.com/cyber-dojo-languages/gcc-googletest       \
-      https://github.com/cyber-dojo-languages/gplusplus-googlemock \
-      https://github.com/cyber-dojo-languages/java-junit           \
-      https://github.com/cyber-dojo-languages/javascript-jasmine   \
-      https://github.com/cyber-dojo-languages/python-pytest        \
-      https://github.com/cyber-dojo-languages/ruby-minitest
+    git_clone_all_repos_to_context_dir \
+      --languages \
+        https://github.com/cyber-dojo-languages/csharp-nunit         \
+        https://github.com/cyber-dojo-languages/gcc-googletest       \
+        https://github.com/cyber-dojo-languages/gplusplus-googlemock \
+        https://github.com/cyber-dojo-languages/java-junit           \
+        https://github.com/cyber-dojo-languages/javascript-jasmine   \
+        https://github.com/cyber-dojo-languages/python-pytest        \
+        https://github.com/cyber-dojo-languages/ruby-minitest
   fi
   if [ "${use_exercise_defaults}" = 'true' ]; then
     echo 'using default <git-repo-url> for --exercises'
-    git_clone_all_repos_to_context_dir --exercises \
-      https://github.com/cyber-dojo/start-points-exercises.git
+    git_clone_all_repos_to_context_dir \
+      --exercises \
+        https://github.com/cyber-dojo/start-points-exercises.git
   fi
   if [ "${use_custom_defaults}" = 'true' ]; then
     echo 'using default <git-repo-url> for --custom'
-    git_clone_all_repos_to_context_dir --custom \
-      https://github.com/cyber-dojo/start-points-custom.git
+    git_clone_all_repos_to_context_dir \
+      --custom \
+        https://github.com/cyber-dojo/start-points-custom.git
   fi
 }
 
