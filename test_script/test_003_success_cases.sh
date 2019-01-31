@@ -19,8 +19,7 @@ test_003a_simple_success_case()
   assert_stdout_includes $(echo -e "--custom \t file://${tmp_dir}/good_custom")
   assert_stdout_includes $(echo -e "--exercises \t file://${tmp_dir}/good_exercises")
   assert_stdout_includes $(echo -e "--languages \t file://${tmp_dir}/good_languages")
-
-  #assert_stdout_line_count_equals 3
+  assert_stdout_line_count_equals 3
 
   assert_stderr_equals ''
   assert_status_equals 0
