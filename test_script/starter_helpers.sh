@@ -9,6 +9,19 @@ build_start_points_image()
   echo ${status} >${statusF}
 }
 
+create_git_repo_from_named_data_set()
+{
+  local tmp_dir="${1}"
+  local data_set_name="${2}"
+  docker run \
+    --user root \
+    --rm \
+    --volume "${tmp_dir}/${data_set_name}:/app/tmp/${data_set_name}:rw" \
+    cyberdojo/create-start-points-test-data \
+      "${data_set_name}" \
+      "/app/tmp/${data_set_name}"
+}
+
 assert_stdout_includes_use()
 {
   local help_line_1="  Use:"
