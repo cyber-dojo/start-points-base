@@ -223,6 +223,7 @@ build_image_from_context_dir()
   echo 'FROM cyberdojo/start-points-base' \
     | docker build                        \
         --file "${from_stdin}"            \
+        --quiet                           \
         --tag "${IMAGE_NAME}"             \
         "${CONTEXT_DIR}"
 }

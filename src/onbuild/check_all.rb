@@ -20,6 +20,10 @@ def shas_filename
   "#{root_dir}/shas.txt"
 end
 
+def print(s)
+  #puts s
+end
+
 lines = `cat #{shas_filename}`.lines
 repos = Hash[lines.map { |line|
   type,url,sha,index = line.split
@@ -29,9 +33,9 @@ repos = Hash[lines.map { |line|
 # For now, just printing some stuff...
 repos.keys.sort.each do |key|
   type = repos[key][:type]
-  puts key
-  puts JSON.pretty_generate(repos[key])
-  puts `ls -al #{root_dir}/#{type}/#{key}`
+  print(key)
+  print(JSON.pretty_generate(repos[key]))
+  print(`ls -al #{root_dir}/#{type}/#{key}`)
 end
 #... and always succeeding
 exit(0)

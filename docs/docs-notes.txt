@@ -2,29 +2,12 @@
 move commander's start-point checking code
    to check_all.rb (with tests).
 
-Issues...
-o) Best way to run the tests. It feels like they should be
-script based tests since they should be checking
-  - the image fails to build
-  - the specific stderr messages
-  - the specific status $?
-What is the best way to setup the specific test data
-for each script based test? I don't want the tests to be
-fragile in the sense that the stderr output is known only
-because the order of the specific checks is known. In other
-words, the test data should be crafted so that the _only_
-thing wrong with it is the specific thing being tested.
-I don't want to create the specific test data using bash commands.
-So, maybe each script based test could volume-mount a /tmp
-dir on the host into a dedicated container whose job is to
-populate a dir in /tmp (using Ruby) with the specific test data
-for the given test. This custom container could quite easily
-ensure the generated test data (off /tmp) was also put into a git repo.
-Hmmm, build_example_derived_image.sh is already creating such
-git repos...this assume git is installed...
-So the custom container should have git installed inside it
-and could be used to do what build_example_derived_image.sh
-already does. Which is, of course, a positive test case.
+----------------------------------------------------
+main script could gather all the command line args
+and only if all are ok should it go on to do the
+git clones. At the moment you could have a long list
+of --languages repos and then it fails because you end
+with a single -custom URL (one hyphen instead of two)
 
 
 ----------------------------------------------------
