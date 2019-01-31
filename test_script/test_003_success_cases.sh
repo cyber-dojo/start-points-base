@@ -20,9 +20,6 @@ test_003a_simple_success_case()
   assert_stdout_includes $(echo -e "--exercises \t file://${tmp_dir}/good_exercises")
   assert_stdout_includes $(echo -e "--languages \t file://${tmp_dir}/good_languages")
 
-  #How to  output the results of the ONBUILD RUN ruby
-  #instruction but not the results of the [docker build]
-  #I get 4 lines, 3 expected and 4th one which is the image ID.
   #assert_stdout_line_count_equals 3
 
   assert_stderr_equals ''

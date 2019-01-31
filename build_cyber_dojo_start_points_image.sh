@@ -219,9 +219,12 @@ git_clone_default_repos_into_context_dir()
 
 build_image_from_context_dir()
 {
+  local Dockerfile=$(cat <<- EOF
+  FROM cyberdojo/start-points-base
+EOF)
   local from_stdin='-'
-  echo 'FROM cyberdojo/start-points-base' \
-    | docker build                        \
+  echo "${Dockerfile}"                    \
+    | docker image build                  \
         --file "${from_stdin}"            \
         --quiet                           \
         --tag "${IMAGE_NAME}"             \
