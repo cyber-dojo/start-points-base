@@ -24,3 +24,15 @@ assert_stdout_includes_use()
   assert_stdout_includes "${help_line_5}"
   assert_stdout_includes "${help_line_6}"
 }
+
+refute_image_created()
+{
+  local image_name="${1}"
+  assertFalse "docker image ls | grep ${image_name}"
+}
+
+assert_image_created()
+{
+  local image_name="${1}"
+  assertTrue "docker image ls | grep ${image_name}"
+}

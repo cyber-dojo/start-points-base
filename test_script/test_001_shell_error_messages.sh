@@ -7,23 +7,25 @@ readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 test_001a_git_must_be_installed()
 {
   export GIT_PROGRAM='git_xxx'
-  local image_name=cyberdojo/dummy
-  build_start_points_image ${image_name}
+  local image_name="${FUNCNAME[0]}"
+  build_start_points_image "${image_name}"
   unset GIT_PROGRAM
   assert_stdout_equals ''
   assert_stderr_equals 'ERROR: git is not installed!'
   assert_status_equals 1
+  refute_image_created "${image_name}"
 }
 
 test_001b_docker_must_be_installed()
 {
   export DOCKER_PROGRAM='docker_xxx'
-  local image_name=cyberdojo/dummy
-  build_start_points_image ${image_name}
+  local image_name="${FUNCNAME[0]}"
+  build_start_points_image "${image_name}"
   unset DOCKER_PROGRAM
   assert_stdout_equals ''
   assert_stderr_equals 'ERROR: docker is not installed!'
   assert_status_equals 2
+  refute_image_created "${image_name}"
 }
 
 test_001c_languages_requires_image_name()
@@ -52,39 +54,43 @@ test_001e_custom_requires_image_name()
 
 test_001f_git_repo_url_requires_preceeding_languages_or_exercises_or_custom()
 {
-  local image_name=cyberdojo/dummy
+  local image_name="${FUNCNAME[0]}"
   local git_repo_url=file://a/b/c
-  build_start_points_image ${image_name} ${git_repo_url}
+  build_start_points_image "${image_name}" "${git_repo_url}"
   assert_stdout_equals ''
   assert_stderr_equals "ERROR: <git-repo-url> ${git_repo_url} without preceding --languages/--exercises/--custom"
   assert_status_equals 6
+  refute_image_created "${image_name}"
 }
 
 test_001g_languages_requires_at_least_one_following_git_repo_url()
 {
-  local image_name=cyberdojo/dummy
-  build_start_points_image ${image_name} --languages
+  local image_name="${FUNCNAME[0]}"
+  build_start_points_image "${image_name}" --languages
   assert_stdout_equals ''
   assert_stderr_equals 'ERROR: --languages requires at least one <git-repo-url>'
   assert_status_equals 7
+  refute_image_created "${image_name}"
 }
 
 test_001h_exercises_requires_at_least_one_following_git_repo_url()
 {
-  local image_name=cyberdojo/dummy
-  build_start_points_image ${image_name} --exercises
+  local image_name="${FUNCNAME[0]}"
+  build_start_points_image "${image_name}" --exercises
   assert_stdout_equals ''
   assert_stderr_equals 'ERROR: --exercises requires at least one <git-repo-url>'
   assert_status_equals 8
+  refute_image_created "${image_name}"
 }
 
 test_001i_custom_requires_at_least_one_following_git_repo_url()
 {
-  local image_name=cyberdojo/dummy
-  build_start_points_image ${image_name} --custom
+  local image_name="${FUNCNAME[0]}"
+  build_start_points_image "${image_name}" --custom
   assert_stdout_equals ''
   assert_stderr_equals 'ERROR: --custom requires at least one <git-repo-url>'
   assert_status_equals 9
+  refute_image_created "${image_name}"
 }
 
 . ${my_dir}/shunit2_helpers.sh
