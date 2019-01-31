@@ -20,20 +20,15 @@ test_003a_simple_success_case()
   local image_name="${FUNCNAME[0]}"
   local tmp_dir=$(mktemp -d "${my_dir}/../tmp/cyber-dojo-start-points-base.XXX")
 
-  # These are producing stdout
-  # Initialized empty Git repository in /app/tmp/good_custom/.git/
-  # Initialized empty Git repository in /app/tmp/good_exercises/.git/
-  # Initialized empty Git repository in /app/tmp/good_languages/.git/
-
   create_git_repo_from_named_data_set "${tmp_dir}" good_custom
   create_git_repo_from_named_data_set "${tmp_dir}" good_exercises
   create_git_repo_from_named_data_set "${tmp_dir}" good_languages
 
   build_start_points_image \
     "${image_name}"  \
-      --custom    "${tmp_dir}/good_custom"    \
-      --exercises "${tmp_dir}/good_exercises" \
-      --languages "${tmp_dir}/good_languages"
+      --custom    "file://${tmp_dir}/good_custom"    \
+      --exercises "file://${tmp_dir}/good_exercises" \
+      --languages "file://${tmp_dir}/good_languages"
 
   # TODO: delete tmp_dir
 
@@ -42,9 +37,7 @@ test_003a_simple_success_case()
   #--exercises 	 /Users/jonjagger/repos/cyber-dojo/start-points-base/test_script/../tmp/cyber-dojo-start-points-base.A0y/good_exercises
   #--languages 	 /Users/jonjagger/repos/cyber-dojo/start-points-base/test_script/../tmp/cyber-dojo-start-points-base.A0y/good_languages
 
-  #assert_stderr_equals ''
-  # ... getting --depth is ignored in local clones
-
+  assert_stderr_equals ''
   assert_status_equals 0
   assert_image_created "${image_name}"
   docker image rm "${image_name}" > /dev/null

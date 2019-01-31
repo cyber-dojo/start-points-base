@@ -23,7 +23,7 @@ create_data_set_in_target_dir()
 create_git_repo_in_target_dir()
 {
   cd "${TARGET_DIR}"
-  git init
+  git init > /dev/null
   git config --global user.email "jon@jaggersoft.com"
   git config --global user.name "Jon Jagger"
   git add .

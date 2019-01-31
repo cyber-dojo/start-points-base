@@ -2,7 +2,7 @@ readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 
 . ${my_dir}/starter_helpers.sh
 
-X_test_002a_xxxxx()
+X_test_002a_custom_repo_contains_no_manifests()
 {
   local image_name=cyberdojo/dummy
   #build_start_points_image ${image_name} --custom
