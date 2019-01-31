@@ -219,22 +219,27 @@ git_clone_default_repos_into_context_dir()
 
 build_image_from_context_dir()
 {
-  # We are building FROM an image that has an ONBUILD
-  # We want the output from that ONBUILD
-  # We don't want the output from the [docker build] itself.
-  # Hence the --quiet option. However, if the [docker build]
-  # success this still prints the sha of the created image.
-  # Hence the grep to not print that.
+  # We are building FROM an image that has an ONBUILD.
+  # We want the output from that ONBUILD.
+  # But we don't want the output from [docker build] itself.
+  # Hence the --quiet option. However, a [docker build]
+  # still prints the sha of the created image.
+  # Hence the grep -v to not print that.
+  # But grep -v changes the $? status.
+  # Hence the || : because of [set -e].
   local Dockerfile=$(cat <<- EOF
   FROM cyberdojo/start-points-base
 EOF)
+  local tmp_file=$(mktemp)
   local from_stdin='-'
   echo "${Dockerfile}"                    \
     | docker image build                  \
         --file "${from_stdin}"            \
         --quiet                           \
         --tag "${IMAGE_NAME}"             \
-        "${CONTEXT_DIR}" | grep -v '^sha256:' || :
+        "${CONTEXT_DIR}" > "${tmp_file}"
+  cat "${tmp_file}" | grep -v 'sha256:' || :
+  rm "${tmp_file}"
 }
 
 # - - - - - - - - - - - - - - - - -
