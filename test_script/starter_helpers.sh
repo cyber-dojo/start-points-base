@@ -7,7 +7,7 @@ make_tmp_dir_for_git_repos()
   local root_dir="$(cd "${shell_dir}/.." && pwd)"
   local tmp_dir=$(mktemp -d "${root_dir}/tmp/cyber-dojo-start-points-base.XXX")
   echo "${tmp_dir}"
-  # TODO: delete tmp_dir in trap handler  
+  # TODO: put [rm -rf tmp_dir] in trap handler
 }
 
 create_git_repo_from_named_data_set()

@@ -229,7 +229,7 @@ build_image_from_context_dir()
   # Hence the || : because of [set -e].
   local Dockerfile=$(cat <<- EOF
   FROM cyberdojo/start-points-base
-EOF)
+EOF )
   local tmp_file=$(mktemp)
   local from_stdin='-'
   echo "${Dockerfile}"                    \
