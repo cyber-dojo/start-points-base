@@ -22,7 +22,15 @@ if [ ! -d "${ROOT_DIR}/tmp" ]; then
   mkdir "${ROOT_DIR}/tmp"
 fi
 readonly TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
-rm_tmp_dir() { rm -rf "${TMP_DIR}" > /dev/null; }
+rm_tmp_dir()
+{
+  echo "inside rm_tmp_dir"
+  echo "TMP_DIR=:${TMP_DIR}:"
+  whoami
+  pwd
+  ls -al "${TMP_DIR}"
+  rm -rf "${TMP_DIR}" > /dev/null;
+}
 trap rm_tmp_dir EXIT
 
 create_git_repo_from_named_data_set "${TMP_DIR}" good_custom

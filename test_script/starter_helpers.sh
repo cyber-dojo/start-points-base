@@ -4,6 +4,10 @@ declare git_repo_tmp_dir=''
 oneTimeTearDown()
 {
   if [ -n "${git_repo_tmp_dir}" ]; then
+    echo "inside OnTimeTearDown"
+    whoami
+    pwd
+    ls -al "${git_repo_tmp_dir}"
     rm -rf "${git_repo_tmp_dir}"
   fi
 }
