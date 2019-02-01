@@ -9,7 +9,7 @@ readonly USER_ID="${3}"
 make_target_dir()
 {
   mkdir -p "${TARGET_DIR}"
-  chmod 444 "${TARGET_DIR}"
+  chmod 777 "${TARGET_DIR}"
   chown -R "${USER_ID}" "${TARGET_DIR}"
 }
 
@@ -41,8 +41,7 @@ create_git_repo_in_target_dir()
   git config --global user.email "jon@jaggersoft.com"
   git config --global user.name "Jon Jagger"
   git add .
-  git commit --message="initial commit"
-  # > /dev/null
+  git commit --message="initial commit" > /dev/null
 }
 
 make_target_dir
