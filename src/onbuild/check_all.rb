@@ -1,14 +1,17 @@
-# The job of this Ruby script is to detect faults in the
-# start-point data git-cloned from the git-repo-urls
-# specified as arguments to the main Bash script
+# Ruby script to detect faults in the start-point data
+# git-cloned from the git-repo-urls specified as arguments
+# to the main Bash script
 #   build_cyber_dojo_start_points_image.sh
-# The main Bash script runs a [docker build] command
-# using a generated Dockerfile written to a temporary
-# context dir. The last line of this Dockerfile is
-#   RUN ruby /app/src/check_all.rb /app/repos
+#
+# The main Bash script runs a [docker build] command using
+# a generated Dockerfile written to a temporary context dir
+# The generated Dockerfile's base (FROM) image contains a
+# call to this Ruby script
+#   ONBUILD RUN ruby /app/src/onbuild/check_all.rb /app/repos
+#
 # Thus, if this Ruby script returns a non-zero exit status
-# the [docker build] fails and the main Bash script
-# fails to build a docker image.
+# the [docker build] fails and the main Bash script fails to
+# build a docker image.
 
 require 'json'
 
