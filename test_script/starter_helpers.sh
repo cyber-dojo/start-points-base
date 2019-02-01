@@ -80,20 +80,14 @@ assert_stdout_includes_use()
 
 refute_image_created()
 {
-  # TODO: tighten this so
-  #  o) docker image ls only prints image-name
-  #  o) grep has ^$ for start and end of string
   local image_name="${1}"
-  assertFalse "docker image ls | grep ${image_name}"
+  assertFalse "docker image inspect ${image_name} >/dev/null 2>&1"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
 assert_image_created()
 {
-  # TODO: tighten this so
-  #  o) docker image ls only prints image-name
-  #  o) grep has ^$ for start and end of string
   local image_name="${1}"
-  assertTrue "docker image ls | grep ${image_name}"
+  assertTrue "docker image inspect ${image_name} >/dev/null 2>&1"
 }
