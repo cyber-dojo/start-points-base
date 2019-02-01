@@ -44,9 +44,6 @@ make_TMP_DIR()
 
 remove_TMP_DIR()
 {
-  whoami
-  pwd
-  ls -al "${TMP_DIR}"
   rm -rf "${TMP_DIR}" > /dev/null;
 }
 trap remove_TMP_DIR EXIT

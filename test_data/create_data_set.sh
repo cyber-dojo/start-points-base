@@ -15,8 +15,7 @@ copy_data_set_to_target_dir()
   local src_dir="${1}"
   local dst_dir="${2}"
   cp -R "${src_dir}" "${dst_dir}"
-  echo "chmod 777 ${dst_dir}"
-  chmod 777 "${dst_dir}"
+  chmod 444 "${dst_dir}"
 }
 
 create_data_set_in_target_dir()
