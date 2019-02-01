@@ -5,6 +5,9 @@ oneTimeTearDown()
 {
   if [ -n "${git_repo_tmp_dir}" ]; then
     # TODO: This doesn't work on CircleCI
+    #echo "oneTimeTearDown..."
+    #echo "${git_repo_tmp_dir}"
+    #ls -al "${git_repo_tmp_dir}"
     rm -rf "${git_repo_tmp_dir}"
   fi
 }
@@ -43,10 +46,10 @@ create_git_repo_from_named_data_set()
   docker run \
     --user root \
     --rm \
-    --volume "${git_repo_tmp_dir}/${data_set_name}:/app/tmp/${data_set_name}:rw" \
+    --volume "${git_repo_tmp_dir}/${data_set_name}:/app/tmp/:rw" \
     cyberdojo/create-start-points-test-data \
       "${data_set_name}" \
-      "/app/tmp/${data_set_name}"
+      "/app/tmp"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -

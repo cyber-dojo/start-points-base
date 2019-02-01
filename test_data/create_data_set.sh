@@ -9,8 +9,6 @@ make_target_dir()
 {
   mkdir -p "${TARGET_DIR}"
   chmod 444 "${TARGET_DIR}"
-  # Maybe pass in the uid of the user who needs to own the dir?
-  # chown -R nobody "${TARGET_DIR}"
 }
 
 copy_data_set_to_target_dir()
