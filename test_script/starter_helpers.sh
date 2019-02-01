@@ -1,14 +1,14 @@
 
-declare git_repo_tmp_dir=''
+declare TMP_DIR=''
 
 oneTimeTearDown()
 {
-  if [ -n "${git_repo_tmp_dir}" ]; then
+  if [ -n "${TMP_DIR}" ]; then
     # TODO: This doesn't work on CircleCI
     #echo "oneTimeTearDown..."
     #echo "${git_repo_tmp_dir}"
     #ls -al "${git_repo_tmp_dir}"
-    rm -rf "${git_repo_tmp_dir}"
+    rm -rf "${TMP_DIR}"
   fi
 }
 
@@ -30,23 +30,21 @@ root_dir()
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
-make_tmp_dir_for_git_repos()
+make_TMP_DIR_for_git_repos()
 {
-  # Caller must assign result of this to
-  # git_repo_tmp_dir
+  # Caller must assign result of this to TMP_DIR
   # to ensure oneTimeTearDown removes the tmp dir
   mktemp -d "$(root_dir)/tmp/cyber-dojo-start-points-base.XXX"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
-create_git_repo_from_named_data_set()
+create_git_repo_in_TMP_DIR_from_data_set()
 {
   local data_set_name="${1}"
   docker run \
-    --user root \
     --rm \
-    --volume "${git_repo_tmp_dir}/${data_set_name}:/app/tmp/:rw" \
+    --volume "${TMP_DIR}/${data_set_name}:/app/tmp/:rw" \
     cyberdojo/create-start-points-test-data \
       "${data_set_name}" \
       "/app/tmp"
@@ -84,6 +82,9 @@ assert_stdout_includes_use()
 
 refute_image_created()
 {
+  # TODO: tighten this so
+  #  o) docker image ls only prints image-name
+  #  o) grep has ^$ for start and end of string
   local image_name="${1}"
   assertFalse "docker image ls | grep ${image_name}"
 }
@@ -92,6 +93,9 @@ refute_image_created()
 
 assert_image_created()
 {
+  # TODO: tighten this so
+  #  o) docker image ls only prints image-name
+  #  o) grep has ^$ for start and end of string
   local image_name="${1}"
   assertTrue "docker image ls | grep ${image_name}"
 }

@@ -40,7 +40,6 @@ create_git_repo_in_TMP_DIR_from_data_set()
 {
   local data_set_name="${1}"
   docker run \
-    --user root \
     --rm \
     --volume "${TMP_DIR}/${data_set_name}:/app/tmp/:rw" \
     cyberdojo/create-start-points-test-data \
