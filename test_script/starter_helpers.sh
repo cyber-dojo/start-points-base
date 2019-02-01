@@ -31,15 +31,18 @@ make_TMP_DIR_for_git_repos()
 create_git_repo_in_TMP_DIR_from()
 {
   local data_set_name="${1}"
+  local data_dir="${TMP_DIR}/${data_set_name}"
   local user_id=$(id -u $(whoami))
-  docker run \
-    --rm \
-    --volume "${TMP_DIR}/${data_set_name}:/app/tmp/:rw" \
+  
+  docker run                                \
+    --rm                                    \
+    --volume "${data_dir}:/app/tmp/:rw"     \
     cyberdojo/create-start-points-test-data \
-      "${data_set_name}" \
-      "/app/tmp" \
+      "${data_set_name}"                    \
+      "/app/tmp"                            \
       "${user_id}"
-  echo "${TMP_DIR}/${data_set_name}"
+
+  echo "${data_dir}"
 }
 
 remove_TMP_DIR()
