@@ -9,6 +9,10 @@ readonly USER_ID="${3}"
 make_target_dir()
 {
   mkdir -p "${TARGET_DIR}"
+}
+
+set_permissions_on_target_dir()
+{
   chmod 777 "${TARGET_DIR}"
   chown -R "${USER_ID}" "${TARGET_DIR}"
 }
@@ -44,6 +48,9 @@ create_git_repo_in_target_dir()
   git commit --message="initial commit" > /dev/null
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
 make_target_dir
 create_data_set_in_target_dir
 create_git_repo_in_target_dir
+set_permissions_on_target_dir
