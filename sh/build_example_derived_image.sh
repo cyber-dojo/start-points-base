@@ -2,6 +2,8 @@
 set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+readonly USER_ID=$(id -u $(whoami))
+
 declare TMP_DIR=''
 
 # - - - - - - - - - - - - - - - - -
@@ -19,19 +21,21 @@ using_DockerToolbox()
 
 make_TMP_DIR()
 {
-  if using_DockerToolbox; then
-    # TODO: Check ROOT_DIR is under /Users
-    [ -d "${ROOT_DIR}/tmp" ] || mkdir "${ROOT_DIR}/tmp"
-    TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
-  else
-    echo "Not using DockerToolbox"
-    TMP_DIR=$(mktemp -d)
-  fi
+  #if using_DockerToolbox; then
+  #  TODO: Check ROOT_DIR is under /Users
+  #  [ -d "${ROOT_DIR}/tmp" ] || mkdir "${ROOT_DIR}/tmp"
+  #  TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
+  #else
+  #  echo "Not using DockerToolbox"
+  #  TMP_DIR=$(mktemp -d)
+  #fi
+  [ -d "${ROOT_DIR}/tmp" ] || mkdir "${ROOT_DIR}/tmp"
+  TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
 }
 
 remove_TMP_DIR()
 {
-  ls -al "${TMP_DIR}"  
+  ls -al "${TMP_DIR}"
   rm -rf "${TMP_DIR}" > /dev/null;
 }
 
@@ -40,14 +44,13 @@ remove_TMP_DIR()
 create_git_repo_in_TMP_DIR_from_data_set()
 {
   local data_set_name="${1}"
-  local uid=$(id -u $(whoami))
   docker run \
     --rm \
     --volume "${TMP_DIR}/${data_set_name}:/app/tmp/:rw" \
     cyberdojo/create-start-points-test-data \
       "${data_set_name}" \
       "/app/tmp" \
-      "${uid}"
+      "${USER_ID}"
 }
 
 # - - - - - - - - - - - - - - - - -
