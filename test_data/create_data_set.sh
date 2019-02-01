@@ -12,18 +12,16 @@ make_target_dir()
 
 copy_data_set_to_target_dir()
 {
-  local src_dir="${1}"
-  local dst_dir="${2}"
-  cp -R "${src_dir}" "${dst_dir}"
-  chmod 444 "${dst_dir}"
+  cp -R "${MY_DIR}/${DATA_SET_NAME}" "${TARGET_DIR}"
+  chmod 444 "${TARGET_DIR}"
 }
 
 create_data_set_in_target_dir()
 {
   case "${DATA_SET_NAME}" in
-     good_custom) copy_data_set_to_target_dir "${MY_DIR}/${DATA_SET_NAME}" "${TARGET_DIR}";;
-  good_exercises) copy_data_set_to_target_dir "${MY_DIR}/${DATA_SET_NAME}" "${TARGET_DIR}";;
-  good_languages) copy_data_set_to_target_dir "${MY_DIR}/${DATA_SET_NAME}" "${TARGET_DIR}";;
+     good_custom) copy_data_set_to_target_dir;;
+  good_exercises) copy_data_set_to_target_dir;;
+  good_languages) copy_data_set_to_target_dir;;
                *) "${MY_DIR}/make_data_set.rb" "${DATA_SET_NAME}" "${TARGET_DIR}";;
   esac
 }
