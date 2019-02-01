@@ -10,12 +10,6 @@ of --languages repos and then it fails because you end
 with a single -custom URL (one hyphen instead of two)
 
 ----------------------------------------------------
-How to output the results of the ONBUILD RUN ruby
-instruction but NOT the results of the [docker build] itself...
-Viz not the last line showing the ID
-
-
-----------------------------------------------------
 Considered checking for a start-point branch in the named git-repo-urls.
 This would help not git clone repos with large docker/ dirs (eg jars).
 Not doing this because CircleCI build-times are pretty good without it

@@ -6,6 +6,9 @@ readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 # - - - - - - - - - - - - - - - - -
 # create tmp dirs
 # This off root-dir (and not /tmp say) so it works in Docker-Toolbox.
+if [ ! -d "${ROOT_DIR}/tmp" ]; then
+  mkdir "${ROOT_DIR}/tmp"
+fi
 readonly TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
 rm_tmp_dir() { rm -rf "${TMP_DIR}" > /dev/null; }
 trap rm_tmp_dir EXIT
