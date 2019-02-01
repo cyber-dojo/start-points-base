@@ -3,8 +3,27 @@ declare git_repo_tmp_dir=''
 
 oneTimeTearDown()
 {
+  #echo "oneTimeTearDown"
+  #echo "rm -rf :${git_repo_tmp_dir}:"
   if [ -n "${git_repo_tmp_dir}" ]; then
+    # This doesn't work on CircleCI
+    # Do rm with 2nd docker run?
+    # Do chown inside the 1st docker run?
+    #echo '--------'
+    #ls -al "${git_repo_tmp_dir}"
+    #echo '--------'
+
     rm -rf "${git_repo_tmp_dir}"
+
+    #docker run \
+    #  --user root \
+    #  --rm \
+    #  --volume "${git_repo_tmp_dir}:/app/tmp:rw" \
+    #  cyberdojo/create-start-points-test-data \
+    #    bash rm -rf /app/tmp
+
+    #ls -al "${git_repo_tmp_dir}"
+    #echo '--------'
   fi
 }
 
@@ -19,6 +38,8 @@ script_dir()
 
 root_dir()
 {
+  # TODO: if using Docker-Toolbox
+  # check $(root_dir) is under /Users
   cd "$(script_dir)" && cd .. && pwd
 }
 
@@ -26,23 +47,21 @@ root_dir()
 
 make_tmp_dir_for_git_repos()
 {
-  # Be careful to put this somewhere it can be seen
-  # in the docker-context even if using Docker-Toolbox
-  local tmp_dir=$(mktemp -d "$(root_dir)/tmp/cyber-dojo-start-points-base.XXX")
-  git_repo_tmp_dir="${tmp_dir}"
-  echo "${tmp_dir}"
+  # Caller must assign result of this to
+  # git_repo_tmp_dir
+  # to ensure oneTimeTearDown removes the tmp dir
+  mktemp -d "$(root_dir)/tmp/cyber-dojo-start-points-base.XXX"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
 create_git_repo_from_named_data_set()
 {
-  local tmp_dir="${1}"
-  local data_set_name="${2}"
+  local data_set_name="${1}"
   docker run \
     --user root \
     --rm \
-    --volume "${tmp_dir}/${data_set_name}:/app/tmp/${data_set_name}:rw" \
+    --volume "${git_repo_tmp_dir}/${data_set_name}:/app/tmp/${data_set_name}:rw" \
     cyberdojo/create-start-points-test-data \
       "${data_set_name}" \
       "/app/tmp/${data_set_name}"

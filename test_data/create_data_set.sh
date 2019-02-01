@@ -14,6 +14,7 @@ copy_data_set_to_target_dir()
 {
   cp -R "${MY_DIR}/${DATA_SET_NAME}" "${TARGET_DIR}"
   chmod 444 "${TARGET_DIR}"
+  chown -R 999 "${TARGET_DIR}"
 }
 
 create_data_set_in_target_dir()

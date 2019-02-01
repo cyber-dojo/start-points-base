@@ -2,19 +2,7 @@
 set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-
-create_git_repo_from_named_data_set()
-{
-  local tmp_dir="${1}"
-  local data_set_name="${2}"
-  docker run \
-    --user root \
-    --rm \
-    --volume "${tmp_dir}/${data_set_name}:/app/tmp/${data_set_name}:rw" \
-    cyberdojo/create-start-points-test-data \
-      "${data_set_name}" \
-      "/app/tmp/${data_set_name}"
-}
+declare TMP_DIR=''
 
 # - - - - - - - - - - - - - - - - -
 
@@ -29,11 +17,10 @@ using_DockerToolbox()
 
 # - - - - - - - - - - - - - - - - -
 
-declare TMP_DIR=''
-
 make_TMP_DIR()
 {
   if using_DockerToolbox; then
+    # TODO: Check ROOT_DIR is under /Users
     [ -d "${ROOT_DIR}/tmp" ] || mkdir "${ROOT_DIR}/tmp"
     TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
   else
@@ -46,14 +33,22 @@ remove_TMP_DIR()
 {
   rm -rf "${TMP_DIR}" > /dev/null;
 }
-trap remove_TMP_DIR EXIT
 
 # - - - - - - - - - - - - - - - - -
 
-make_TMP_DIR
-create_git_repo_from_named_data_set "${TMP_DIR}" good_custom
-create_git_repo_from_named_data_set "${TMP_DIR}" good_exercises
-create_git_repo_from_named_data_set "${TMP_DIR}" good_languages
+create_git_repo_from_named_data_set()
+{
+
+  local tmp_dir="${1}"
+  local data_set_name="${2}"
+  docker run \
+    --user root \
+    --rm \
+    --volume "${tmp_dir}/${data_set_name}:/app/tmp/${data_set_name}:rw" \
+    cyberdojo/create-start-points-test-data \
+      "${data_set_name}" \
+      "/app/tmp/${data_set_name}"
+}
 
 # - - - - - - - - - - - - - - - - -
 
@@ -69,6 +64,13 @@ image_name()
 
 # - - - - - - - - - - - - - - - - -
 # build the named image from the git repos in the tmp dirs
+
+make_TMP_DIR
+trap remove_TMP_DIR EXIT
+
+create_git_repo_from_named_data_set "${TMP_DIR}" good_custom
+create_git_repo_from_named_data_set "${TMP_DIR}" good_exercises
+create_git_repo_from_named_data_set "${TMP_DIR}" good_languages
 
 "${ROOT_DIR}/$(build_image_script_name)"     \
   "$(image_name)"           \
