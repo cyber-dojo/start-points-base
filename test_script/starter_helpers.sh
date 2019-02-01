@@ -28,7 +28,7 @@ make_TMP_DIR_for_git_repos()
   TMP_DIR=$(mktemp -d "$(root_dir)/tmp/cyber-dojo-start-points-base.XXX")
 }
 
-create_git_repo_in_TMP_DIR_from_data_set()
+create_git_repo_in_TMP_DIR_from()
 {
   local data_set_name="${1}"
   local user_id=$(id -u $(whoami))

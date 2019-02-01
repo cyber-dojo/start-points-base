@@ -36,17 +36,18 @@ remove_TMP_DIR()
 
 # - - - - - - - - - - - - - - - - -
 
-create_git_repo_in_TMP_DIR_from_data_set()
+create_git_repo_in_TMP_DIR_from()
 {
   local data_set_name="${1}"
   local user_id=$(id -u $(whoami))
-  docker run \
-    --rm \
+  docker run                                            \
+    --rm                                                \
     --volume "${TMP_DIR}/${data_set_name}:/app/tmp/:rw" \
-    cyberdojo/create-start-points-test-data \
-      "${data_set_name}" \
-      "/app/tmp" \
+    cyberdojo/create-start-points-test-data             \
+      "${data_set_name}"                                \
+      "/app/tmp"                                        \
       "${user_id}"
+  echo "${TMP_DIR}/${data_set_name}"
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -66,15 +67,15 @@ image_name()
 make_TMP_DIR
 trap remove_TMP_DIR EXIT
 
-create_git_repo_in_TMP_DIR_from_data_set good_custom
-create_git_repo_in_TMP_DIR_from_data_set good_exercises
-create_git_repo_in_TMP_DIR_from_data_set good_languages
+readonly C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_custom)
+readonly E_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_exercises)
+readonly L_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_languages)
 
 "${ROOT_DIR}/$(build_image_script_name)" \
   "$(image_name)"                        \
     --custom                             \
-      "file://${TMP_DIR}/good_custom"    \
+      "file://${C_TMP_DIR}"              \
     --exercises                          \
-      "file://${TMP_DIR}/good_exercises" \
+      "file://${E_TMP_DIR}"              \
     --languages                          \
-      "file://${TMP_DIR}/good_languages" \
+      "file://${L_TMP_DIR}"
