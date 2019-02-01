@@ -2,7 +2,6 @@
 set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-readonly USER_ID=$(id -u $(whoami))
 
 declare TMP_DIR=''
 
@@ -40,13 +39,14 @@ remove_TMP_DIR()
 create_git_repo_in_TMP_DIR_from_data_set()
 {
   local data_set_name="${1}"
+  local user_id=$(id -u $(whoami))
   docker run \
     --rm \
     --volume "${TMP_DIR}/${data_set_name}:/app/tmp/:rw" \
     cyberdojo/create-start-points-test-data \
       "${data_set_name}" \
       "/app/tmp" \
-      "${USER_ID}"
+      "${user_id}"
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -62,7 +62,6 @@ image_name()
 }
 
 # - - - - - - - - - - - - - - - - -
-# build the named image from the git repos in the tmp dirs
 
 make_TMP_DIR
 trap remove_TMP_DIR EXIT
@@ -71,11 +70,11 @@ create_git_repo_in_TMP_DIR_from_data_set good_custom
 create_git_repo_in_TMP_DIR_from_data_set good_exercises
 create_git_repo_in_TMP_DIR_from_data_set good_languages
 
-"${ROOT_DIR}/$(build_image_script_name)"     \
-  "$(image_name)"           \
-    --custom                \
-      "file://${TMP_DIR}/good_custom" \
-    --exercises             \
+"${ROOT_DIR}/$(build_image_script_name)" \
+  "$(image_name)"                        \
+    --custom                             \
+      "file://${TMP_DIR}/good_custom"    \
+    --exercises                          \
       "file://${TMP_DIR}/good_exercises" \
-    --languages             \
+    --languages                          \
       "file://${TMP_DIR}/good_languages" \
