@@ -15,5 +15,4 @@ def custom_repo_contains_no_manifests
   end
 end
 
-puts(data_set_name)
 eval(data_set_name)

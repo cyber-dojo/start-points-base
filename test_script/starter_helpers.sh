@@ -1,11 +1,8 @@
 
-declare TMP_DIR=''
-
 oneTimeTearDown()
 {
-  if [ -n "${TMP_DIR}" ]; then
-    rm -rf "${TMP_DIR}"
-  fi
+  remove_TMP_DIR
+  remove_start_points_image
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -
@@ -14,8 +11,6 @@ script_dir()
 {
   cd "$( dirname "${BASH_ARGV[0]}" )" && pwd
 }
-
-#- - - - - - - - - - - - - - - - - - - - - - -
 
 root_dir()
 {
@@ -26,14 +21,12 @@ root_dir()
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
+TMP_DIR=''
+
 make_TMP_DIR_for_git_repos()
 {
-  # Caller must assign result of this to TMP_DIR
-  # to ensure oneTimeTearDown removes the tmp dir
-  mktemp -d "$(root_dir)/tmp/cyber-dojo-start-points-base.XXX"
+  TMP_DIR=$(mktemp -d "$(root_dir)/tmp/cyber-dojo-start-points-base.XXX")
 }
-
-#- - - - - - - - - - - - - - - - - - - - - - -
 
 create_git_repo_in_TMP_DIR_from_data_set()
 {
@@ -48,14 +41,48 @@ create_git_repo_in_TMP_DIR_from_data_set()
       "${user_id}"
 }
 
+remove_TMP_DIR()
+{
+  if [ -n "${TMP_DIR}" ]; then
+    rm -rf "${TMP_DIR}"
+  fi
+}
+
 #- - - - - - - - - - - - - - - - - - - - - - -
+
+IMAGE_NAME=''
 
 build_start_points_image()
 {
+  IMAGE_NAME="${1}"
   local script_name="$(root_dir)/build_cyber_dojo_start_points_image.sh"
   ${script_name} ${*} >${stdoutF} 2>${stderrF}
   status=$?
   echo ${status} >${statusF}
+}
+
+image_exists()
+{
+  docker image inspect ${IMAGE_NAME} >/dev/null 2>&1
+}
+
+refute_image_created()
+{
+  local msg="refute_image_created ${IMAGE_NAME}"
+  assertFalse "${msg}" image_exists
+}
+
+assert_image_created()
+{
+  local msg="assert_image_created ${IMAGE_NAME}"
+  assertTrue "${msg}" image_exists
+}
+
+remove_start_points_image()
+{
+  if image_exists; then
+    docker image rm "${IMAGE_NAME}" > /dev/null
+  fi
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -
@@ -74,20 +101,4 @@ assert_stdout_includes_use()
   assert_stdout_includes "${help_line_4}"
   assert_stdout_includes "${help_line_5}"
   assert_stdout_includes "${help_line_6}"
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - -
-
-refute_image_created()
-{
-  local image_name="${1}"
-  assertFalse "docker image inspect ${image_name} >/dev/null 2>&1"
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - -
-
-assert_image_created()
-{
-  local image_name="${1}"
-  assertTrue "docker image inspect ${image_name} >/dev/null 2>&1"
 }
