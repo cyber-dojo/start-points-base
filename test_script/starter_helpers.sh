@@ -1,14 +1,39 @@
 
-readonly shell_dir="$( cd "$( dirname "${0}" )" && pwd )"
-readonly BUILD_START_POINTS_IMAGE=${shell_dir}/../build_cyber_dojo_start_points_image.sh
+declare git_repo_tmp_dir=''
+
+oneTimeTearDown()
+{
+  if [ -n "${git_repo_tmp_dir}" ]; then
+    rm -rf "${git_repo_tmp_dir}"
+  fi
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - -
+
+script_dir()
+{
+  cd "$( dirname "${BASH_ARGV[0]}" )" && pwd
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - -
+
+root_dir()
+{
+  cd "$(script_dir)" && cd .. && pwd
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - -
 
 make_tmp_dir_for_git_repos()
 {
-  local root_dir="$(cd "${shell_dir}/.." && pwd)"
-  local tmp_dir=$(mktemp -d "${root_dir}/tmp/cyber-dojo-start-points-base.XXX")
+  # Be careful to put this somewhere it can be seen
+  # in the docker-context even if using Docker-Toolbox
+  local tmp_dir=$(mktemp -d "$(root_dir)/tmp/cyber-dojo-start-points-base.XXX")
+  git_repo_tmp_dir="${tmp_dir}"
   echo "${tmp_dir}"
-  # TODO: put [rm -rf tmp_dir] in trap handler
 }
+
+#- - - - - - - - - - - - - - - - - - - - - - -
 
 create_git_repo_from_named_data_set()
 {
@@ -23,9 +48,12 @@ create_git_repo_from_named_data_set()
       "/app/tmp/${data_set_name}"
 }
 
+#- - - - - - - - - - - - - - - - - - - - - - -
+
 build_start_points_image()
 {
-  ${BUILD_START_POINTS_IMAGE} ${*} >${stdoutF} 2>${stderrF}
+  local script_name="$(root_dir)/build_cyber_dojo_start_points_image.sh"
+  ${script_name} ${*} >${stdoutF} 2>${stderrF}
   status=$?
   echo ${status} >${statusF}
 }
@@ -48,11 +76,15 @@ assert_stdout_includes_use()
   assert_stdout_includes "${help_line_6}"
 }
 
+#- - - - - - - - - - - - - - - - - - - - - - -
+
 refute_image_created()
 {
   local image_name="${1}"
   assertFalse "docker image ls | grep ${image_name}"
 }
+
+#- - - - - - - - - - - - - - - - - - - - - - -
 
 assert_image_created()
 {

@@ -1,7 +1,5 @@
 #!/bin/bash
-
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
-
 . ${my_dir}/starter_helpers.sh
 
 test_001a_git_must_be_installed()

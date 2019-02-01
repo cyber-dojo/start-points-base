@@ -1,5 +1,5 @@
+#!/bin/bash
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
-
 . ${my_dir}/starter_helpers.sh
 
 X_test_002a_custom_repo_contains_no_manifests()

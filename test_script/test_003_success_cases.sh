@@ -1,11 +1,13 @@
+#!/bin/bash
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
-
 . ${my_dir}/starter_helpers.sh
 
 test_003a_simple_success_case()
 {
   local image_name="${FUNCNAME[0]}"
   local tmp_dir=$(make_tmp_dir_for_git_repos)
+  git_repo_tmp_dir="${tmp_dir}"
+
   create_git_repo_from_named_data_set "${tmp_dir}" good_custom
   create_git_repo_from_named_data_set "${tmp_dir}" good_exercises
   create_git_repo_from_named_data_set "${tmp_dir}" good_languages
