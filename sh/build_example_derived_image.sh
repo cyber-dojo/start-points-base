@@ -21,25 +21,18 @@ using_DockerToolbox()
 
 make_TMP_DIR()
 {
+  #TODO
   #if using_DockerToolbox; then
   #  TODO: Check ROOT_DIR is under /Users
-  #  [ -d "${ROOT_DIR}/tmp" ] || mkdir "${ROOT_DIR}/tmp"
-  #  TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
-  #else
-  #  echo "Not using DockerToolbox"
-  #  TMP_DIR=$(mktemp -d)
   #fi
   [ -d "${ROOT_DIR}/tmp" ] || mkdir "${ROOT_DIR}/tmp"
   TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
   chmod 777 "${TMP_DIR}"
-  ls -al "${TMP_DIR}"
 }
 
 remove_TMP_DIR()
 {
-  ls -al "${TMP_DIR}"
-  rm -rf "${TMP_DIR}"
-  # > /dev/null;
+  rm -rf "${TMP_DIR}" > /dev/null;
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -77,12 +70,6 @@ trap remove_TMP_DIR EXIT
 create_git_repo_in_TMP_DIR_from_data_set good_custom
 create_git_repo_in_TMP_DIR_from_data_set good_exercises
 create_git_repo_in_TMP_DIR_from_data_set good_languages
-
-echo '--------------------------------'
-echo "TMP_DIR=:${TMP_DIR}:"
-ls -al ${TMP_DIR}
-ls -al ${TMP_DIR}/good_custom
-echo '--------------------------------'
 
 "${ROOT_DIR}/$(build_image_script_name)"     \
   "$(image_name)"           \

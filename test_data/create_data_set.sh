@@ -1,30 +1,26 @@
 #!/bin/bash
-set -ex
+set -e
 
 readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 readonly DATA_SET_NAME="${1}"
 readonly TARGET_DIR="${2}"
 readonly USER_ID="${3}"
 
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
 make_target_dir()
 {
   mkdir -p "${TARGET_DIR}"
 }
 
-set_permissions_on_target_dir()
-{
-  chmod 777 "${TARGET_DIR}"
-  chown -R "${USER_ID}" "${TARGET_DIR}"
-}
+# - - - - - - - - - - - - - - - - - - - - - - - - -
 
 copy_data_set_to_target_dir()
 {
-  echo "ls of what we are copying..."
-  ls -al "${MY_DIR}/${DATA_SET_NAME}"
   cp -R "${MY_DIR}/${DATA_SET_NAME}/." "${TARGET_DIR}"
-  echo "ls of what got copied..."
-  ls -al "${TARGET_DIR}"
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
 
 create_data_set_in_target_dir()
 {
@@ -36,16 +32,24 @@ create_data_set_in_target_dir()
   esac
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
 create_git_repo_in_target_dir()
 {
   cd "${TARGET_DIR}"
-  pwd
-  ls -al .
   git init > /dev/null
   git config --global user.email "jon@jaggersoft.com"
   git config --global user.name "Jon Jagger"
   git add .
   git commit --message="initial commit" > /dev/null
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
+set_permissions_on_target_dir()
+{
+  chmod 777 "${TARGET_DIR}"
+  chown -R "${USER_ID}" "${TARGET_DIR}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - -
