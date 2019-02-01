@@ -4,11 +4,13 @@ set -e
 readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 readonly DATA_SET_NAME="${1}"
 readonly TARGET_DIR="${2}"
+readonly USER_ID="${3}"
 
 make_target_dir()
 {
   mkdir -p "${TARGET_DIR}"
   chmod 444 "${TARGET_DIR}"
+  chown -R "${USER_ID}" "${TARGET_DIR}"
 }
 
 copy_data_set_to_target_dir()
