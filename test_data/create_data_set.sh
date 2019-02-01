@@ -8,13 +8,14 @@ readonly TARGET_DIR="${2}"
 make_target_dir()
 {
   mkdir -p "${TARGET_DIR}"
+  chmod 444 "${TARGET_DIR}"
+  # Maybe pass in the uid of the user who needs to own the dir?
+  # chown -R nobody "${TARGET_DIR}"
 }
 
 copy_data_set_to_target_dir()
 {
   cp -R "${MY_DIR}/${DATA_SET_NAME}" "${TARGET_DIR}"
-  chmod 444 "${TARGET_DIR}"
-  chown -R 999 "${TARGET_DIR}"
 }
 
 create_data_set_in_target_dir()

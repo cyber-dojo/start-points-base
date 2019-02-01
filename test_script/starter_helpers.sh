@@ -3,27 +3,9 @@ declare git_repo_tmp_dir=''
 
 oneTimeTearDown()
 {
-  #echo "oneTimeTearDown"
-  #echo "rm -rf :${git_repo_tmp_dir}:"
   if [ -n "${git_repo_tmp_dir}" ]; then
-    # This doesn't work on CircleCI
-    # Do rm with 2nd docker run?
-    # Do chown inside the 1st docker run?
-    #echo '--------'
-    #ls -al "${git_repo_tmp_dir}"
-    #echo '--------'
-
+    # TODO: This doesn't work on CircleCI
     rm -rf "${git_repo_tmp_dir}"
-
-    #docker run \
-    #  --user root \
-    #  --rm \
-    #  --volume "${git_repo_tmp_dir}:/app/tmp:rw" \
-    #  cyberdojo/create-start-points-test-data \
-    #    bash rm -rf /app/tmp
-
-    #ls -al "${git_repo_tmp_dir}"
-    #echo '--------'
   fi
 }
 
