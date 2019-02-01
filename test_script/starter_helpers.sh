@@ -39,6 +39,7 @@ create_git_repo_in_TMP_DIR_from_data_set()
       "${data_set_name}" \
       "/app/tmp" \
       "${user_id}"
+  echo "${TMP_DIR}/${data_set_name}"
 }
 
 remove_TMP_DIR()
