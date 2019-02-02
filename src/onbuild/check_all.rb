@@ -46,11 +46,22 @@ def show_repos
   end
 end
 
-# TODO: need to check _each_ custom repo  
+Dir.glob("#{root_dir}/languages/*").each do |dir_name|
+  manifest_filenames = Dir.glob("#{dir_name}/**/manifest.json")
+  if manifest_filenames == []
+    index = File.basename(dir_name).to_i
+    url = repos[index][:url]
+    STDERR.puts('ERROR: no manifest.json files')
+    STDERR.puts("--languages #{url}")
+    exit(1)
+  end
+end
+
+# TODO: need to check _each_ custom repo
 manifest_filenames = Dir.glob("#{root_dir}/custom/**/manifest.json")
 if manifest_filenames == []
   STDERR.puts("ERROR: no --custom manifest.json files")
-  exit(1)
+  exit(2)
 end
 
 
