@@ -25,11 +25,12 @@ copy_data_set_to_target_dir()
 create_data_set_in_target_dir()
 {
   case "${DATA_SET_NAME}" in
-     custom-Yahtzee) copy_data_set_to_target_dir;;
+  custom-Tennis ) copy_data_set_to_target_dir;;
+  custom-Yahtzee) copy_data_set_to_target_dir;;
   good_exercises) copy_data_set_to_target_dir;;
-     ltf-csharp-nunit) copy_data_set_to_target_dir;;
+  ltf-csharp-nunit   ) copy_data_set_to_target_dir;;
   ltf-python-unittest) copy_data_set_to_target_dir;;
-    ltf-ruby-minitest) copy_data_set_to_target_dir;;
+  ltf-ruby-minitest  ) copy_data_set_to_target_dir;;
                *) "${MY_DIR}/make_data_set.rb" "${DATA_SET_NAME}" "${TARGET_DIR}";;
   esac
 }

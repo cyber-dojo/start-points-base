@@ -5,7 +5,8 @@ readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 test_003a_simple_success_case()
 {
   make_TMP_DIR_for_git_repos
-  local C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Yahtzee)
+  local C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Tennis)
+  local C2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Yahtzee)
   local E_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_exercises)
   local L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-csharp-nunit)
   local L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-ruby-minitest)
@@ -14,7 +15,8 @@ test_003a_simple_success_case()
   build_start_points_image     \
     "${image_name}"            \
       --custom                 \
-        "file://${C_TMP_DIR}"  \
+        "file://${C1_TMP_DIR}" \
+        "file://${C2_TMP_DIR}" \
       --exercises              \
         "file://${E_TMP_DIR}"  \
       --languages              \
@@ -22,11 +24,12 @@ test_003a_simple_success_case()
         "file://${L2_TMP_DIR}"
 
   assert_image_created
-  assert_stdout_includes $(echo -e "--custom \t file://${C_TMP_DIR}")
+  assert_stdout_includes $(echo -e "--custom \t file://${C1_TMP_DIR}")
+  assert_stdout_includes $(echo -e "--custom \t file://${C2_TMP_DIR}")
   assert_stdout_includes $(echo -e "--exercises \t file://${E_TMP_DIR}")
   assert_stdout_includes $(echo -e "--languages \t file://${L1_TMP_DIR}")
   assert_stdout_includes $(echo -e "--languages \t file://${L2_TMP_DIR}")
-  assert_stdout_line_count_equals 4
+  assert_stdout_line_count_equals 5
 
   assert_stderr_equals ''
   assert_status_equals 0
