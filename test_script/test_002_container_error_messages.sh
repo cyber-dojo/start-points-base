@@ -7,8 +7,8 @@ test_002a_custom_repo_contains_no_manifests()
   make_TMP_DIR_for_git_repos
   local C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_custom)
   local E_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_exercises)
-  local L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from python-unittest)
-  local L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from language_repo_contains_no_manifests)
+  local L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-python-unittest)
+  local L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf_no_manifests)
 
   local image_name="${FUNCNAME[0]}"
   build_start_points_image     \

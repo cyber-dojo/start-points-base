@@ -83,9 +83,9 @@ make_TMP_DIR
 
 readonly C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_custom)
 readonly E_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_exercises)
-readonly L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from csharp-nunit)
-readonly L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from python-unittest)
-readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ruby-minitest)
+readonly L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-csharp-nunit)
+readonly L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-python-unittest)
+readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-ruby-minitest)
 
 "${ROOT_DIR}/$(build_image_script_name)" \
   "$(image_name)"                        \
