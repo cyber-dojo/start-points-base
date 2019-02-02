@@ -46,6 +46,17 @@ def show_repos
   end
 end
 
+Dir.glob("#{root_dir}/exercises/*").each do |dir_name|
+  manifest_filenames = Dir.glob("#{dir_name}/**/manifest.json")
+  if manifest_filenames == []
+    index = File.basename(dir_name).to_i
+    url = repos[index][:url]
+    STDERR.puts('ERROR: no manifest.json files')
+    STDERR.puts("--exercises #{url}")
+    exit(1)
+  end
+end
+
 Dir.glob("#{root_dir}/languages/*").each do |dir_name|
   manifest_filenames = Dir.glob("#{dir_name}/**/manifest.json")
   if manifest_filenames == []
