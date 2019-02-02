@@ -5,8 +5,8 @@ readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 test_002a_custom_repo_contains_no_manifests()
 {
   make_TMP_DIR_for_git_repos
-  local C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Tennis)
-  local C2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Yahtzee)
+  local C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-tennis)
+  local C2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-yahtzee)
   local E1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-bowling-game)
   local E2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-tiny-maze)
   local L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-python-unittest)

@@ -25,8 +25,8 @@ copy_data_set_to_target_dir()
 create_data_set_in_target_dir()
 {
   case "${DATA_SET_NAME}" in
-  custom-Tennis ) copy_data_set_to_target_dir;;
-  custom-Yahtzee) copy_data_set_to_target_dir;;
+  custom-tennis ) copy_data_set_to_target_dir;;
+  custom-yahtzee) copy_data_set_to_target_dir;;
 
   exercises-bowling-game) copy_data_set_to_target_dir;;
   exercises-fizz-buzz   ) copy_data_set_to_target_dir;;

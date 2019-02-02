@@ -81,8 +81,8 @@ image_name()
 exit_if_bad_ROOT_DIR
 make_TMP_DIR
 
-#readonly C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Tennis)
-readonly C2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Yahtzee)
+#readonly C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-tennis)
+readonly C2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-yahtzee)
 readonly E1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-bowling-game)
 readonly E2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-fizz-buzz)
 readonly E3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-leap-years)
