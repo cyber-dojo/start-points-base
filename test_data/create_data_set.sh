@@ -27,7 +27,10 @@ create_data_set_in_target_dir()
   case "${DATA_SET_NAME}" in
   custom-Tennis ) copy_data_set_to_target_dir;;
   custom-Yahtzee) copy_data_set_to_target_dir;;
-  good_exercises) copy_data_set_to_target_dir;;
+
+  exercises-bowling-game) copy_data_set_to_target_dir;;
+  good_exercises        ) copy_data_set_to_target_dir;;
+  
   ltf-csharp-nunit   ) copy_data_set_to_target_dir;;
   ltf-python-unittest) copy_data_set_to_target_dir;;
   ltf-ruby-minitest  ) copy_data_set_to_target_dir;;

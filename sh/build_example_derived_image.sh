@@ -81,8 +81,10 @@ image_name()
 exit_if_bad_ROOT_DIR
 make_TMP_DIR
 
-readonly C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Yahtzee)
-readonly E_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_exercises)
+#readonly C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Tennis)
+readonly C2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Yahtzee)
+readonly E1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_exercises)
+readonly E2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-bowling-game)
 readonly L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-csharp-nunit)
 readonly L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-python-unittest)
 readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-ruby-minitest)
@@ -90,9 +92,10 @@ readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-ruby-minitest)
 "${ROOT_DIR}/$(build_image_script_name)" \
   "$(image_name)"                        \
     --custom                             \
-      "file://${C_TMP_DIR}"              \
+      "file://${C2_TMP_DIR}"             \
     --exercises                          \
-      "file://${E_TMP_DIR}"              \
+      "file://${E1_TMP_DIR}"             \
+      "file://${E2_TMP_DIR}"             \
     --languages                          \
       "file://${L1_TMP_DIR}"             \
       "file://${L2_TMP_DIR}"             \
