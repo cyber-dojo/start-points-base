@@ -3,35 +3,46 @@ set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
-declare TMP_DIR=''
-
-# - - - - - - - - - - - - - - - - -
+exit_if_bad_ROOT_DIR()
+{
+  if using_DockerToolbox && on_Mac; then
+    if [ "${ROOT_DIR:0:6}" != "/Users" ]; then
+      echo 'ERROR'
+      echo 'You are using Docker-Toolbox for Mac'
+      echo "This script lives off ${ROOT_DIR}"
+      echo 'It must live off /Users so the docker-context'
+      echo "is automatically mounted into the default VM"
+      exit 1
+    fi
+  fi
+}
 
 using_DockerToolbox()
 {
-  if [ -n "${DOCKER_MACHINE_NAME}" ]; then
-    true
-  else
-    false
-  fi
+  [ -n "${DOCKER_MACHINE_NAME}" ]
+}
+
+on_Mac()
+{
+  # https://stackoverflow.com/questions/394230
+  [[ "$OSTYPE" == "darwin"* ]]
 }
 
 # - - - - - - - - - - - - - - - - -
 
+declare TMP_DIR=''
+
 make_TMP_DIR()
 {
-  #TODO
-  #if using_DockerToolbox; then
-  #  TODO: Check ROOT_DIR is under /Users
-  #fi
   [ -d "${ROOT_DIR}/tmp" ] || mkdir "${ROOT_DIR}/tmp"
   TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
+  trap remove_TMP_DIR EXIT
   chmod 777 "${TMP_DIR}"
 }
 
 remove_TMP_DIR()
 {
-  rm -rf "${TMP_DIR}" > /dev/null;
+  rm -rf "${TMP_DIR}" > /dev/null
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -41,7 +52,7 @@ create_git_repo_in_TMP_DIR_from()
   local data_set_name="${1}"
   local data_dir="${TMP_DIR}/${data_set_name}"
   local user_id=$(id -u $(whoami))
-  
+
   docker run                                \
     --rm                                    \
     --volume "${data_dir}:/app/tmp/:rw"     \
@@ -67,8 +78,8 @@ image_name()
 
 # - - - - - - - - - - - - - - - - -
 
+exit_if_bad_ROOT_DIR
 make_TMP_DIR
-trap remove_TMP_DIR EXIT
 
 readonly C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_custom)
 readonly E_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_exercises)

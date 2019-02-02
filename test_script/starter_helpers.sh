@@ -1,6 +1,7 @@
 
 oneTimeTearDown()
 {
+  # This script is designed to be sourced from an shunit2 test.
   remove_TMP_DIR
   remove_start_points_image
 }
@@ -14,10 +15,36 @@ script_dir()
 
 root_dir()
 {
-  # TODO: if using Docker-Toolbox
-  # check $(root_dir) is under /Users
   cd "$(script_dir)" && cd .. && pwd
 }
+
+exit_if_bad_ROOT_DIR()
+{
+  if using_DockerToolbox && on_Mac; then
+    local ROOT_DIR=$(root_dir)
+    if [ "${ROOT_DIR:0:6}" != "/Users" ]; then
+      echo 'ERROR'
+      echo 'You are using Docker-Toolbox for Mac'
+      echo "This script lives off ${ROOT_DIR}"
+      echo 'It must live off /Users so the docker-context'
+      echo "is automatically mounted into the default VM"
+      exit 1
+    fi
+  fi
+}
+
+using_DockerToolbox()
+{
+  [ -n "${DOCKER_MACHINE_NAME}" ]
+}
+
+on_Mac()
+{
+  # https://stackoverflow.com/questions/394230
+  [[ "$OSTYPE" == "darwin"* ]]
+}
+
+exit_if_bad_ROOT_DIR
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
@@ -33,7 +60,7 @@ create_git_repo_in_TMP_DIR_from()
   local data_set_name="${1}"
   local data_dir="${TMP_DIR}/${data_set_name}"
   local user_id=$(id -u $(whoami))
-  
+
   docker run                                \
     --rm                                    \
     --volume "${data_dir}:/app/tmp/:rw"     \
