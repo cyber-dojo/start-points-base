@@ -24,7 +24,7 @@ class LanguageManifestTest < TestBase
 
   test 'D7B',
   %w( non-string argument becomes exception ) do
-    body,stderr = language_manifest(500, 42, 'Fizz_Buzz')
+    body,stderr = language_manifest(500, 42, 'Fizz Buzz')
     assert_exception('ArgumentError', 'display_name:!string', body, stderr)
 
     body,stderr = language_manifest(500, 'xxx', 42)
@@ -34,7 +34,7 @@ class LanguageManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7C', %w( unknown display_name becomes exception ) do
-    body,stderr = language_manifest(500, 'xxx, NUnit', 'Fizz_Buzz')
+    body,stderr = language_manifest(500, 'xxx, NUnit', 'Fizz Buzz')
     assert_exception('ArgumentError', 'display_name:xxx, NUnit:unknown', body, stderr)
   end
 
@@ -48,7 +48,7 @@ class LanguageManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7E', %w( valid with no optional properties ) do
-    body,stderr = language_manifest(200, 'C#, NUnit', 'Fizz_Buzz')
+    body,stderr = language_manifest(200, 'C#, NUnit', 'Fizz Buzz')
 
     assert_equal({}, stderr)
     result = body['language_manifest']
@@ -73,7 +73,7 @@ class LanguageManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7F', %w( valid with some optional properties ) do
-    body,stderr = language_manifest(200, 'Python, unittest', 'Fizz_Buzz')
+    body,stderr = language_manifest(200, 'Python, unittest', 'Fizz Buzz')
 
     assert_equal({}, stderr)
     result = body['language_manifest']

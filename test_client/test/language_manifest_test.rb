@@ -11,7 +11,7 @@ class LanguageManifestTest < TestBase
   test '266',
   %w( valid display_name,exercise_name with no optional properties ) do
 
-    result = language_manifest('C#, NUnit', 'Fizz_Buzz')
+    result = language_manifest('C#, NUnit', 'Fizz Buzz')
     manifest = result['manifest']
 
     expected_keys = %w( display_name filename_extension

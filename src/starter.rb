@@ -104,11 +104,13 @@ class Starter
 
   def exercises
     result = {}
-    pattern = "#{start_points_dir('exercises')}/**/instructions"
-    Dir.glob(pattern).each do |filename|
-      name = filename.split('/')[-2] # eg Bowling_Game
-      result[name] = {
-        'content' => IO.read(filename)
+    manifests = "#{start_points_dir('exercises')}/**/manifest.json"
+    Dir.glob(manifests).each do |manifest_filename|
+      manifest = JSON.parse!(IO.read(manifest_filename))
+      display_name = manifest['display_name']
+      dir = File.dirname(manifest_filename)
+      result[display_name] = {
+        'content' => IO.read("#{dir}/instructions")
       }
     end
     result

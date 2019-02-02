@@ -25,10 +25,10 @@ class LanguageStartPointsTest < TestBase
   %w( exercise-names ) do
     start_points = language_start_points
     expected = [
-      'Bowling_Game',
-      'Fizz_Buzz',
-      'Leap_Years',
-      'Tiny_Maze'
+      'Bowling Game',
+      'Fizz Buzz',
+      'Leap Years',
+      'Tiny Maze'
     ]
     assert_equal expected, start_points['exercises'].keys.sort
   end
@@ -40,16 +40,16 @@ class LanguageStartPointsTest < TestBase
     @start_points = language_start_points
 
     expected = 'Write a program to score a game of Ten-Pin Bowling.'
-    assert_line('Bowling_Game', expected)
+    assert_line('Bowling Game', expected)
 
     expected = 'Write a program that prints the numbers from 1 to 100.'
-    assert_line('Fizz_Buzz', expected)
+    assert_line('Fizz Buzz', expected)
 
     expected = 'Write a function that returns true or false depending on '
-    assert_line('Leap_Years', expected)
+    assert_line('Leap Years', expected)
 
     expected = 'Alice found herself very tiny and wandering around Wonderland.'
-    assert_line('Tiny_Maze', expected)
+    assert_line('Tiny Maze', expected)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
