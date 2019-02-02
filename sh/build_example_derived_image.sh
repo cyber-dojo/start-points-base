@@ -81,7 +81,7 @@ image_name()
 exit_if_bad_ROOT_DIR
 make_TMP_DIR
 
-readonly C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_custom)
+readonly C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Yahtzee)
 readonly E_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_exercises)
 readonly L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-csharp-nunit)
 readonly L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-python-unittest)

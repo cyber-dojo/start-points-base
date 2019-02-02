@@ -5,7 +5,7 @@ readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 test_003a_simple_success_case()
 {
   make_TMP_DIR_for_git_repos
-  local C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_custom)
+  local C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Yahtzee)
   local E_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_exercises)
   local L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-csharp-nunit)
   local L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-ruby-minitest)
