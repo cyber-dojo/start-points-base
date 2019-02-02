@@ -83,8 +83,10 @@ make_TMP_DIR
 
 #readonly C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Tennis)
 readonly C2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-Yahtzee)
-readonly E1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_exercises)
-readonly E2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-bowling-game)
+readonly E1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-bowling-game)
+readonly E2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-fizz-buzz)
+readonly E3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-leap-years)
+readonly E4_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-tiny-maze)
 readonly L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-csharp-nunit)
 readonly L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-python-unittest)
 readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-ruby-minitest)
@@ -96,6 +98,8 @@ readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-ruby-minitest)
     --exercises                          \
       "file://${E1_TMP_DIR}"             \
       "file://${E2_TMP_DIR}"             \
+      "file://${E3_TMP_DIR}"             \
+      "file://${E4_TMP_DIR}"             \
     --languages                          \
       "file://${L1_TMP_DIR}"             \
       "file://${L2_TMP_DIR}"             \
