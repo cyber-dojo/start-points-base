@@ -16,6 +16,12 @@
 require 'json'
 
 def root_dir
+  # Set to /app/repos
+  # Off this are 3 dirs and one file
+  # custom/
+  # exercises/
+  # languages/
+  # shas.txt
   ARGV[0]
 end
 
@@ -23,22 +29,29 @@ def shas_filename
   "#{root_dir}/shas.txt"
 end
 
-def print(s)
-  #puts s
+def repos
+  lines = `cat #{shas_filename}`.lines
+  Hash[lines.map { |line|
+    type,url,sha,index = line.split
+    [index.to_i, { type:type, url:url, sha:sha }]
+  }]
 end
 
-lines = `cat #{shas_filename}`.lines
-repos = Hash[lines.map { |line|
-  type,url,sha,index = line.split
-  [index.to_i, { type:type, url:url, sha:sha }]
-}]
-
-# For now, just printing some stuff...
-repos.keys.sort.each do |key|
-  type = repos[key][:type]
-  print(key)
-  print(JSON.pretty_generate(repos[key]))
-  print(`ls -al #{root_dir}/#{type}/#{key}`)
+def show_repos
+  repos.keys.sort.each do |key|
+    type = repos[key][:type]
+    puts(key)
+    puts(JSON.pretty_generate(repos[key]))
+    puts(`ls -al #{root_dir}/#{type}/#{key}`)
+  end
 end
-#... and always succeeding
+
+# TODO: need to check _each_ custom repo  
+manifest_filenames = Dir.glob("#{root_dir}/custom/**/manifest.json")
+if manifest_filenames == []
+  STDERR.puts("ERROR: no --custom manifest.json files")
+  exit(1)
+end
+
+
 exit(0)

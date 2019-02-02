@@ -16,13 +16,13 @@ test_002a_custom_repo_contains_no_manifests()
       --exercises "file://${E_TMP_DIR}" \
       --languages "file://${L_TMP_DIR}"
 
-  docker image rm "${image_name}" > /dev/null # not working yet...
   refute_image_created
   assert_stdout_includes $(echo -e "--custom \t file://${C_TMP_DIR}")
   assert_stdout_includes $(echo -e "--exercises \t file://${E_TMP_DIR}")
   assert_stdout_includes $(echo -e "--languages \t file://${L_TMP_DIR}")
   #assert_stdout_line_count_equals 3
 
+  #dump_sss
   #assert_stdout_equals ''
   #assert_stderr_equals 'ERROR: --custom requires at least one <git-repo-url>'
   #assert_status_equals 9
