@@ -7,7 +7,7 @@ test_003a_simple_success_case()
   make_TMP_DIR_for_git_repos
   local C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_custom)
   local E_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_exercises)
-  local L_TMP_DIR=$(create_git_repo_in_TMP_DIR_from good_languages)
+  local L_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ruby-minitest)
 
   local image_name="${FUNCNAME[0]}"
   build_start_points_image \

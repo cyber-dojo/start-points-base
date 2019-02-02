@@ -27,7 +27,9 @@ create_data_set_in_target_dir()
   case "${DATA_SET_NAME}" in
      good_custom) copy_data_set_to_target_dir;;
   good_exercises) copy_data_set_to_target_dir;;
-  good_languages) copy_data_set_to_target_dir;;
+     csharp-nunit) copy_data_set_to_target_dir;;
+  python-unittest) copy_data_set_to_target_dir;;
+    ruby-minitest) copy_data_set_to_target_dir;;  
                *) "${MY_DIR}/make_data_set.rb" "${DATA_SET_NAME}" "${TARGET_DIR}";;
   esac
 }
