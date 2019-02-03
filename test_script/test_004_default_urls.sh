@@ -17,8 +17,6 @@ test_004a_default_custom_url()
         "file://${L_TMP_DIR}"
 
   assert_stdout_includes_default_custom_url
-  assert_stdout_includes $(echo -e "--exercises \t file://${E_TMP_DIR}")
-  assert_stdout_includes $(echo -e "--languages \t file://${L_TMP_DIR}")
   assert_stdout_line_count_equals 3
 
   assert_image_created
@@ -42,9 +40,7 @@ test_004b_default_exercises_url()
       --languages              \
         "file://${L_TMP_DIR}"
 
-  assert_stdout_includes $(echo -e "--custom \t ${C_TMP_DIR}")
   assert_stdout_includes_default_exercises_url
-  assert_stdout_includes $(echo -e "--languages \t file://${L_TMP_DIR}")
   assert_stdout_line_count_equals 3
 
   assert_image_created
@@ -68,8 +64,6 @@ test_004c_default_languages_urls()
       --exercises             \
         "file://${E_TMP_DIR}"
 
-  assert_stdout_includes $(echo -e "--custom \t ${C_TMP_DIR}")
-  assert_stdout_includes $(echo -e "--exercises \t file://${E_TMP_DIR}")
   assert_stdout_includes_default_languages_urls
   assert_stdout_line_count_equals 9
 
@@ -100,14 +94,18 @@ test_004d_all_default_urls()
 assert_stdout_includes_default_custom_url()
 {
   local default_custom='https://github.com/cyber-dojo/start-points-custom.git'
-  assert_stdout_includes $(echo -e "--custom \t ${default_custom}")
+  assert_stdout_includes "$(echo -e "--custom \t ${default_custom}")"
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 assert_stdout_includes_default_exercises_url()
 {
   local default_exercises='https://github.com/cyber-dojo/start-points-exercises.git'
-  assert_stdout_includes $(echo -e "--exercises \t file://${default_exercises}")
+  assert_stdout_includes "$(echo -e "--exercises \t ${default_exercises}")"
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 assert_stdout_includes_default_languages_urls()
 {
@@ -121,7 +119,7 @@ assert_stdout_includes_default_languages_urls()
     'https://github.com/cyber-dojo-languages/ruby-minitest' \
   )
   for default_language in ${default_languages}; do
-    assert_stdout_includes $(echo -e "--exercises \t file://${default_language}")
+    assert_stdout_includes "$(echo -e "--languages \t ${default_language}")"
   done
 }
 

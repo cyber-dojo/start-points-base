@@ -60,15 +60,30 @@ assert_status_equals()
 
 dump_sss()
 {
-    echo '<stdout>'
-    cat "${stdoutF}"
-    echo '</stdout>'
-    echo '<stderr>'
-    cat "${stderrF}"
-    echo '</stderr>'
-    echo '<status>'
-    cat "${statusF}"
-    echo '</status>'
+  dump_stdout
+  dump_stderr
+  dump_status
+}
+
+dump_stdout()
+{
+  echo '<stdout>'
+  cat "${stdoutF}"
+  echo '</stdout>'
+}
+
+dump_stderr()
+{
+  echo '<stderr>'
+  cat "${stderrF}"
+  echo '</stderr>'
+}
+
+dump_status()
+{
+  echo '<status>'
+  cat "${statusF}"
+  echo '</status>'
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
