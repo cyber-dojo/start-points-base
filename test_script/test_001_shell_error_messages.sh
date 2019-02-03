@@ -14,6 +14,8 @@ test_001a_git_must_be_installed()
   refute_image_created "${image_name}"
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 test_001b_docker_must_be_installed()
 {
   export DOCKER_PROGRAM='docker_xxx'
@@ -26,6 +28,8 @@ test_001b_docker_must_be_installed()
   refute_image_created "${image_name}"
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 test_001c_custom_requires_image_name()
 {
   build_start_points_image --custom
@@ -33,6 +37,8 @@ test_001c_custom_requires_image_name()
   assert_stderr_equals 'ERROR: --custom requires preceding <image_name>'
   assert_status_equals 4
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 test_001d_exercises_requires_image_name()
 {
@@ -42,6 +48,8 @@ test_001d_exercises_requires_image_name()
   assert_status_equals 5
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 test_001e_languages_requires_image_name()
 {
   build_start_points_image --languages
@@ -49,6 +57,8 @@ test_001e_languages_requires_image_name()
   assert_stderr_equals 'ERROR: --languages requires preceding <image_name>'
   assert_status_equals 6
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 test_001f_git_repo_url_requires_preceding_custom_or_exercises_or_languages()
 {
@@ -61,6 +71,8 @@ test_001f_git_repo_url_requires_preceding_custom_or_exercises_or_languages()
   refute_image_created "${image_name}"
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 test_001g_custom_requires_at_least_one_following_git_repo_url()
 {
   local image_name="${FUNCNAME[0]}"
@@ -71,6 +83,8 @@ test_001g_custom_requires_at_least_one_following_git_repo_url()
   refute_image_created "${image_name}"
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 test_001h_exercises_requires_at_least_one_following_git_repo_url()
 {
   local image_name="${FUNCNAME[0]}"
@@ -80,6 +94,8 @@ test_001h_exercises_requires_at_least_one_following_git_repo_url()
   assert_status_equals 8
   refute_image_created "${image_name}"
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 test_001i_languages_requires_at_least_one_following_git_repo_url()
 {
