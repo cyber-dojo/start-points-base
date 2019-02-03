@@ -2,7 +2,7 @@
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 
-test_002a_each_url_is_printed_to_stdout_single_repo_for_each_category()
+test_002a_each_url_is_printed_to_stdout_one_repo_for_each_category()
 {
   make_TMP_DIR_for_git_repos
   local C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-tennis)
