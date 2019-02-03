@@ -229,7 +229,7 @@ build_image_from_context_dir()
   # Hence the || : because of [set -e].
   local tmp_file=$(mktemp)
   local from_stdin='-'
-  echo 'FROM cyberdojo/start-points-base:beta' \
+  echo 'FROM cyberdojo/start-points-base:latest' \
     | docker image build                  \
         --file "${from_stdin}"            \
         --quiet                           \
