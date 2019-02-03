@@ -20,7 +20,7 @@ jobs:
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:beta
             docker push cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker push cyberdojo/${project}:beta
-            #docker push cyberdojo/${project}:latest
+            docker push cyberdojo/${project}:latest
             curl --fail -X POST https://circleci.com/api/v1.1/project/github/cyber-dojo/start-points-languages/build?circle-token=${CIRCLECI_BUILD_TOKEN}
 
 workflows:
