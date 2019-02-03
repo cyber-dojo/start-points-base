@@ -227,7 +227,8 @@ git_clone_one_repo_to_context_dir()
   local git_repo_url="${2}"
   cd "${CONTEXT_DIR}/${git_repo_type}"
   git clone --quiet --depth 1 "${git_repo_url}" "${git_repo_index}"
-  local git_repo_sha=$(cd ${git_repo_index} && git rev-parse HEAD)
+  local git_repo_sha
+  git_repo_sha=$(cd ${git_repo_index} && git rev-parse HEAD)
   echo -e "--${git_repo_type} \t ${git_repo_url}"
   echo -e   "${git_repo_type} \t ${git_repo_url} \t ${git_repo_sha} \t ${git_repo_index}" >> "${CONTEXT_DIR}/shas.txt"
   rm -rf "${CONTEXT_DIR}/${git_repo_type}/${git_repo_index}/.git"
@@ -248,7 +249,8 @@ build_image_from_context_dir()
   # Hence the || : because of [set -e].
   # NB: The tag used in the FROM image must be pushed
   # to dockerhub in .circleci/config.yml
-  local tmp_file=$(mktemp)
+  local tmp_file
+  tmp_file=$(mktemp)
   local from_stdin='-'
   echo 'FROM cyberdojo/start-points-base:latest' \
     | docker image build                  \
@@ -256,7 +258,7 @@ build_image_from_context_dir()
         --quiet                           \
         --tag "${IMAGE_NAME}"             \
         "${CONTEXT_DIR}" > "${tmp_file}"
-  cat "${tmp_file}" | grep -v 'sha256:' || :
+  grep -v 'sha256:' "${tmp_file}" || :
   rm "${tmp_file}"
 }
 
