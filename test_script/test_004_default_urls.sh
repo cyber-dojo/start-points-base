@@ -16,8 +16,7 @@ test_004a_default_custom_url()
       --languages              \
         "file://${L_TMP_DIR}"
 
-  local default_custom='https://github.com/cyber-dojo/start-points-custom.git'
-  assert_stdout_includes $(echo -e "--custom \t ${default_custom}")
+  assert_stdout_includes_default_custom_url
   assert_stdout_includes $(echo -e "--exercises \t file://${E_TMP_DIR}")
   assert_stdout_includes $(echo -e "--languages \t file://${L_TMP_DIR}")
   assert_stdout_line_count_equals 3
@@ -43,9 +42,8 @@ test_004b_default_exercises_url()
       --languages              \
         "file://${L_TMP_DIR}"
 
-  local default_exercises='https://github.com/cyber-dojo/start-points-exercises.git'
   assert_stdout_includes $(echo -e "--custom \t ${C_TMP_DIR}")
-  assert_stdout_includes $(echo -e "--exercises \t file://${default_exercises}")
+  assert_stdout_includes_default_exercises_url
   assert_stdout_includes $(echo -e "--languages \t file://${L_TMP_DIR}")
   assert_stdout_line_count_equals 3
 
@@ -70,29 +68,64 @@ test_004c_default_languages_urls()
       --exercises             \
         "file://${E_TMP_DIR}"
 
-  local default_languages_1='https://github.com/cyber-dojo-languages/csharp-nunit'
-  local default_languages_2='https://github.com/cyber-dojo-languages/gcc-googletest'
-  local default_languages_3='https://github.com/cyber-dojo-languages/gplusplus-googlemock'
-  local default_languages_4='https://github.com/cyber-dojo-languages/java-junit'
-  local default_languages_5='https://github.com/cyber-dojo-languages/javascript-jasmine'
-  local default_languages_6='https://github.com/cyber-dojo-languages/python-pytest'
-  local default_languages_7='https://github.com/cyber-dojo-languages/ruby-minitest'
-
   assert_stdout_includes $(echo -e "--custom \t ${C_TMP_DIR}")
   assert_stdout_includes $(echo -e "--exercises \t file://${E_TMP_DIR}")
-  assert_stdout_includes $(echo -e "--languages \t file://${default_languages_1}")
-  assert_stdout_includes $(echo -e "--languages \t file://${default_languages_2}")
-  assert_stdout_includes $(echo -e "--languages \t file://${default_languages_3}")
-  assert_stdout_includes $(echo -e "--languages \t file://${default_languages_4}")
-  assert_stdout_includes $(echo -e "--languages \t file://${default_languages_5}")
-  assert_stdout_includes $(echo -e "--languages \t file://${default_languages_6}")
-  assert_stdout_includes $(echo -e "--languages \t file://${default_languages_7}")
+  assert_stdout_includes_default_languages_urls
   assert_stdout_line_count_equals 9
 
   assert_image_created
   assert_stderr_equals ''
   assert_status_equals 0
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+test_004d_all_default_urls()
+{
+  local image_name="${FUNCNAME[0]}"
+  build_start_points_image \
+    "${image_name}"
+
+  assert_stdout_includes_default_custom_url
+  assert_stdout_includes_default_exercises_url
+  assert_stdout_includes_default_languages_urls
+
+  assert_image_created
+  assert_stderr_equals ''
+  assert_status_equals 0
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+assert_stdout_includes_default_custom_url()
+{
+  local default_custom='https://github.com/cyber-dojo/start-points-custom.git'
+  assert_stdout_includes $(echo -e "--custom \t ${default_custom}")
+}
+
+assert_stdout_includes_default_exercises_url()
+{
+  local default_exercises='https://github.com/cyber-dojo/start-points-exercises.git'
+  assert_stdout_includes $(echo -e "--exercises \t file://${default_exercises}")
+}
+
+assert_stdout_includes_default_languages_urls()
+{
+  local default_languages=( \
+    'https://github.com/cyber-dojo-languages/csharp-nunit' \
+    'https://github.com/cyber-dojo-languages/gcc-googletest' \
+    'https://github.com/cyber-dojo-languages/gplusplus-googlemock' \
+    'https://github.com/cyber-dojo-languages/java-junit'\
+    'https://github.com/cyber-dojo-languages/javascript-jasmine' \
+    'https://github.com/cyber-dojo-languages/python-pytest' \
+    'https://github.com/cyber-dojo-languages/ruby-minitest' \
+  )
+  for default_language in ${default_languages}; do
+    assert_stdout_includes $(echo -e "--exercises \t file://${default_language}")
+  done
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 . ${my_dir}/shunit2_helpers.sh
 . ${my_dir}/shunit2
