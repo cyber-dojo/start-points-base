@@ -250,20 +250,17 @@ build_image_from_context_dir()
   # But we don't want the output from [docker build] itself.
   # Hence the --quiet option. But a [docker build --quiet]
   # still prints the sha of the created image.
-  # Hence the grep -v to not print that.
-  # But grep -v changes the $? status.
+  # Hence the grep --invert-match to not print that.
+  # But grep --invert-match changes the $? status.
   # Hence the || : because of [set -e].
-  local tmp_file
-  tmp_file=$(mktemp)
   local from_stdin='-'
-  echo $(FROM_base_image_name)            \
-    | docker image build                  \
-        --file "${from_stdin}"            \
-        --quiet                           \
-        --tag "${IMAGE_NAME}"             \
-        "${CONTEXT_DIR}" > "${tmp_file}"
-  grep -v 'sha256:' "${tmp_file}" || :
-  rm "${tmp_file}"
+  echo "$(FROM_base_image_name)"         \
+    | docker image build                 \
+        --file "${from_stdin}"           \
+        --quiet                          \
+        --tag "${IMAGE_NAME}"            \
+        "${CONTEXT_DIR}"                 \
+    | grep --invert-match 'sha256:' || :
 }
 
 FROM_base_image_name()
