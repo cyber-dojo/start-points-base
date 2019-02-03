@@ -11,8 +11,7 @@ test_002a_custom_repo_contains_no_manifests()
   local L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-python-unittest)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image     \
-    "${image_name}"            \
+  build_start_points_image "${image_name}" \
       --custom                 \
         "file://${C1_TMP_DIR}" \
         "file://${C2_TMP_DIR}" \
@@ -39,8 +38,7 @@ test_002b_exercises_repo_contains_no_manifests()
   local L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-python-unittest)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image     \
-    "${image_name}"            \
+  build_start_points_image "${image_name}" \
       --custom                 \
         "file://${C1_TMP_DIR}" \
       --exercises              \
@@ -67,8 +65,7 @@ test_002c_languages_repo_contains_no_manifests()
   local L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf_no_manifests)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image     \
-    "${image_name}"            \
+  build_start_points_image "${image_name}" \
       --custom                 \
         "file://${C1_TMP_DIR}" \
       --exercises              \

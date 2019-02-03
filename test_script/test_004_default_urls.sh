@@ -9,12 +9,9 @@ test_004a_default_custom_url()
   local L_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-csharp-nunit)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image     \
-    "${image_name}"            \
-      --exercises              \
-        "file://${E_TMP_DIR}" \
-      --languages              \
-        "file://${L_TMP_DIR}"
+  build_start_points_image "${image_name}" \
+      --exercises "file://${E_TMP_DIR}"    \
+      --languages "file://${L_TMP_DIR}"
 
   assert_stdout_includes_default_custom_url
   assert_stdout_line_count_equals 3
@@ -33,12 +30,9 @@ test_004b_default_exercises_url()
   local L_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-csharp-nunit)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image     \
-    "${image_name}"            \
-      --custom                 \
-        "file://${C_TMP_DIR}" \
-      --languages              \
-        "file://${L_TMP_DIR}"
+  build_start_points_image "${image_name}" \
+      --custom    "file://${C_TMP_DIR}"    \
+      --languages "file://${L_TMP_DIR}"
 
   assert_stdout_includes_default_exercises_url
   assert_stdout_line_count_equals 3
@@ -57,12 +51,9 @@ test_004c_default_languages_urls()
   local E_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-bowling-game)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image    \
-    "${image_name}"           \
-      --custom                \
-        "file://${C_TMP_DIR}" \
-      --exercises             \
-        "file://${E_TMP_DIR}"
+  build_start_points_image "${image_name}" \
+      --custom    "file://${C_TMP_DIR}"    \
+      --exercises "file://${E_TMP_DIR}"
 
   assert_stdout_includes_default_languages_urls
   assert_stdout_line_count_equals 9
@@ -77,8 +68,7 @@ test_004c_default_languages_urls()
 test_004d_all_default_urls()
 {
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image \
-    "${image_name}"
+  build_start_points_image "${image_name}"
 
   assert_stdout_includes_default_custom_url
   assert_stdout_includes_default_exercises_url

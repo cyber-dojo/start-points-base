@@ -10,14 +10,10 @@ test_006a_one_repo_for_each_category()
   local L_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-csharp-nunit)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image     \
-    "${image_name}"            \
-      --custom                 \
-        "file://${C_TMP_DIR}" \
-      --exercises              \
-        "file://${E_TMP_DIR}" \
-      --languages              \
-        "file://${L_TMP_DIR}"
+  build_start_points_image "${image_name}" \
+      --custom    "file://${C_TMP_DIR}"    \
+      --exercises "file://${E_TMP_DIR}"    \
+      --languages "file://${L_TMP_DIR}"
 
   assert_image_created
   assert_stderr_equals ''
@@ -37,8 +33,7 @@ test_006b_more_than_one_repo_for_each_category()
   local L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-ruby-minitest)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image     \
-    "${image_name}"            \
+  build_start_points_image "${image_name}" \
       --custom                 \
         "file://${C1_TMP_DIR}" \
         "file://${C2_TMP_DIR}" \

@@ -13,13 +13,12 @@ test_005a_repeated_long_options()
   local L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-ruby-minitest)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image               \
-    "${image_name}"                      \
-      --custom    "file://${C1_TMP_DIR}" \
-      --custom    "file://${C2_TMP_DIR}" \
-      --exercises "file://${E1_TMP_DIR}" \
-      --exercises "file://${E2_TMP_DIR}" \
-      --languages "file://${L1_TMP_DIR}" \
+  build_start_points_image "${image_name}" \
+      --custom    "file://${C1_TMP_DIR}"   \
+      --custom    "file://${C2_TMP_DIR}"   \
+      --exercises "file://${E1_TMP_DIR}"   \
+      --exercises "file://${E2_TMP_DIR}"   \
+      --languages "file://${L1_TMP_DIR}"   \
       --languages "file://${L2_TMP_DIR}"
 
   assert_image_created

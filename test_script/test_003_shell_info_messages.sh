@@ -10,14 +10,10 @@ test_003a_each_url_is_printed_to_stdout_one_repo_for_each_category()
   local L_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-csharp-nunit)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image     \
-    "${image_name}"            \
-      --custom                 \
-        "file://${C_TMP_DIR}" \
-      --exercises              \
-        "file://${E_TMP_DIR}" \
-      --languages              \
-        "file://${L_TMP_DIR}"
+  build_start_points_image "${image_name}" \
+      --custom    "file://${C_TMP_DIR}"    \
+      --exercises "file://${E_TMP_DIR}"    \
+      --languages "file://${L_TMP_DIR}"
 
   assert_stdout_includes $(echo -e "--custom \t file://${C_TMP_DIR}")
   assert_stdout_includes $(echo -e "--exercises \t file://${E_TMP_DIR}")
