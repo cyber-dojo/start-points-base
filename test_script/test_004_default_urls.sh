@@ -5,13 +5,14 @@ readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 test_004a_default_custom_url()
 {
   make_TMP_DIR_for_git_repos
-  local E_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-bowling-game)
-  local L_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-csharp-nunit)
+  local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
+  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-csharp-nunit)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image "${image_name}" \
-      --exercises "file://${E_TMP_DIR}"    \
-      --languages "file://${L_TMP_DIR}"
+  build_start_points_image       \
+    "${image_name}"              \
+      --exercises "${E_TMP_URL}" \
+      --languages "${L_TMP_URL}"
 
   assert_stdout_includes_default_custom_url
   assert_stdout_line_count_equals 3
@@ -26,13 +27,14 @@ test_004a_default_custom_url()
 test_004b_default_exercises_url()
 {
   make_TMP_DIR_for_git_repos
-  local C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-tennis)
-  local L_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-csharp-nunit)
+  local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
+  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-csharp-nunit)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image "${image_name}" \
-      --custom    "file://${C_TMP_DIR}"    \
-      --languages "file://${L_TMP_DIR}"
+  build_start_points_image       \
+    "${image_name}"              \
+      --custom    "${C_TMP_URL}" \
+      --languages "${L_TMP_URL}"
 
   assert_stdout_includes_default_exercises_url
   assert_stdout_line_count_equals 3
@@ -47,13 +49,14 @@ test_004b_default_exercises_url()
 test_004c_default_languages_urls()
 {
   make_TMP_DIR_for_git_repos
-  local C_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-tennis)
-  local E_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-bowling-game)
+  local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
+  local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image "${image_name}" \
-      --custom    "file://${C_TMP_DIR}"    \
-      --exercises "file://${E_TMP_DIR}"
+  build_start_points_image       \
+    "${image_name}"              \
+      --custom    "${C_TMP_URL}" \
+      --exercises "${E_TMP_URL}"
 
   assert_stdout_includes_default_languages_urls
   assert_stdout_line_count_equals 9

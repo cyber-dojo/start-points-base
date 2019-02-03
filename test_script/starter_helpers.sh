@@ -57,7 +57,7 @@ make_TMP_DIR_for_git_repos()
   TMP_DIRS+=("${TMP_DIR}")
 }
 
-create_git_repo_in_TMP_DIR_from()
+git_repo_url_in_TMP_DIR_from()
 {
   local data_set_name="${1}"
   local data_dir="${TMP_DIR}/${data_set_name}"
@@ -71,7 +71,7 @@ create_git_repo_in_TMP_DIR_from()
       "/app/tmp"                            \
       "${user_id}"
 
-  echo "${data_dir}"
+  echo "file://${data_dir}"
 }
 
 remove_TMP_DIRS()
