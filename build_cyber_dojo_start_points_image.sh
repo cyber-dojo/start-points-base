@@ -183,19 +183,25 @@ gather_git_repo_urls_from_args()
 set_defaults_git_repos()
 {
   if no_custom_git_repo_urls; then
-    CUSTOM_GIT_REPO_URLS+=(https://github.com/cyber-dojo/start-points-custom.git)
+    CUSTOM_GIT_REPO_URLS=( \
+      https://github.com/cyber-dojo/start-points-custom.git \
+    )
   fi
   if no_exercise_git_repo_urls; then
-    EXERCISE_GIT_REPO_URLS+=(https://github.com/cyber-dojo/start-points-exercises.git)
+    EXERCISE_GIT_REPO_URLS=( \
+      https://github.com/cyber-dojo/start-points-exercises.git \
+    )
   fi
   if no_language_git_repo_urls; then
-    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/csharp-nunit)
-    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/gcc-googletest)
-    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/gplusplus-googlemock)
-    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/java-junit)
-    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/javascript-jasmine)
-    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/python-pytest)
-    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/ruby-minitest)
+    LANGUAGE_GIT_REPO_URLS=( \
+      https://github.com/cyber-dojo-languages/csharp-nunit \
+      https://github.com/cyber-dojo-languages/gcc-googletest \
+      https://github.com/cyber-dojo-languages/gplusplus-googlemock \
+      https://github.com/cyber-dojo-languages/java-junit \
+      https://github.com/cyber-dojo-languages/javascript-jasmine \
+      https://github.com/cyber-dojo-languages/python-pytest \
+      https://github.com/cyber-dojo-languages/ruby-minitest \
+    )
   fi
 }
 
