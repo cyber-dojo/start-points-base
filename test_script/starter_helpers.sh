@@ -1,10 +1,9 @@
 
 oneTimeTearDown()
 {
-  echo "inside oneTimeTearDown"
   # This script is designed to be sourced from an shunit2 test.
   remove_TMP_DIRS
-  remove_start_points_image
+  remove_start_points_images
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -
@@ -78,17 +77,21 @@ create_git_repo_in_TMP_DIR_from()
 remove_TMP_DIRS()
 {
   for tmp_dir in "${TMP_DIRS[@]}"; do
-    rm -rf "${tmp_dir}"
+    if [ -n "${tmp_dir}" ]; then
+      rm -rf "${tmp_dir}"
+    fi
   done
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
+declare -a IMAGE_NAMES
 declare IMAGE_NAME=''
 
 build_start_points_image()
 {
   IMAGE_NAME="${1}"
+  IMAGE_NAMES+=("${IMAGE_NAME}")
   local script_name="$(root_dir)/build_cyber_dojo_start_points_image.sh"
   ${script_name} ${*} >${stdoutF} 2>${stderrF}
   status=$?
@@ -97,7 +100,8 @@ build_start_points_image()
 
 image_exists()
 {
-  docker image inspect ${IMAGE_NAME} >/dev/null 2>&1
+  local image_name=${1:-${IMAGE_NAME}}
+  docker image inspect ${image_name} >/dev/null 2>&1
 }
 
 refute_image_created()
@@ -112,11 +116,15 @@ assert_image_created()
   assertTrue "${msg}" image_exists
 }
 
-remove_start_points_image()
+remove_start_points_images()
 {
-  if image_exists; then
-    docker image rm "${IMAGE_NAME}" > /dev/null
-  fi
+  for image_name in "${IMAGE_NAMES[@]}"; do
+    if [ -n "${image_name}" ]; then
+      if image_exists "${image_name}"; then
+        docker image rm "${image_name}" > /dev/null
+      fi
+    fi
+  done
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -
