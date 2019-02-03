@@ -2,7 +2,7 @@
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 
-test_003a_custom_repo_contains_no_manifests()
+test_002a_custom_repo_contains_no_manifests()
 {
   make_TMP_DIR_for_git_repos
   local C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-tennis)
@@ -30,7 +30,7 @@ test_003a_custom_repo_contains_no_manifests()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_003b_exercises_repo_contains_no_manifests()
+test_002b_exercises_repo_contains_no_manifests()
 {
   make_TMP_DIR_for_git_repos
   local C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-tennis)
@@ -58,7 +58,7 @@ test_003b_exercises_repo_contains_no_manifests()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_003c_languages_repo_contains_no_manifests()
+test_002c_languages_repo_contains_no_manifests()
 {
   make_TMP_DIR_for_git_repos
   local C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-tennis)
