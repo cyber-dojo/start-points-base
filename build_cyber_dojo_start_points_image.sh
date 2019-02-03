@@ -145,6 +145,11 @@ git_clone_one_repo_to_context_dir()
 }
 
 # - - - - - - - - - - - - - - - - -
+# TODO:
+# gather the git-repo-urls into 3 arrays.
+# populate arrays with defaults if they are empty.
+# exit if error 6,7,8,9 detected.
+# Only then attempt to git clone each git-repo-url
 
 declare use_language_defaults='true'
 declare use_exercise_defaults='true'
@@ -205,7 +210,7 @@ git_clone_default_repos_into_context_dir()
       --exercises \
         https://github.com/cyber-dojo/start-points-exercises.git
   fi
-  
+
   if [ "${use_language_defaults}" = 'true' ]; then
     echo 'using default <git-repo-urls> for --languages'
     git_clone_all_repos_to_context_dir \
@@ -232,6 +237,8 @@ build_image_from_context_dir()
   # Hence the grep -v to not print that.
   # But grep -v changes the $? status.
   # Hence the || : because of [set -e].
+  # NB: The tag used in the FROM image must be pushed
+  # to dockerhub in .circleci/config.yml
   local tmp_file=$(mktemp)
   local from_stdin='-'
   echo 'FROM cyberdojo/start-points-base:latest' \

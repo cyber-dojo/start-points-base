@@ -18,6 +18,8 @@ jobs:
             readonly project=${CIRCLE_PROJECT_REPONAME}
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:beta
+            # NB: The tag used in the FROM inside the Dockerfile inside the main script 
+            # build_cyber_dojo_start_points_image.sh must be pushed.
             docker push cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker push cyberdojo/${project}:beta
             docker push cyberdojo/${project}:latest
