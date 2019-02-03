@@ -2,7 +2,7 @@
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 
-test_003a_single_repo_for_each_category()
+test_004a_single_repo_for_each_category()
 {
   make_TMP_DIR_for_git_repos
   local C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-tennis)
@@ -20,18 +20,13 @@ test_003a_single_repo_for_each_category()
         "file://${L1_TMP_DIR}"
 
   assert_image_created
-  assert_stdout_includes $(echo -e "--custom \t file://${C1_TMP_DIR}")
-  assert_stdout_includes $(echo -e "--exercises \t file://${E1_TMP_DIR}")
-  assert_stdout_includes $(echo -e "--languages \t file://${L1_TMP_DIR}")
-  assert_stdout_line_count_equals 3
-
   assert_stderr_equals ''
   assert_status_equals 0
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_003b_more_than_one_repo_for_each_category()
+test_004b_more_than_one_repo_for_each_category()
 {
   make_TMP_DIR_for_git_repos
   local C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-tennis)
@@ -55,14 +50,6 @@ test_003b_more_than_one_repo_for_each_category()
         "file://${L2_TMP_DIR}"
 
   assert_image_created
-  assert_stdout_includes $(echo -e "--custom \t file://${C1_TMP_DIR}")
-  assert_stdout_includes $(echo -e "--custom \t file://${C2_TMP_DIR}")
-  assert_stdout_includes $(echo -e "--exercises \t file://${E1_TMP_DIR}")
-  assert_stdout_includes $(echo -e "--exercises \t file://${E2_TMP_DIR}")
-  assert_stdout_includes $(echo -e "--languages \t file://${L1_TMP_DIR}")
-  assert_stdout_includes $(echo -e "--languages \t file://${L2_TMP_DIR}")
-  assert_stdout_line_count_equals 6
-
   assert_stderr_equals ''
   assert_status_equals 0
 }
