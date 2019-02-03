@@ -51,7 +51,7 @@ Dir.glob("#{root_dir}/custom/*").each do |dir_name|
   if manifest_filenames == []
     index = File.basename(dir_name).to_i
     url = repos[index][:url]
-    STDERR.puts('ERROR: no manifest.json files')
+    STDERR.puts('ERROR: no manifest.json files in')
     STDERR.puts("--custom #{url}")
     exit(1)
   end
@@ -62,7 +62,7 @@ Dir.glob("#{root_dir}/exercises/*").each do |dir_name|
   if manifest_filenames == []
     index = File.basename(dir_name).to_i
     url = repos[index][:url]
-    STDERR.puts('ERROR: no manifest.json files')
+    STDERR.puts('ERROR: no manifest.json files in')
     STDERR.puts("--exercises #{url}")
     exit(1)
   end
@@ -73,7 +73,7 @@ Dir.glob("#{root_dir}/languages/*").each do |dir_name|
   if manifest_filenames == []
     index = File.basename(dir_name).to_i
     url = repos[index][:url]
-    STDERR.puts('ERROR: no manifest.json files')
+    STDERR.puts('ERROR: no manifest.json files in')
     STDERR.puts("--languages #{url}")
     exit(1)
   end

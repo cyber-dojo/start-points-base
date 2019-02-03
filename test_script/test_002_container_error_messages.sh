@@ -22,7 +22,7 @@ test_002a_custom_repo_contains_no_manifests()
         "file://${L1_TMP_DIR}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: no manifest.json files"
+  assert_stderr_includes "ERROR: no manifest.json files in"
   assert_stderr_includes "--custom file://${E2_TMP_DIR}"
   #assert_stderr_line_count_equals 2
   #assert_status_equals 9
@@ -50,7 +50,7 @@ test_002b_exercises_repo_contains_no_manifests()
         "file://${L1_TMP_DIR}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: no manifest.json files"
+  assert_stderr_includes "ERROR: no manifest.json files in"
   assert_stderr_includes "--exercises file://${E2_TMP_DIR}"
   #assert_stderr_line_count_equals 2
   #assert_status_equals 9
@@ -78,7 +78,7 @@ test_002c_languages_repo_contains_no_manifests()
         "file://${L2_TMP_DIR}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: no manifest.json files"
+  assert_stderr_includes "ERROR: no manifest.json files in"
   assert_stderr_includes "--languages file://${L2_TMP_DIR}"
   #assert_stderr_line_count_equals 2
   #assert_status_equals 9
