@@ -118,7 +118,7 @@ remove_start_points_image()
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
-assert_stdout_includes_use()
+assert_stdout_equals_use()
 {
   local help_line_1="  Use:"
   local help_line_2="   $ ./build_cyber_dojo_start_points_image.sh \\"
@@ -132,4 +132,5 @@ assert_stdout_includes_use()
   assert_stdout_includes "${help_line_4}"
   assert_stdout_includes "${help_line_5}"
   assert_stdout_includes "${help_line_6}"
+  assert_stdout_line_count_equals 56
 }
