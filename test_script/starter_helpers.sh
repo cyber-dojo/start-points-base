@@ -48,7 +48,7 @@ exit_if_bad_ROOT_DIR
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
-declare -a TMP_DIRS
+declare -a TMP_DIRS=()
 declare TMP_DIR=''
 
 make_TMP_DIR_for_git_repos()
@@ -85,7 +85,7 @@ remove_TMP_DIRS()
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
-declare -a IMAGE_NAMES
+declare -a IMAGE_NAMES=()
 declare IMAGE_NAME=''
 
 build_start_points_image()

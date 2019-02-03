@@ -204,13 +204,13 @@ set_defaults_git_repos()
 git_clone_repos_into_context_dir()
 {
   for git_repo_url in "${CUSTOM_GIT_REPO_URLS[@]}"; do
-    git_clone_one_repo_to_context_dir "custom" "${git_repo_url}"
+    git_clone_one_repo_to_context_dir custom "${git_repo_url}"
   done
   for git_repo_url in "${EXERCISE_GIT_REPO_URLS[@]}"; do
-    git_clone_one_repo_to_context_dir "exercises" "${git_repo_url}"
+    git_clone_one_repo_to_context_dir exercises "${git_repo_url}"
   done
   for git_repo_url in "${LANGUAGE_GIT_REPO_URLS[@]}"; do
-    git_clone_one_repo_to_context_dir "languages" "${git_repo_url}"
+    git_clone_one_repo_to_context_dir languages "${git_repo_url}"
   done
 }
 
@@ -247,12 +247,10 @@ build_image_from_context_dir()
   # Hence the grep -v to not print that.
   # But grep -v changes the $? status.
   # Hence the || : because of [set -e].
-  # NB: The tag used in the FROM image must be pushed
-  # to dockerhub in .circleci/config.yml
   local tmp_file
   tmp_file=$(mktemp)
   local from_stdin='-'
-  echo 'FROM cyberdojo/start-points-base:latest' \
+  echo $(FROM_base_image_name)            \
     | docker image build                  \
         --file "${from_stdin}"            \
         --quiet                           \
@@ -260,6 +258,12 @@ build_image_from_context_dir()
         "${CONTEXT_DIR}" > "${tmp_file}"
   grep -v 'sha256:' "${tmp_file}" || :
   rm "${tmp_file}"
+}
+
+FROM_base_image_name()
+{
+  # Must be pushed to dockerhub in .circleci/config.yml
+  echo 'FROM cyberdojo/start-points-base:latest'
 }
 
 # - - - - - - - - - - - - - - - - -
