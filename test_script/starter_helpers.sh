@@ -1,8 +1,9 @@
 
 oneTimeTearDown()
 {
+  echo "inside oneTimeTearDown"
   # This script is designed to be sourced from an shunit2 test.
-  remove_TMP_DIR
+  remove_TMP_DIRS
   remove_start_points_image
 }
 
@@ -48,11 +49,13 @@ exit_if_bad_ROOT_DIR
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
-TMP_DIR=''
+declare -a TMP_DIRS
+declare TMP_DIR=''
 
 make_TMP_DIR_for_git_repos()
 {
   TMP_DIR=$(mktemp -d "$(root_dir)/tmp/cyber-dojo-start-points-base.XXX")
+  TMP_DIRS+=("${TMP_DIR}")
 }
 
 create_git_repo_in_TMP_DIR_from()
@@ -72,16 +75,16 @@ create_git_repo_in_TMP_DIR_from()
   echo "${data_dir}"
 }
 
-remove_TMP_DIR()
+remove_TMP_DIRS()
 {
-  if [ -n "${TMP_DIR}" ]; then
-    rm -rf "${TMP_DIR}"
-  fi
+  for tmp_dir in "${TMP_DIRS[@]}"; do
+    rm -rf "${tmp_dir}"
+  done
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
-IMAGE_NAME=''
+declare IMAGE_NAME=''
 
 build_start_points_image()
 {
