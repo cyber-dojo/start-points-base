@@ -125,6 +125,96 @@ exit_non_zero_if_no_image_name()
 
 # - - - - - - - - - - - - - - - - -
 
+declare -a CUSTOM_GIT_REPO_URLS=()
+declare -a EXERCISE_GIT_REPO_URLS=()
+declare -a LANGUAGE_GIT_REPO_URLS=()
+
+no_custom_git_repo_urls()
+{
+  [ ${#CUSTOM_GIT_REPO_URLS[@]} -eq 0 ]
+}
+
+no_exercise_git_repo_urls()
+{
+  [ ${#EXERCISE_GIT_REPO_URLS[@]} -eq 0 ]
+}
+
+no_language_git_repo_urls()
+{
+  [ ${#LANGUAGE_GIT_REPO_URLS[@]} -eq 0 ]
+}
+
+# - - - - - - - - - - - - - - - - -
+
+gather_git_repo_urls_from_args()
+{
+  local git_repo_urls="${*}"
+  local git_repo_type=''
+  for git_repo_url in ${git_repo_urls}; do
+    case "${git_repo_url}" in
+    --custom)    git_repo_type=custom;    continue;;
+    --exercises) git_repo_type=exercises; continue;;
+    --languages) git_repo_type=languages; continue;;
+    esac
+    if [ -z "${git_repo_type}" ]; then
+      error 6 "<git-repo-url> ${git_repo_url} without preceding --custom/--exercises/--languages"
+    else
+      case "${git_repo_type}" in
+      custom   )   CUSTOM_GIT_REPO_URLS+=("${git_repo_url}");;
+      exercises) EXERCISE_GIT_REPO_URLS+=("${git_repo_url}");;
+      languages) LANGUAGE_GIT_REPO_URLS+=("${git_repo_url}");;
+      esac
+    fi
+  done
+
+  if [ "${git_repo_url}" = '--custom' ] && no_custom_git_repo_urls; then
+    error 7 '--custom requires at least one <git-repo-url>'
+  fi
+  if [ "${git_repo_url}" = '--exercises' ] && no_exercise_git_repo_urls; then
+    error 8 '--exercises requires at least one <git-repo-url>'
+  fi
+  if [ "${git_repo_url}" = '--languages' ] && no_language_git_repo_urls; then
+    error 9 '--languages requires at least one <git-repo-url>'
+  fi
+}
+
+# - - - - - - - - - - - - - - - - -
+
+set_defaults_git_repos()
+{
+  if no_custom_git_repo_urls; then
+    CUSTOM_GIT_REPO_URLS+=(https://github.com/cyber-dojo/start-points-custom.git)
+  fi
+  if no_exercise_git_repo_urls; then
+    EXERCISE_GIT_REPO_URLS+=(https://github.com/cyber-dojo/start-points-exercises.git)
+  fi
+  if no_language_git_repo_urls; then
+    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/csharp-nunit)
+    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/gcc-googletest)
+    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/gplusplus-googlemock)
+    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/java-junit)
+    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/javascript-jasmine)
+    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/python-pytest)
+    LANGUAGE_GIT_REPO_URLS+=(https://github.com/cyber-dojo-languages/ruby-minitest)
+  fi
+}
+
+# - - - - - - - - - - - - - - - - -
+
+git_clone_repos_into_context_dir()
+{
+  for git_repo_url in "${CUSTOM_GIT_REPO_URLS[@]}"; do
+    git_clone_one_repo_to_context_dir "custom" "${git_repo_url}"
+  done
+  for git_repo_url in "${EXERCISE_GIT_REPO_URLS[@]}"; do
+    git_clone_one_repo_to_context_dir "exercises" "${git_repo_url}"
+  done
+  for git_repo_url in "${LANGUAGE_GIT_REPO_URLS[@]}"; do
+    git_clone_one_repo_to_context_dir "languages" "${git_repo_url}"
+  done
+}
+
+# - - - - - - - - - - - - - - - - -
 # Two or more git-repo-urls could have the same name
 # but be from different repositories.
 # So git clone each repo into its own unique directory
@@ -142,87 +232,6 @@ git_clone_one_repo_to_context_dir()
   echo -e   "${git_repo_type} \t ${git_repo_url} \t ${git_repo_sha} \t ${git_repo_index}" >> "${CONTEXT_DIR}/shas.txt"
   rm -rf "${CONTEXT_DIR}/${git_repo_type}/${git_repo_index}/.git"
   git_repo_index=$((git_repo_index + 1))
-}
-
-# - - - - - - - - - - - - - - - - -
-# TODO:
-# gather the git-repo-urls into 3 arrays.
-# populate arrays with defaults if they are empty.
-# exit if error 6,7,8,9 detected.
-# Only then attempt to git clone each git-repo-url
-
-declare use_language_defaults='true'
-declare use_exercise_defaults='true'
-declare use_custom_defaults='true'
-
-git_clone_named_repos_into_context_dir()
-{
-  local git_repo_urls="${*}"
-  local git_repo_type=''
-  for git_repo_url in ${git_repo_urls}; do
-    case "${git_repo_url}" in
-    --custom)    git_repo_type=custom;    continue;;
-    --exercises) git_repo_type=exercises; continue;;
-    --languages) git_repo_type=languages; continue;;
-    esac
-    if [ -z "${git_repo_type}" ]; then
-      error 6 "<git-repo-url> ${git_repo_url} without preceding --custom/--exercises/--languages"
-    fi
-    git_clone_one_repo_to_context_dir "${git_repo_type}" "${git_repo_url}"
-    case "${git_repo_type}" in
-    custom)    use_custom_defaults='false'  ;;
-    exercises) use_exercise_defaults='false';;
-    languages) use_language_defaults='false';;
-    esac
-  done
-
-  if [ "${git_repo_url}" = '--custom' ] &&
-     [ "${use_custom_defaults}" = 'true' ]
-  then
-    error 7 '--custom requires at least one <git-repo-url>'
-  fi
-  if [ "${git_repo_url}" = '--exercises' ] &&
-     [ "${use_exercise_defaults}" = 'true' ]
-  then
-    error 8 '--exercises requires at least one <git-repo-url>'
-  fi
-  if [ "${git_repo_url}" = '--languages' ] &&
-     [ "${use_language_defaults}" = 'true' ]
-  then
-    error 9 '--languages requires at least one <git-repo-url>'
-  fi
-}
-
-# - - - - - - - - - - - - - - - - -
-
-git_clone_default_repos_into_context_dir()
-{
-  if [ "${use_custom_defaults}" = 'true' ]; then
-    echo 'using default <git-repo-url> for --custom'
-    git_clone_all_repos_to_context_dir \
-      --custom \
-        https://github.com/cyber-dojo/start-points-custom.git
-  fi
-
-  if [ "${use_exercise_defaults}" = 'true' ]; then
-    echo 'using default <git-repo-url> for --exercises'
-    git_clone_all_repos_to_context_dir \
-      --exercises \
-        https://github.com/cyber-dojo/start-points-exercises.git
-  fi
-
-  if [ "${use_language_defaults}" = 'true' ]; then
-    echo 'using default <git-repo-urls> for --languages'
-    git_clone_all_repos_to_context_dir \
-      --languages \
-        https://github.com/cyber-dojo-languages/csharp-nunit         \
-        https://github.com/cyber-dojo-languages/gcc-googletest       \
-        https://github.com/cyber-dojo-languages/gplusplus-googlemock \
-        https://github.com/cyber-dojo-languages/java-junit           \
-        https://github.com/cyber-dojo-languages/javascript-jasmine   \
-        https://github.com/cyber-dojo-languages/python-pytest        \
-        https://github.com/cyber-dojo-languages/ruby-minitest
-  fi
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -258,6 +267,7 @@ exit_non_zero_if_docker_not_installed
 exit_non_zero_if_show_use
 exit_non_zero_if_no_image_name
 
-git_clone_named_repos_into_context_dir "${*}"
-git_clone_default_repos_into_context_dir
+gather_git_repo_urls_from_args "${*}"
+set_defaults_git_repos
+git_clone_repos_into_context_dir
 build_image_from_context_dir
