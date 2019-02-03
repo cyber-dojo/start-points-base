@@ -1,8 +1,8 @@
 #!/bin/bash
-readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
-. ${my_dir}/starter_helpers.sh
 
-test_001a_git_must_be_installed()
+echo "::${0##*/}"
+
+test_git_must_be_installed()
 {
   export GIT_PROGRAM='git_xxx'
   local image_name="${FUNCNAME[0]}"
@@ -16,7 +16,7 @@ test_001a_git_must_be_installed()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_001b_docker_must_be_installed()
+test_docker_must_be_installed()
 {
   export DOCKER_PROGRAM='docker_xxx'
   local image_name="${FUNCNAME[0]}"
@@ -30,7 +30,7 @@ test_001b_docker_must_be_installed()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_001c_custom_requires_image_name()
+test_custom_option_requires_image_name()
 {
   build_start_points_image --custom
   assert_stdout_equals ''
@@ -40,7 +40,7 @@ test_001c_custom_requires_image_name()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_001d_exercises_requires_image_name()
+test_exercises_option_requires_image_name()
 {
   build_start_points_image --exercises
   assert_stdout_equals ''
@@ -50,7 +50,7 @@ test_001d_exercises_requires_image_name()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_001e_languages_requires_image_name()
+test_languages_option_requires_image_name()
 {
   build_start_points_image --languages
   assert_stdout_equals ''
@@ -60,7 +60,7 @@ test_001e_languages_requires_image_name()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_001f_git_repo_url_requires_preceding_custom_or_exercises_or_languages()
+test_git_repo_url_requires_preceding_custom_or_exercises_or_languages()
 {
   local image_name="${FUNCNAME[0]}"
   local git_repo_url=file://a/b/c
@@ -73,7 +73,7 @@ test_001f_git_repo_url_requires_preceding_custom_or_exercises_or_languages()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_001g_custom_requires_at_least_one_following_git_repo_url()
+test_custom_option_requires_at_least_one_following_git_repo_url()
 {
   local image_name="${FUNCNAME[0]}"
   build_start_points_image "${image_name}" --custom
@@ -85,7 +85,7 @@ test_001g_custom_requires_at_least_one_following_git_repo_url()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_001h_exercises_requires_at_least_one_following_git_repo_url()
+test_exercises_option_requires_at_least_one_following_git_repo_url()
 {
   local image_name="${FUNCNAME[0]}"
   build_start_points_image "${image_name}" --exercises
@@ -97,7 +97,7 @@ test_001h_exercises_requires_at_least_one_following_git_repo_url()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_001i_languages_requires_at_least_one_following_git_repo_url()
+test_languages_option_requires_at_least_one_following_git_repo_url()
 {
   local image_name="${FUNCNAME[0]}"
   build_start_points_image "${image_name}" --languages
@@ -107,5 +107,7 @@ test_001i_languages_requires_at_least_one_following_git_repo_url()
   refute_image_created "${image_name}"
 }
 
+readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
+. ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh
 . ${my_dir}/shunit2

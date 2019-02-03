@@ -1,8 +1,8 @@
 #!/bin/bash
-readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
-. ${my_dir}/starter_helpers.sh
 
-test_002a_custom_repo_contains_no_manifests()
+echo "::${0##*/}"
+
+test_custom_repo_contains_no_manifests()
 {
   make_TMP_DIR_for_git_repos
   local C1_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
@@ -30,7 +30,7 @@ test_002a_custom_repo_contains_no_manifests()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_002b_exercises_repo_contains_no_manifests()
+test_exercises_repo_contains_no_manifests()
 {
   make_TMP_DIR_for_git_repos
   local C1_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
@@ -58,7 +58,7 @@ test_002b_exercises_repo_contains_no_manifests()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_002c_languages_repo_contains_no_manifests()
+test_languages_repo_contains_no_manifests()
 {
   make_TMP_DIR_for_git_repos
   local C1_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
@@ -86,5 +86,7 @@ test_002c_languages_repo_contains_no_manifests()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
+. ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh
 . ${my_dir}/shunit2

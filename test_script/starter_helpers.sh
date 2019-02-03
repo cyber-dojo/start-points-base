@@ -145,3 +145,37 @@ assert_stdout_equals_use()
   assert_stdout_includes "${help_line_6}"
   assert_stdout_line_count_equals 56
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+assert_stdout_includes_default_custom_url()
+{
+  local default_custom='https://github.com/cyber-dojo/start-points-custom.git'
+  assert_stdout_includes "$(echo -e "--custom \t ${default_custom}")"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+assert_stdout_includes_default_exercises_url()
+{
+  local default_exercises='https://github.com/cyber-dojo/start-points-exercises.git'
+  assert_stdout_includes "$(echo -e "--exercises \t ${default_exercises}")"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+assert_stdout_includes_default_languages_urls()
+{
+  local default_languages=( \
+    'https://github.com/cyber-dojo-languages/csharp-nunit' \
+    'https://github.com/cyber-dojo-languages/gcc-googletest' \
+    'https://github.com/cyber-dojo-languages/gplusplus-googlemock' \
+    'https://github.com/cyber-dojo-languages/java-junit'\
+    'https://github.com/cyber-dojo-languages/javascript-jasmine' \
+    'https://github.com/cyber-dojo-languages/python-pytest' \
+    'https://github.com/cyber-dojo-languages/ruby-minitest' \
+  )
+  for default_language in ${default_languages}; do
+    assert_stdout_includes "$(echo -e "--languages \t ${default_language}")"
+  done
+}

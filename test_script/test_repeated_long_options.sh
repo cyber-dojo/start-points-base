@@ -1,8 +1,8 @@
 #!/bin/bash
-readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
-. ${my_dir}/starter_helpers.sh
 
-test_005a_repeated_long_options()
+echo "::${0##*/}"
+
+test_repeated_long_options()
 {
   make_TMP_DIR_for_git_repos
   local C1_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
@@ -27,5 +27,7 @@ test_005a_repeated_long_options()
   assert_status_equals 0
 }
 
+readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
+. ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh
 . ${my_dir}/shunit2

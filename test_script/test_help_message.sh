@@ -1,8 +1,8 @@
 #!/bin/bash
-readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
-. ${my_dir}/starter_helpers.sh
 
-test_000_help_message()
+echo "::${0##*/}"
+
+test_help_message()
 {
   build_start_points_image
   assert_stdout_equals_use
@@ -15,5 +15,7 @@ test_000_help_message()
   assert_status_equals 3
 }
 
+readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
+. ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh
 . ${my_dir}/shunit2
