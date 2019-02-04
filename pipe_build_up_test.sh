@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
-readonly SH_DIR="$( cd "$( dirname "${0}" )/sh" && pwd )"
-"${SH_DIR}/pipe_build_up.sh"
-"${SH_DIR}/run_tests_in_containers.sh"
-"${SH_DIR}/run_script_tests.sh"
+readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
+rm -rf "${MY_DIR}/tmp" && mkdir "${MY_DIR}/tmp"
+"${MY_DIR}/sh/pipe_build_up.sh"
+"${MY_DIR}/sh/run_tests_in_containers.sh"
+"${MY_DIR}/sh/run_script_tests.sh"
