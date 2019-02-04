@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# The basic design choice for this script is whether to
+# 1) directly git-clone in this script (on the host) into
+#    the context dir before running [docker image build]
+# 2) indirectly inside a command in the Dockerfile passed
+#    to [docker image build].
+# I choose the former since the latter will not work for
+# a file://... url that is not rooted under /Users when
+# you are running on Docker-Toolbox.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 set -e
 
 readonly MY_NAME=$(basename "$0")
@@ -278,20 +288,20 @@ build_image_from_context_dir()
   # Hence the grep --invert-match to not print that.
   # But grep --invert-match changes the $? status.
   # Hence the || : because of [set -e].
-  local from_stdin='-'
-  echo "$(FROM_base_image_name)"         \
+  local stdin='-'
+  echo "FROM $(base_image_name)"         \
     | docker image build                 \
-        --file "${from_stdin}"           \
+        --file "${stdin}"                \
         --quiet                          \
         --tag "${IMAGE_NAME}"            \
         "${CONTEXT_DIR}"                 \
     | grep --invert-match 'sha256:' || :
 }
 
-FROM_base_image_name()
+base_image_name()
 {
   # Must be pushed to dockerhub in .circleci/config.yml
-  echo 'FROM cyberdojo/start-points-base:latest'
+  echo 'cyberdojo/start-points-base:latest'
 }
 
 # - - - - - - - - - - - - - - - - -
