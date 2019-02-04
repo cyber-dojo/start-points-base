@@ -164,6 +164,19 @@ test_duplicate_language_urls()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+test_malformed_image_name()
+{
+  local image_name='ALPHA/name' # no upper-case
+  build_start_points_image \
+    "${image_name}"
+
+  assert_stderr_includes "ERROR: malformed <image-name> ${image_name}"
+  assert_stderr_line_count_equals 1
+  assert_status_equals 14
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh

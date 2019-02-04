@@ -1,5 +1,6 @@
+require_relative 'well_formed_image_name'
 
-# TODO: check for malformed image_name 
+include WellFormedImageName
 
 def image_name
   ARGV[0]
@@ -63,5 +64,9 @@ end
 exit_non_zero_if_duplicate_urls_for(11, 'custom'   ,   custom_urls)
 exit_non_zero_if_duplicate_urls_for(12, 'exercises', exercise_urls)
 exit_non_zero_if_duplicate_urls_for(13, 'languages', language_urls)
+
+unless well_formed_image_name?(image_name)
+  error(14, "malformed <image-name> #{image_name}")
+end
 
 exit(0)
