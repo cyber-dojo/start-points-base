@@ -126,55 +126,55 @@ exit_non_zero_if_bad_image_name()
 
 # - - - - - - - - - - - - - - - - -
 
-declare -a CUSTOM_GIT_REPO_URLS=()
-declare -a EXERCISE_GIT_REPO_URLS=()
-declare -a LANGUAGE_GIT_REPO_URLS=()
+declare -a CUSTOM_URLS=()
+declare -a EXERCISE_URLS=()
+declare -a LANGUAGE_URLS=()
 
 no_custom_git_repo_urls()
 {
-  [ ${#CUSTOM_GIT_REPO_URLS[@]} -eq 0 ]
+  [ ${#CUSTOM_URLS[@]} -eq 0 ]
 }
 
 no_exercise_git_repo_urls()
 {
-  [ ${#EXERCISE_GIT_REPO_URLS[@]} -eq 0 ]
+  [ ${#EXERCISE_URLS[@]} -eq 0 ]
 }
 
 no_language_git_repo_urls()
 {
-  [ ${#LANGUAGE_GIT_REPO_URLS[@]} -eq 0 ]
+  [ ${#LANGUAGE_URLS[@]} -eq 0 ]
 }
 
 # - - - - - - - - - - - - - - - - -
 
 gather_git_repo_urls_from_args()
 {
-  local git_repo_urls="${*}"
-  local git_repo_type=''
-  for git_repo_url in ${git_repo_urls}; do
-    case "${git_repo_url}" in
-    --custom)    git_repo_type=custom;    continue;;
-    --exercises) git_repo_type=exercises; continue;;
-    --languages) git_repo_type=languages; continue;;
+  local urls="${*}"
+  local type=''
+  for url in ${urls}; do
+    case "${url}" in
+    --custom)    type=custom;    continue;;
+    --exercises) type=exercises; continue;;
+    --languages) type=languages; continue;;
     esac
-    if [ -z "${git_repo_type}" ]; then
-      error 7 "<git-repo-url> ${git_repo_url} without preceding --custom/--exercises/--languages"
+    if [ -z "${type}" ]; then
+      error 7 "<git-repo-url> ${url} without preceding --custom/--exercises/--languages"
     else
-      case "${git_repo_type}" in
-      custom   )   CUSTOM_GIT_REPO_URLS+=("${git_repo_url}");;
-      exercises) EXERCISE_GIT_REPO_URLS+=("${git_repo_url}");;
-      languages) LANGUAGE_GIT_REPO_URLS+=("${git_repo_url}");;
+      case "${type}" in
+      custom   )   CUSTOM_URLS+=("${url}");;
+      exercises) EXERCISE_URLS+=("${url}");;
+      languages) LANGUAGE_URLS+=("${url}");;
       esac
     fi
   done
 
-  if [ "${git_repo_url}" = '--custom' ] && no_custom_git_repo_urls; then
+  if [ "${url}" = '--custom' ] && no_custom_git_repo_urls; then
     error 8 '--custom requires at least one <git-repo-url>'
   fi
-  if [ "${git_repo_url}" = '--exercises' ] && no_exercise_git_repo_urls; then
+  if [ "${url}" = '--exercises' ] && no_exercise_git_repo_urls; then
     error 9 '--exercises requires at least one <git-repo-url>'
   fi
-  if [ "${git_repo_url}" = '--languages' ] && no_language_git_repo_urls; then
+  if [ "${url}" = '--languages' ] && no_language_git_repo_urls; then
     error 10 '--languages requires at least one <git-repo-url>'
   fi
 }
@@ -184,17 +184,17 @@ gather_git_repo_urls_from_args()
 set_default_git_repo_urls()
 {
   if no_custom_git_repo_urls; then
-    CUSTOM_GIT_REPO_URLS=( \
+    CUSTOM_URLS=( \
       https://github.com/cyber-dojo/start-points-custom.git \
     )
   fi
   if no_exercise_git_repo_urls; then
-    EXERCISE_GIT_REPO_URLS=( \
+    EXERCISE_URLS=( \
       https://github.com/cyber-dojo/start-points-exercises.git \
     )
   fi
   if no_language_git_repo_urls; then
-    LANGUAGE_GIT_REPO_URLS=( \
+    LANGUAGE_URLS=( \
       https://github.com/cyber-dojo-languages/csharp-nunit \
       https://github.com/cyber-dojo-languages/gcc-googletest \
       https://github.com/cyber-dojo-languages/gplusplus-googlemock \
@@ -210,9 +210,9 @@ set_default_git_repo_urls()
 
 exit_non_zero_if_duplicate_git_repo_urls()
 {
-  exit_non_zero_if_duplicate_git_repo_urls_for 11 custom    "${CUSTOM_GIT_REPO_URLS[@]}"
-  exit_non_zero_if_duplicate_git_repo_urls_for 12 exercises "${EXERCISE_GIT_REPO_URLS[@]}"
-  exit_non_zero_if_duplicate_git_repo_urls_for 13 languages "${LANGUAGE_GIT_REPO_URLS[@]}"
+  exit_non_zero_if_duplicate_git_repo_urls_for 11 custom    "${CUSTOM_URLS[@]}"
+  exit_non_zero_if_duplicate_git_repo_urls_for 12 exercises "${EXERCISE_URLS[@]}"
+  exit_non_zero_if_duplicate_git_repo_urls_for 13 languages "${LANGUAGE_URLS[@]}"
 }
 
 exit_non_zero_if_duplicate_git_repo_urls_for()
@@ -235,14 +235,14 @@ exit_non_zero_if_duplicate_git_repo_urls_for()
 
 git_clone_repos_into_context_dir()
 {
-  for git_repo_url in "${CUSTOM_GIT_REPO_URLS[@]}"; do
-    git_clone_one_repo_to_context_dir custom "${git_repo_url}"
+  for url in "${CUSTOM_URLS[@]}"; do
+    git_clone_one_repo_to_context_dir custom "${url}"
   done
-  for git_repo_url in "${EXERCISE_GIT_REPO_URLS[@]}"; do
-    git_clone_one_repo_to_context_dir exercises "${git_repo_url}"
+  for url in "${EXERCISE_URLS[@]}"; do
+    git_clone_one_repo_to_context_dir exercises "${url}"
   done
-  for git_repo_url in "${LANGUAGE_GIT_REPO_URLS[@]}"; do
-    git_clone_one_repo_to_context_dir languages "${git_repo_url}"
+  for url in "${LANGUAGE_URLS[@]}"; do
+    git_clone_one_repo_to_context_dir languages "${url}"
   done
 }
 
@@ -255,15 +255,15 @@ declare git_repo_index=0
 
 git_clone_one_repo_to_context_dir()
 {
-  local git_repo_type="${1}"
-  local git_repo_url="${2}"
-  cd "${CONTEXT_DIR}/${git_repo_type}"
-  git clone --quiet --depth 1 "${git_repo_url}" "${git_repo_index}"
-  local git_repo_sha
-  git_repo_sha=$(cd ${git_repo_index} && git rev-parse HEAD)
-  echo -e "--${git_repo_type} \t ${git_repo_url}"
-  echo -e   "${git_repo_type} \t ${git_repo_url} \t ${git_repo_sha} \t ${git_repo_index}" >> "${CONTEXT_DIR}/shas.txt"
-  rm -rf "${CONTEXT_DIR}/${git_repo_type}/${git_repo_index}/.git"
+  local type="${1}"
+  local url="${2}"
+  cd "${CONTEXT_DIR}/${type}"
+  git clone --quiet --depth 1 "${url}" "${git_repo_index}"
+  local sha
+  sha=$(cd ${git_repo_index} && git rev-parse HEAD)
+  echo -e "--${type} \t ${url}"
+  echo -e   "${type} \t ${url} \t ${sha} \t ${git_repo_index}" >> "${CONTEXT_DIR}/shas.txt"
+  rm -rf "${CONTEXT_DIR}/${type}/${git_repo_index}/.git"
   git_repo_index=$((git_repo_index + 1))
 }
 
