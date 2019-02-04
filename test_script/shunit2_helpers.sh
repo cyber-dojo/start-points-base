@@ -102,7 +102,7 @@ oneTimeSetUp()
 
 absPath()
 {
-  #use like this [ local resolved=`abspath ./../a/b/c` ]
+  # use like this [ local resolved=`abspath ./../a/b/c` ]
   cd "$(dirname "$1")"
   printf "%s/%s\n" "$(pwd)" "$(basename "$1")"
 }

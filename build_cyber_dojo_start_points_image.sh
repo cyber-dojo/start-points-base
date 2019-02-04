@@ -22,9 +22,9 @@ show_use()
   Use:
     \$ ./${MY_NAME} \\
       <image-name> \\
-        [--custom    <git-repo-urls>] \\
-        [--exercises <git-repo-urls>] \\
-        [--languages <git-repo-urls>]
+        [--custom    <git-repo-url>...] \\
+        [--exercises <git-repo-url>...] \\
+        [--languages <git-repo-url>...]
 
   Creates a cyber-dojo start-point image named <image-name>.
   Its base image will be cyberdojo/start-points-base.
@@ -114,13 +114,14 @@ exit_non_zero_if_show_use()
   fi
 }
 
-exit_non_zero_if_no_image_name()
+exit_non_zero_if_bad_image_name()
 {
   case "${IMAGE_NAME}" in
     --custom)    error 4 '--custom requires preceding <image_name>';;
     --exercises) error 5 '--exercises requires preceding <image_name>';;
     --languages) error 6 '--languages requires preceding <image_name>';;
   esac
+  #TODO: check if image_name is malformed
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -180,7 +181,7 @@ gather_git_repo_urls_from_args()
 
 # - - - - - - - - - - - - - - - - -
 
-set_defaults_git_repos()
+set_default_git_repo_urls()
 {
   if no_custom_git_repo_urls; then
     CUSTOM_GIT_REPO_URLS=( \
@@ -274,9 +275,10 @@ FROM_base_image_name()
 exit_non_zero_if_git_not_installed
 exit_non_zero_if_docker_not_installed
 exit_non_zero_if_show_use
-exit_non_zero_if_no_image_name
+exit_non_zero_if_bad_image_name
 
 gather_git_repo_urls_from_args "${*}"
-set_defaults_git_repos
+set_default_git_repo_urls
+#TODO: exit_non_zero_if_duplicate_git_repo_urls
 git_clone_repos_into_context_dir
 build_image_from_context_dir

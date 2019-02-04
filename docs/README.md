@@ -1,7 +1,7 @@
 
 <img src="https://raw.githubusercontent.com/cyber-dojo/nginx/master/images/home_page_logo.png" alt="cyber-dojo yin/yang logo" width="50px" height="50px"/>
 
-New starter architecture (not live yet)
+New starter architecture
 [![CircleCI](https://circleci.com/gh/cyber-dojo/start-points-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/start-points-base)
 
 The source for the cyberdojo/start-points-base docker-image.
@@ -13,21 +13,22 @@ The subsequent arguments are git-cloneable URLs containing the source for the st
 
 ```bash
 $ ./build_cyber_dojo_start_points_image.sh --help
-Use: ./build_cyber_dojo_start_points_image.sh <image-name> \
-    --languages <git-repo-urls> \
-    --exercises <git-repo-urls> \
-    --custom    <git-repo-urls> \
+Use: ./build_cyber_dojo_start_points_image.sh \
+       <image-name> \
+         [--languages <git-repo-url>...] \
+         [--exercises <git-repo-url>...] \
+         [--custom    <git-repo-url>...] \
 ```
 
 ```bash
 $ ./build_cyber_dojo_start_points_image.sh \
-    acme/my-start-points \
-      --languages \
-        https://github.com/cyber-dojo/start-points-languages.git \
-      --exercises \
-        https://github.com/cyber-dojo/start-points-exercises.git \
-      --custom \
-        https://github.com/cyber-dojo/start-points-custom.git    \
+      acme/my-start-points \
+        --languages \
+          https://github.com/cyber-dojo/start-points-languages.git \
+        --exercises \
+          https://github.com/cyber-dojo/start-points-exercises.git \
+        --custom \
+          https://github.com/cyber-dojo/start-points-custom.git    \
 ```
 
 There are 3 kinds of start-points
