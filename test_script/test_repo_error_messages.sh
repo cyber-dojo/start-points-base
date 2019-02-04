@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "::${0##*/}"
-
 test_custom_repo_contains_no_manifests()
 {
   make_TMP_DIR_for_git_repos
@@ -86,6 +84,7 @@ test_languages_repo_contains_no_manifests()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh

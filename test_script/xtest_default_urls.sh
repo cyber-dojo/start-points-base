@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "::${0##*/}"
-
 test_default_custom_url()
 {
   make_TMP_DIR_for_git_repos
@@ -82,6 +80,7 @@ test_all_default_urls()
   assert_status_equals 0
 }
 
+echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh

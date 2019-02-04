@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "::${0##*/}"
-
 test_git_must_be_installed()
 {
   export GIT_PROGRAM='git_xxx'
@@ -166,6 +164,7 @@ test_duplicate_language_urls()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh
