@@ -3,7 +3,7 @@ set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
-exit_if_bad_ROOT_DIR()
+exit_if_ROOT_DIR_not_in_context()
 {
   if using_DockerToolbox && on_Mac; then
     if [ "${ROOT_DIR:0:6}" != "/Users" ]; then
@@ -47,6 +47,12 @@ remove_TMP_DIR()
 
 # - - - - - - - - - - - - - - - - -
 
+build_image_which_creates_test_data_git_repos()
+{
+  # This builds cyberdojo/create-start-points-test-data
+  "${ROOT_DIR}/test_data/build_docker_image.sh"
+}
+
 create_git_repo_in_TMP_DIR_from()
 {
   local data_set_name="${1}"
@@ -78,11 +84,11 @@ image_name()
 
 # - - - - - - - - - - - - - - - - -
 
-exit_if_bad_ROOT_DIR
+build_image_which_creates_test_data_git_repos
+exit_if_ROOT_DIR_not_in_context
 make_TMP_DIR
 
-#readonly C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-tennis)
-readonly C2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-yahtzee)
+readonly C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-yahtzee)
 readonly E1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-bowling-game)
 readonly E2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-fizz-buzz)
 readonly E3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-leap-years)
@@ -94,7 +100,7 @@ readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from ltf-ruby-minitest)
 "${ROOT_DIR}/$(build_image_script_name)" \
   "$(image_name)"                        \
     --custom                             \
-      "file://${C2_TMP_DIR}"             \
+      "file://${C1_TMP_DIR}"             \
     --exercises                          \
       "file://${E1_TMP_DIR}"             \
       "file://${E2_TMP_DIR}"             \
