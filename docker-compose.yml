@@ -32,11 +32,3 @@ services:
     restart: 'no'
     ports:
       - 4527:4527
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  create_starter_test_data:
-    build:
-      context: test_data
-    user: nobody
-    image: cyberdojo/create-start-points-test-data

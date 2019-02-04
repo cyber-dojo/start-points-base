@@ -1,6 +1,5 @@
 set -e
-readonly SH_DIR="$( cd "$( dirname "${0}" )/sh" && pwd )"
-
-"${SH_DIR}/build_base_docker_image.sh"
-"${SH_DIR}/build_docker_images.sh"
-"${SH_DIR}/run_script_tests.sh" "${*}"
+readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
+"${MY_DIR}/sh/build_base_docker_image.sh"
+"${MY_DIR}/test_data/build_docker_image.sh"
+"${MY_DIR}/sh/run_script_tests.sh" "${*}"
