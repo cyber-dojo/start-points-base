@@ -199,7 +199,7 @@ exit_non_zero_if_bad_args "${*}"
 exit_non_zero_if_git_not_installed
 exit_non_zero_if_docker_not_installed
 
-shift # TODO shift inside gather_urls_from_args
+shift
 gather_urls_from_args "${*}"
 set_default_urls
 git_clone_urls_into_context_dir
