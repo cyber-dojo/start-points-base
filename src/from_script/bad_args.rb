@@ -30,14 +30,14 @@ last_url = ''
 ARGV[1..-1].each do |url|
   if ['--custom','--exercises','--languages'].include?(url)
     type = url
-  elsif type == ''
-    error(7, "<git-repo-url> #{url} without preceding --custom/--exercises/--languages")
-  elsif type == '--custom'
-    custom_urls << url
-  elsif type == '--exercises'
-    exercise_urls << url
-  elsif type == '--languages'
-    language_urls << url
+  else
+    case type
+    when '--custom'   ;   custom_urls << url
+    when '--exercises'; exercise_urls << url
+    when '--languages'; language_urls << url
+    else
+      error(7, "<git-repo-url> #{url} without preceding --custom/--exercises/--languages")
+    end
   end
   last_url = url
 end
