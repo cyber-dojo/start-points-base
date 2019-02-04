@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# The basic design choice for this script is whether to
-# 1) directly git-clone in this script (on the host) into
-#    the context dir before running [docker image build]
-# 2) indirectly inside a command in the Dockerfile passed
-#    to [docker image build].
-# I choose the former since the latter will not work for
-# a file://... url that is not rooted under /Users when
-# you are running on Docker-Toolbox.
+# Design choice: where to git-clone?
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 1) directly from this script into the context dir
+#    before running [docker image build].
+#    This will run on the host.
+# 2) indirectly inside a command in the Dockerfile
+#    passed to [docker image build].
+#    This will run wherever the docker daemon is.
+#
+# I choose 1) since 2) will not work for a local
+# file://... url that is not rooted under /Users
+# when you are running on Docker-Toolbox.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 set -e
 
