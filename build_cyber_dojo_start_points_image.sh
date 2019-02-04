@@ -13,9 +13,7 @@ set -e
 
 readonly MY_NAME=$(basename "$0")
 readonly IMAGE_NAME="${1}"
-if [ -n "${IMAGE_NAME}" ]; then
-  shift
-fi
+
 readonly CONTEXT_DIR=$(mktemp -d)
 cleanup() { rm -rf "${CONTEXT_DIR}" > /dev/null; }
 trap cleanup EXIT
@@ -25,12 +23,27 @@ mkdir "${CONTEXT_DIR}/languages"
 
 # - - - - - - - - - - - - - - - - -
 
-show_use()
+exit_zero_if_show_use()
 {
-  docker container run \
-    --rm \
-    $(base_image_name) \
-    ruby /app/src/from_script/show_use.rb "${MY_NAME}"
+  if [ "${IMAGE_NAME}" = '' ] || [ "${IMAGE_NAME}" = '--help' ]; then
+    docker container run --rm $(base_image_name) \
+      ruby /app/src/from_script/show_use.rb "${MY_NAME}"
+    exit 0
+  fi
+}
+
+# - - - - - - - - - - - - - - - - -
+
+exit_non_zero_if_bad_args()
+{
+  set +e
+  docker container run --rm $(base_image_name) \
+    ruby /app/src/from_script/bad_args.rb ${*}
+  local status=$?
+  set -e
+  if [ "${status}" != "0" ]; then
+    exit "${status}"
+  fi
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -59,48 +72,11 @@ exit_non_zero_if_docker_not_installed()
   fi
 }
 
-exit_non_zero_if_show_use()
-{
-  if [ "${IMAGE_NAME}" = '' ] || [ "${IMAGE_NAME}" = '--help' ]; then
-    show_use
-    # Exit with a non-zero value. CI/CD relies on a zero status
-    # meaning an image was built and it ready to push.
-    exit 3
-  fi
-}
-
-exit_non_zero_if_bad_image_name()
-{
-  case "${IMAGE_NAME}" in
-    --custom)    error 4 '--custom requires preceding <image_name>';;
-    --exercises) error 5 '--exercises requires preceding <image_name>';;
-    --languages) error 6 '--languages requires preceding <image_name>';;
-  esac
-  #TODO: check if image_name is malformed
-}
-
 # - - - - - - - - - - - - - - - - -
 
 declare -a CUSTOM_URLS=()
 declare -a EXERCISE_URLS=()
 declare -a LANGUAGE_URLS=()
-
-no_custom_urls()
-{
-  [ ${#CUSTOM_URLS[@]} -eq 0 ]
-}
-
-no_exercise_urls()
-{
-  [ ${#EXERCISE_URLS[@]} -eq 0 ]
-}
-
-no_language_urls()
-{
-  [ ${#LANGUAGE_URLS[@]} -eq 0 ]
-}
-
-# - - - - - - - - - - - - - - - - -
 
 gather_urls_from_args()
 {
@@ -112,43 +88,29 @@ gather_urls_from_args()
     --exercises) type=exercises; continue;;
     --languages) type=languages; continue;;
     esac
-    if [ -z "${type}" ]; then
-      error 7 "<git-repo-url> ${url} without preceding --custom/--exercises/--languages"
-    else
-      case "${type}" in
-      custom   )   CUSTOM_URLS+=("${url}");;
-      exercises) EXERCISE_URLS+=("${url}");;
-      languages) LANGUAGE_URLS+=("${url}");;
-      esac
-    fi
+    case "${type}" in
+    custom   )   CUSTOM_URLS+=("${url}");;
+    exercises) EXERCISE_URLS+=("${url}");;
+    languages) LANGUAGE_URLS+=("${url}");;
+    esac
   done
-
-  if [ "${url}" = '--custom' ] && no_custom_urls; then
-    error 8 '--custom requires at least one <git-repo-url>'
-  fi
-  if [ "${url}" = '--exercises' ] && no_exercise_urls; then
-    error 9 '--exercises requires at least one <git-repo-url>'
-  fi
-  if [ "${url}" = '--languages' ] && no_language_urls; then
-    error 10 '--languages requires at least one <git-repo-url>'
-  fi
 }
 
 # - - - - - - - - - - - - - - - - -
 
 set_default_urls()
 {
-  if no_custom_urls; then
+  if [ ${#CUSTOM_URLS[@]} -eq 0 ]; then
     CUSTOM_URLS=( \
       https://github.com/cyber-dojo/start-points-custom.git \
     )
   fi
-  if no_exercise_urls; then
+  if [ ${#EXERCISE_URLS[@]} -eq 0 ]; then
     EXERCISE_URLS=( \
       https://github.com/cyber-dojo/start-points-exercises.git \
     )
   fi
-  if no_language_urls; then
+  if [ ${#LANGUAGE_URLS[@]} -eq 0 ]; then
     LANGUAGE_URLS=( \
       https://github.com/cyber-dojo-languages/csharp-nunit \
       https://github.com/cyber-dojo-languages/gcc-googletest \
@@ -158,30 +120,6 @@ set_default_urls()
       https://github.com/cyber-dojo-languages/python-pytest \
       https://github.com/cyber-dojo-languages/ruby-minitest \
     )
-  fi
-}
-
-# - - - - - - - - - - - - - - - - -
-
-exit_non_zero_if_duplicate_urls()
-{
-  exit_non_zero_if_duplicate_urls_for 11 custom    "${CUSTOM_URLS[@]}"
-  exit_non_zero_if_duplicate_urls_for 12 exercises "${EXERCISE_URLS[@]}"
-  exit_non_zero_if_duplicate_urls_for 13 languages "${LANGUAGE_URLS[@]}"
-}
-
-exit_non_zero_if_duplicate_urls_for()
-{
-  local status="${1}"
-  local url_type="${2}"
-  shift; shift
-  local urls=("${@}")
-  local count=$(printf '%s\n' "${urls[@]}"|awk '!($0 in seen){seen[$0];c++} END {print c}')
-  if (( count != ${#urls[@]} )); then
-    local newline=$'\n'
-    local msg="--${url_type} duplicated git-repo-urls${newline}"
-    msg="${msg}$(printf '%s\n' "${urls[@]}"|awk '!($0 in seen){seen[$0];next} 1')"
-    error "${status}" "${msg}"
   fi
 }
 
@@ -251,13 +189,13 @@ base_image_name()
 
 # - - - - - - - - - - - - - - - - -
 
+exit_zero_if_show_use
+exit_non_zero_if_bad_args "${*}"
 exit_non_zero_if_git_not_installed
 exit_non_zero_if_docker_not_installed
-exit_non_zero_if_show_use
-exit_non_zero_if_bad_image_name
 
+shift # TODO shift inside gather_urls_from_args
 gather_urls_from_args "${*}"
 set_default_urls
-exit_non_zero_if_duplicate_urls
 git_clone_urls_into_context_dir
 build_image_from_context_dir
