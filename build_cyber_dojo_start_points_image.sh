@@ -158,7 +158,7 @@ gather_git_repo_urls_from_args()
     --languages) git_repo_type=languages; continue;;
     esac
     if [ -z "${git_repo_type}" ]; then
-      error 6 "<git-repo-url> ${git_repo_url} without preceding --custom/--exercises/--languages"
+      error 7 "<git-repo-url> ${git_repo_url} without preceding --custom/--exercises/--languages"
     else
       case "${git_repo_type}" in
       custom   )   CUSTOM_GIT_REPO_URLS+=("${git_repo_url}");;
@@ -169,13 +169,13 @@ gather_git_repo_urls_from_args()
   done
 
   if [ "${git_repo_url}" = '--custom' ] && no_custom_git_repo_urls; then
-    error 7 '--custom requires at least one <git-repo-url>'
+    error 8 '--custom requires at least one <git-repo-url>'
   fi
   if [ "${git_repo_url}" = '--exercises' ] && no_exercise_git_repo_urls; then
-    error 8 '--exercises requires at least one <git-repo-url>'
+    error 9 '--exercises requires at least one <git-repo-url>'
   fi
   if [ "${git_repo_url}" = '--languages' ] && no_language_git_repo_urls; then
-    error 9 '--languages requires at least one <git-repo-url>'
+    error 10 '--languages requires at least one <git-repo-url>'
   fi
 }
 
@@ -203,6 +203,31 @@ set_default_git_repo_urls()
       https://github.com/cyber-dojo-languages/python-pytest \
       https://github.com/cyber-dojo-languages/ruby-minitest \
     )
+  fi
+}
+
+# - - - - - - - - - - - - - - - - -
+
+exit_non_zero_if_duplicate_git_repo_urls()
+{
+  exit_non_zero_if_duplicate_git_repo_urls_for 11 custom    "${CUSTOM_GIT_REPO_URLS[@]}"
+  exit_non_zero_if_duplicate_git_repo_urls_for 12 exercises "${EXERCISE_GIT_REPO_URLS[@]}"
+  exit_non_zero_if_duplicate_git_repo_urls_for 13 languages "${LANGUAGE_GIT_REPO_URLS[@]}"
+}
+
+exit_non_zero_if_duplicate_git_repo_urls_for()
+{
+  local status="${1}"
+  local type="${2}"
+  shift; shift
+  local urls=("${@}")
+  local count=$(printf '%s\n' "${urls[@]}"|awk '!($0 in seen){seen[$0];c++} END {print c}')
+  if (( count != ${#urls[@]} )); then
+    # error 2 'docker is not installed!'
+    local newline=$'\n'
+    local msg="--${type} duplicated git-repo-urls${newline}"
+    msg="${msg}$(printf '%s\n' "${urls[@]}"|awk '!($0 in seen){seen[$0];next} 1')"
+    error "${status}" "${msg}"
   fi
 }
 
@@ -279,6 +304,6 @@ exit_non_zero_if_bad_image_name
 
 gather_git_repo_urls_from_args "${*}"
 set_default_git_repo_urls
-#TODO: exit_non_zero_if_duplicate_git_repo_urls
+exit_non_zero_if_duplicate_git_repo_urls
 git_clone_repos_into_context_dir
 build_image_from_context_dir
