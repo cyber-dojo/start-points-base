@@ -130,24 +130,24 @@ declare -a CUSTOM_URLS=()
 declare -a EXERCISE_URLS=()
 declare -a LANGUAGE_URLS=()
 
-no_custom_git_repo_urls()
+no_custom_urls()
 {
   [ ${#CUSTOM_URLS[@]} -eq 0 ]
 }
 
-no_exercise_git_repo_urls()
+no_exercise_urls()
 {
   [ ${#EXERCISE_URLS[@]} -eq 0 ]
 }
 
-no_language_git_repo_urls()
+no_language_urls()
 {
   [ ${#LANGUAGE_URLS[@]} -eq 0 ]
 }
 
 # - - - - - - - - - - - - - - - - -
 
-gather_git_repo_urls_from_args()
+gather_urls_from_args()
 {
   local urls="${*}"
   local type=''
@@ -168,32 +168,32 @@ gather_git_repo_urls_from_args()
     fi
   done
 
-  if [ "${url}" = '--custom' ] && no_custom_git_repo_urls; then
+  if [ "${url}" = '--custom' ] && no_custom_urls; then
     error 8 '--custom requires at least one <git-repo-url>'
   fi
-  if [ "${url}" = '--exercises' ] && no_exercise_git_repo_urls; then
+  if [ "${url}" = '--exercises' ] && no_exercise_urls; then
     error 9 '--exercises requires at least one <git-repo-url>'
   fi
-  if [ "${url}" = '--languages' ] && no_language_git_repo_urls; then
+  if [ "${url}" = '--languages' ] && no_language_urls; then
     error 10 '--languages requires at least one <git-repo-url>'
   fi
 }
 
 # - - - - - - - - - - - - - - - - -
 
-set_default_git_repo_urls()
+set_default_urls()
 {
-  if no_custom_git_repo_urls; then
+  if no_custom_urls; then
     CUSTOM_URLS=( \
       https://github.com/cyber-dojo/start-points-custom.git \
     )
   fi
-  if no_exercise_git_repo_urls; then
+  if no_exercise_urls; then
     EXERCISE_URLS=( \
       https://github.com/cyber-dojo/start-points-exercises.git \
     )
   fi
-  if no_language_git_repo_urls; then
+  if no_language_urls; then
     LANGUAGE_URLS=( \
       https://github.com/cyber-dojo-languages/csharp-nunit \
       https://github.com/cyber-dojo-languages/gcc-googletest \
@@ -208,24 +208,23 @@ set_default_git_repo_urls()
 
 # - - - - - - - - - - - - - - - - -
 
-exit_non_zero_if_duplicate_git_repo_urls()
+exit_non_zero_if_duplicate_urls()
 {
-  exit_non_zero_if_duplicate_git_repo_urls_for 11 custom    "${CUSTOM_URLS[@]}"
-  exit_non_zero_if_duplicate_git_repo_urls_for 12 exercises "${EXERCISE_URLS[@]}"
-  exit_non_zero_if_duplicate_git_repo_urls_for 13 languages "${LANGUAGE_URLS[@]}"
+  exit_non_zero_if_duplicate_urls_for 11 custom    "${CUSTOM_URLS[@]}"
+  exit_non_zero_if_duplicate_urls_for 12 exercises "${EXERCISE_URLS[@]}"
+  exit_non_zero_if_duplicate_urls_for 13 languages "${LANGUAGE_URLS[@]}"
 }
 
-exit_non_zero_if_duplicate_git_repo_urls_for()
+exit_non_zero_if_duplicate_urls_for()
 {
   local status="${1}"
-  local type="${2}"
+  local url_type="${2}"
   shift; shift
   local urls=("${@}")
   local count=$(printf '%s\n' "${urls[@]}"|awk '!($0 in seen){seen[$0];c++} END {print c}')
   if (( count != ${#urls[@]} )); then
-    # error 2 'docker is not installed!'
     local newline=$'\n'
-    local msg="--${type} duplicated git-repo-urls${newline}"
+    local msg="--${url_type} duplicated git-repo-urls${newline}"
     msg="${msg}$(printf '%s\n' "${urls[@]}"|awk '!($0 in seen){seen[$0];next} 1')"
     error "${status}" "${msg}"
   fi
@@ -233,16 +232,16 @@ exit_non_zero_if_duplicate_git_repo_urls_for()
 
 # - - - - - - - - - - - - - - - - -
 
-git_clone_repos_into_context_dir()
+git_clone_urls_into_context_dir()
 {
   for url in "${CUSTOM_URLS[@]}"; do
-    git_clone_one_repo_to_context_dir custom "${url}"
+    git_clone_url_to_context_dir custom "${url}"
   done
   for url in "${EXERCISE_URLS[@]}"; do
-    git_clone_one_repo_to_context_dir exercises "${url}"
+    git_clone_url_to_context_dir exercises "${url}"
   done
   for url in "${LANGUAGE_URLS[@]}"; do
-    git_clone_one_repo_to_context_dir languages "${url}"
+    git_clone_url_to_context_dir languages "${url}"
   done
 }
 
@@ -251,20 +250,20 @@ git_clone_repos_into_context_dir()
 # but be from different repositories.
 # So git clone each repo into its own unique directory
 # based on a simple incrementing index.
-declare git_repo_index=0
+declare urls_index=0
 
-git_clone_one_repo_to_context_dir()
+git_clone_url_to_context_dir()
 {
   local type="${1}"
   local url="${2}"
   cd "${CONTEXT_DIR}/${type}"
-  git clone --quiet --depth 1 "${url}" "${git_repo_index}"
+  git clone --quiet --depth 1 "${url}" "${urls_index}"
   local sha
-  sha=$(cd ${git_repo_index} && git rev-parse HEAD)
+  sha=$(cd ${urls_index} && git rev-parse HEAD)
   echo -e "--${type} \t ${url}"
-  echo -e   "${type} \t ${url} \t ${sha} \t ${git_repo_index}" >> "${CONTEXT_DIR}/shas.txt"
-  rm -rf "${CONTEXT_DIR}/${type}/${git_repo_index}/.git"
-  git_repo_index=$((git_repo_index + 1))
+  echo -e   "${type} \t ${url} \t ${sha} \t ${urls_index}" >> "${CONTEXT_DIR}/shas.txt"
+  rm -rf "${CONTEXT_DIR}/${type}/${urls_index}/.git"
+  urls_index=$((urls_index + 1))
 }
 
 # - - - - - - - - - - - - - - - - -
@@ -302,8 +301,8 @@ exit_non_zero_if_docker_not_installed
 exit_non_zero_if_show_use
 exit_non_zero_if_bad_image_name
 
-gather_git_repo_urls_from_args "${*}"
-set_default_git_repo_urls
-exit_non_zero_if_duplicate_git_repo_urls
-git_clone_repos_into_context_dir
+gather_urls_from_args "${*}"
+set_default_urls
+exit_non_zero_if_duplicate_urls
+git_clone_urls_into_context_dir
 build_image_from_context_dir
