@@ -141,12 +141,12 @@ git_clone_one_url_to_context_dir()
   local url="${1}"
   local type="${2}"
   cd "${CONTEXT_DIR}/${type}"
-  local output
-  if ! output="$(git clone --depth 1 "${url}" "${URL_INDEX}" 2>&1)"; then
+  local stderr
+  if ! stderr="$(git clone --depth 1 "${url}" "${URL_INDEX}" 2>&1)"; then
     local newline=$'\n'
     local msg="git clone bad <git-repo-url>${newline}"
     msg+="--${type} ${url}${newline}"
-    msg+="${output}"
+    msg+="${stderr}"
     error 15 "${msg}"
   fi
 
@@ -164,23 +164,32 @@ git_clone_one_url_to_context_dir()
 
 build_image_from_context_dir()
 {
-  # We are building FROM an image that has an ONBUILD.
-  # We want the output from that ONBUILD.
-  # But we don't want the output from [docker build] itself.
-  # Hence the --quiet option. But a [docker build --quiet]
-  # still prints the sha of the created image.
-  # Hence the grep --invert-match to not print that.
-  # But grep --invert-match changes the $? status
-  # and we are running with [set -e].
-  # Hence the || : (or true)
-  local stdin='-'
-  echo "FROM $(base_image_name)"         \
-    | docker image build                 \
-        --file "${stdin}"                \
-        --quiet                          \
-        --tag "${IMAGE_NAME}"            \
-        "${CONTEXT_DIR}"                 \
-    | grep --invert-match 'sha256:' || :
+  echo "FROM $(base_image_name)" > "${CONTEXT_DIR}/Dockerfile"
+  local stderr
+  if ! stderr=$(docker image build \
+        --quiet                    \
+        --tag "${IMAGE_NAME}"      \
+        "${CONTEXT_DIR}" 2>&1)
+  then
+    # We are building FROM an image that has an ONBUILD.
+    # We want the output from that ONBUILD.
+    # But we don't want the output from [docker build] itself.
+    # Hence the --quiet option. stderr looks like this
+    #   1 Sending build context to Docker daemon  185.9kB
+    #   2 Step 1/1 : FROM cyberdojo/start-points-base:latest
+    #   3 # Executing 2 build triggers
+    #   4  ---> Running in fe6adeee193c
+    #   5 ERROR: no manifest.json files in
+    #   6 --custom file:///Users/.../custom_no_manifests
+    #   7 The command '/bin/sh -c ruby ...' returned a non-zero code: 16
+    #
+    # So we need to lose the first 4 lines, and the last line.
+    echo "${stderr}" | >&2 sed '1,4d;$d'
+    # TODO: get status from last line and exit that...
+    exit 16
+  else
+    : #TODO: echo "Successfully tagged ${IMAGE_NAME}"
+  fi
 }
 
 base_image_name()

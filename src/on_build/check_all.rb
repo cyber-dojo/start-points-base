@@ -33,7 +33,7 @@ def manifest_filenames(type)
     if manifest_filenames == []
       STDERR.puts('ERROR: no manifest.json files in')
       STDERR.puts("--#{type} #{url}")
-      exit(1)
+      exit(16)
     else
       result[url] = manifest_filenames
     end

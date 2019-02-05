@@ -49,6 +49,8 @@ test_more_than_one_repo_for_each_category()
   assert_status_equals 0
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
