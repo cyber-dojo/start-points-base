@@ -4,10 +4,9 @@
 # to the main Bash script
 #   build_cyber_dojo_start_points_image.sh
 #
-# The main Bash script runs a [docker build] command using
-# a generated Dockerfile written to a temporary context dir
-# The generated Dockerfile's base (FROM) image contains a
-# call to this Ruby script
+# The main Bash script runs a [docker build] whose
+# Dockerfile's base (FROM) image contains a call to
+# _this_ Ruby script
 #   ONBUILD RUN ruby /app/src/onbuild/check_all.rb /app/repos
 #
 # Thus, if this Ruby script returns a non-zero exit status
@@ -26,20 +25,21 @@ end
 
 def manifest_filenames(type)
   lines = `cat #{root_dir}/#{type}_shas.txt`.lines
-  r = Hash[lines.map { |line|
+  repos = Hash[lines.map { |line|
     index,sha,url = line.split
     [index.to_i, { sha:sha, url:url }]
   }]
-  result = []
-  r.each do |index,values|
-    dir_name = "#{root_dir}/#{type}/#{index}"
-    manifest_filenames = Dir.glob("#{dir_name}/**/manifest.json")
+  result = {}
+  repos.each do |index,values|
+    repo_dir_name = "#{root_dir}/#{type}/#{index}"
+    manifest_filenames = Dir.glob("#{repo_dir_name}/**/manifest.json")
+    url = values[:url]
     if manifest_filenames == []
       STDERR.puts('ERROR: no manifest.json files in')
-      STDERR.puts("--#{type} #{values[:url]}")
+      STDERR.puts("--#{type} #{url}")
       exit(1)
     else
-      result += manifest_filenames
+      result[url] = manifest_filenames
     end
   end
   result
