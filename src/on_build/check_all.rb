@@ -1,3 +1,4 @@
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Ruby script to detect faults in the start-point data
 # git-cloned from the git-repo-urls specified as arguments
 # to the main Bash script
@@ -12,72 +13,40 @@
 # Thus, if this Ruby script returns a non-zero exit status
 # the [docker build] fails and the main Bash script fails to
 # build a docker image.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 require 'json'
 
-def root_dir
-  # Set to /app/repos
-  # Off this are 3 dirs and one file
-  # custom/
-  # exercises/
-  # languages/
-  # shas.txt
+def root_dir # /app/repos
+  # Off this are:
+  #  3 dirs: custom/ exercises/ languages/
+  #  3 files: custom_shas.txt exercises_shas.txt languages_shas.txt
   ARGV[0]
 end
 
-def shas_filename
-  "#{root_dir}/shas.txt"
-end
-
-def repos
-  lines = `cat #{shas_filename}`.lines
-  Hash[lines.map { |line|
-    type,url,sha,index = line.split
-    [index.to_i, { type:type, url:url, sha:sha }]
+def manifest_filenames(type)
+  lines = `cat #{root_dir}/#{type}_shas.txt`.lines
+  r = Hash[lines.map { |line|
+    index,sha,url = line.split
+    [index.to_i, { sha:sha, url:url }]
   }]
-end
-
-def show_repos
-  repos.keys.sort.each do |key|
-    type = repos[key][:type]
-    puts(key)
-    puts(JSON.pretty_generate(repos[key]))
-    puts(`ls -al #{root_dir}/#{type}/#{key}`)
+  result = []
+  r.each do |index,values|
+    dir_name = "#{root_dir}/#{type}/#{index}"
+    manifest_filenames = Dir.glob("#{dir_name}/**/manifest.json")
+    if manifest_filenames == []
+      STDERR.puts('ERROR: no manifest.json files in')
+      STDERR.puts("--#{type} #{values[:url]}")
+      exit(1)
+    else
+      result += manifest_filenames
+    end
   end
+  result
 end
 
-Dir.glob("#{root_dir}/custom/*").each do |dir_name|
-  manifest_filenames = Dir.glob("#{dir_name}/**/manifest.json")
-  if manifest_filenames == []
-    index = File.basename(dir_name).to_i
-    url = repos[index][:url]
-    STDERR.puts('ERROR: no manifest.json files in')
-    STDERR.puts("--custom #{url}")
-    exit(1)
-  end
-end
-
-Dir.glob("#{root_dir}/exercises/*").each do |dir_name|
-  manifest_filenames = Dir.glob("#{dir_name}/**/manifest.json")
-  if manifest_filenames == []
-    index = File.basename(dir_name).to_i
-    url = repos[index][:url]
-    STDERR.puts('ERROR: no manifest.json files in')
-    STDERR.puts("--exercises #{url}")
-    exit(1)
-  end
-end
-
-Dir.glob("#{root_dir}/languages/*").each do |dir_name|
-  manifest_filenames = Dir.glob("#{dir_name}/**/manifest.json")
-  if manifest_filenames == []
-    index = File.basename(dir_name).to_i
-    url = repos[index][:url]
-    STDERR.puts('ERROR: no manifest.json files in')
-    STDERR.puts("--languages #{url}")
-    exit(1)
-  end
-end
-
+   custom_manifest_filenames = manifest_filenames('custom')
+exercises_manifest_filenames = manifest_filenames('exercises')
+languages_manifest_filenames = manifest_filenames('languages')
 
 exit(0)

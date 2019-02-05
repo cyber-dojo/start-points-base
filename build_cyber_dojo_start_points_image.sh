@@ -141,7 +141,6 @@ git_clone_one_url_to_context_dir()
   local url="${1}"
   local type="${2}"
   cd "${CONTEXT_DIR}/${type}"
-
   local output
   if ! output="$(git clone --depth 1 "${url}" "${URL_INDEX}" 2>&1)"; then
     local newline=$'\n'
@@ -154,9 +153,7 @@ git_clone_one_url_to_context_dir()
   local sha
   sha=$(cd ${URL_INDEX} && git rev-parse HEAD)
   echo -e "--${type} \t ${url}"
-  #TODO: --type
-  #TODO: have 3 shas.txt files, one in each dir custom/exercises/languages
-  echo -e   "${type} \t ${url} \t ${sha} \t ${URL_INDEX}" >> "${CONTEXT_DIR}/shas.txt"
+  echo -e "${URL_INDEX} \t ${sha} \t ${url}" >> "${CONTEXT_DIR}/${type}_shas.txt"
   rm -rf "${CONTEXT_DIR}/${type}/${URL_INDEX}/.git"
   # Two or more git-repo-urls could have the same name
   # but be from different repositories.
