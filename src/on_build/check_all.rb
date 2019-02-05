@@ -39,7 +39,7 @@ def manifest_filenames(status, type)
 end
 
    custom_manifest_filenames = manifest_filenames(16 ,'custom')
-exercises_manifest_filenames = manifest_filenames(17, 'exercises')
-languages_manifest_filenames = manifest_filenames(18, 'languages')
+exercises_manifest_filenames = manifest_filenames(16, 'exercises')
+languages_manifest_filenames = manifest_filenames(16, 'languages')
 
 exit(0)
