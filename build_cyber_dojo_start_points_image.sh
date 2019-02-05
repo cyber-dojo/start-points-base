@@ -130,36 +130,34 @@ remove_context_dir()
 git_clone_all_urls_into_context_dir()
 {
   for url in "${CUSTOM_URLS[@]}"; do
-    git_clone_one_url_to_context_dir custom "${url}"
+    git_clone_one_url_to_context_dir "${url}" custom
   done
   for url in "${EXERCISE_URLS[@]}"; do
-    git_clone_one_url_to_context_dir exercises "${url}"
+    git_clone_one_url_to_context_dir "${url}" exercises
   done
   for url in "${LANGUAGE_URLS[@]}"; do
-    git_clone_one_url_to_context_dir languages "${url}"
+    git_clone_one_url_to_context_dir "${url}" languages
   done
 }
 
-# - - - - - - - - - - - - - - - - -
-
-declare URLS_INDEX=0
+declare URL_INDEX=0
 
 git_clone_one_url_to_context_dir()
 {
-  local type="${1}"
-  local url="${2}"
+  local url="${1}"
+  local type="${2}"
   cd "${CONTEXT_DIR}/${type}"
-  git clone --quiet --depth 1 "${url}" "${URLS_INDEX}"
+  git clone --quiet --depth 1 "${url}" "${URL_INDEX}"
   local sha
-  sha=$(cd ${URLS_INDEX} && git rev-parse HEAD)
+  sha=$(cd ${URL_INDEX} && git rev-parse HEAD)
   echo -e "--${type} \t ${url}"
-  echo -e   "${type} \t ${url} \t ${sha} \t ${URLS_INDEX}" >> "${CONTEXT_DIR}/shas.txt"
-  rm -rf "${CONTEXT_DIR}/${type}/${URLS_INDEX}/.git"
+  echo -e   "${type} \t ${url} \t ${sha} \t ${URL_INDEX}" >> "${CONTEXT_DIR}/shas.txt"
+  rm -rf "${CONTEXT_DIR}/${type}/${URL_INDEX}/.git"
   # Two or more git-repo-urls could have the same name
   # but be from different repositories.
   # So git clone each repo into its own unique directory
   # based on a simple incrementing index.
-  URLS_INDEX=$((URLS_INDEX + 1))
+  URL_INDEX=$((URL_INDEX + 1))
 }
 
 # - - - - - - - - - - - - - - - - -
