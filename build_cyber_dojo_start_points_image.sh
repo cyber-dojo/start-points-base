@@ -10,9 +10,8 @@
 #    passed to [docker image build].
 #    This will run wherever the docker daemon is.
 #
-# I choose 1) since 2) will not work for a local
-# file://... url that is not rooted under /Users
-# when you are running on Docker-Toolbox.
+# I choose 1) since 2) will not work for some local
+# file:///... urls on Docker-Toolbox.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 set -e
 
@@ -25,6 +24,10 @@ trap cleanup EXIT
 mkdir "${CONTEXT_DIR}/custom"
 mkdir "${CONTEXT_DIR}/exercises"
 mkdir "${CONTEXT_DIR}/languages"
+
+declare -a CUSTOM_URLS=()
+declare -a EXERCISE_URLS=()
+declare -a LANGUAGE_URLS=()
 
 # - - - - - - - - - - - - - - - - -
 
@@ -61,7 +64,7 @@ error()
 
 # - - - - - - - - - - - - - - - - -
 
-exit_non_zero_if_git_not_installed()
+exit_non_zero_unless_git_installed()
 {
   local git="${GIT_PROGRAM:-git}"
   if ! hash "${git}" 2> /dev/null; then
@@ -69,7 +72,7 @@ exit_non_zero_if_git_not_installed()
   fi
 }
 
-exit_non_zero_if_docker_not_installed()
+exit_non_zero_unless_docker_installed()
 {
   local docker="${DOCKER_PROGRAM:-docker}"
   if ! hash "${docker}" 2> /dev/null; then
@@ -78,10 +81,6 @@ exit_non_zero_if_docker_not_installed()
 }
 
 # - - - - - - - - - - - - - - - - -
-
-declare -a CUSTOM_URLS=()
-declare -a EXERCISE_URLS=()
-declare -a LANGUAGE_URLS=()
 
 gather_urls_from_args()
 {
@@ -196,8 +195,8 @@ base_image_name()
 
 exit_zero_if_show_use
 exit_non_zero_if_bad_args "${*}"
-exit_non_zero_if_git_not_installed
-exit_non_zero_if_docker_not_installed
+exit_non_zero_unless_git_installed
+exit_non_zero_unless_docker_installed
 
 shift
 gather_urls_from_args "${*}"
