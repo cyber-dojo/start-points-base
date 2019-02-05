@@ -23,7 +23,8 @@ declare -a LANGUAGE_URLS=()
 exit_zero_if_show_use()
 {
   if docker container run --rm $(base_image_name) \
-      ruby /app/src/from_script/show_use.rb "${0}" "${1}"; then
+    /app/src/from_script/show_use.rb "${0}" "${1}"
+  then
     exit 0
   fi
 }
@@ -32,7 +33,7 @@ exit_non_zero_if_bad_args()
 {
   set +e
   docker container run --rm $(base_image_name) \
-    ruby /app/src/from_script/bad_args.rb ${*}
+    /app/src/from_script/bad_args.rb ${*}
   local status=$?
   set -e
   if [ "${status}" != "0" ]; then
@@ -182,7 +183,7 @@ build_image_from_context_dir()
     #   4  ---> Running in fe6adeee193c
     #---5 ERROR: no manifest.json files in
     #---6 --custom file:///Users/.../custom_no_manifests
-    #   7 The command '/bin/sh -c ruby ...' returned a non-zero code: 16
+    #   7 The command '/bin/sh -c ...' returned a non-zero code: 16
     #
     # On CircleCI stderr looks similar except for
     #   2  Step 1/1 : COPY . /app/repos
@@ -194,7 +195,7 @@ build_image_from_context_dir()
       | grep --invert-match 'Step 1/1'                         \
       | grep --invert-match '# Executing 2 build triggers'     \
       | grep --invert-match ' ---> Running in'                 \
-      | >&2 grep --invert-match "The command '/bin/sh -c ruby" \
+      | >&2 grep --invert-match "The command '/bin/sh -c"      \
       || :
     local last_line="${stderr##*$'\n'}"
     local last_word="${last_line##* }"

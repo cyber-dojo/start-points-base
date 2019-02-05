@@ -1,3 +1,8 @@
+#!/usr/bin/ruby
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Shows help-text for the main Bash script:
+#   build_cyber_dojo_start_points_image.sh
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def use_help_text
   script_name = File.basename(ARGV[0])

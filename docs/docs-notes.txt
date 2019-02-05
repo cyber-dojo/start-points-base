@@ -2,12 +2,10 @@
 move commander's start-point checking code
    to check_all.rb (with tests).
 
-----------------------------------------------------
-main script could gather all the command line args
-and only if all are ok should it go on to do the
-git clones. At the moment you could have a long list
-of --languages repos and then it fails because you end
-with a single -custom URL (one hyphen instead of two)
+check each manifest.json can be parsed as json
+check there are no duplicate keys
+then check individual keys
+
 
 ----------------------------------------------------
 Considered checking for a start-point branch in the named git-repo-urls.
