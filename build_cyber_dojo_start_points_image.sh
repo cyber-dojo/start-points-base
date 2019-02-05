@@ -18,17 +18,6 @@ set -e
 readonly MY_NAME=$(basename "$0")
 readonly IMAGE_NAME="${1}"
 
-readonly CONTEXT_DIR=$(mktemp -d)
-cleanup() { rm -rf "${CONTEXT_DIR}" > /dev/null; }
-trap cleanup EXIT
-mkdir "${CONTEXT_DIR}/custom"
-mkdir "${CONTEXT_DIR}/exercises"
-mkdir "${CONTEXT_DIR}/languages"
-
-declare -a CUSTOM_URLS=()
-declare -a EXERCISE_URLS=()
-declare -a LANGUAGE_URLS=()
-
 # - - - - - - - - - - - - - - - - -
 
 exit_zero_if_show_use()
@@ -39,8 +28,6 @@ exit_zero_if_show_use()
     exit 0
   fi
 }
-
-# - - - - - - - - - - - - - - - - -
 
 exit_non_zero_if_bad_args()
 {
@@ -53,16 +40,6 @@ exit_non_zero_if_bad_args()
     exit "${status}"
   fi
 }
-
-# - - - - - - - - - - - - - - - - -
-
-error()
-{
-  >&2 echo "ERROR: ${2}"
-  exit "${1}"
-}
-
-# - - - - - - - - - - - - - - - - -
 
 exit_non_zero_unless_git_installed()
 {
@@ -80,7 +57,17 @@ exit_non_zero_unless_docker_installed()
   fi
 }
 
+error()
+{
+  >&2 echo "ERROR: ${2}"
+  exit "${1}"
+}
+
 # - - - - - - - - - - - - - - - - -
+
+declare -a CUSTOM_URLS=()
+declare -a EXERCISE_URLS=()
+declare -a LANGUAGE_URLS=()
 
 gather_urls_from_args()
 {
@@ -129,6 +116,24 @@ set_default_urls()
 
 # - - - - - - - - - - - - - - - - -
 
+declare CONTEXT_DIR
+
+prepare_context_dir()
+{
+  CONTEXT_DIR=$(mktemp -d)
+  trap remove_context_dir EXIT
+  mkdir "${CONTEXT_DIR}/custom"
+  mkdir "${CONTEXT_DIR}/exercises"
+  mkdir "${CONTEXT_DIR}/languages"
+}
+
+remove_context_dir()
+{
+  rm -rf "${CONTEXT_DIR}" > /dev/null;
+}
+
+# - - - - - - - - - - - - - - - - -
+
 git_clone_urls_into_context_dir()
 {
   for url in "${CUSTOM_URLS[@]}"; do
@@ -143,6 +148,7 @@ git_clone_urls_into_context_dir()
 }
 
 # - - - - - - - - - - - - - - - - -
+
 # Two or more git-repo-urls could have the same name
 # but be from different repositories.
 # So git clone each repo into its own unique directory
@@ -173,8 +179,9 @@ build_image_from_context_dir()
   # Hence the --quiet option. But a [docker build --quiet]
   # still prints the sha of the created image.
   # Hence the grep --invert-match to not print that.
-  # But grep --invert-match changes the $? status.
-  # Hence the || : because of [set -e].
+  # But grep --invert-match changes the $? status
+  # and we are running with [set -e].
+  # Hence the || : (or true)
   local stdin='-'
   echo "FROM $(base_image_name)"         \
     | docker image build                 \
@@ -198,8 +205,9 @@ exit_non_zero_if_bad_args "${*}"
 exit_non_zero_unless_git_installed
 exit_non_zero_unless_docker_installed
 
-shift
+shift # image_name
 gather_urls_from_args "${*}"
 set_default_urls
+prepare_context_dir
 git_clone_urls_into_context_dir
 build_image_from_context_dir
