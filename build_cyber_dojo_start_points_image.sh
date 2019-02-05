@@ -14,6 +14,12 @@ set -e
 # file:///... urls on Docker-Toolbox.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+readonly IMAGE_NAME="${1}"
+
+declare -a CUSTOM_URLS=()
+declare -a EXERCISE_URLS=()
+declare -a LANGUAGE_URLS=()
+
 exit_zero_if_show_use()
 {
   if docker container run --rm $(base_image_name) \
@@ -55,12 +61,6 @@ error()
   >&2 echo "ERROR: ${2}"
   exit "${1}"
 }
-
-# - - - - - - - - - - - - - - - - -
-
-declare -a CUSTOM_URLS=()
-declare -a EXERCISE_URLS=()
-declare -a LANGUAGE_URLS=()
 
 gather_urls_from_args()
 {
@@ -107,10 +107,6 @@ set_default_urls()
   fi
 }
 
-# - - - - - - - - - - - - - - - - -
-
-declare CONTEXT_DIR
-
 prepare_context_dir()
 {
   CONTEXT_DIR=$(mktemp -d)
@@ -124,8 +120,6 @@ remove_context_dir()
 {
   rm -rf "${CONTEXT_DIR}" > /dev/null
 }
-
-# - - - - - - - - - - - - - - - - -
 
 git_clone_all_urls_into_context_dir()
 {
@@ -159,10 +153,6 @@ git_clone_one_url_to_context_dir()
   # based on a simple incrementing index.
   URL_INDEX=$((URL_INDEX + 1))
 }
-
-# - - - - - - - - - - - - - - - - -
-
-readonly IMAGE_NAME="${1}" # already checked
 
 build_image_from_context_dir()
 {
