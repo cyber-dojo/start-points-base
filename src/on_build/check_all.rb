@@ -24,16 +24,12 @@ def root_dir # /app/repos
 end
 
 def manifest_filenames(type)
-  lines = `cat #{root_dir}/#{type}_shas.txt`.lines
-  repos = Hash[lines.map { |line|
-    index,sha,url = line.split
-    [index.to_i, { sha:sha, url:url }]
-  }]
   result = {}
-  repos.each do |index,values|
+  lines = `cat #{root_dir}/#{type}_shas.txt`.lines
+  lines.each do |line|
+    index,sha,url = line.split
     repo_dir_name = "#{root_dir}/#{type}/#{index}"
     manifest_filenames = Dir.glob("#{repo_dir_name}/**/manifest.json")
-    url = values[:url]
     if manifest_filenames == []
       STDERR.puts('ERROR: no manifest.json files in')
       STDERR.puts("--#{type} #{url}")
