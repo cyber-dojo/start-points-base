@@ -1,8 +1,7 @@
 #!/usr/bin/ruby
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Detects faults in the start-point files git-cloned from
-# the git-repo-urls specified as arguments to the main Bash
-# script:
+# the urls specified as arguments to the main Bash script:
 #   build_cyber_dojo_start_points_image.sh
 # which runs a [docker image build] whose Dockerfile's
 # FROM image contains a call to _this_ Ruby script

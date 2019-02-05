@@ -5,14 +5,13 @@ move commander's start-point checking code
 check each manifest.json can be parsed as json
 check there are no duplicate keys
 then check individual keys
-
-
+    
 ----------------------------------------------------
 Considered checking for a start-point branch in the named git-repo-urls.
 This would help not git clone repos with large docker/ dirs (eg jars).
 Not doing this because CircleCI build-times are pretty good without it
 and it would be better to rewrite the Dockerfiles to do 'proper'
-installs rather than baking the jar files which get prgressively older
+installs rather than baking the jar files which get progressively older
 and older.
 
 git_clone_one_repo_to_context_dir()

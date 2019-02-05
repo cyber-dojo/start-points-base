@@ -175,8 +175,9 @@ build_image_from_context_dir()
     # We are building FROM an image that has an ONBUILD.
     # We want the output from that ONBUILD.
     # But we don't want the output from [docker build] itself.
-    # Hence the --quiet option. On Macbook using Docker-Toolbox
-    # stderr looks like this
+    # Hence the --quiet option.
+    #
+    # On a Macbook using Docker-Toolbox stderr looks like this
     #   1 Sending build context to Docker daemon  185.9kB
     #   2 Step 1/1 : FROM cyberdojo/start-points-base:latest
     #   3 # Executing 2 build triggers
@@ -187,7 +188,7 @@ build_image_from_context_dir()
     #
     # On CircleCI stderr looks similar except for
     #   2  Step 1/1 : COPY . /app/repos
-    #   3  Step 1/1 : RUN ruby /app/src/on_build/check_all.rb /app/repos
+    #   3  Step 1/1 : RUN /app/src/on_build/check_all.rb /app/repos
     #
     # We want only lines 5,6
     echo "${stderr}" \
