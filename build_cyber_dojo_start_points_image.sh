@@ -183,8 +183,14 @@ build_image_from_context_dir()
     #   6 --custom file:///Users/.../custom_no_manifests
     #   7 The command '/bin/sh -c ruby ...' returned a non-zero code: 16
     #
-    # So we need to lose the first 4 lines, and the last line.
-    echo "${stderr}" | >&2 sed '1,4d;$d'
+    # We want only lines 5,6
+    echo "${stderr}" \
+      | grep --invert-match 'Sending build context to Docker'  \
+      | grep --invert-match 'Step 1/1 : FROM cyberdojo'        \
+      | grep --invert-match '# Executing 2 build triggers'     \
+      | grep --invert-match ' ---> Running in'                 \
+      | >&2 grep --invert-match "The command '/bin/sh -c ruby" \
+      || :
     # TODO: get status from last line and exit that...
     exit 16
   else
