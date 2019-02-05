@@ -51,7 +51,7 @@ test_exercises_repo_contains_no_manifests()
   assert_stderr_includes "ERROR: no manifest.json files in"
   assert_stderr_includes "--exercises ${E2_TMP_URL}"
   assert_stderr_line_count_equals 2
-  #assert_status_equals 9
+  assert_status_equals 17
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -79,7 +79,7 @@ test_languages_repo_contains_no_manifests()
   assert_stderr_includes "ERROR: no manifest.json files in"
   assert_stderr_includes "--languages ${L2_TMP_URL}"
   assert_stderr_line_count_equals 2
-  #assert_status_equals 9
+  assert_status_equals 18
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

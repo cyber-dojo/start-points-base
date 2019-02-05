@@ -23,7 +23,7 @@ def root_dir # /app/repos
   ARGV[0]
 end
 
-def manifest_filenames(type)
+def manifest_filenames(status, type)
   result = {}
   lines = `cat #{root_dir}/#{type}_shas.txt`.lines
   lines.each do |line|
@@ -33,7 +33,7 @@ def manifest_filenames(type)
     if manifest_filenames == []
       STDERR.puts('ERROR: no manifest.json files in')
       STDERR.puts("--#{type} #{url}")
-      exit(16)
+      exit(status)
     else
       result[url] = manifest_filenames
     end
@@ -41,8 +41,8 @@ def manifest_filenames(type)
   result
 end
 
-   custom_manifest_filenames = manifest_filenames('custom')
-exercises_manifest_filenames = manifest_filenames('exercises')
-languages_manifest_filenames = manifest_filenames('languages')
+   custom_manifest_filenames = manifest_filenames(16 ,'custom')
+exercises_manifest_filenames = manifest_filenames(17, 'exercises')
+languages_manifest_filenames = manifest_filenames(18, 'languages')
 
 exit(0)
