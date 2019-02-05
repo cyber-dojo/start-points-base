@@ -1,5 +1,6 @@
 
-def use(script_name)
+def use_help_text
+  script_name = File.basename(ARGV[0])
   <<~SHOW_USE
 
   Use:
@@ -61,4 +62,9 @@ def use(script_name)
   SHOW_USE
 end
 
-print(use(ARGV[0]))
+if ARGV[1] == '' || ARGV[1] == '--help'
+  print(use_help_text)
+  exit(0)
+else
+  exit(1)
+end

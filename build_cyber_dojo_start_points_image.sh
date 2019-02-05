@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -e
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Design choice: where to git-clone?
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -13,18 +13,11 @@
 # I choose 1) since 2) will not work for some local
 # file:///... urls on Docker-Toolbox.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-set -e
-
-readonly MY_NAME=$(basename "$0")
-readonly IMAGE_NAME="${1}"
-
-# - - - - - - - - - - - - - - - - -
 
 exit_zero_if_show_use()
 {
-  if [ "${IMAGE_NAME}" = '' ] || [ "${IMAGE_NAME}" = '--help' ]; then
-    docker container run --rm $(base_image_name) \
-      ruby /app/src/from_script/show_use.rb "${MY_NAME}"
+  if docker container run --rm $(base_image_name) \
+      ruby /app/src/from_script/show_use.rb "${0}" "${1}"; then
     exit 0
   fi
 }
@@ -171,6 +164,8 @@ git_clone_url_to_context_dir()
 
 # - - - - - - - - - - - - - - - - -
 
+readonly IMAGE_NAME="${1}"
+
 build_image_from_context_dir()
 {
   # We are building FROM an image that has an ONBUILD.
@@ -200,7 +195,7 @@ base_image_name()
 
 # - - - - - - - - - - - - - - - - -
 
-exit_zero_if_show_use
+exit_zero_if_show_use "${*}"
 exit_non_zero_if_bad_args "${*}"
 exit_non_zero_unless_git_installed
 exit_non_zero_unless_docker_installed
