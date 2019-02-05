@@ -22,11 +22,10 @@ class DuplicateKeyChecker
 end
 
 def json_duplicate_keys(doc)
-  JSON.parser = JSON::Ext::Parser
   JSON.parse(doc, { object_class:DuplicateKeyChecker })
-  return {}
+  {}
 rescue DuplicateKeyError => error
-  return { "key" => error.key, "duplicates" => error.duplicates }
+  { "key" => error.key, "duplicates" => error.duplicates }
 end
 
 def json_pretty_duplicate_keys(key, duplicates)
