@@ -196,8 +196,9 @@ build_image_from_context_dir()
       | grep --invert-match ' ---> Running in'                 \
       | >&2 grep --invert-match "The command '/bin/sh -c ruby" \
       || :
-    local last="${stderr##*$'\n'}"
-    exit "${last##* }"
+    local last_line="${stderr##*$'\n'}"
+    local last_word="${last_line##* }"
+    exit "${last_word}" # eg 16
   else
     echo "Successfully built ${IMAGE_NAME}"
   fi
