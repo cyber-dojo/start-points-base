@@ -3,10 +3,10 @@ set -e
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Design choice: where to git-clone?
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# 1) directly from this script into the context dir
+# 1) directly, from this script, into the context dir
 #    before running [docker image build].
 #    This will run on the host.
-# 2) indirectly inside a command in the Dockerfile
+# 2) indirectly, inside a command in the Dockerfile
 #    passed to [docker image build].
 #    This will run wherever the docker daemon is.
 #
@@ -64,7 +64,7 @@ declare -a LANGUAGE_URLS=()
 
 gather_urls_from_args()
 {
-  local urls="${*}"
+  local urls="${*}" # already checked
   local type=''
   for url in ${urls}; do
     case "${url}" in
@@ -80,8 +80,6 @@ gather_urls_from_args()
   done
 }
 
-# - - - - - - - - - - - - - - - - -
-
 set_default_urls()
 {
   if [ ${#CUSTOM_URLS[@]} -eq 0 ]; then
@@ -96,13 +94,13 @@ set_default_urls()
   fi
   if [ ${#LANGUAGE_URLS[@]} -eq 0 ]; then
     LANGUAGE_URLS=( \
-      https://github.com/cyber-dojo-languages/csharp-nunit \
-      https://github.com/cyber-dojo-languages/gcc-googletest \
+      https://github.com/cyber-dojo-languages/csharp-nunit         \
+      https://github.com/cyber-dojo-languages/gcc-googletest       \
       https://github.com/cyber-dojo-languages/gplusplus-googlemock \
-      https://github.com/cyber-dojo-languages/java-junit \
-      https://github.com/cyber-dojo-languages/javascript-jasmine \
-      https://github.com/cyber-dojo-languages/python-pytest \
-      https://github.com/cyber-dojo-languages/ruby-minitest \
+      https://github.com/cyber-dojo-languages/java-junit           \
+      https://github.com/cyber-dojo-languages/javascript-jasmine   \
+      https://github.com/cyber-dojo-languages/python-pytest        \
+      https://github.com/cyber-dojo-languages/ruby-minitest        \
     )
   fi
 }
@@ -122,49 +120,49 @@ prepare_context_dir()
 
 remove_context_dir()
 {
-  rm -rf "${CONTEXT_DIR}" > /dev/null;
+  rm -rf "${CONTEXT_DIR}" > /dev/null
 }
 
 # - - - - - - - - - - - - - - - - -
 
-git_clone_urls_into_context_dir()
+git_clone_all_urls_into_context_dir()
 {
   for url in "${CUSTOM_URLS[@]}"; do
-    git_clone_url_to_context_dir custom "${url}"
+    git_clone_one_url_to_context_dir custom "${url}"
   done
   for url in "${EXERCISE_URLS[@]}"; do
-    git_clone_url_to_context_dir exercises "${url}"
+    git_clone_one_url_to_context_dir exercises "${url}"
   done
   for url in "${LANGUAGE_URLS[@]}"; do
-    git_clone_url_to_context_dir languages "${url}"
+    git_clone_one_url_to_context_dir languages "${url}"
   done
 }
 
 # - - - - - - - - - - - - - - - - -
 
-# Two or more git-repo-urls could have the same name
-# but be from different repositories.
-# So git clone each repo into its own unique directory
-# based on a simple incrementing index.
-declare urls_index=0
+declare URLS_INDEX=0
 
-git_clone_url_to_context_dir()
+git_clone_one_url_to_context_dir()
 {
   local type="${1}"
   local url="${2}"
   cd "${CONTEXT_DIR}/${type}"
-  git clone --quiet --depth 1 "${url}" "${urls_index}"
+  git clone --quiet --depth 1 "${url}" "${URLS_INDEX}"
   local sha
-  sha=$(cd ${urls_index} && git rev-parse HEAD)
+  sha=$(cd ${URLS_INDEX} && git rev-parse HEAD)
   echo -e "--${type} \t ${url}"
-  echo -e   "${type} \t ${url} \t ${sha} \t ${urls_index}" >> "${CONTEXT_DIR}/shas.txt"
-  rm -rf "${CONTEXT_DIR}/${type}/${urls_index}/.git"
-  urls_index=$((urls_index + 1))
+  echo -e   "${type} \t ${url} \t ${sha} \t ${URLS_INDEX}" >> "${CONTEXT_DIR}/shas.txt"
+  rm -rf "${CONTEXT_DIR}/${type}/${URLS_INDEX}/.git"
+  # Two or more git-repo-urls could have the same name
+  # but be from different repositories.
+  # So git clone each repo into its own unique directory
+  # based on a simple incrementing index.
+  URLS_INDEX=$((URLS_INDEX + 1))
 }
 
 # - - - - - - - - - - - - - - - - -
 
-readonly IMAGE_NAME="${1}"
+readonly IMAGE_NAME="${1}" # already checked
 
 build_image_from_context_dir()
 {
@@ -204,5 +202,5 @@ shift # image_name
 gather_urls_from_args "${*}"
 set_default_urls
 prepare_context_dir
-git_clone_urls_into_context_dir
+git_clone_all_urls_into_context_dir
 build_image_from_context_dir
