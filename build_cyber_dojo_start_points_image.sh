@@ -67,16 +67,18 @@ gather_urls_from_args()
   local urls="${*}" # already checked
   local type=''
   for url in ${urls}; do
-    case "${url}" in
-    --custom)    type=custom;    continue;;
-    --exercises) type=exercises; continue;;
-    --languages) type=languages; continue;;
-    esac
-    case "${type}" in
-    custom   )   CUSTOM_URLS+=("${url}");;
-    exercises) EXERCISE_URLS+=("${url}");;
-    languages) LANGUAGE_URLS+=("${url}");;
-    esac
+    if [ "${url}" = '--custom'    ] || \
+       [ "${url}" = '--exercises' ] || \
+       [ "${url}" = '--languages' ]
+    then
+      type="${url}"
+    else
+      case "${type}" in
+      '--custom'   )   CUSTOM_URLS+=("${url}");;
+      '--exercises') EXERCISE_URLS+=("${url}");;
+      '--languages') LANGUAGE_URLS+=("${url}");;
+      esac
+    fi
   done
 }
 
