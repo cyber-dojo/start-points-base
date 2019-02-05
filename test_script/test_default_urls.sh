@@ -13,7 +13,6 @@ test_default_custom_url()
       --languages "${L_TMP_URL}"
 
   assert_stdout_includes_default_custom_url
-  assert_stdout_line_count_equals 3
 
   assert_image_created
   assert_stderr_equals ''
@@ -35,7 +34,6 @@ test_default_exercises_url()
       --languages "${L_TMP_URL}"
 
   assert_stdout_includes_default_exercises_url
-  assert_stdout_line_count_equals 3
 
   assert_image_created
   assert_stderr_equals ''
@@ -57,7 +55,6 @@ test_default_languages_urls()
       --exercises "${E_TMP_URL}"
 
   assert_stdout_includes_default_languages_urls
-  assert_stdout_line_count_equals 9
 
   assert_image_created
   assert_stderr_equals ''

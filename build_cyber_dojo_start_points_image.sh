@@ -199,7 +199,7 @@ build_image_from_context_dir()
     local last="${stderr##*$'\n'}"
     exit "${last##* }"
   else
-    : #TODO: echo "Successfully tagged ${IMAGE_NAME}"
+    echo "Successfully built ${IMAGE_NAME}"
   fi
 }
 

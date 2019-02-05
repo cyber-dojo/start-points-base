@@ -17,7 +17,8 @@ test_each_url_is_printed_to_stdout_one_repo_for_each_category()
   assert_stdout_includes $(echo -e "--custom \t ${C_TMP_URL}")
   assert_stdout_includes $(echo -e "--exercises \t ${E_TMP_URL}")
   assert_stdout_includes $(echo -e "--languages \t ${L_TMP_URL}")
-  assert_stdout_line_count_equals 3
+  assert_stdout_ends "Successfully built ${image_name}"
+  assert_stdout_line_count_equals 4
 
   assert_stderr_equals ''
   assert_status_equals 0
@@ -54,11 +55,14 @@ test_each_url_is_printed_to_stdout_more_than_one_repo_for_each_category()
   assert_stdout_includes $(echo -e "--exercises \t ${E2_TMP_URL}")
   assert_stdout_includes $(echo -e "--languages \t ${L1_TMP_URL}")
   assert_stdout_includes $(echo -e "--languages \t ${L2_TMP_URL}")
-  assert_stdout_line_count_equals 6
+  assert_stdout_ends "Successfully built ${image_name}"
+  assert_stdout_line_count_equals 7
 
   assert_stderr_equals ''
   assert_status_equals 0
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
