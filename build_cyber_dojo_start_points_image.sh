@@ -196,8 +196,8 @@ build_image_from_context_dir()
       | grep --invert-match ' ---> Running in'                 \
       | >&2 grep --invert-match "The command '/bin/sh -c ruby" \
       || :
-    # TODO: get status from last line and exit that...
-    exit 16
+    local last="${stderr##*$'\n'}"
+    exit "${last##* }"
   else
     : #TODO: echo "Successfully tagged ${IMAGE_NAME}"
   fi
