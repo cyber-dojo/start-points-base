@@ -1,28 +1,31 @@
+require_relative 'coverage'
 require_relative 'json_duplicate_keys'
 require 'minitest/autorun'
 
 class TestJsonDuplicateKeys < MiniTest::Test
 
-  def test_json_parse_no_duplicates
+  include JsonDuplicateKeys
+
+  def test_empty_hash_when_no_duplicate_keys
     doc = '{ "x":"hello", "y":[1,2,3] }'
     actual = json_duplicate_keys(doc)
     assert_equal({}, actual)
   end
 
-  def test_json_parse_a_duplicate
+  def test_non_empty_hash_when_duplicate_keys
     doc = '{ "x":"hello", "x":[1,2,3] }'
     actual = json_duplicate_keys(doc)
     expected = {
       'key' => 'x',
-      'duplicates' => ['hello',[1,2,3]]
+      'values' => ['hello',[1,2,3]]
     }
     assert_equal expected, actual
   end
 
-  def test_json_pretty_duplicate_keys
+  def test_json_prettified_string
     doc = '{ "x":"hello", "x":[1,2,3] }'
-    actual = json_duplicate_keys(doc)
-    pretty = json_pretty_duplicate_keys(actual['key'], actual['duplicates'])
+    h = json_duplicate_keys(doc)
+    actual = json_pretty_duplicate_keys(h)
     expected = [
       '{',
       '  "x": "hello",',
@@ -33,7 +36,7 @@ class TestJsonDuplicateKeys < MiniTest::Test
       '  ]',
       '}'
     ].join("\n")
-    assert_equal expected, pretty
+    assert_equal expected, actual
   end
 
 end
