@@ -10,43 +10,18 @@
 # the [docker build] fails and the main Bash script fails
 # to build a docker image.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Off root_dir are:
+#  3 dirs: custom/ exercises/ languages/
+#  3 files: custom_shas.txt
+#           exercises_shas.txt
+#           languages_shas.txt
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 require_relative 'language_manifest_checker'
 require_relative 'exercise_manifest_checker'
 
-def root_dir # /app/repos
-  # Off this are:
-  #  3 dirs: custom/ exercises/ languages/
-  #  3 files: custom_shas.txt
-  #           exercises_shas.txt
-  #           languages_shas.txt
-  ARGV[0]
-end
-
-def manifest_filenames(status, type)
-  result = {}
-  lines = `cat #{root_dir}/#{type}_shas.txt`.lines
-  lines.each do |line|
-    index,sha,url = line.split
-    repo_dir_name = "#{root_dir}/#{type}/#{index}"
-    manifest_filenames = Dir.glob("#{repo_dir_name}/**/manifest.json")
-    if manifest_filenames == []
-      STDERR.puts('ERROR: no manifest.json files in')
-      STDERR.puts("--#{type} #{url}")
-      exit(status)
-    else
-      result[url] = manifest_filenames
-    end
-  end
-  result
-end
-
-   custom_manifest_filenames = manifest_filenames(16, 'custom')
-exercises_manifest_filenames = manifest_filenames(16, 'exercises')
-languages_manifest_filenames = manifest_filenames(16, 'languages')
-
-LanguageManifestChecker.new(   custom_manifest_filenames).check_all
-ExerciseManifestChecker.new(exercises_manifest_filenames).check_all
-LanguageManifestChecker.new(languages_manifest_filenames).check_all
-
+root_dir = ARGV[0] # /app/repos
+LanguageManifestChecker.new(root_dir, 'custom'   ).check_all
+ExerciseManifestChecker.new(root_dir, 'exercises').check_all
+LanguageManifestChecker.new(root_dir, 'languages').check_all
 exit(0)
