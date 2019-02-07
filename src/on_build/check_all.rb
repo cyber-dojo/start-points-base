@@ -11,6 +11,9 @@
 # to build a docker image.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+require_relative 'language_manifest_checker'
+require_relative 'exercise_manifest_checker'
+
 def root_dir # /app/repos
   # Off this are:
   #  3 dirs: custom/ exercises/ languages/
@@ -38,8 +41,12 @@ def manifest_filenames(status, type)
   result
 end
 
-   custom_manifest_filenames = manifest_filenames(16 ,'custom')
+   custom_manifest_filenames = manifest_filenames(16, 'custom')
 exercises_manifest_filenames = manifest_filenames(16, 'exercises')
 languages_manifest_filenames = manifest_filenames(16, 'languages')
+
+LanguageManifestChecker.new(   custom_manifest_filenames).check_all
+ExerciseManifestChecker.new(exercises_manifest_filenames).check_all
+LanguageManifestChecker.new(languages_manifest_filenames).check_all
 
 exit(0)
