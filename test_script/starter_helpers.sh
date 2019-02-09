@@ -98,6 +98,62 @@ build_start_points_image()
   echo ${status} >${statusF}
 }
 
+build_start_points_image_custom_error()
+{
+  local image_name="${1}"
+  local url="${2}"
+  local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
+  local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
+  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-python-unittest)
+  build_start_points_image \
+    "${image_name}"        \
+    --custom               \
+      "${C_TMP_URL}"       \
+      "${url}"             \
+    --exercises            \
+      "${E_TMP_URL}"       \
+    --languages            \
+      "${L_TMP_URL}"
+}
+
+build_start_points_image_exercises_error()
+{
+  local image_name="${1}"
+  local url="${2}"
+  local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
+  local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
+  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-python-unittest)
+  build_start_points_image \
+    "${image_name}"        \
+    --custom               \
+      "${C_TMP_URL}"       \
+    --exercises            \
+      "${E_TMP_URL}"       \
+      "${url}"             \
+    --languages            \
+      "${L_TMP_URL}"
+}
+
+build_start_points_image_languages_error()
+{
+  local image_name="${1}"
+  local url="${2}"
+  local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
+  local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
+  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-python-unittest)
+  build_start_points_image \
+    "${image_name}"        \
+    --custom               \
+      "${C_TMP_URL}"       \
+    --exercises            \
+      "${E_TMP_URL}"       \
+    --languages            \
+      "${L_TMP_URL}"       \
+      "${url}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 image_exists()
 {
   local image_name=${1:-${IMAGE_NAME}}

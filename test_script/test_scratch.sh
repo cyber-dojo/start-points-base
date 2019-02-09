@@ -3,21 +3,11 @@
 test_language_repo_manifest_json_contains_bad_json()
 {
   make_TMP_DIR_for_git_repos
-  local C1_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
-  local E1_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
-  local L1_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-python-unittest)
-  local L2_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf_bad_json)
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf_bad_json)
 
   local image_name="${FUNCNAME[0]}"
-  build_start_points_image \
-    "${image_name}"        \
-      --custom             \
-        "${C1_TMP_URL}"    \
-      --exercises          \
-        "${E1_TMP_URL}"    \
-      --languages          \
-        "${L1_TMP_URL}"    \
-        "${L2_TMP_URL}"
+  build_start_points_image_languages_error \
+    "${image_name}" "${TMP_URL}"
 
   refute_image_created
   #assert_stderr_includes "ERROR: bad JSON in manifest.json file"
