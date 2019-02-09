@@ -14,5 +14,7 @@ def read_manifest_filenames(root_dir, type)
       result[url] = manifest_filenames
     end
   end
+  # map:key=url (string)
+  # map:values=manifest_filenames (array of strings)  
   result
 end

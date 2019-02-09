@@ -45,4 +45,27 @@ def exercises_bad_json
   end
 end
 
+def ltf_manifest_has_duplicate_keys
+  `cp -R /app/ltf-csharp-nunit #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    manifest = <<~MANIFEST.strip
+    {
+      "display_name": "C#, NUnit",
+      "display_name": "C#, JUnit",
+      "visible_filenames": [
+        "HikerTest.cs",
+        "Hiker.cs",
+        "cyber-dojo.sh"
+      ],
+      "hidden_filenames": [ "TestResult\\.xml" ],
+      "image_name": "cyberdojofoundation/csharp_nunit",
+      "runner_choice": "stateless",
+      "filename_extension": ".cs"
+    }
+    MANIFEST
+    IO.write(manifest_filename, manifest)
+    break
+  end
+end
+
 eval(data_set_name)
