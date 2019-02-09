@@ -37,4 +37,12 @@ def ltf_bad_json
   end
 end
 
+def exercises_bad_json
+  `cp -R /app/exercises-bowling-game #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    IO.write(manifest_filename, 'ggghhhjjj')
+    break
+  end
+end
+
 eval(data_set_name)

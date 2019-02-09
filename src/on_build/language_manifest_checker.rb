@@ -4,6 +4,7 @@ require 'json'
 class LanguageManifestChecker
 
   def initialize(root_dir, type)
+    @type = type
     @manifest_filenames = read_manifest_filenames(root_dir, type)
     # map:key=url (string)
     # map:values=manifest_filenames (array of strings)
@@ -23,6 +24,10 @@ class LanguageManifestChecker
       begin
         json = JSON.parse!(content)
       rescue JSON::ParserError => error
+        STDERR.puts('ERROR: bad JSON in manifest.json file')
+        STDERR.puts("--#{@type} #{url}")
+        STDERR.puts("filename='#{filename}'")
+        STDERR.puts(error)
         exit(17)
       end
     end
