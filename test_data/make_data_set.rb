@@ -29,4 +29,12 @@ def ltf_no_manifests
   end
 end
 
+def ltf_bad_json
+  `cp -R /app/ltf-python-unittest #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    IO.write(manifest_filename, 'sdfsdf')
+    break
+  end
+end
+
 eval(data_set_name)
