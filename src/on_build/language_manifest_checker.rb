@@ -21,13 +21,13 @@ class LanguageManifestChecker
 
   def check_one(url, filenames)
     filenames.each do |filename|
-      content = IO.read(filename)
-      json = clean_json(url, filename, content)
+      json = clean_json(url, filename)
       #...
     end
   end
 
-  def clean_json(url, filename, content)
+  def clean_json(url, filename)
+    content = IO.read(filename)
     json = parse_json(url, filename, content)
     duplicates = json_duplicate_keys(content)
     if duplicates == {}
