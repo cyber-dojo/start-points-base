@@ -11,7 +11,7 @@ test_language_repo_manifest_contains_unknown_key()
   refute_image_created
   assert_stderr_includes "ERROR: unknown key in manifest.json file"
   assert_stderr_includes "--languages ${TMP_URL}"
-  assert_stderr_includes "filename='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes 'key="Display_name"'
   assert_stderr_line_count_equals 4
   assert_status_equals 19

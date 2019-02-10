@@ -15,7 +15,7 @@ module CleanJson
       msg = json_pretty_duplicate_keys(duplicates)
       STDERR.puts('ERROR: duplicate keys in manifest.json file')
       STDERR.puts("--#{@type} #{url}")
-      STDERR.puts("filename='#{relative(filename)}'")
+      STDERR.puts("manifest='#{relative(filename)}'")
       STDERR.puts(msg)
       exit(18)
     end
@@ -26,7 +26,7 @@ module CleanJson
   rescue JSON::ParserError => error
     STDERR.puts('ERROR: bad JSON in manifest.json file')
     STDERR.puts("--#{@type} #{url}")
-    STDERR.puts("filename='#{relative(filename)}'")
+    STDERR.puts("manifest='#{relative(filename)}'")
     STDERR.puts(error)
     exit(17)
   end

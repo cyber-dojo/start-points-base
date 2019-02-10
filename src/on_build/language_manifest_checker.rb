@@ -30,9 +30,9 @@ class LanguageManifestChecker
       unless known_keys.include?(key)
         STDERR.puts('ERROR: unknown key in manifest.json file')
         STDERR.puts("--#{@type} #{url}")
-        STDERR.puts("filename='#{relative(filename)}'")
+        STDERR.puts("manifest='#{relative(filename)}'")
         STDERR.puts("key=\"#{key}\"")
-        exit(19)        
+        exit(19)
       end
     end
   end

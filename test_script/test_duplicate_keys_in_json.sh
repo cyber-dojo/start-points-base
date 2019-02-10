@@ -11,7 +11,7 @@ test_language_repo_manifest_contains_duplicate_keys()
   refute_image_created
   assert_stderr_includes "ERROR: duplicate keys in manifest.json file"
   assert_stderr_includes "--languages ${TMP_URL}"
-  assert_stderr_includes "filename='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '{'
   assert_stderr_includes '  "display_name": "C#, NUnit",'
   assert_stderr_includes '  "display_name": "C#, JUnit"'
@@ -33,7 +33,7 @@ test_exercise_repo_manifest_contains_duplicate_keys()
   refute_image_created
   assert_stderr_includes "ERROR: duplicate keys in manifest.json file"
   assert_stderr_includes "--exercises ${TMP_URL}"
-  assert_stderr_includes "filename='exercises-leap-years/manifest.json'"
+  assert_stderr_includes "manifest='exercises-leap-years/manifest.json'"
   assert_stderr_includes '{'
   assert_stderr_includes '  "display_name": "Leap Years",'
   assert_stderr_includes '  "display_name": "Years Leap"'
