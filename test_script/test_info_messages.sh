@@ -6,8 +6,8 @@ test_each_url_is_printed_to_stdout_one_repo_for_each_category()
   local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
   local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
   local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
-
   local image_name="${FUNCNAME[0]}"
+
   build_start_points_image       \
     "${image_name}"              \
       --custom    "${C_TMP_URL}" \
@@ -19,7 +19,6 @@ test_each_url_is_printed_to_stdout_one_repo_for_each_category()
   assert_stdout_includes $(echo -e "--languages \t ${L_TMP_URL}")
   assert_stdout_ends "Successfully built ${image_name}"
   assert_stdout_line_count_equals 4
-
   assert_stderr_equals ''
   assert_status_equals 0
 }
@@ -35,8 +34,8 @@ test_each_url_is_printed_to_stdout_more_than_one_repo_for_each_category()
   local E2_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-tiny-maze)
   local L1_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
   local L2_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-ruby-minitest)
-
   local image_name="${FUNCNAME[0]}"
+
   build_start_points_image \
     "${image_name}"        \
       --custom             \
@@ -57,7 +56,6 @@ test_each_url_is_printed_to_stdout_more_than_one_repo_for_each_category()
   assert_stdout_includes $(echo -e "--languages \t ${L2_TMP_URL}")
   assert_stdout_ends "Successfully built ${image_name}"
   assert_stdout_line_count_equals 7
-
   assert_stderr_equals ''
   assert_status_equals 0
 }

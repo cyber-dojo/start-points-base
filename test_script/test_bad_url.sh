@@ -4,6 +4,7 @@ test_bad_git_url()
 {
   local bad_url='abc:///wibble/ert/yui'
   local image_name="${FUNCNAME[0]}"
+  
   build_start_points_image \
     "${image_name}"        \
       --custom             \

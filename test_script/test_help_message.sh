@@ -3,6 +3,7 @@
 test_help_message_shown_when_no_arguments()
 {
   build_start_points_image
+
   assert_stdout_equals_use
   assert_stderr_equals ''
   assert_status_equals 0
@@ -11,6 +12,7 @@ test_help_message_shown_when_no_arguments()
 test_help_message_shown_for_long_help_option()
 {
   build_start_points_image --help
+  
   assert_stdout_equals_use
   assert_stderr_equals ''
   assert_status_equals 0
