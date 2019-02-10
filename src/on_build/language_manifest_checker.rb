@@ -1,6 +1,7 @@
 require_relative 'read_manifest_filenames'
 require_relative 'clean_json'
 require_relative 'check_no_unknown_keys_exist'
+require_relative 'check_all_required_keys_exist'
 
 class LanguageManifestChecker
 
@@ -19,11 +20,13 @@ class LanguageManifestChecker
 
   include CleanJson
   include CheckNoUnknownKeysExist
+  include CheckAllRequiredKeysExist
 
   def check_one(url, filenames)
     filenames.each do |filename|
       json = clean_json(url, filename)
       check_no_unknown_keys_exist(url, filename, json)
+      check_all_required_keys_exist(url, filename, json)
     end
   end
 
