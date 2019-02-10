@@ -5,7 +5,7 @@ test_each_url_is_printed_to_stdout_one_repo_for_each_category()
   make_TMP_DIR_for_git_repos
   local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
   local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
-  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-csharp-nunit)
+  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
 
   local image_name="${FUNCNAME[0]}"
   build_start_points_image       \
@@ -33,8 +33,8 @@ test_each_url_is_printed_to_stdout_more_than_one_repo_for_each_category()
   local C2_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-yahtzee)
   local E1_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
   local E2_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-tiny-maze)
-  local L1_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-csharp-nunit)
-  local L2_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-ruby-minitest)
+  local L1_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
+  local L2_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-ruby-minitest)
 
   local image_name="${FUNCNAME[0]}"
   build_start_points_image \

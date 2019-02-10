@@ -3,7 +3,7 @@
 test_language_repo_manifest_contains_duplicate_keys()
 {
   make_TMP_DIR_for_git_repos
-  local TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf_manifest_has_duplicate_keys)
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_has_duplicate_keys)
   local image_name="${FUNCNAME[0]}"
 
   build_start_points_image_languages_error \
@@ -12,7 +12,7 @@ test_language_repo_manifest_contains_duplicate_keys()
   refute_image_created
   assert_stderr_includes "ERROR: duplicate keys in manifest.json file"
   assert_stderr_includes "--languages ${TMP_URL}"
-  assert_stderr_includes "filename='/app/repos/languages/3/ltf-csharp-nunit/start_point/manifest.json'"
+  assert_stderr_includes "filename='/app/repos/languages/3/languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '{'
   assert_stderr_includes '  "display_name": "C#, NUnit",'
   assert_stderr_includes '  "display_name": "C#, JUnit"'

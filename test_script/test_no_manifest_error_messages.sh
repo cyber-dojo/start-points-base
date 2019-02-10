@@ -39,7 +39,7 @@ test_exercises_repo_contains_no_manifests()
 test_languages_repo_contains_no_manifests()
 {
   make_TMP_DIR_for_git_repos
-  local TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf_no_manifests)
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_no_manifests)
   local image_name="${FUNCNAME[0]}"
 
   build_start_points_image_languages_error \

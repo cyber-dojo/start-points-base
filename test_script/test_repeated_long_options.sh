@@ -7,8 +7,8 @@ test_repeated_long_options()
   local C2_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-yahtzee)
   local E1_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
   local E2_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-tiny-maze)
-  local L1_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-csharp-nunit)
-  local L2_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-ruby-minitest)
+  local L1_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
+  local L2_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-ruby-minitest)
 
   local image_name="${FUNCNAME[0]}"
   build_start_points_image        \

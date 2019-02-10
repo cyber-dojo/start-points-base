@@ -4,7 +4,7 @@ test_default_custom_url()
 {
   make_TMP_DIR_for_git_repos
   local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
-  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-csharp-nunit)
+  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
 
   local image_name="${FUNCNAME[0]}"
   build_start_points_image       \
@@ -25,7 +25,7 @@ test_default_exercises_url()
 {
   make_TMP_DIR_for_git_repos
   local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
-  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-csharp-nunit)
+  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
 
   local image_name="${FUNCNAME[0]}"
   build_start_points_image       \

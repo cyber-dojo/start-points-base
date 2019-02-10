@@ -3,7 +3,7 @@
 test_language_repo_manifest_contains_bad_json()
 {
   make_TMP_DIR_for_git_repos
-  local TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf_bad_json)
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_bad_json)
   local image_name="${FUNCNAME[0]}"
 
   build_start_points_image_languages_error \
@@ -12,7 +12,7 @@ test_language_repo_manifest_contains_bad_json()
   refute_image_created
   assert_stderr_includes "ERROR: bad JSON in manifest.json file"
   assert_stderr_includes "--languages ${TMP_URL}"
-  assert_stderr_includes "filename='/app/repos/languages/3/ltf-python-unittest/start_point/manifest.json'"
+  assert_stderr_includes "filename='/app/repos/languages/3/languages-python-unittest/start_point/manifest.json'"
   assert_stderr_includes "765: unexpected token at 'sdfsdf'"
   assert_stderr_line_count_equals 4
   assert_status_equals 17

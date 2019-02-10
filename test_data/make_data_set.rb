@@ -8,6 +8,8 @@ def target_dir
   ARGV[1]
 end
 
+# - - - - - - - - - - - - - - - - - - - - - - -
+
 def custom_no_manifests
   `cp -R /app/custom-yahtzee #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").each do |manifest_filename|
@@ -22,15 +24,17 @@ def exercises_no_manifests
   end
 end
 
-def ltf_no_manifests
-  `cp -R /app/ltf-ruby-minitest #{target_dir}`
+def languages_no_manifests
+  `cp -R /app/languages-ruby-minitest #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").each do |manifest_filename|
     `rm #{manifest_filename}`
   end
 end
 
-def ltf_bad_json
-  `cp -R /app/ltf-python-unittest #{target_dir}`
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+def languages_bad_json
+  `cp -R /app/languages-python-unittest #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     IO.write(manifest_filename, 'sdfsdf')
     break
@@ -45,8 +49,10 @@ def exercises_bad_json
   end
 end
 
-def ltf_manifest_has_duplicate_keys
-  `cp -R /app/ltf-csharp-nunit #{target_dir}`
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+def languages_manifest_has_duplicate_keys
+  `cp -R /app/languages-csharp-nunit #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     manifest = <<~MANIFEST.strip
     {

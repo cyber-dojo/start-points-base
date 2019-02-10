@@ -104,7 +104,7 @@ build_start_points_image_custom_error()
   local url="${2}"
   local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
   local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
-  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-python-unittest)
+  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-python-unittest)
   build_start_points_image \
     "${image_name}"        \
     --custom               \
@@ -122,7 +122,7 @@ build_start_points_image_exercises_error()
   local url="${2}"
   local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
   local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
-  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-python-unittest)
+  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-python-unittest)
   build_start_points_image \
     "${image_name}"        \
     --custom               \
@@ -140,7 +140,7 @@ build_start_points_image_languages_error()
   local url="${2}"
   local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
   local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
-  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from ltf-python-unittest)
+  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-python-unittest)
   build_start_points_image \
     "${image_name}"        \
     --custom               \
