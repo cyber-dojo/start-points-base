@@ -27,6 +27,11 @@ class LanguageManifestChecker
       json = clean_json(url, filename)
       check_no_unknown_keys_exist(url, filename, json)
       check_all_required_keys_exist(url, filename, json)
+      # required-keys
+      #check_image_name_is_valid
+      #check_display_name_is_valid
+      #check_visible_filenames_is_valid
+
     end
   end
 
