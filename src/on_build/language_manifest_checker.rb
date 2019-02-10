@@ -21,8 +21,11 @@ class LanguageManifestChecker
   def check_one(url, filenames)
     filenames.each do |filename|
       json = clean_json(url, filename)
-      #...
+      #check_no_unknown_keys_exist(url, filename, json)
     end
   end
+
+  #def check_no_unknown_keys_exist(url, filename, json)
+  #end
 
 end
