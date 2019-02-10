@@ -68,4 +68,18 @@ def ltf_manifest_has_duplicate_keys
   end
 end
 
+def exercises_manifest_has_duplicate_keys
+  `cp -R /app/exercises-leap-years #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    manifest = <<~MANIFEST
+    {
+      "display_name": "Leap Years",
+      "display_name": "Years Leap"
+    }
+    MANIFEST
+    IO.write(manifest_filename, manifest)
+    break
+  end
+end
+
 eval(data_set_name)
