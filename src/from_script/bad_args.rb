@@ -4,7 +4,7 @@
 #   build_cyber_dojo_start_points_image.sh
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-require_relative 'well_formed_image_name'
+require_relative '../on_build/well_formed_image_name'
 
 include WellFormedImageName
 

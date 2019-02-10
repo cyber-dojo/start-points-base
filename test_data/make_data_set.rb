@@ -137,4 +137,28 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
+def languages_manifest_has_invalid_image_name
+  `cp -R /app/languages-csharp-nunit #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    manifest = <<~MANIFEST.strip
+    {
+      "display_name": "C#, NUnit",
+      "visible_filenames": [
+        "HikerTest.cs",
+        "Hiker.cs",
+        "cyber-dojo.sh"
+      ],
+      "hidden_filenames": [ "TestResult\\.xml" ],
+      "image_name": "CYBERDOJO/csharp_nunit",
+      "runner_choice": "stateless",
+      "filename_extension": ".cs"
+    }
+    MANIFEST
+    IO.write(manifest_filename, manifest)
+    break
+  end
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
 eval(data_set_name)

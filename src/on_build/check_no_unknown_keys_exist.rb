@@ -3,7 +3,7 @@ require_relative 'show_error'
 module CheckNoUnknownKeysExist
 
   include ShowError
-  
+
   def check_no_unknown_keys_exist(url, filename, json)
     json.keys.each do |key|
       unless known_keys.include?(key)
