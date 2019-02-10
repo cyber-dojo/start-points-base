@@ -137,11 +137,12 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
-def languages_manifest_has_invalid_image_name
+def languages_manifest_has_non_string_image_name
   `cp -R /app/languages-csharp-nunit #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     manifest = <<~MANIFEST.strip
     {
+      "image_name": [1,2,3],
       "display_name": "C#, NUnit",
       "visible_filenames": [
         "HikerTest.cs",
@@ -149,7 +150,30 @@ def languages_manifest_has_invalid_image_name
         "cyber-dojo.sh"
       ],
       "hidden_filenames": [ "TestResult\\.xml" ],
+      "runner_choice": "stateless",
+      "filename_extension": ".cs"
+    }
+    MANIFEST
+    IO.write(manifest_filename, manifest)
+    break
+  end
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+def languages_manifest_has_malformed_image_name
+  `cp -R /app/languages-csharp-nunit #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    manifest = <<~MANIFEST.strip
+    {
       "image_name": "CYBERDOJO/csharp_nunit",
+      "display_name": "C#, NUnit",
+      "visible_filenames": [
+        "HikerTest.cs",
+        "Hiker.cs",
+        "cyber-dojo.sh"
+      ],
+      "hidden_filenames": [ "TestResult\\.xml" ],
       "runner_choice": "stateless",
       "filename_extension": ".cs"
     }
