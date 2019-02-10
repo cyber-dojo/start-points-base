@@ -1,7 +1,6 @@
 #!/usr/bin/ruby
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Checks command-line arguments passed to the main Bash
-# script:
+# Checks command-line arguments passed to the main Bash script:
 #   build_cyber_dojo_start_points_image.sh
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

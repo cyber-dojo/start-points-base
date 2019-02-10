@@ -11,9 +11,9 @@ def use_help_text
   Use:
   $ ./#{script_name} \\
       <image-name> \\
-        [--custom    <git-repo-url>...] \\
-        [--exercises <git-repo-url>...] \\
-        [--languages <git-repo-url>...]
+        [--custom    <git-repo-url>...]... \\
+        [--exercises <git-repo-url>...]... \\
+        [--languages <git-repo-url>...]...
 
   Creates a cyber-dojo start-point image named <image-name>.
   Its base image will be cyberdojo/start-points-base.

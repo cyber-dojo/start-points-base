@@ -15,9 +15,9 @@ The subsequent arguments are git-cloneable URLs containing the source for the st
 $ ./build_cyber_dojo_start_points_image.sh --help
 Use: ./build_cyber_dojo_start_points_image.sh \
        <image-name> \
-         [--languages <git-repo-url>...] \
-         [--exercises <git-repo-url>...] \
-         [--custom    <git-repo-url>...] \
+         [--languages <git-repo-url>...]... \
+         [--exercises <git-repo-url>...]... \
+         [--custom    <git-repo-url>...]... \
 ```
 
 ```bash
