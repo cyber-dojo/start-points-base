@@ -2,10 +2,10 @@
 
 test_default_custom_url()
 {
+  local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
   local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
   local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
-  local image_name="${FUNCNAME[0]}"
 
   build_start_points_image       \
     "${image_name}"              \
@@ -22,10 +22,10 @@ test_default_custom_url()
 
 test_default_exercises_url()
 {
+  local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
   local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
   local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
-  local image_name="${FUNCNAME[0]}"
 
   build_start_points_image       \
     "${image_name}"              \
@@ -42,10 +42,10 @@ test_default_exercises_url()
 
 test_default_languages_urls()
 {
+  local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
   local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
   local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
-  local image_name="${FUNCNAME[0]}"
 
   build_start_points_image       \
     "${image_name}"              \
@@ -73,6 +73,8 @@ test_all_default_urls()
   assert_stderr_equals ''
   assert_status_equals 0
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"

@@ -2,12 +2,11 @@
 
 test_language_repo_manifest_contains_bad_json()
 {
+  local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_bad_json)
-  local image_name="${FUNCNAME[0]}"
 
-  build_start_points_image_languages_error \
-    "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: bad JSON in manifest.json file"
@@ -22,12 +21,11 @@ test_language_repo_manifest_contains_bad_json()
 
 test_exercise_repo_manifest_contains_bad_json()
 {
+  local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises_bad_json)
-  local image_name="${FUNCNAME[0]}"
 
-  build_start_points_image_exercises_error \
-    "${image_name}" "${TMP_URL}"
+  build_start_points_image_exercises_error "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: bad JSON in manifest.json file"

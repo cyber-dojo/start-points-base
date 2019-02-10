@@ -2,6 +2,7 @@
 
 test_repeated_long_options()
 {
+  local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
   local C1_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
   local C2_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-yahtzee)
@@ -9,8 +10,7 @@ test_repeated_long_options()
   local E2_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-tiny-maze)
   local L1_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
   local L2_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-ruby-minitest)
-  local image_name="${FUNCNAME[0]}"
-  
+
   build_start_points_image        \
     "${image_name}"               \
       --custom    "${C1_TMP_URL}" \

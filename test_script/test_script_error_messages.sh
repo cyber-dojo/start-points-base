@@ -23,7 +23,7 @@ test_docker_must_be_installed()
   export DOCKER_PROGRAM='docker_xxx'
   build_start_points_image "${image_name}"
   unset DOCKER_PROGRAM
-  
+
   assert_stdout_equals ''
   assert_stderr_equals 'ERROR: docker is not installed!'
   assert_status_equals 2

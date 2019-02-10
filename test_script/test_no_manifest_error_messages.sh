@@ -2,9 +2,9 @@
 
 test_custom_repo_contains_no_manifests()
 {
+  local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from custom_no_manifests)
-  local image_name="${FUNCNAME[0]}"
 
   build_start_points_image_custom_error \
     "${image_name}" "${TMP_URL}"
@@ -20,9 +20,9 @@ test_custom_repo_contains_no_manifests()
 
 test_exercises_repo_contains_no_manifests()
 {
+  local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises_no_manifests)
-  local image_name="${FUNCNAME[0]}"
 
   build_start_points_image_exercises_error \
     "${image_name}" "${TMP_URL}"
@@ -38,9 +38,9 @@ test_exercises_repo_contains_no_manifests()
 
 test_languages_repo_contains_no_manifests()
 {
+  local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_no_manifests)
-  local image_name="${FUNCNAME[0]}"
 
   build_start_points_image_languages_error \
     "${image_name}" "${TMP_URL}"
