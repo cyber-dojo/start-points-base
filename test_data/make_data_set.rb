@@ -124,8 +124,6 @@ def languages_manifest_has_non_string_image_name
   peturb_manifest('languages-csharp-nunit', 'image_name', [1,2,3])
 end
 
-# - - - - - - - - - - - - - - - - - - - - - - -
-
 def languages_manifest_has_malformed_image_name
   peturb_manifest('languages-csharp-nunit', 'image_name', 'CYBERDOJO/csharp_nunit')
 end
@@ -135,8 +133,6 @@ end
 def languages_manifest_has_non_string_display_name
   peturb_manifest('languages-csharp-nunit', 'display_name', [1,2,3])
 end
-
-# - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_empty_display_name
   peturb_manifest('languages-csharp-nunit', 'display_name', '')
@@ -148,7 +144,9 @@ def languages_manifest_has_non_array_visible_filenames
   peturb_manifest('languages-csharp-nunit', 'visible_filenames', 1)
 end
 
-# - - - - - - - - - - - - - - - - - - - - - - -
+def languages_manifest_has_empty_visible_filenames
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', [])
+end
 
 def languages_manifest_has_non_array_string_visible_filenames
   peturb_manifest('languages-csharp-nunit', 'visible_filenames', [1,2,3])
