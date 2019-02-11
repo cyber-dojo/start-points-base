@@ -7,13 +7,13 @@ require_relative 'check_display_name_is_valid'
 
 class LanguageManifestChecker
 
-  def initialize(root_dir, type)
+  def initialize(type)
     @type = type
-    @manifest_filenames = read_manifest_filenames(root_dir, type)
   end
 
-  def check_all
-    @manifest_filenames.each do |url,filenames|
+  def check_all(root_dir)
+    filenames = read_manifest_filenames(root_dir, @type)
+    filenames.each do |url,filenames|
       check_one(url, filenames)
     end
   end

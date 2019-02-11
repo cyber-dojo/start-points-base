@@ -21,7 +21,7 @@ require_relative 'language_manifest_checker'
 require_relative 'exercise_manifest_checker'
 
 root_dir = ARGV[0] # /app/repos
-LanguageManifestChecker.new(root_dir, 'custom'   ).check_all
-ExerciseManifestChecker.new(root_dir, 'exercises').check_all
-LanguageManifestChecker.new(root_dir, 'languages').check_all
+LanguageManifestChecker.new('custom'   ).check_all(root_dir)
+ExerciseManifestChecker.new('exercises').check_all(root_dir)
+LanguageManifestChecker.new('languages').check_all(root_dir)
 exit(0)
