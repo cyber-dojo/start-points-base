@@ -231,4 +231,44 @@ def languages_manifest_has_empty_display_name
   end
 end
 
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+def languages_manifest_has_non_array_visible_filenames
+  `cp -R /app/languages-csharp-nunit #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    manifest = <<~MANIFEST.strip
+    {
+      "image_name": "cyberdojo/csharp_nunit",
+      "display_name": "C#, NUnit",
+      "visible_filenames": 1,
+      "hidden_filenames": [ "TestResult\\.xml" ],
+      "runner_choice": "stateless",
+      "filename_extension": ".cs"
+    }
+    MANIFEST
+    IO.write(manifest_filename, manifest)
+    break
+  end
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+def languages_manifest_has_non_array_string_visible_filenames
+  `cp -R /app/languages-csharp-nunit #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    manifest = <<~MANIFEST.strip
+    {
+      "image_name": "cyberdojo/csharp_nunit",
+      "display_name": "C#, NUnit",
+      "visible_filenames": [1,2,3],
+      "hidden_filenames": [ "TestResult\\.xml" ],
+      "runner_choice": "stateless",
+      "filename_extension": ".cs"
+    }
+    MANIFEST
+    IO.write(manifest_filename, manifest)
+    break
+  end
+end
+
 eval(data_set_name)

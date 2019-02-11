@@ -4,6 +4,7 @@ require_relative 'check_no_unknown_keys_exist'
 require_relative 'check_all_required_keys_exist'
 require_relative 'check_image_name_is_valid'
 require_relative 'check_display_name_is_valid'
+require_relative 'check_visible_filenames_is_valid'
 
 class LanguageManifestChecker
 
@@ -25,6 +26,7 @@ class LanguageManifestChecker
   include CheckAllRequiredKeysExist
   include CheckImageNameIsValid
   include CheckDisplayNameIsValid
+  include CheckVisibleFilenamesIsValid
 
   def check_one(url, filenames)
     filenames.each do |filename|
@@ -34,7 +36,7 @@ class LanguageManifestChecker
       # required-keys
       check_image_name_is_valid(url, filename, json)
       check_display_name_is_valid(url, filename, json)
-      #check_visible_filenames_is_valid(url, filename, json)
+      check_visible_filenames_is_valid(url, filename, json)
       #check_filename_extension_is_valid(url, filename, json)
       # optional-keys
       #check_hidden_filenames_is_valid(url, filename, json)
