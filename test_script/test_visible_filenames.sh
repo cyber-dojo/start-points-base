@@ -152,6 +152,25 @@ test_language_repo_manifest_visible_filename_does_not_exist()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+test_language_repo_manifest_visible_filename_contains_cyber_dojo_sh()
+{
+  local image_name="${FUNCNAME[0]}"
+  make_TMP_DIR_for_git_repos
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_visible_filename_no_cyber_dojo_sh)
+
+  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+
+  refute_image_created
+  assert_stderr_includes 'ERROR: visible_filenames does not include "cyber-dojo.sh"'
+  assert_stderr_includes "--languages ${TMP_URL}"
+  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stderr_includes '"visible_filenames": ["HikerTest.cs", "Hiker.cs"]'
+  assert_stderr_line_count_equals 4
+  assert_status_equals 33
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh

@@ -15,7 +15,7 @@ module CheckVisibleFilenames
     end
     exit_if_visible_filename_duplicate(visible_filenames, url, manifest_filename)
     exit_unless_all_visible_filenames_exist(visible_filenames, url, manifest_filename)
-    # TODO:33.check cyber-dojo.sh is a visible_filename
+    exit_unless_visible_filename_includes_cyber_dojo_sh(visible_filenames, url, manifest_filename)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -94,6 +94,15 @@ module CheckVisibleFilenames
         show_error(title, url, manifest_filename, msg)
         exit(32)
       end
+    end
+  end
+
+  def exit_unless_visible_filename_includes_cyber_dojo_sh(visible_filenames, url, manifest_filename)
+    unless visible_filenames.include?('cyber-dojo.sh')
+      title = 'visible_filenames does not include "cyber-dojo.sh"'
+      msg = "\"visible_filenames\": #{visible_filenames}"
+      show_error(title, url, manifest_filename, msg)
+      exit(33)
     end
   end
 

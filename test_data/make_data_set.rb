@@ -180,6 +180,11 @@ def languages_manifest_visible_filename_does_not_exist
   peturb_manifest('languages-csharp-nunit', 'visible_filenames', value)
 end
 
+def languages_manifest_visible_filename_no_cyber_dojo_sh
+  value = [ 'HikerTest.cs', 'Hiker.cs' ]
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', value)
+end
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturb_manifest(dir_name, key, value)
