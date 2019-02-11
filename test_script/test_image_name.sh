@@ -9,7 +9,7 @@ test_language_repo_manifest_contains_non_string_image_name()
   build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: invalid image_name in manifest.json file"
+  assert_stderr_includes "ERROR: image_name is not a String"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"image_name": [1, 2, 3]'
@@ -28,7 +28,7 @@ test_language_repo_manifest_contains_malformed_image_name()
   build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: malformed image_name in manifest.json file"
+  assert_stderr_includes "ERROR: image_name is malformed"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"image_name": "CYBERDOJO/csharp_nunit"'
