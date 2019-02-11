@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
 
+require 'json'
+
 def data_set_name
   ARGV[0]
 end
@@ -91,25 +93,7 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_unknown_key
-  `cp -R /app/languages-csharp-nunit #{target_dir}`
-  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
-    manifest = <<~MANIFEST.strip
-    {
-      "Display_name": "C#, NUnit",
-      "visible_filenames": [
-        "HikerTest.cs",
-        "Hiker.cs",
-        "cyber-dojo.sh"
-      ],
-      "hidden_filenames": [ "TestResult\\.xml" ],
-      "image_name": "cyberdojofoundation/csharp_nunit",
-      "runner_choice": "stateless",
-      "filename_extension": ".cs"
-    }
-    MANIFEST
-    IO.write(manifest_filename, manifest)
-    break
-  end
+  peturb_manifest('languages-csharp-nunit', 'Display_name', 'C#, NUnit')
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -117,6 +101,7 @@ end
 def languages_manifest_missing_a_required_key
   `cp -R /app/languages-csharp-nunit #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    # no display_name
     manifest = <<~MANIFEST.strip
     {
       "visible_filenames": [
@@ -124,9 +109,7 @@ def languages_manifest_missing_a_required_key
         "Hiker.cs",
         "cyber-dojo.sh"
       ],
-      "hidden_filenames": [ "TestResult\\.xml" ],
       "image_name": "cyberdojofoundation/csharp_nunit",
-      "runner_choice": "stateless",
       "filename_extension": ".cs"
     }
     MANIFEST
@@ -138,142 +121,51 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_string_image_name
-  `cp -R /app/languages-csharp-nunit #{target_dir}`
-  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
-    manifest = <<~MANIFEST.strip
-    {
-      "image_name": [1,2,3],
-      "display_name": "C#, NUnit",
-      "visible_filenames": [
-        "HikerTest.cs",
-        "Hiker.cs",
-        "cyber-dojo.sh"
-      ],
-      "hidden_filenames": [ "TestResult\\.xml" ],
-      "runner_choice": "stateless",
-      "filename_extension": ".cs"
-    }
-    MANIFEST
-    IO.write(manifest_filename, manifest)
-    break
-  end
+  peturb_manifest('languages-csharp-nunit', 'image_name', [1,2,3])
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_malformed_image_name
-  `cp -R /app/languages-csharp-nunit #{target_dir}`
-  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
-    manifest = <<~MANIFEST.strip
-    {
-      "image_name": "CYBERDOJO/csharp_nunit",
-      "display_name": "C#, NUnit",
-      "visible_filenames": [
-        "HikerTest.cs",
-        "Hiker.cs",
-        "cyber-dojo.sh"
-      ],
-      "hidden_filenames": [ "TestResult\\.xml" ],
-      "runner_choice": "stateless",
-      "filename_extension": ".cs"
-    }
-    MANIFEST
-    IO.write(manifest_filename, manifest)
-    break
-  end
+  peturb_manifest('languages-csharp-nunit', 'image_name', 'CYBERDOJO/csharp_nunit')
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_string_display_name
-  `cp -R /app/languages-csharp-nunit #{target_dir}`
-  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
-    manifest = <<~MANIFEST.strip
-    {
-      "image_name": "cyberdojo/csharp_nunit",
-      "display_name": [1,2,3],
-      "visible_filenames": [
-        "HikerTest.cs",
-        "Hiker.cs",
-        "cyber-dojo.sh"
-      ],
-      "hidden_filenames": [ "TestResult\\.xml" ],
-      "runner_choice": "stateless",
-      "filename_extension": ".cs"
-    }
-    MANIFEST
-    IO.write(manifest_filename, manifest)
-    break
-  end
+  peturb_manifest('languages-csharp-nunit', 'display_name', [1,2,3])
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_empty_display_name
-  `cp -R /app/languages-csharp-nunit #{target_dir}`
-  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
-    manifest = <<~MANIFEST.strip
-    {
-      "image_name": "cyberdojo/csharp_nunit",
-      "display_name": "",
-      "visible_filenames": [
-        "HikerTest.cs",
-        "Hiker.cs",
-        "cyber-dojo.sh"
-      ],
-      "hidden_filenames": [ "TestResult\\.xml" ],
-      "runner_choice": "stateless",
-      "filename_extension": ".cs"
-    }
-    MANIFEST
-    IO.write(manifest_filename, manifest)
-    break
-  end
+  peturb_manifest('languages-csharp-nunit', 'display_name', '')
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_array_visible_filenames
-  `cp -R /app/languages-csharp-nunit #{target_dir}`
-  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
-    manifest = <<~MANIFEST.strip
-    {
-      "image_name": "cyberdojo/csharp_nunit",
-      "display_name": "C#, NUnit",
-      "visible_filenames": 1,
-      "hidden_filenames": [ "TestResult\\.xml" ],
-      "runner_choice": "stateless",
-      "filename_extension": ".cs"
-    }
-    MANIFEST
-    IO.write(manifest_filename, manifest)
-    break
-  end
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', 1)
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_array_string_visible_filenames
-  `cp -R /app/languages-csharp-nunit #{target_dir}`
-  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
-    manifest = <<~MANIFEST.strip
-    {
-      "image_name": "cyberdojo/csharp_nunit",
-      "display_name": "C#, NUnit",
-      "visible_filenames": [1,2,3],
-      "hidden_filenames": [ "TestResult\\.xml" ],
-      "runner_choice": "stateless",
-      "filename_extension": ".cs"
-    }
-    MANIFEST
-    IO.write(manifest_filename, manifest)
-    break
-  end
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', [1,2,3])
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
-
+def peturb_manifest(dir_name, key, value)
+  `cp -R /app/#{dir_name} #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    manifest_filename = manifest_filename
+    json = JSON.parse!(IO.read(manifest_filename))
+    json[key] = value
+    IO.write(manifest_filename, JSON.pretty_generate(json))
+    break
+  end
+end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
