@@ -152,6 +152,10 @@ def languages_manifest_has_non_array_string_visible_filenames
   peturb_manifest('languages-csharp-nunit', 'visible_filenames', [1,2,3])
 end
 
+def languages_manifest_has_empty_string_visible_filename
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', ["hiker.cs",""])
+end
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturb_manifest(dir_name, key, value)

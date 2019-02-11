@@ -4,30 +4,38 @@ module CheckVisibleFilenames
 
   include ShowError
 
-  def check_visible_filenames(url, filename, json)
+  def check_visible_filenames(url, manifest_filename, json)
     visible_filenames = json['visible_filenames']
     unless visible_filenames.is_a?(Array)
       title = 'visible_filenames is not an Array'
       msg = "\"visible_filenames\": #{visible_filenames}"
-      show_error(title, url, filename, msg)
+      show_error(title, url, manifest_filename, msg)
       exit(25)
     end
     if visible_filenames.empty?
       title = 'visible_filenames is empty'
       msg = "\"visible_filenames\": #{visible_filenames}"
-      show_error(title, url, filename, msg)
+      show_error(title, url, manifest_filename, msg)
       exit(26)
     end
-    unless visible_filenames.all?{|arg| arg.is_a?(String) }
-      title = 'visible_filenames[i] is not a String'
-      msg = "\"visible_filenames\": #{visible_filenames}"
-      show_error(title, url, filename, msg)
-      exit(27)
+    visible_filenames.each_with_index do |filename,index|
+      unless filename.is_a?(String)
+        title = "visible_filenames[#{index}] is not a String"
+        msg = "\"visible_filenames\": #{visible_filenames}"
+        show_error(title, url, manifest_filename, msg)
+        exit(27)
+      end
+      if filename.empty?
+        title = "visible_filenames[#{index}] is empty"
+        msg = "\"visible_filenames\": #{visible_filenames}"
+        show_error(title, url, manifest_filename, msg)
+        exit(28)
+      end
+      # TODO:29.check filenames dont have illegal characters (for a filename)
     end
-    # TODO:check filenames dont have illegal characters (for a filename)
-    # TODO:check all visible files exist and are world-readable
-    # TODO:check no duplicate visible files
-    # TODO:check cyber-dojo.sh is a visible_filename
+    # TODO:30.check no duplicate visible files
+    # TODO:31.check all visible files exist and are world-readable
+    # TODO:32.check cyber-dojo.sh is a visible_filename
 
   end
 
