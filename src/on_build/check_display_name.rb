@@ -1,10 +1,10 @@
 require_relative 'show_error'
 
-module CheckDisplayNameIsValid
+module CheckDisplayName
 
   include ShowError
 
-  def check_display_name_is_valid(url, filename, json)
+  def check_display_name(url, filename, json)
     display_name = json['display_name']
     unless display_name.is_a?(String)
       title = 'display_name is not a String'

@@ -1,12 +1,12 @@
 require_relative 'show_error'
 require_relative 'well_formed_image_name'
 
-module CheckImageNameIsValid
+module CheckImageName
 
   include ShowError
   include WellFormedImageName
 
-  def check_image_name_is_valid(url, filename, json)
+  def check_image_name(url, filename, json)
     image_name = json['image_name']
     unless image_name.is_a?(String)
       title = 'image_name is not a String'
