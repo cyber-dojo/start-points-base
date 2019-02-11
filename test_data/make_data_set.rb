@@ -185,4 +185,50 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
+def languages_manifest_has_non_string_display_name
+  `cp -R /app/languages-csharp-nunit #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    manifest = <<~MANIFEST.strip
+    {
+      "image_name": "cyberdojo/csharp_nunit",
+      "display_name": [1,2,3],
+      "visible_filenames": [
+        "HikerTest.cs",
+        "Hiker.cs",
+        "cyber-dojo.sh"
+      ],
+      "hidden_filenames": [ "TestResult\\.xml" ],
+      "runner_choice": "stateless",
+      "filename_extension": ".cs"
+    }
+    MANIFEST
+    IO.write(manifest_filename, manifest)
+    break
+  end
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+def languages_manifest_has_empty_display_name
+  `cp -R /app/languages-csharp-nunit #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    manifest = <<~MANIFEST.strip
+    {
+      "image_name": "cyberdojo/csharp_nunit",
+      "display_name": "",
+      "visible_filenames": [
+        "HikerTest.cs",
+        "Hiker.cs",
+        "cyber-dojo.sh"
+      ],
+      "hidden_filenames": [ "TestResult\\.xml" ],
+      "runner_choice": "stateless",
+      "filename_extension": ".cs"
+    }
+    MANIFEST
+    IO.write(manifest_filename, manifest)
+    break
+  end
+end
+
 eval(data_set_name)
