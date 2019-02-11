@@ -31,12 +31,28 @@ module CheckVisibleFilenames
         show_error(title, url, manifest_filename, msg)
         exit(28)
       end
-      # TODO:29.check filenames dont have illegal characters (for a filename)
+      filename.each_char do |ch|
+        unless portable?(ch)
+          title = "visible_filenames[#{index}] has non-portable character '#{ch}'"
+          msg = "\"visible_filenames\": #{visible_filenames}"
+          show_error(title, url, manifest_filename, msg)
+          exit(29)
+        end
+      end
     end
     # TODO:30.check no duplicate visible files
     # TODO:31.check all visible files exist and are world-readable
     # TODO:32.check cyber-dojo.sh is a visible_filename
 
+  end
+
+  def portable?(ch)
+    # http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_278
+    upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    lower = 'abcdefghijklmnopqrstuvwxyz'
+    digits = '0123456789'
+    extra = '._-'
+    (upper+lower+digits+extra).include?(ch)
   end
 
 end

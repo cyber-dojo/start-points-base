@@ -156,6 +156,10 @@ def languages_manifest_has_empty_string_visible_filename
   peturb_manifest('languages-csharp-nunit', 'visible_filenames', ["hiker.cs",""])
 end
 
+def languages_manifest_visible_filename_has_non_portable_character
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', ["hiker.cs","hiker&.cs"])
+end
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturb_manifest(dir_name, key, value)
