@@ -9,7 +9,7 @@ test_language_repo_manifest_contains_non_string_display_name()
   build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: invalid display_name in manifest.json file"
+  assert_stderr_includes "ERROR: display_name is not a String"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"display_name": [1, 2, 3]'
@@ -28,7 +28,7 @@ test_language_repo_manifest_contains_empty_display_name()
   build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: empty display_name in manifest.json file"
+  assert_stderr_includes "ERROR: display_name is empty"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"display_name": ""'
