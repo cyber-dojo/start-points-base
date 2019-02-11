@@ -7,10 +7,10 @@ module CheckAllRequiredKeysExist
   def check_all_required_keys_exist(url, filename, json)
     required_keys.each do |key|
       unless json.keys.include?(key)
-        title = 'missing required key in manifest.json file'
-        msg = "key=\"#{key}\""
+        title = "missing required key \"#{key}\""
+        msg = ''
         show_error(title, url, filename, msg)
-        exit(20)  
+        exit(20)
       end
     end
   end

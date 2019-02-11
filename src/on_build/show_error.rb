@@ -5,7 +5,9 @@ module ShowError
     STDERR.puts("ERROR: #{title}")
     STDERR.puts("--#{@type} #{url}")
     STDERR.puts("manifest='#{relative(filename)}'")
-    STDERR.puts(msg)
+    unless msg.empty?
+      STDERR.puts(msg)
+    end
   end
 
   def relative(filename)

@@ -114,7 +114,7 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
-def languages_manifest_has_required_keys
+def languages_manifest_missing_a_required_key
   `cp -R /app/languages-csharp-nunit #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     manifest = <<~MANIFEST.strip
