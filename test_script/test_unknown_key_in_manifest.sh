@@ -9,11 +9,10 @@ test_language_repo_manifest_contains_unknown_key()
   build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: unknown key in manifest.json file"
+  assert_stderr_includes 'ERROR: unknown key "Display_name"'
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes 'key="Display_name"'
-  assert_stderr_line_count_equals 4
+  assert_stderr_line_count_equals 3
   assert_status_equals 19
 }
 

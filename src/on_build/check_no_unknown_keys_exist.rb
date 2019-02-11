@@ -7,9 +7,8 @@ module CheckNoUnknownKeysExist
   def check_no_unknown_keys_exist(url, filename, json)
     json.keys.each do |key|
       unless known_keys.include?(key)
-        title = 'unknown key in manifest.json file'
-        msg = "key=\"#{key}\""
-        show_error(title, url, filename, msg)
+        title = "unknown key \"#{key}\""
+        show_error(title, url, filename)
         exit(19)
       end
     end

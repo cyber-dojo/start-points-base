@@ -1,7 +1,7 @@
 
 module ShowError
 
-  def show_error(title, url, filename, msg)
+  def show_error(title, url, filename, msg = '')
     STDERR.puts("ERROR: #{title}")
     STDERR.puts("--#{@type} #{url}")
     STDERR.puts("manifest='#{relative(filename)}'")

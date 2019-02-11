@@ -8,8 +8,7 @@ module CheckAllRequiredKeysExist
     required_keys.each do |key|
       unless json.keys.include?(key)
         title = "missing required key \"#{key}\""
-        msg = ''
-        show_error(title, url, filename, msg)
+        show_error(title, url, filename)
         exit(20)
       end
     end
