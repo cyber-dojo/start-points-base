@@ -160,6 +160,10 @@ def languages_manifest_visible_filename_has_non_portable_character
   peturb_manifest('languages-csharp-nunit', 'visible_filenames', ["hiker.cs","hiker&.cs"])
 end
 
+def languages_manifest_visible_filename_has_non_portable_leading_character
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', ["-hiker.cs","hiker.test.cs"])
+end
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturb_manifest(dir_name, key, value)

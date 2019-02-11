@@ -39,6 +39,12 @@ module CheckVisibleFilenames
           exit(29)
         end
       end
+      if filename[0] == '-'
+        title = "visible_filenames[#{index}] has non-portable leading character '-'"
+        msg = "\"visible_filenames\": #{visible_filenames}"
+        show_error(title, url, manifest_filename, msg)
+        exit(30)
+      end
     end
     # TODO:30.check no duplicate visible files
     # TODO:31.check all visible files exist and are world-readable
