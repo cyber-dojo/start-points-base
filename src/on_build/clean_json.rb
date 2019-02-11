@@ -25,7 +25,7 @@ module CleanJson
     JSON.parse!(content)
   rescue JSON::ParserError => error
     title = 'bad JSON in manifest.json file'
-    show_error(title, url, filename, error)
+    show_error(title, url, filename, error.to_s)
     exit(17)
   end
 
