@@ -14,12 +14,11 @@ module CheckVisibleFilenames
       exit_unless_visible_filename_is_portable(visible_filenames, filename, index, url, manifest_filename)
     end
     exit_if_visible_filename_duplicate(visible_filenames, url, manifest_filename)
-    # TODO:32.check all visible files exist and are world-readable
+    exit_unless_all_visible_filenames_exist(visible_filenames, url, manifest_filename)
     # TODO:33.check cyber-dojo.sh is a visible_filename
-
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def exit_unless_visible_filenames_is_array(visible_filenames, url, manifest_filename)
     unless visible_filenames.is_a?(Array)
@@ -85,6 +84,20 @@ module CheckVisibleFilenames
       end
     end
   end
+
+  def exit_unless_all_visible_filenames_exist(visible_filenames, url, manifest_filename)
+    dir_name = File.dirname(manifest_filename)
+    visible_filenames.each_with_index do |filename,index|
+      unless File.exists?(dir_name + '/' + filename)
+        title = "visible_filenames[#{index}] does not exist"
+        msg = "\"visible_filenames\": #{visible_filenames}"
+        show_error(title, url, manifest_filename, msg)
+        exit(32)
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def get_dup_indexes(all, value)
     (0...all.size).each do |i|

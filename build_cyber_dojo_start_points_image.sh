@@ -151,6 +151,7 @@ git_clone_one_url_to_context_dir()
     error 15 "${msg}"
   fi
 
+  chmod -R +rX "${URL_INDEX}"
   local sha
   sha=$(cd ${URL_INDEX} && git rev-parse HEAD)
   echo -e "--${type} \t ${url}"

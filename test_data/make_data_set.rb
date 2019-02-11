@@ -175,12 +175,16 @@ def languages_manifest_visible_filename_has_duplicates
   peturb_manifest('languages-csharp-nunit', 'visible_filenames', value)
 end
 
+def languages_manifest_visible_filename_does_not_exist
+  value = [ 'HikerTest.cs', 'xHiker.cs', 'cyber-dojo.sh' ]
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', value)
+end
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturb_manifest(dir_name, key, value)
   `cp -R /app/#{dir_name} #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
-    manifest_filename = manifest_filename
     json = JSON.parse!(IO.read(manifest_filename))
     json[key] = value
     IO.write(manifest_filename, JSON.pretty_generate(json))
