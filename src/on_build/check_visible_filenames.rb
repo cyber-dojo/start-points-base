@@ -120,10 +120,11 @@ module CheckVisibleFilenames
 
   def portable?(ch)
     # http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_278
+    # I also allow forward slash since some filenames include dirs.
     upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     lower = 'abcdefghijklmnopqrstuvwxyz'
     digits = '0123456789'
-    extra = '._-'
+    extra = '/._-'
     (upper+lower+digits+extra).include?(ch)
   end
 
