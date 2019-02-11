@@ -141,27 +141,38 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_array_visible_filenames
-  peturb_manifest('languages-csharp-nunit', 'visible_filenames', 1)
+  value = 1
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', value)
 end
 
 def languages_manifest_has_empty_visible_filenames
-  peturb_manifest('languages-csharp-nunit', 'visible_filenames', [])
+  value = []
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', value)
 end
 
 def languages_manifest_has_non_array_string_visible_filenames
-  peturb_manifest('languages-csharp-nunit', 'visible_filenames', [1,2,3])
+  value = [1,2,3]
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', value)
 end
 
 def languages_manifest_has_empty_string_visible_filename
-  peturb_manifest('languages-csharp-nunit', 'visible_filenames', ["hiker.cs",""])
+  value = ["hiker.cs", ""]
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_has_non_portable_character
-  peturb_manifest('languages-csharp-nunit', 'visible_filenames', ["hiker.cs","hiker&.cs"])
+  value = ["hiker.cs","hiker&.cs"]
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_has_non_portable_leading_character
-  peturb_manifest('languages-csharp-nunit', 'visible_filenames', ["-hiker.cs","hiker.test.cs"])
+  value = ["-hiker.cs","hiker.test.cs"]
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', value)
+end
+
+def languages_manifest_visible_filename_has_duplicates
+  value = ["a.cs", "b.cs", "c.cs", "b.cs"]
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', value)
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
