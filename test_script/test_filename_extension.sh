@@ -1,8 +1,10 @@
 #!/bin/bash
 
+test_success(){ :; }
 # TODO: add success case for String and [String]
 
-test_language_repo_manifest_filename_extension_is_int()
+test_failure(){ :; }
+test_int()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -21,7 +23,7 @@ test_language_repo_manifest_filename_extension_is_int()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_filename_extension_is_int_array()
+test_int_array()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -40,7 +42,7 @@ test_language_repo_manifest_filename_extension_is_int_array()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_filename_extension_is_empty_array()
+test_empty_array()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -56,6 +58,7 @@ test_language_repo_manifest_filename_extension_is_empty_array()
   assert_stderr_line_count_equals 4
   assert_status_equals 34
 }
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 echo "::${0##*/}"
