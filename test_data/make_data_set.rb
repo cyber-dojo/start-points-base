@@ -117,21 +117,25 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_string_image_name
-  peturb_manifest('languages-csharp-nunit', 'image_name', [1,2,3])
+  value = [1,2,3]
+  peturb_manifest('languages-csharp-nunit', 'image_name', value)
 end
 
 def languages_manifest_has_malformed_image_name
-  peturb_manifest('languages-csharp-nunit', 'image_name', 'CYBERDOJO/csharp_nunit')
+  value = 'CYBERDOJO/csharp_nunit'
+  peturb_manifest('languages-csharp-nunit', 'image_name', value)
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_string_display_name
-  peturb_manifest('languages-csharp-nunit', 'display_name', [1,2,3])
+  value = [1,2,3]
+  peturb_manifest('languages-csharp-nunit', 'display_name', value)
 end
 
 def languages_manifest_has_empty_display_name
-  peturb_manifest('languages-csharp-nunit', 'display_name', '')
+  value = ''
+  peturb_manifest('languages-csharp-nunit', 'display_name', value)
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
