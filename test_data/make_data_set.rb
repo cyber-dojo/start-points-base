@@ -99,39 +99,11 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_missing_display_name
-  `cp -R /app/languages-csharp-nunit #{target_dir}`
-  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
-    # no display_name
-    manifest = <<~MANIFEST.strip
-    {
-      "visible_filenames": [
-        "HikerTest.cs",
-        "Hiker.cs",
-        "cyber-dojo.sh"
-      ],
-      "image_name": "cyberdojofoundation/csharp_nunit",
-      "filename_extension": ".cs"
-    }
-    MANIFEST
-    IO.write(manifest_filename, manifest)
-    break
-  end
+  peturb_manifest('languages-csharp-nunit', 'display_name', nil)
 end
 
 def languages_manifest_missing_visible_filenames
-  `cp -R /app/languages-csharp-nunit #{target_dir}`
-  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
-    # no display_name
-    manifest = <<~MANIFEST.strip
-    {
-      "display_name": "C#, NUnit",
-      "image_name": "cyberdojofoundation/csharp_nunit",
-      "filename_extension": ".cs"
-    }
-    MANIFEST
-    IO.write(manifest_filename, manifest)
-    break
-  end
+  peturb_manifest('languages-csharp-nunit', 'visible_filenames', nil)
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -214,7 +186,11 @@ def peturb_manifest(dir_name, key, value)
   `cp -R /app/#{dir_name} #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     json = JSON.parse!(IO.read(manifest_filename))
-    json[key] = value
+    if value.nil?
+      json.delete(key)
+    else
+      json[key] = value
+    end
     IO.write(manifest_filename, JSON.pretty_generate(json))
     break
   end
