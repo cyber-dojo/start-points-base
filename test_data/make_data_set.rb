@@ -187,8 +187,18 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
-def languages_manifest_has_non_string_filename_extension
+def languages_manifest_filename_extension_is_int
   value = 1
+  peturb_manifest('languages-csharp-nunit', 'filename_extension', value)
+end
+
+def languages_manifest_filename_extension_is_int_array
+  value = [1,2,3]
+  peturb_manifest('languages-csharp-nunit', 'filename_extension', value)
+end
+
+def languages_manifest_filename_extension_is_empty_array
+  value = []
   peturb_manifest('languages-csharp-nunit', 'filename_extension', value)
 end
 
