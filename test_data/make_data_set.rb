@@ -106,6 +106,14 @@ def languages_manifest_missing_visible_filenames
   peturb_manifest('languages-csharp-nunit', 'visible_filenames', nil)
 end
 
+def languages_manifest_missing_image_name
+  peturb_manifest('languages-csharp-nunit', 'image_name', nil)
+end
+
+def languages_manifest_missing_filename_extension
+  peturb_manifest('languages-csharp-nunit', 'filename_extension', nil)
+end
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_string_image_name
