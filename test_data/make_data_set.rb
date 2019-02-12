@@ -187,6 +187,13 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
+def languages_manifest_has_non_string_filename_extension
+  value = 1
+  peturb_manifest('languages-csharp-nunit', 'filename_extension', value)
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
 def peturb_manifest(dir_name, key, value)
   `cp -R /app/#{dir_name} #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
