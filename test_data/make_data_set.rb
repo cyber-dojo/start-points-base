@@ -98,7 +98,7 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
-def languages_manifest_missing_a_required_key
+def languages_manifest_missing_display_name
   `cp -R /app/languages-csharp-nunit #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     # no display_name
@@ -109,6 +109,22 @@ def languages_manifest_missing_a_required_key
         "Hiker.cs",
         "cyber-dojo.sh"
       ],
+      "image_name": "cyberdojofoundation/csharp_nunit",
+      "filename_extension": ".cs"
+    }
+    MANIFEST
+    IO.write(manifest_filename, manifest)
+    break
+  end
+end
+
+def languages_manifest_missing_visible_filenames
+  `cp -R /app/languages-csharp-nunit #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    # no display_name
+    manifest = <<~MANIFEST.strip
+    {
+      "display_name": "C#, NUnit",
       "image_name": "cyberdojofoundation/csharp_nunit",
       "filename_extension": ".cs"
     }
