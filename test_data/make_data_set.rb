@@ -202,6 +202,26 @@ def languages_manifest_filename_extension_is_empty_array
   peturb_manifest('languages-csharp-nunit', 'filename_extension', value)
 end
 
+def languages_manifest_filename_extension_is_empty_string
+  value = ''
+  peturb_manifest('languages-csharp-nunit', 'filename_extension', value)
+end
+
+def languages_manifest_filename_extension_is_dotless
+  value = 'cs'
+  peturb_manifest('languages-csharp-nunit', 'filename_extension', value)
+end
+
+def languages_manifest_filename_extension_is_only_dot
+  value = '.'
+  peturb_manifest('languages-csharp-nunit', 'filename_extension', value)
+end
+
+def languages_manifest_filename_extension_duplicates
+  value = [".cs", ".h", ".c", ".h"]
+  peturb_manifest('languages-csharp-nunit', 'filename_extension', value)
+end
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturb_manifest(dir_name, key, value)

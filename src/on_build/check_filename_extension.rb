@@ -6,15 +6,19 @@ module CheckFilenameExtension
 
   def check_filename_extension(url, manifest_filename, json)
     filename_extension = json['filename_extension']
+    if filename_extension.is_a?(String)
+      filename_extension = [ filename_extension ]
+    end
     exit_unless_filename_extension_is_wrong_type(filename_extension, url, manifest_filename, json)
+    exit_if_filename_extension_is_empty_string(filename_extension, url, manifest_filename, json)
+    exit_if_filename_extension_dotless(filename_extension, url, manifest_filename, json)
+    exit_if_filename_extension_only_dots(filename_extension, url, manifest_filename, json)
+    exit_if_filename_extension_duplicates(filename_extension, url, manifest_filename, json)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def exit_unless_filename_extension_is_wrong_type(filename_extension, url, manifest_filename, json)
-    if filename_extension.is_a?(String)
-      filename_extension = [ filename_extension ]
-    end
     good = filename_extension.is_a?(Array)
     good = good && filename_extension != []
     good = good && filename_extension.all?{|e| e.is_a?(String) }
@@ -26,5 +30,49 @@ module CheckFilenameExtension
     end
   end
 
+  def exit_if_filename_extension_is_empty_string(filename_extension, url, manifest_filename, json)
+    filename_extension.each_with_index do |ext, index|
+      if ext == ''
+        title = "filename_extension[#{index}] must be non-empty String"
+        msg = "\"filename_extension\": #{filename_extension}"
+        show_error(title, url, manifest_filename, msg)
+        exit(35)
+      end
+    end
+  end
+
+  def exit_if_filename_extension_dotless(filename_extension, url, manifest_filename, json)
+    filename_extension.each_with_index do |ext, index|
+      unless ext[0] == '.'
+        title = "filename_extension[#{index}] must start with a dot"
+        msg = "\"filename_extension\": #{filename_extension}"
+        show_error(title, url, manifest_filename, msg)
+        exit(36)
+      end
+    end
+  end
+
+  def exit_if_filename_extension_only_dots(filename_extension, url, manifest_filename, json)
+    filename_extension.each_with_index do |ext, index|
+      if ext == '.'
+        title = "filename_extension[#{index}] must be more than just a dot"
+        msg = "\"filename_extension\": #{filename_extension}"
+        show_error(title, url, manifest_filename, msg)
+        exit(37)
+      end
+    end
+  end
+
+  def exit_if_filename_extension_duplicates(filename_extension, url, manifest_filename, json)
+    filename_extension.each do |ext|
+      dup_indexes = get_dup_indexes(filename_extension, ext)
+      unless dup_indexes == ''
+        title = "filename_extension has duplicates #{dup_indexes}"
+        msg = "\"filename_extension\": #{filename_extension}"
+        show_error(title, url, manifest_filename, msg)
+        exit(38)
+      end
+    end
+  end
 
 end
