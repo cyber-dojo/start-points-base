@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "::${0##*/}"
+
 test_one_repo_for_each_category()
 {
   local image_name="${FUNCNAME[0]}"
@@ -51,7 +53,6 @@ test_more_than_one_repo_for_each_category()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh

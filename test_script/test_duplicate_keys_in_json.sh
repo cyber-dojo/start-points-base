@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "::${0##*/}"
+
 test_language_repo_manifest_contains_duplicate_keys()
 {
   local image_name="${FUNCNAME[0]}"
@@ -44,7 +46,6 @@ test_exercise_repo_manifest_contains_duplicate_keys()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh

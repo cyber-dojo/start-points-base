@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "::${0##*/}"
+
 test_help_message_shown_when_no_arguments()
 {
   build_start_points_image
@@ -22,7 +24,6 @@ test_help_message_shown_for_long_help_option()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh
