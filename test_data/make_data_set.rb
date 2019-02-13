@@ -224,6 +224,18 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
+def languages_manifest_hidden_filenames_success
+  value = [ "coverage/\\.last_run\\.json" ]
+  peturb_manifest('languages-csharp-nunit', 'hidden_filenames', value)
+end
+
+def languages_manifest_hidden_filenames_not_array
+  value = 1
+  peturb_manifest('languages-csharp-nunit', 'hidden_filenames', value)
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
 def peturb_manifest(dir_name, key, value)
   `cp -R /app/#{dir_name} #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|

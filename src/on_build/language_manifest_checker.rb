@@ -6,6 +6,7 @@ require_relative 'check_image_name'
 require_relative 'check_display_name'
 require_relative 'check_visible_filenames'
 require_relative 'check_filename_extension'
+require_relative 'check_hidden_filenames'
 
 class LanguageManifestChecker
 
@@ -29,6 +30,7 @@ class LanguageManifestChecker
   include CheckDisplayName
   include CheckVisibleFilenames
   include CheckFilenameExtension
+  include CheckHiddenFilenames
 
   def check_one(url, filenames)
     filenames.each do |filename|
@@ -41,7 +43,7 @@ class LanguageManifestChecker
       check_visible_filenames(url, filename, json)
       check_filename_extension(url, filename, json)
       # optional-keys
-      #check_hidden_filenames(url, filename, json)
+      check_hidden_filenames(url, filename, json)
       #check_highlight_filenames(url, filename, json)
       #check_progress_regexs(url, filename, json)
       #check_tab_size(url, filename, json)
