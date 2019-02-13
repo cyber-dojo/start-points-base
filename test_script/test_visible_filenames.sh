@@ -1,8 +1,6 @@
 #!/bin/bash
 
-echo "::${0##*/}"
-
-test_language_repo_manifest_contains_non_string_visible_filenames()
+test_failure_non_string()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -21,7 +19,7 @@ test_language_repo_manifest_contains_non_string_visible_filenames()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_contains_empty_visible_filenames()
+test_failure_empty()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -40,7 +38,7 @@ test_language_repo_manifest_contains_empty_visible_filenames()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_contains_non_array_string_visible_filenames()
+test_failure_non_array_string()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -59,7 +57,7 @@ test_language_repo_manifest_contains_non_array_string_visible_filenames()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_contains_empty_string_visible_filename()
+test_failure_empty_string()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -78,7 +76,7 @@ test_language_repo_manifest_contains_empty_string_visible_filename()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_contains_visible_filename_with_non_portable_character()
+test_failure_non_portable_character()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -97,7 +95,7 @@ test_language_repo_manifest_contains_visible_filename_with_non_portable_characte
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_contains_visible_filename_with_non_portable_leading_character()
+test_failure_non_portable_leading_character()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -116,7 +114,7 @@ test_language_repo_manifest_contains_visible_filename_with_non_portable_leading_
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_contains_visible_filename_with_duplicates()
+test_failure_duplicates()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -135,7 +133,7 @@ test_language_repo_manifest_contains_visible_filename_with_duplicates()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_visible_filename_does_not_exist()
+test_failure_does_not_exist()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -154,7 +152,7 @@ test_language_repo_manifest_visible_filename_does_not_exist()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_visible_filename_contains_cyber_dojo_sh()
+test_failure_no_cyber_dojo_sh()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -173,6 +171,7 @@ test_language_repo_manifest_visible_filename_contains_cyber_dojo_sh()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh

@@ -1,8 +1,6 @@
 #!/bin/bash
 
-echo "::${0##*/}"
-
-test_language_repo_manifest_missing_display_name()
+test_failure_no_display_name()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -20,7 +18,7 @@ test_language_repo_manifest_missing_display_name()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_missing_visible_filanames()
+test_failure_no_visible_filanames()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -38,7 +36,7 @@ test_language_repo_manifest_missing_visible_filanames()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_missing_image_name()
+test_failure_no_image_name()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -56,7 +54,7 @@ test_language_repo_manifest_missing_image_name()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_language_repo_manifest_missing_filename_extension()
+test_failure_no_filename_extension()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -74,6 +72,7 @@ test_language_repo_manifest_missing_filename_extension()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh

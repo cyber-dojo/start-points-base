@@ -1,13 +1,8 @@
 #!/bin/bash
 
-echo "::${0##*/}"
-
-echo success_cases
 # TODO: add success case for String and [String]
 
-echo failure_cases
-
-test_int()
+test_failure_int()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -26,7 +21,7 @@ test_int()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_int_array()
+test_failure_int_array()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -45,7 +40,7 @@ test_int_array()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_empty_array()
+test_failure_empty_array()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -64,7 +59,7 @@ test_empty_array()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_empty_string()
+test_failure_empty_string()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -83,7 +78,7 @@ test_empty_string()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_doesnt_start_dot()
+test_failure_doesnt_start_dot()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -102,7 +97,7 @@ test_doesnt_start_dot()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_only_a_dot()
+test_failure_only_a_dot()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -121,7 +116,7 @@ test_only_a_dot()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_duplicates()
+test_failure_duplicates()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -140,6 +135,7 @@ test_duplicates()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh

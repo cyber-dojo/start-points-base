@@ -1,8 +1,6 @@
 #!/bin/bash
 
-echo "::${0##*/}"
-
-test_default_custom_url()
+test_custom()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -22,7 +20,7 @@ test_default_custom_url()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_default_exercises_url()
+test_exercises()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -78,6 +76,7 @@ test_all_default_urls()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh

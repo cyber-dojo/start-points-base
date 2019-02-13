@@ -1,8 +1,6 @@
 #!/bin/bash
 
-echo "::${0##*/}"
-
-test_language_repo_manifest_contains_duplicate_keys()
+test_language()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -24,7 +22,7 @@ test_language_repo_manifest_contains_duplicate_keys()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_exercise_repo_manifest_contains_duplicate_keys()
+test_exercise()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -46,6 +44,7 @@ test_exercise_repo_manifest_contains_duplicate_keys()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh
