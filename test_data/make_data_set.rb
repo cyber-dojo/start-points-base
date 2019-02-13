@@ -283,6 +283,28 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
+def languages_manifest_max_seconds_int
+  value = 6
+  peturb_manifest('languages-csharp-nunit', 'max_seconds', value)
+end
+
+def languages_manifest_max_seconds_string
+  value = '6'
+  peturb_manifest('languages-csharp-nunit', 'max_seconds', value)
+end
+
+def languages_manifest_max_seconds_int_too_small
+  value = 0
+  peturb_manifest('languages-csharp-nunit', 'max_seconds', value)
+end
+
+def languages_manifest_max_seconds_int_too_large
+  value = 21
+  peturb_manifest('languages-csharp-nunit', 'max_seconds', value)  
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
 def peturb_manifest(dir_name, key, value)
   `cp -R /app/#{dir_name} #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
