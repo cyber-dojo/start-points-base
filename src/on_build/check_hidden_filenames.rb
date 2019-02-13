@@ -28,6 +28,9 @@ module CheckHiddenFilenames
     unless hidden_filenames.is_a?(Array)
       return true
     end
+    if hidden_filenames == []
+      return true
+    end
     unless hidden_filenames.all?{|s| s.is_a?(String) }
       return true
     end
