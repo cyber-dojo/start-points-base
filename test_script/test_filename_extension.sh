@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# TODO: add success case for String and [String]
+# TODO: add success case for [String]
 
 test_failure_int()
 {

@@ -261,6 +261,13 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
+def languages_manifest_tab_size_string
+  value = '6'
+  peturb_manifest('languages-csharp-nunit', 'tab_size', value)
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
 def peturb_manifest(dir_name, key, value)
   `cp -R /app/#{dir_name} #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|

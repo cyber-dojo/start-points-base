@@ -110,7 +110,7 @@ test_failure_bad_regex()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_failure_duplicate()
+test_failure_duplicates()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
