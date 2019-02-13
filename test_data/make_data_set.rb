@@ -243,8 +243,12 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
-def languages_manifest_tab_size_int
-  peturn_language_manifest('tab_size', 6)
+def languages_manifest_tab_size_smallest_int
+  peturn_language_manifest('tab_size', 1)
+end
+
+def languages_manifest_tab_size_biggest_int
+  peturn_language_manifest('tab_size', 8)
 end
 
 def languages_manifest_tab_size_string

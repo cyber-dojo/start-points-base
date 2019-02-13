@@ -33,7 +33,7 @@ module CheckTabSize
       msg = "\"tab_size\": #{tab_size}"
       show_error(title, url, manifest_filename, msg)
       exit(43)
-    end    
+    end
   end
 
 end
