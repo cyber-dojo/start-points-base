@@ -7,7 +7,7 @@ module CheckHiddenFilenames
   def check_hidden_filenames(url, manifest_filename, json)
     if json.has_key?('hidden_filenames')
       hidden_filenames = json['hidden_filenames']
-      exit_if_hidden_filenames_malformed(hidden_filenames, url, manifest_filename, json)
+      exit_unless_hidden_filenames_well_formed(hidden_filenames, url, manifest_filename, json)
       exit_if_hidden_filenames_bad_regexp(hidden_filenames, url, manifest_filename, json)
       exit_if_hidden_filenames_has_duplicates(hidden_filenames, url, manifest_filename, json)
     end
@@ -15,8 +15,8 @@ module CheckHiddenFilenames
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  def exit_if_hidden_filenames_malformed(hidden_filenames, url, manifest_filename, json)
-    if hidden_filenames_malformed?(hidden_filenames)
+  def exit_unless_hidden_filenames_well_formed(hidden_filenames, url, manifest_filename, json)
+    unless hidden_filenames_well_formed?(hidden_filenames)
       title = 'hidden_filenames must be an Array of Strings'
       msg = "\"hidden_filenames\": #{hidden_filenames}"
       show_error(title, url, manifest_filename, msg)
@@ -24,20 +24,11 @@ module CheckHiddenFilenames
     end
   end
 
-  def hidden_filenames_malformed?(hidden_filenames)
-    unless hidden_filenames.is_a?(Array)
-      return true
-    end
-    if hidden_filenames == []
-      return true
-    end
-    unless hidden_filenames.all?{|s| s.is_a?(String) }
-      return true
-    end
-    if hidden_filenames.any?{|s| s == '' }
-      return true
-    end
-    false
+  def hidden_filenames_well_formed?(hidden_filenames)
+    hidden_filenames.is_a?(Array) &&
+      hidden_filenames != [] &&
+        hidden_filenames.all?{|s| s.is_a?(String) } &&
+          hidden_filenames.all?{|s| s != '' }
   end
 
   def exit_if_hidden_filenames_bad_regexp(hidden_filenames, url, manifest_filename, json)
