@@ -1,6 +1,20 @@
 #!/bin/bash
 
-# TODO: add success case for [String]
+test_success()
+{
+  local image_name="${FUNCNAME[0]}"
+  make_TMP_DIR_for_git_repos
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
+
+  #TODO: drop _error
+  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+
+  assert_image_created
+  assert_stderr_equals ''
+  assert_status_equals 0
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 test_failure_int()
 {

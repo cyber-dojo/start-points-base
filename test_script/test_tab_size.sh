@@ -6,6 +6,7 @@ test_success_int()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_tab_size_int)
 
+  #TODO: drop _error
   build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
 
   assert_image_created
