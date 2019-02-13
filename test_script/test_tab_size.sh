@@ -6,8 +6,7 @@ test_success_int()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_tab_size_int)
 
-  #TODO: drop _error
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   assert_image_created
   assert_stderr_equals ''
@@ -22,7 +21,7 @@ test_failure_string()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_tab_size_string)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: tab_size must be an Integer"
@@ -41,7 +40,7 @@ test_failure_int_too_small()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_tab_size_int_too_small)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: tab_size must be an Integer (1..8)"
@@ -60,7 +59,7 @@ test_failure_int_too_large()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_tab_size_int_too_large)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: tab_size must be an Integer (1..8)"

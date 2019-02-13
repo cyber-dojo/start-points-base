@@ -6,7 +6,7 @@ test_failure_no_display_name()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_missing_display_name)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes 'ERROR: missing required key "display_name"'
@@ -24,7 +24,7 @@ test_failure_no_visible_filanames()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_missing_visible_filenames)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes 'ERROR: missing required key "visible_filenames"'
@@ -42,7 +42,7 @@ test_failure_no_image_name()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_missing_image_name)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes 'ERROR: missing required key "image_name"'
@@ -60,7 +60,7 @@ test_failure_no_filename_extension()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_missing_filename_extension)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes 'ERROR: missing required key "filename_extension"'

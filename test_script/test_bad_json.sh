@@ -6,7 +6,7 @@ test_language_manifest()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_bad_json)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: bad JSON in manifest.json file"
@@ -25,7 +25,7 @@ test_exercise_manifest()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises_bad_json)
 
-  build_start_points_image_exercises_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_exercises "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: bad JSON in manifest.json file"

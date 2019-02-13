@@ -6,7 +6,7 @@ test_failure_language_unknown_key()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_has_unknown_key)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes 'ERROR: unknown key "Display_name"'

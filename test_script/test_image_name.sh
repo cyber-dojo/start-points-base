@@ -6,7 +6,7 @@ test_failure_non_string()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_has_non_string_image_name)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: image_name is not a String"
@@ -25,7 +25,7 @@ test_failure_malformed()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_has_malformed_image_name)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: image_name is malformed"

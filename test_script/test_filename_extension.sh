@@ -6,8 +6,7 @@ test_success()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
 
-  #TODO: drop _error
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   assert_image_created
   assert_stderr_equals ''
@@ -22,7 +21,7 @@ test_failure_int()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_filename_extension_is_int)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: filename_extension must be a String or Array of Strings"
@@ -41,7 +40,7 @@ test_failure_int_array()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_filename_extension_is_int_array)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: filename_extension must be a String or Array of Strings"
@@ -60,7 +59,7 @@ test_failure_empty_array()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_filename_extension_is_empty_array)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: filename_extension must be a String or Array of Strings"
@@ -79,7 +78,7 @@ test_failure_empty_string()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_filename_extension_is_empty_string)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: filename_extension[0] must be non-empty String"
@@ -98,7 +97,7 @@ test_failure_doesnt_start_dot()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_filename_extension_is_dotless)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: filename_extension[0] must start with a dot"
@@ -117,7 +116,7 @@ test_failure_only_a_dot()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_filename_extension_is_only_dot)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: filename_extension[0] must be more than just a dot"
@@ -136,7 +135,7 @@ test_failure_duplicates()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_filename_extension_duplicates)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: filename_extension has duplicates [1][3]"

@@ -6,8 +6,7 @@ test_success()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_success)
 
-  #TODO: drop _error
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   assert_image_created
   assert_stderr_equals ''
@@ -22,7 +21,7 @@ test_failure_int()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_int)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: hidden_filenames must be an Array of Strings"
@@ -41,7 +40,7 @@ test_failure_int_array()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_int_array)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: hidden_filenames must be an Array of Strings"
@@ -60,7 +59,7 @@ test_failure_empty_array()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_empty_array)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: hidden_filenames must be an Array of Strings"
@@ -79,7 +78,7 @@ test_failure_empty_string()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_empty_string)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes "ERROR: hidden_filenames must be an Array of Strings"
@@ -98,7 +97,7 @@ test_failure_bad_regex()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_bad_regex)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes 'ERROR: hidden_filenames[0] cannot create Regexp'
@@ -117,7 +116,7 @@ test_failure_duplicates()
   make_TMP_DIR_for_git_repos
   local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_duplicate)
 
-  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
   assert_stderr_includes 'ERROR: hidden_filenames has duplicates [0][2]'

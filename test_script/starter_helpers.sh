@@ -98,7 +98,7 @@ build_start_points_image()
   echo ${status} >${statusF}
 }
 
-build_start_points_image_custom_error()
+build_start_points_image_custom()
 {
   local image_name="${1}"
   local url="${2}"
@@ -116,7 +116,7 @@ build_start_points_image_custom_error()
       "${L_TMP_URL}"
 }
 
-build_start_points_image_exercises_error()
+build_start_points_image_exercises()
 {
   local image_name="${1}"
   local url="${2}"
@@ -134,7 +134,7 @@ build_start_points_image_exercises_error()
       "${L_TMP_URL}"
 }
 
-build_start_points_image_languages_error()
+build_start_points_image_languages()
 {
   local image_name="${1}"
   local url="${2}"
