@@ -28,7 +28,7 @@ module CheckMaxSeconds
   end
 
   def exit_unless_max_seconds_in_range(max_seconds, url, manifest_filename, json)
-    unless (1..8).include?(max_seconds)
+    unless (1..20).include?(max_seconds)
       title = 'max_seconds must be an Integer (1..20)'
       msg = "\"max_seconds\": #{max_seconds}"
       show_error(title, url, manifest_filename, msg)
