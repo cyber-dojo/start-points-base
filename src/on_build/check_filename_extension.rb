@@ -9,7 +9,7 @@ module CheckFilenameExtension
     if filename_extension.is_a?(String)
       filename_extension = [ filename_extension ]
     end
-    exit_unless_filename_extension_is_wrong_type(filename_extension, url, manifest_filename, json)
+    exit_unless_filename_extension_is_well_formed(filename_extension, url, manifest_filename, json)
     exit_if_filename_extension_is_empty_string(filename_extension, url, manifest_filename, json)
     exit_if_filename_extension_dotless(filename_extension, url, manifest_filename, json)
     exit_if_filename_extension_only_dots(filename_extension, url, manifest_filename, json)
@@ -18,16 +18,19 @@ module CheckFilenameExtension
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def exit_unless_filename_extension_is_wrong_type(filename_extension, url, manifest_filename, json)
-    good = filename_extension.is_a?(Array)
-    good = good && filename_extension != []
-    good = good && filename_extension.all?{|e| e.is_a?(String) }
-    unless good
+  def exit_unless_filename_extension_is_well_formed(filename_extension, url, manifest_filename, json)
+    unless filename_extension_is_well_formed?(filename_extension)
       title = 'filename_extension must be a String or Array of Strings'
       msg = "\"filename_extension\": #{filename_extension}"
       show_error(title, url, manifest_filename, msg)
       exit(34)
     end
+  end
+
+  def filename_extension_is_well_formed?(filename_extension)
+    filename_extension.is_a?(Array) &&
+      filename_extension != [] &&
+        filename_extension.all?{|e| e.is_a?(String) }
   end
 
   def exit_if_filename_extension_is_empty_string(filename_extension, url, manifest_filename, json)
