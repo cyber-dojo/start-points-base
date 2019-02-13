@@ -19,7 +19,7 @@ test_failure_int()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
-  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_not_array)
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_int)
 
   build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
 
@@ -30,6 +30,63 @@ test_failure_int()
   assert_stderr_includes '"hidden_filenames": 1'
   assert_stderr_line_count_equals 4
   assert_status_equals 39
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+test_failure_int_array()
+{
+  local image_name="${FUNCNAME[0]}"
+  make_TMP_DIR_for_git_repos
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_int_array)
+
+  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+
+  refute_image_created
+  assert_stderr_includes "ERROR: hidden_filenames must be an Array of Strings"
+  assert_stderr_includes "--languages ${TMP_URL}"
+  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stderr_includes '"hidden_filenames": [1, 2, 3]'
+  assert_stderr_line_count_equals 4
+  assert_status_equals 39
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+test_failure_empty_string()
+{
+  local image_name="${FUNCNAME[0]}"
+  make_TMP_DIR_for_git_repos
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_empty_string)
+
+  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+
+  refute_image_created
+  assert_stderr_includes "ERROR: hidden_filenames must be an Array of Strings"
+  assert_stderr_includes "--languages ${TMP_URL}"
+  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stderr_includes '"hidden_filenames": [""]'
+  assert_stderr_line_count_equals 4
+  assert_status_equals 39
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+test_failure_bad_regex()
+{
+  local image_name="${FUNCNAME[0]}"
+  make_TMP_DIR_for_git_repos
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_bad_regex)
+
+  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+
+  refute_image_created
+  assert_stderr_includes 'ERROR: hidden_filenames[0] cannot create Regexp'
+  assert_stderr_includes "--languages ${TMP_URL}"
+  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stderr_includes '"hidden_filenames": ["("]'
+  assert_stderr_line_count_equals 4
+  assert_status_equals 40
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

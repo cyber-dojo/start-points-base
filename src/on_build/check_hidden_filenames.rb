@@ -15,7 +15,28 @@ module CheckHiddenFilenames
       show_error(title, url, manifest_filename, msg)
       exit(39)
     end
-
+    unless hidden_filenames.all?{|s| s.is_a?(String) }
+      title = 'hidden_filenames must be an Array of Strings'
+      msg = "\"hidden_filenames\": #{hidden_filenames}"
+      show_error(title, url, manifest_filename, msg)
+      exit(39)
+    end
+    if hidden_filenames.any?{|s| s == '' }
+      title = 'hidden_filenames must be an Array of Strings'
+      msg = "\"hidden_filenames\": #{hidden_filenames}"
+      show_error(title, url, manifest_filename, msg)
+      exit(39)
+    end
+    hidden_filenames.each_with_index do |s,index|
+      begin
+        Regexp.new(s)
+      rescue
+        title = "hidden_filenames[#{index}] cannot create Regexp"
+        msg = "\"hidden_filenames\": #{hidden_filenames}"
+        show_error(title, url, manifest_filename, msg)
+        exit(40)
+      end
+    end
   end
 
 end

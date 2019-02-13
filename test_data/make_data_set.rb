@@ -229,8 +229,23 @@ def languages_manifest_hidden_filenames_success
   peturb_manifest('languages-csharp-nunit', 'hidden_filenames', value)
 end
 
-def languages_manifest_hidden_filenames_not_array
+def languages_manifest_hidden_filenames_int
   value = 1
+  peturb_manifest('languages-csharp-nunit', 'hidden_filenames', value)
+end
+
+def languages_manifest_hidden_filenames_int_array
+  value = [1,2,3]
+  peturb_manifest('languages-csharp-nunit', 'hidden_filenames', value)
+end
+
+def languages_manifest_hidden_filenames_empty_string
+  value = ['']
+  peturb_manifest('languages-csharp-nunit', 'hidden_filenames', value)
+end
+
+def languages_manifest_hidden_filenames_bad_regex
+  value = ['(']
   peturb_manifest('languages-csharp-nunit', 'hidden_filenames', value)
 end
 
