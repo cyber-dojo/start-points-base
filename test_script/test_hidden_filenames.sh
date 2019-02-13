@@ -91,6 +91,25 @@ test_failure_bad_regex()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+test_failure_duplicate()
+{
+  local image_name="${FUNCNAME[0]}"
+  make_TMP_DIR_for_git_repos
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_hidden_filenames_duplicate)
+
+  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+
+  refute_image_created
+  assert_stderr_includes 'ERROR: hidden_filenames has duplicates [0][2]'
+  assert_stderr_includes "--languages ${TMP_URL}"
+  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stderr_includes '"hidden_filenames": ["sd", "gg", "sd"]'
+  assert_stderr_line_count_equals 4
+  assert_status_equals 41
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh

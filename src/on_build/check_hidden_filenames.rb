@@ -37,6 +37,16 @@ module CheckHiddenFilenames
         exit(40)
       end
     end
+    hidden_filenames.each do |filename|
+      dup_indexes = get_dup_indexes(hidden_filenames, filename)
+      unless dup_indexes == ''
+        title = "hidden_filenames has duplicates #{dup_indexes}"
+        msg = "\"hidden_filenames\": #{hidden_filenames}"
+        show_error(title, url, manifest_filename, msg)
+        exit(41)
+      end
+    end
+
   end
 
 end

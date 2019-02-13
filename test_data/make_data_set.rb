@@ -249,6 +249,11 @@ def languages_manifest_hidden_filenames_bad_regex
   peturb_manifest('languages-csharp-nunit', 'hidden_filenames', value)
 end
 
+def languages_manifest_hidden_filenames_duplicate
+  value = ['sd','gg','sd']
+  peturb_manifest('languages-csharp-nunit', 'hidden_filenames', value)
+end
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturb_manifest(dir_name, key, value)
