@@ -1,6 +1,19 @@
 #!/bin/bash
 
-# TODO: add success case for String and [String]
+test_success_int()
+{
+  local image_name="${FUNCNAME[0]}"
+  make_TMP_DIR_for_git_repos
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_tab_size_int)
+
+  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+
+  assert_image_created
+  assert_stderr_equals ''
+  assert_status_equals 0
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 test_failure_string()
 {
@@ -11,12 +24,50 @@ test_failure_string()
   build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: tab_size must be an int"
+  assert_stderr_includes "ERROR: tab_size must be an Integer"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"tab_size": "6"'
   assert_stderr_line_count_equals 4
   assert_status_equals 42
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+test_failure_int_too_small()
+{
+  local image_name="${FUNCNAME[0]}"
+  make_TMP_DIR_for_git_repos
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_tab_size_int_too_small)
+
+  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+
+  refute_image_created
+  assert_stderr_includes "ERROR: tab_size must be an Integer (1..8)"
+  assert_stderr_includes "--languages ${TMP_URL}"
+  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stderr_includes '"tab_size": 0'
+  assert_stderr_line_count_equals 4
+  assert_status_equals 43
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+test_failure_int_too_large()
+{
+  local image_name="${FUNCNAME[0]}"
+  make_TMP_DIR_for_git_repos
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_tab_size_int_too_large)
+
+  build_start_points_image_languages_error "${image_name}" "${TMP_URL}"
+
+  refute_image_created
+  assert_stderr_includes "ERROR: tab_size must be an Integer (1..8)"
+  assert_stderr_includes "--languages ${TMP_URL}"
+  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stderr_includes '"tab_size": 9'
+  assert_stderr_line_count_equals 4
+  assert_status_equals 43
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

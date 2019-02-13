@@ -261,8 +261,23 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
+def languages_manifest_tab_size_int
+  value = 6
+  peturb_manifest('languages-csharp-nunit', 'tab_size', value)
+end
+
 def languages_manifest_tab_size_string
   value = '6'
+  peturb_manifest('languages-csharp-nunit', 'tab_size', value)
+end
+
+def languages_manifest_tab_size_int_too_small
+  value = 0
+  peturb_manifest('languages-csharp-nunit', 'tab_size', value)
+end
+
+def languages_manifest_tab_size_int_too_large
+  value = 9
   peturb_manifest('languages-csharp-nunit', 'tab_size', value)
 end
 
