@@ -338,6 +338,10 @@ def languages_manifest_progress_regexs_empty_array
   peturn_language_manifest('progress_regexs', [])
 end
 
+def languages_manifest_progress_regexs_bad_regex
+  peturn_language_manifest('progress_regexs', ['OK','('])
+end
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturn_language_manifest(key, value)

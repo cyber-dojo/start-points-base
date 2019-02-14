@@ -8,6 +8,7 @@ module CheckProgressRegexs
     if json.has_key?('progress_regexs')
       progress_regexs = json['progress_regexs']
       exit_unless_progress_regexs_well_formed(progress_regexs, url, manifest_filename, json)
+      exit_if_progress_regexs_bad_regexp(progress_regexs, url, manifest_filename, json)
     end
   end
 
@@ -31,6 +32,19 @@ module CheckProgressRegexs
       arg.size == 2 &&
         arg.all?{|s| s.is_a?(String)} &&
           arg.all?{|s| s != ''}
+  end
+
+  def exit_if_progress_regexs_bad_regexp(progress_regexs, url, manifest_filename, json)
+    progress_regexs.each_with_index do |s,index|
+      begin
+        Regexp.new(s)
+      rescue
+        title = "progress_regexs[#{index}] cannot create Regexp"
+        msg = "\"progress_regexs\": #{progress_regexs}"
+        show_error(title, url, manifest_filename, msg)
+        exit(47)
+      end
+    end
   end
 
 end
