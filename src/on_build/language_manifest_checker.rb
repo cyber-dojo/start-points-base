@@ -11,6 +11,7 @@ require_relative 'check_tab_size'
 require_relative 'check_max_seconds'
 require_relative 'check_highlight_filenames'
 require_relative 'check_progress_regexs'
+require_relative 'check_display_names'
 
 class LanguageManifestChecker
 
@@ -19,15 +20,17 @@ class LanguageManifestChecker
   end
 
   def check_all(root_dir)
+    display_names = {}
     filenames = read_manifest_filenames(root_dir, @type)
     filenames.each do |url,filenames|
-      check_one(url, filenames)
+      check_one(url, filenames, display_names)
     end
+    check_display_names(display_names)
   end
 
   private
 
-  def check_one(url, filenames)
+  def check_one(url, filenames, display_names)
     filenames.each do |filename|
       json = clean_json(url, filename)
       check_no_unknown_keys_exist(url, filename, json)
@@ -35,8 +38,10 @@ class LanguageManifestChecker
       check_required_keys(url, filename, json)
       check_optional_keys(url, filename, json)
       check_deprecated_keys(url, filename, json)
+      display_name = json['display_name']
+      display_names[display_name] ||= []
+      display_names[display_name] << [url,filename]
     end
-    #check_display_names_are_unique
   end
 
   def check_required_keys(url, filename, json)
@@ -70,4 +75,6 @@ class LanguageManifestChecker
   include CheckMaxSeconds
   include CheckHighlightFilenames
   include CheckProgressRegexs
+  include CheckDisplayNames
+
 end

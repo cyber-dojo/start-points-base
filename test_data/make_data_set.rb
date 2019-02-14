@@ -344,8 +344,17 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
-def peturn_language_manifest(key, value)
-  dir_name = 'languages-csharp-nunit'
+def languages_manifest_has_display_names_duplicate_1
+  peturn_language_manifest('display_name', 'Dup')
+end
+
+def languages_manifest_has_display_names_duplicate_2
+  peturn_language_manifest('display_name', 'Dup', 'languages-python-unittest')
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+def peturn_language_manifest(key, value, dir_name = 'languages-csharp-nunit')
   `cp -R /app/#{dir_name} #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     json = JSON.parse!(IO.read(manifest_filename))
