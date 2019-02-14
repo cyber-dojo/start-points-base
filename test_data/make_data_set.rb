@@ -287,6 +287,28 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
+def languages_manifest_highlight_filenames_success
+  peturn_language_manifest('highlight_filenames', ['HikerTest.cs'])
+end
+
+def languages_manifest_highlight_filenames_int
+  peturn_language_manifest('highlight_filenames', 42)
+end
+
+def languages_manifest_highlight_filenames_int_array
+  peturn_language_manifest('highlight_filenames', [42])
+end
+
+def languages_manifest_highlight_filenames_empty_array
+  peturn_language_manifest('highlight_filenames', [])
+end
+
+def languages_manifest_highlight_filenames_empty_string
+  peturn_language_manifest('highlight_filenames', [''])
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
 def peturn_language_manifest(key, value)
   dir_name = 'languages-csharp-nunit'
   `cp -R /app/#{dir_name} #{target_dir}`

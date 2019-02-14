@@ -9,6 +9,7 @@ require_relative 'check_filename_extension'
 require_relative 'check_hidden_filenames'
 require_relative 'check_tab_size'
 require_relative 'check_max_seconds'
+require_relative 'check_highlight_filenames'
 
 class LanguageManifestChecker
 
@@ -25,6 +26,37 @@ class LanguageManifestChecker
 
   private
 
+  def check_one(url, filenames)
+    filenames.each do |filename|
+      json = clean_json(url, filename)
+      check_no_unknown_keys_exist(url, filename, json)
+      check_all_required_keys_exist(url, filename, json)
+      check_required_keys(url, filename, json)
+      check_optional_keys(url, filename, json)
+      check_deprecated_keys(url, filename, json)
+    end
+    #check_display_names_are_unique
+  end
+
+  def check_required_keys(url, filename, json)
+    check_image_name(url, filename, json)
+    check_display_name(url, filename, json)
+    check_visible_filenames(url, filename, json)
+    check_filename_extension(url, filename, json)
+  end
+
+  def check_optional_keys(url, filename, json)
+    check_hidden_filenames(url, filename, json)
+    check_tab_size(url, filename, json)
+    check_max_seconds(url, filename, json)
+    check_highlight_filenames(url, filename, json)
+    #check_progress_regexs(url, filename, json)
+  end
+
+  def check_deprecated_keys(url, filename, json)
+    #check_runner_choice(url, filename, json)
+  end
+
   include CleanJson
   include CheckNoUnknownKeysExist
   include CheckAllRequiredKeysExist
@@ -35,27 +67,6 @@ class LanguageManifestChecker
   include CheckHiddenFilenames
   include CheckTabSize
   include CheckMaxSeconds
-
-  def check_one(url, filenames)
-    filenames.each do |filename|
-      json = clean_json(url, filename)
-      check_no_unknown_keys_exist(url, filename, json)
-      check_all_required_keys_exist(url, filename, json)
-      # required-keys
-      check_image_name(url, filename, json)
-      check_display_name(url, filename, json)
-      check_visible_filenames(url, filename, json)
-      check_filename_extension(url, filename, json)
-      # optional-keys
-      check_hidden_filenames(url, filename, json)
-      check_tab_size(url, filename, json)
-      check_max_seconds(url, filename, json)
-      #check_highlight_filenames(url, filename, json)
-      #check_progress_regexs(url, filename, json)
-      # deprecated-keys
-      #check_runner_choice(url, filename, json)
-    end
-    #check_display_names_are_unique
-  end
+  include CheckHighlightFilenames
 
 end
