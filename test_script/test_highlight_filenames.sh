@@ -91,6 +91,44 @@ test_failure_empty_string()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+test_failure_not_visible()
+{
+  local image_name="${FUNCNAME[0]}"
+  make_TMP_DIR_for_git_repos
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_highlight_filenames_not_visible)
+
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
+
+  refute_image_created
+  assert_stderr_includes "ERROR: highlight_filenames[1] not in visible_filenames"
+  assert_stderr_includes "--languages ${TMP_URL}"
+  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stderr_includes '"highlight_filenames": ["Hiker.cs", "xx.cs"]'
+  assert_stderr_line_count_equals 4
+  assert_status_equals 46
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+test_failure_duplicates()
+{
+  local image_name="${FUNCNAME[0]}"
+  make_TMP_DIR_for_git_repos
+  local TMP_URL=$(git_repo_url_in_TMP_DIR_from languages_manifest_highlight_filenames_duplicates)
+
+  build_start_points_image_languages "${image_name}" "${TMP_URL}"
+
+  refute_image_created
+  assert_stderr_includes "ERROR: highlight_filenames has duplicates [0][2]"
+  assert_stderr_includes "--languages ${TMP_URL}"
+  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stderr_includes '"highlight_filenames": ["Hiker.cs", "HikerTest.cs", "Hiker.cs"]'
+  assert_stderr_line_count_equals 4
+  assert_status_equals 46
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh

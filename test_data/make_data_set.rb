@@ -307,6 +307,14 @@ def languages_manifest_highlight_filenames_empty_string
   peturn_language_manifest('highlight_filenames', [''])
 end
 
+def languages_manifest_highlight_filenames_not_visible
+  peturn_language_manifest('highlight_filenames', ['Hiker.cs','xx.cs'])
+end
+
+def languages_manifest_highlight_filenames_duplicates
+  peturn_language_manifest('highlight_filenames', ['Hiker.cs','HikerTest.cs', 'Hiker.cs'])
+end
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturn_language_manifest(key, value)
