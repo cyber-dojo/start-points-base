@@ -10,6 +10,7 @@ require_relative 'check_hidden_filenames'
 require_relative 'check_tab_size'
 require_relative 'check_max_seconds'
 require_relative 'check_highlight_filenames'
+require_relative 'check_progress_regexs'
 
 class LanguageManifestChecker
 
@@ -50,7 +51,7 @@ class LanguageManifestChecker
     check_tab_size(url, filename, json)
     check_max_seconds(url, filename, json)
     check_highlight_filenames(url, filename, json)
-    #check_progress_regexs(url, filename, json)
+    check_progress_regexs(url, filename, json)
   end
 
   def check_deprecated_keys(url, filename, json)
@@ -68,5 +69,5 @@ class LanguageManifestChecker
   include CheckTabSize
   include CheckMaxSeconds
   include CheckHighlightFilenames
-
+  include CheckProgressRegexs
 end

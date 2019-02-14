@@ -317,6 +317,29 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
+def languages_manifest_progress_regexs_success
+  value = [ "FAILED \\(failures=\\d+\\)", "OK" ]
+  peturn_language_manifest('progress_regexs', value)
+end
+
+def languages_manifest_progress_regexs_int
+  peturn_language_manifest('progress_regexs', 6)
+end
+
+def languages_manifest_progress_regexs_string
+  peturn_language_manifest('progress_regexs', '6')
+end
+
+def languages_manifest_progress_regexs_int_array
+  peturn_language_manifest('progress_regexs', [1,2])
+end
+
+def languages_manifest_progress_regexs_empty_array
+  peturn_language_manifest('progress_regexs', [])
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
 def peturn_language_manifest(key, value)
   dir_name = 'languages-csharp-nunit'
   `cp -R /app/#{dir_name} #{target_dir}`
