@@ -15,7 +15,5 @@
 
   "display_name": "Tennis refactoring, C++ (g++) assert",
 
-  "image_name": "cyberdojofoundation/gpp_assert",
-
-  "runner_choice":"stateless"
+  "image_name": "cyberdojofoundation/gpp_assert"
 }

@@ -18,7 +18,5 @@
   "progress_regexs": [
     "FAILED \\(failures=\\d+\\)",
     "OK"
-  ],
-
-  "runner_choice": "stateless"
+  ]
 }

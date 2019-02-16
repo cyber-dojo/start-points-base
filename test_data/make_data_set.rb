@@ -354,6 +354,12 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
+def languages_manifest_runner_choice_stateless
+  peturn_language_manifest('runner_choice', 'stateless')
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
 def peturn_language_manifest(key, value, dir_name = 'languages-csharp-nunit')
   `cp -R /app/#{dir_name} #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|

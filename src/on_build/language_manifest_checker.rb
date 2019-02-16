@@ -12,6 +12,7 @@ require_relative 'check_max_seconds'
 require_relative 'check_highlight_filenames'
 require_relative 'check_progress_regexs'
 require_relative 'check_display_names'
+require_relative 'check_runner_choice'
 
 class LanguageManifestChecker
 
@@ -60,7 +61,7 @@ class LanguageManifestChecker
   end
 
   def check_deprecated_keys(url, filename, json)
-    #check_runner_choice(url, filename, json)
+    check_runner_choice(url, filename, json)
   end
 
   include CleanJson
@@ -76,5 +77,6 @@ class LanguageManifestChecker
   include CheckHighlightFilenames
   include CheckProgressRegexs
   include CheckDisplayNames
+  include CheckRunnerChoice
 
 end

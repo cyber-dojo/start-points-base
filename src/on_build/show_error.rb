@@ -2,12 +2,14 @@
 module ShowError
 
   def show_error(title, url, filename, msg = '')
-    STDERR.puts("ERROR: #{title}")
-    STDERR.puts("--#{@type} #{url}")
-    STDERR.puts("manifest='#{relative(filename)}'")
+    stream = STDERR
+    stream.puts("ERROR: #{title}")
+    stream.puts("--#{@type} #{url}")
+    stream.puts("manifest='#{relative(filename)}'")
     unless msg.empty?
-      STDERR.puts(msg)
+      stream.puts(msg)
     end
+    stream.flush
   end
 
   def relative(filename)
