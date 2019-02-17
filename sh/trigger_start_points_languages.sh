@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ev 
+set -ev
 
 # This script runs in .circleci/config.yml after
 # a cyberdojo/start-points-base docker image is
@@ -22,6 +22,8 @@ git clone https://github.com/cyber-dojo/start-points-languages.git
 cd start-points-languages
 echo "${CIRCLE_SHA1}" > start-points-base.trigger
 git add .
-curl -u JonJagger:${GITHUB_TOKEN} https://api.github.com/user
+git config --global user.email "jon@jaggersoft.com"
+git config --global user.name "Jon Jagger"
 git commit -m "automated build trigger from cyberdojo/start-points-base ${CIRCLE_SHA1}"
+curl -u JonJagger:${GITHUB_TOKEN} https://api.github.com/user
 git push
