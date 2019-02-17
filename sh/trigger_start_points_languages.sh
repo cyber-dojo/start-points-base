@@ -26,4 +26,5 @@ git config --global user.email "jon@jaggersoft.com"
 git config --global user.name "Jon Jagger"
 git commit -m "automated build trigger from cyberdojo/start-points-base ${CIRCLE_SHA1}"
 curl -u JonJagger:${GITHUB_TRIGGER_TOKEN} https://api.github.com/user
+ssh-add -D
 git push
