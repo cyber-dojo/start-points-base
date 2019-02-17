@@ -14,8 +14,8 @@ jobs:
           command: |
             set -ev
             echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
-            #./pipe_build_up_test.sh
-            ./sh/build_base_docker_image.sh
+            ./pipe_build_up_test.sh
+            #./sh/build_base_docker_image.sh
             readonly project=${CIRCLE_PROJECT_REPONAME}
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:beta
@@ -25,7 +25,7 @@ jobs:
             # build_cyber_dojo_start_points_image.sh and so must be pushed.
             docker push cyberdojo/${project}:latest
             #curl --fail -X POST https://circleci.com/api/v1.1/project/github/cyber-dojo/start-points-languages/build?circle-token=${CIRCLECI_BUILD_TOKEN}
-            ./sh/trigger_start_points_languages.sh
+            #./sh/trigger_start_points_languages.sh
 
 workflows:
   version: 2
