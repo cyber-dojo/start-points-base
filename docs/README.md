@@ -24,7 +24,9 @@ Use: ./build_cyber_dojo_start_points_image.sh \
 $ ./build_cyber_dojo_start_points_image.sh \
       acme/my-start-points \
         --languages \
-          https://github.com/cyber-dojo/start-points-languages.git \
+          https://github.com/cyber-dojo-languages/csharp-nunit         \
+          https://github.com/cyber-dojo-languages/gplusplus-googlemock \
+          https://github.com/cyber-dojo-languages/java-junit           \
         --exercises \
           https://github.com/cyber-dojo/start-points-exercises.git \
         --custom \
