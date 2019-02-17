@@ -1,11 +1,4 @@
 
-move commander's start-point checking code
-   to check_all.rb (with tests).
-
-check each manifest.json can be parsed as json
-check there are no duplicate keys
-then check individual keys
-    
 ----------------------------------------------------
 Considered checking for a start-point branch in the named git-repo-urls.
 This would help not git clone repos with large docker/ dirs (eg jars).
