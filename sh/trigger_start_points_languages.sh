@@ -31,10 +31,4 @@ git add .
 git config --global user.email "cyber-dojo-machine-user@cyber-dojo.org"
 git config --global user.name "Machine User"
 git commit -m "automated build trigger from cyberdojo/start-points-base ${CIRCLE_SHA1}"
-#curl -u JonJagger:${GITHUB_TRIGGER_TOKEN} https://api.github.com/user
-# ssh-add -D
-# git remote set-url origin https://github.com/cyber-dojo/start-points-languages.git
-# Need to authenticate to make this work
-# See https://circleci.com/docs/2.0/add-ssh-key/
-
 git push origin master
