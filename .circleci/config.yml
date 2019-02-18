@@ -27,7 +27,7 @@ jobs:
             #curl --fail -X POST https://circleci.com/api/v1.1/project/github/cyber-dojo/start-points-languages/build?circle-token=${CIRCLECI_BUILD_TOKEN}
       - add_ssh_keys:
           fingerprints:
-            - "4b:42:28:0b:31:85:f5:77:c9:de:79:e0:08:5a:de:23"
+            - "59:27:44:af:db:b9:c2:a6:a2:5b:83:fc:d4:a4:c4:59"
       - run:
           name: machine-user triggering start-points-languages
           command: |

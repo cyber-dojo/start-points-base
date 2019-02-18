@@ -36,8 +36,5 @@ git commit -m "automated build trigger from cyberdojo/start-points-base ${CIRCLE
 # git remote set-url origin https://github.com/cyber-dojo/start-points-languages.git
 # Need to authenticate to make this work
 # See https://circleci.com/docs/2.0/add-ssh-key/
-echo '~~~~~~'
-ssh-add -l
-echo '~~~~~~'
 
 git push origin master
