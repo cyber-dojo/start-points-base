@@ -13,12 +13,12 @@ jobs:
           name: build start-points-base docker image and push image to docker hub
           command: |
             set -ev
-            echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
             #./pipe_build_up_test.sh
             ./sh/build_base_docker_image.sh
             readonly project=${CIRCLE_PROJECT_REPONAME}
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:beta
+            echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
             docker push cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker push cyberdojo/${project}:beta
             # NB: latest is tag used in the FROM inside the Dockerfile inside the main script
@@ -29,9 +29,6 @@ jobs:
           command: |
             set -ev
             ./sh/trigger_start_points_languages.sh
-      #- add_ssh_keys:
-      #    fingerprints:
-      #      - "59:27:44:af:db:b9:c2:a6:a2:5b:83:fc:d4:a4:c4:59"
 
 workflows:
   version: 2
