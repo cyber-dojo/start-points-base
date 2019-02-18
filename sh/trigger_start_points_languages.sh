@@ -17,7 +17,11 @@ set -ev
 #
 # To avoid these problems we now do a regular git commit+push
 # using a "machine-user". See
-# https://circleci.com/docs/2.0/gh-bb-integration/#creating-a-machine-user 
+# https://circleci.com/docs/2.0/gh-bb-integration/#creating-a-machine-user
+
+echo '~~~~~~'
+ssh-add -l
+echo '~~~~~~'
 
 cd /tmp
 git clone https://github.com/cyber-dojo/start-points-languages.git
@@ -32,4 +36,8 @@ git commit -m "automated build trigger from cyberdojo/start-points-base ${CIRCLE
 # git remote set-url origin https://github.com/cyber-dojo/start-points-languages.git
 # Need to authenticate to make this work
 # See https://circleci.com/docs/2.0/add-ssh-key/
+echo '~~~~~~'
+ssh-add -l
+echo '~~~~~~'
+
 git push origin master
