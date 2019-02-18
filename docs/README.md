@@ -5,11 +5,11 @@ New starter architecture
 [![CircleCI](https://circleci.com/gh/cyber-dojo/start-points-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/start-points-base)
 
 The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) docker-image.
-Use the [build_cyber_dojo_start_points_image.sh](../build_cyber_dojo_start_point_image.sh)
-script to create your cyber-dojo starter docker-image
-(which will use cyberdojo/start-points-base as its base image).
-The first argument is the name of the image you want to create.
-The subsequent arguments are git-cloneable URLs containing the source for the start-points.
+* Use the [build_cyber_dojo_start_points_image.sh](../build_cyber_dojo_start_point_image.sh)
+script to create your cyber-dojo starter docker-image.
+* It will use cyberdojo/start-points-base as its base (FROM) image.
+* The first argument is the name of the image you want to create.
+* The subsequent arguments are git-cloneable URLs containing the source for the start-points.
 
 ```bash
 $ ./build_cyber_dojo_start_points_image.sh --help
@@ -19,7 +19,7 @@ Use: ./build_cyber_dojo_start_points_image.sh \
          [--exercises <git-repo-url>...]... \
          [--custom    <git-repo-url>...]... \
 ```
-
+For example:
 ```bash
 $ ./build_cyber_dojo_start_points_image.sh \
       acme/my-start-points \
@@ -32,6 +32,20 @@ $ ./build_cyber_dojo_start_points_image.sh \
         --custom \
           https://github.com/cyber-dojo/start-points-custom.git    \
 ```
+Default git-repo-urls:
+* --custom
+  https://github.com/cyber-dojo/start-points-custom.git
+* --exercises
+  https://github.com/cyber-dojo/start-points-exercises.git
+* --languages
+  https://github.com/cyber-dojo-languages/csharp-nunit
+  https://github.com/cyber-dojo-languages/gcc-googletest
+  https://github.com/cyber-dojo-languages/gplusplus-googlemock
+  https://github.com/cyber-dojo-languages/java-junit
+  https://github.com/cyber-dojo-languages/javascript-jasmine
+  https://github.com/cyber-dojo-languages/python-pytest
+  https://github.com/cyber-dojo-languages/ruby-minitest
+
 
 There are 2 kinds of start-points
 - languages/custom...
