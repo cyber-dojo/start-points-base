@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build-push-trigger:
+  build-publish-trigger:
 
     machine:
       enabled: true
@@ -36,9 +36,9 @@ jobs:
 
 workflows:
   version: 2
-  build-publish:
+  build-publish-trigger:
     jobs:
-      - build-push-trigger:
+      - build-publish-trigger:
           context: cyberdojo-context
           filters:
             branches:
