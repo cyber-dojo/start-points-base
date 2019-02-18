@@ -15,21 +15,21 @@ set -ev
 # o) Since the SHA did not change, the image was being built
 #    with the same tag multiple times. Not good practice.
 #
-# To avoid these problems we now do a regular git commit+push.
+# To avoid these problems we now do a regular git commit+push
+# using a "machine-user". See
+# https://circleci.com/docs/2.0/gh-bb-integration/#creating-a-machine-user 
 
 cd /tmp
 git clone https://github.com/cyber-dojo/start-points-languages.git
 cd start-points-languages
 echo "${CIRCLE_SHA1}" > start-points-base.trigger
 git add .
-git config --global user.email "jon@jaggersoft.com"
-git config --global user.name "Jon Jagger"
+git config --global user.email "cyber-dojo-machine-user@cyber-dojo.org"
+git config --global user.name "Machine User"
 git commit -m "automated build trigger from cyberdojo/start-points-base ${CIRCLE_SHA1}"
-curl -u JonJagger:${GITHUB_TRIGGER_TOKEN} https://api.github.com/user
-
+#curl -u JonJagger:${GITHUB_TRIGGER_TOKEN} https://api.github.com/user
 # ssh-add -D
 # git remote set-url origin https://github.com/cyber-dojo/start-points-languages.git
-
 # Need to authenticate to make this work
 # See https://circleci.com/docs/2.0/add-ssh-key/
 git push origin master
