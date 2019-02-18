@@ -15,37 +15,38 @@ script to create your cyber-dojo starter docker-image.
 $ ./build_cyber_dojo_start_points_image.sh --help
 Use: ./build_cyber_dojo_start_points_image.sh \
        <image-name> \
-         [--languages <git-repo-url>...]... \
-         [--exercises <git-repo-url>...]... \
          [--custom    <git-repo-url>...]... \
+         [--exercises <git-repo-url>...]... \
+         [--languages <git-repo-url>...]... \
 ```
 For example:
 ```bash
 $ ./build_cyber_dojo_start_points_image.sh \
       acme/my-start-points \
+        --custom \
+          https://github.com/cyber-dojo/start-points-custom.git \
+        --exercises \
+          https://github.com/cyber-dojo/start-points-exercises.git \
         --languages \
           https://github.com/cyber-dojo-languages/csharp-nunit         \
           https://github.com/cyber-dojo-languages/gplusplus-googlemock \
-          https://github.com/cyber-dojo-languages/java-junit           \
-        --exercises \
-          https://github.com/cyber-dojo/start-points-exercises.git \
-        --custom \
-          https://github.com/cyber-dojo/start-points-custom.git    \
+          https://github.com/cyber-dojo-languages/java-junit
 ```
 Default git-repo-urls:
-* --custom
-  https://github.com/cyber-dojo/start-points-custom.git
-* --exercises
-  https://github.com/cyber-dojo/start-points-exercises.git
-* --languages
-  https://github.com/cyber-dojo-languages/csharp-nunit
-  https://github.com/cyber-dojo-languages/gcc-googletest
-  https://github.com/cyber-dojo-languages/gplusplus-googlemock
-  https://github.com/cyber-dojo-languages/java-junit
-  https://github.com/cyber-dojo-languages/javascript-jasmine
-  https://github.com/cyber-dojo-languages/python-pytest
-  https://github.com/cyber-dojo-languages/ruby-minitest
-
+```bash
+  --custom
+    https://github.com/cyber-dojo/start-points-custom.git
+  --exercises
+    https://github.com/cyber-dojo/start-points-exercises.git
+  --languages
+    https://github.com/cyber-dojo-languages/csharp-nunit
+    https://github.com/cyber-dojo-languages/gcc-googletest
+    https://github.com/cyber-dojo-languages/gplusplus-googlemock
+    https://github.com/cyber-dojo-languages/java-junit
+    https://github.com/cyber-dojo-languages/javascript-jasmine
+    https://github.com/cyber-dojo-languages/python-pytest
+    https://github.com/cyber-dojo-languages/ruby-minitest
+```
 
 There are 2 kinds of start-points
 - languages/custom...
