@@ -25,7 +25,14 @@ jobs:
             # build_cyber_dojo_start_points_image.sh and so must be pushed.
             docker push cyberdojo/${project}:latest
             #curl --fail -X POST https://circleci.com/api/v1.1/project/github/cyber-dojo/start-points-languages/build?circle-token=${CIRCLECI_BUILD_TOKEN}
-            #./sh/trigger_start_points_languages.sh
+      - add_ssh_keys:
+          fingerprints:
+            - "4b:42:28:0b:31:85:f5:77:c9:de:79:e0:08:5a:de:23"
+      - run:
+          name: machine-user triggering start-points-languages
+          command: |
+            set -ev
+            ./sh/trigger_start_points_languages.sh
 
 workflows:
   version: 2
