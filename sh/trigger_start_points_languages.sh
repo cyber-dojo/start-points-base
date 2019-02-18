@@ -19,10 +19,6 @@ set -ev
 # using a "machine-user". See
 # https://circleci.com/docs/2.0/gh-bb-integration/#creating-a-machine-user
 
-echo '~~~~~~'
-ssh-add -l
-echo '~~~~~~'
-
 cd /tmp
 git clone https://github.com/cyber-dojo/start-points-languages.git
 cd start-points-languages

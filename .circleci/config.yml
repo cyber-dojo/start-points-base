@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build-image:
+  build-push-trigger:
 
     machine:
       enabled: true
@@ -10,22 +10,26 @@ jobs:
     steps:
       - checkout
       - run:
-          name: build start-points-base docker image and push image to docker hub
+          name: build docker image
           command: |
             set -ev
-            #./pipe_build_up_test.sh
-            ./sh/build_base_docker_image.sh
+            ./pipe_build_up_test.sh
+      - run:
+          name: push docker image to dockerhub
+          command: |
+            set -ev
             readonly project=${CIRCLE_PROJECT_REPONAME}
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:beta
             echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
             docker push cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker push cyberdojo/${project}:beta
-            # NB: latest is tag used in the FROM inside the Dockerfile inside the main script
-            # build_cyber_dojo_start_points_image.sh and so must be pushed.
+            # NB: latest is the tag used in the FROM inside the Dockerfile
+            #     (in the main script build_cyber_dojo_start_points_image.sh)
+            #     and so must be pushed.
             docker push cyberdojo/${project}:latest
       - run:
-          name: machine-user triggering start-points-languages
+          name: trigger start-points-languages
           command: |
             set -ev
             ./sh/trigger_start_points_languages.sh
@@ -34,7 +38,7 @@ workflows:
   version: 2
   build-publish:
     jobs:
-      - build-image:
+      - build-push-trigger:
           context: cyberdojo-context
           filters:
             branches:
