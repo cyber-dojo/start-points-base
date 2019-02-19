@@ -77,26 +77,25 @@ EOF
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-declare -a CUSTOM_URLS=()
-declare -a EXERCISE_URLS=()
-declare -a LANGUAGE_URLS=()
+readonly CD_REPO_ORG=https://github.com/cyber-dojo
+readonly CDL_REPO_ORG=https://github.com/cyber-dojo-languages
 
 DEFAULT_CUSTOM_URLS=( \
-  https://github.com/cyber-dojo/start-points-custom.git \
+  "${CD_REPO_ORG}/start-points-custom.git" \
 )
 
 DEFAULT_EXERCISE_URLS=( \
-  https://github.com/cyber-dojo/start-points-exercises.git \
+  "${CD_REPO_ORG}/start-points-exercises.git" \
 )
 
 DEFAULT_LANGUAGE_URLS=( \
-  https://github.com/cyber-dojo-languages/csharp-nunit         \
-  https://github.com/cyber-dojo-languages/gcc-googletest       \
-  https://github.com/cyber-dojo-languages/gplusplus-googlemock \
-  https://github.com/cyber-dojo-languages/java-junit           \
-  https://github.com/cyber-dojo-languages/javascript-jasmine   \
-  https://github.com/cyber-dojo-languages/python-pytest        \
-  https://github.com/cyber-dojo-languages/ruby-minitest        \
+  "${CDL_REPO_ORG}/csharp-nunit"         \
+  "${CDL_REPO_ORG}/gcc-googletest"       \
+  "${CDL_REPO_ORG}/gplusplus-googlemock" \
+  "${CDL_REPO_ORG}/java-junit"           \
+  "${CDL_REPO_ORG}/javascript-jasmine"   \
+  "${CDL_REPO_ORG}/python-pytest"        \
+  "${CDL_REPO_ORG}/ruby-minitest"        \
 )
 
 show_default_urls()
@@ -173,6 +172,10 @@ error()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+declare -a CUSTOM_URLS=()
+declare -a EXERCISE_URLS=()
+declare -a LANGUAGE_URLS=()
 
 gather_urls_from_args()
 {

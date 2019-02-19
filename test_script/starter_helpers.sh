@@ -191,9 +191,14 @@ assert_stdout_equals_use()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+cd_github_org()
+{
+  echo 'https://github.com/cyber-dojo'
+}
+
 assert_stdout_includes_default_custom_url()
 {
-  local default_custom='https://github.com/cyber-dojo/start-points-custom.git'
+  local default_custom="$(cd_github_org)/start-points-custom.git"
   assert_stdout_includes "$(echo -e "--custom \t ${default_custom}")"
 }
 
@@ -201,7 +206,7 @@ assert_stdout_includes_default_custom_url()
 
 assert_stdout_includes_default_exercises_url()
 {
-  local default_exercises='https://github.com/cyber-dojo/start-points-exercises.git'
+  local default_exercises="$(cd_github_org)/start-points-exercises.git"
   assert_stdout_includes "$(echo -e "--exercises \t ${default_exercises}")"
 }
 
@@ -209,16 +214,17 @@ assert_stdout_includes_default_exercises_url()
 
 assert_stdout_includes_default_languages_urls()
 {
+  local cdl_github_org=https://github.com/cyber-dojo-languages
   local default_languages=( \
-    'https://github.com/cyber-dojo-languages/csharp-nunit' \
-    'https://github.com/cyber-dojo-languages/gcc-googletest' \
-    'https://github.com/cyber-dojo-languages/gplusplus-googlemock' \
-    'https://github.com/cyber-dojo-languages/java-junit'\
-    'https://github.com/cyber-dojo-languages/javascript-jasmine' \
-    'https://github.com/cyber-dojo-languages/python-pytest' \
-    'https://github.com/cyber-dojo-languages/ruby-minitest' \
+    csharp-nunit            \
+    gcc-googletest          \
+    gplusplus-googlemock    \
+    java-junit              \
+    javascript-jasmine      \
+    python-pytest           \
+    ruby-minitest           \
   )
   for default_language in ${default_languages}; do
-    assert_stdout_includes "$(echo -e "--languages \t ${default_language}")"
+    assert_stdout_includes "$(echo -e "--languages \t ${cdl_github_org}/${default_language}")"
   done
 }
