@@ -19,7 +19,7 @@ def use_help_text
   Its base image will be cyberdojo/start-points-base.
   It will contain checked git clones of all the specified repo-urls.
 
-  Defaults:
+  Default <git-repo-url>s:
     --custom
       https://github.com/cyber-dojo/start-points-custom.git
     --exercises
@@ -33,7 +33,7 @@ def use_help_text
       https://github.com/cyber-dojo-languages/python-pytest
       https://github.com/cyber-dojo-languages/ruby-minitest
 
-  Example 1: local git-repo-urls
+  Example 1: local <git-repo-url>s
 
   $ ./#{script_name} \\
     acme/first-start-point \\
@@ -41,7 +41,7 @@ def use_help_text
       --exercises file:///.../katas      \\
       --languages file:///.../java-junit
 
-  Example 2: non-local git-repo-urls
+  Example 2: non-local <git-repo-url>s
 
   $ ./#{script_name} \\
     acme/second-start-point \\
@@ -49,7 +49,7 @@ def use_help_text
       --exercises https://github.com/.../my-exercises.git \\
       --languages https://github.com/.../my-languages.git
 
-  Example 3: multiple git-repo-urls for --languages
+  Example 3: multiple <git-repo-url>s for --languages
 
   $ ./#{script_name} \\
     acme/third-start-point \\
@@ -58,16 +58,24 @@ def use_help_text
       --languages file:///.../asm-assert \\
                   file:///.../java-junit
 
-  Example 4: use defaults for --exercises and --languages
+  Example 4: use default <git-repo-url>s for --exercises and --languages
 
   $ ./#{script_name} \\
     acme/fourth-start-point \\
       --custom    file:///.../yahtzee
 
-  Example 5: git-repo-urls from a file
-
+  Example 5: multiple --languages sections
   $ ./#{script_name} \\
     acme/fifth-start-point \\
+      --custom    file:///.../yahtzee    \\
+      --exercises file:///.../katas      \\
+      --languages file:///.../asm-assert \\
+      --languages file:///.../java-junit
+
+  Example 6: get <git-repo-url>s from a file
+
+  $ ./#{script_name} \\
+    acme/sixth-start-point \\
       --custom    https://github.com/.../my-custom.git     \\
       --exercises https://github.com/.../my-exercises.git  \\
       --languages "$(< my-language-selection.txt)"
