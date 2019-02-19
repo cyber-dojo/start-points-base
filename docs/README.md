@@ -34,11 +34,11 @@ $ ./build_cyber_dojo_start_points_image.sh \
           https://github.com/cyber-dojo-languages/java-junit
 ```
 Default git-repo-urls:
---custom
+#### --custom
 * https://github.com/cyber-dojo/start-points-custom.git
---exercises
+#### --exercises
 * https://github.com/cyber-dojo/start-points-exercises.git
---languages
+#### --languages
 * https://github.com/cyber-dojo-languages/csharp-nunit
 * https://github.com/cyber-dojo-languages/gcc-googletest
 * https://github.com/cyber-dojo-languages/gplusplus-googlemock
