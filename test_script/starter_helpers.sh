@@ -21,8 +21,8 @@ root_dir()
 exit_if_bad_ROOT_DIR()
 {
   if using_DockerToolbox && on_Mac; then
-    local ROOT_DIR=$(root_dir)
-    if [ "${ROOT_DIR:0:6}" != "/Users" ]; then
+    local -r ROOT_DIR=$(root_dir)
+    if [ "${ROOT_DIR:0:6}" != '/Users' ]; then
       echo 'ERROR'
       echo 'You are using Docker-Toolbox for Mac'
       echo "This script lives off ${ROOT_DIR}"
@@ -59,9 +59,9 @@ make_TMP_DIR_for_git_repos()
 
 git_repo_url_in_TMP_DIR_from()
 {
-  local data_set_name="${1}"
-  local data_dir="${TMP_DIR}/${data_set_name}"
-  local user_id=$(id -u $(whoami))
+  local -r data_set_name="${1}"
+  local -r data_dir="${TMP_DIR}/${data_set_name}"
+  local -r user_id=$(id -u $(whoami))
 
   docker run                                \
     --rm                                    \
@@ -92,7 +92,7 @@ build_start_points_image()
 {
   IMAGE_NAME="${1}"
   IMAGE_NAMES+=("${IMAGE_NAME}")
-  local script_name="$(root_dir)/build_cyber_dojo_start_points_image.sh"
+  local -r script_name="$(root_dir)/build_cyber_dojo_start_points_image.sh"
   ${script_name} ${@} >${stdoutF} 2>${stderrF}
   status=$?
   echo ${status} >${statusF}
@@ -100,10 +100,10 @@ build_start_points_image()
 
 build_start_points_image_cel()
 {
-  local image_name="${1}"
-  local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
-  local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
-  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-python-unittest)
+  local -r image_name="${1}"
+  local -r C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
+  local -r E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
+  local -r L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-python-unittest)
   build_start_points_image \
     "${image_name}"        \
     --custom               \
@@ -117,24 +117,24 @@ build_start_points_image_cel()
 
 build_start_points_image_custom()
 {
-  local image_name="${1}"
-  local url="${2}"
+  local -r image_name="${1}"
+  local -r url="${2}"
   build_start_points_image_cel \
     "${image_name}" --custom "${url}"
 }
 
 build_start_points_image_exercises()
 {
-  local image_name="${1}"
-  local url="${2}"
+  local -r image_name="${1}"
+  local -r url="${2}"
   build_start_points_image_cel \
     "${image_name}" --exercises "${url}"
 }
 
 build_start_points_image_languages()
 {
-  local image_name="${1}"
-  local url="${2}"
+  local -r image_name="${1}"
+  local -r url="${2}"
   build_start_points_image_cel \
     "${image_name}" --languages "${url}"
 }
@@ -143,19 +143,19 @@ build_start_points_image_languages()
 
 image_exists()
 {
-  local image_name=${1:-${IMAGE_NAME}}
+  local -r image_name=${1:-${IMAGE_NAME}}
   docker image inspect ${image_name} >/dev/null 2>&1
 }
 
 refute_image_created()
 {
-  local msg="refute_image_created ${IMAGE_NAME}"
+  local -r msg="refute_image_created ${IMAGE_NAME}"
   assertFalse "${msg}" image_exists
 }
 
 assert_image_created()
 {
-  local msg="assert_image_created ${IMAGE_NAME}"
+  local -r msg="assert_image_created ${IMAGE_NAME}"
   assertTrue "${msg}" image_exists
 }
 
@@ -174,12 +174,12 @@ remove_start_points_images()
 
 assert_stdout_equals_use()
 {
-  local help_line_1="Use:"
-  local help_line_2="$ ./build_cyber_dojo_start_points_image.sh \\"
-  local help_line_3="    <image-name> \\"
-  local help_line_4="      [--custom    <git-repo-url>...]... \\"
-  local help_line_5="      [--exercises <git-repo-url>...]... \\"
-  local help_line_6="      [--languages <git-repo-url>...]..."
+  local -r help_line_1="Use:"
+  local -r help_line_2="$ ./build_cyber_dojo_start_points_image.sh \\"
+  local -r help_line_3="    <image-name> \\"
+  local -r help_line_4="      [--custom    <git-repo-url>...]... \\"
+  local -r help_line_5="      [--exercises <git-repo-url>...]... \\"
+  local -r help_line_6="      [--languages <git-repo-url>...]..."
   assert_stdout_includes "${help_line_1}"
   assert_stdout_includes "${help_line_2}"
   assert_stdout_includes "${help_line_3}"
@@ -198,7 +198,7 @@ cd_github_org()
 
 assert_stdout_includes_default_custom_url()
 {
-  local default_custom="$(cd_github_org)/start-points-custom.git"
+  local -r default_custom="$(cd_github_org)/start-points-custom.git"
   assert_stdout_includes "$(echo -e "--custom \t ${default_custom}")"
 }
 
@@ -206,7 +206,7 @@ assert_stdout_includes_default_custom_url()
 
 assert_stdout_includes_default_exercises_url()
 {
-  local default_exercises="$(cd_github_org)/start-points-exercises.git"
+  local -r default_exercises="$(cd_github_org)/start-points-exercises.git"
   assert_stdout_includes "$(echo -e "--exercises \t ${default_exercises}")"
 }
 
@@ -214,8 +214,8 @@ assert_stdout_includes_default_exercises_url()
 
 assert_stdout_includes_default_languages_urls()
 {
-  local cdl_github_org=https://github.com/cyber-dojo-languages
-  local default_languages=( \
+  local -r cdl_github_org=https://github.com/cyber-dojo-languages
+  local -r default_languages=( \
     csharp-nunit            \
     gcc-googletest          \
     gplusplus-googlemock    \

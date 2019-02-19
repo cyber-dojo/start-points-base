@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-readonly MY_NAME=$(basename "${0}")
-readonly IMAGE_NAME="${1}"
+declare -r MY_NAME=$(basename "${0}")
+declare -r IMAGE_NAME="${1}"
 
 show_use()
 {
@@ -67,63 +67,22 @@ show_use()
           --languages "\$(< my-language-selection.txt)"
 
   \$ cat my-language-selection.txt
-  https://github.com/cyber-dojo-languages/java-junit
-  https://github.com/cyber-dojo-languages/javascript-jasmine
-  https://github.com/cyber-dojo-languages/python-pytest
-  https://github.com/cyber-dojo-languages/ruby-minitest
+  https://github.com/.../java-junit
+  https://github.com/.../javascript-jasmine
+  https://github.com/.../python-pytest
+  https://github.com/.../ruby-minitest
 
 EOF
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-readonly CD_REPO_ORG=https://github.com/cyber-dojo
-readonly CDL_REPO_ORG=https://github.com/cyber-dojo-languages
-
-DEFAULT_CUSTOM_URLS=( \
-  "${CD_REPO_ORG}/start-points-custom.git" \
-)
-
-DEFAULT_EXERCISE_URLS=( \
-  "${CD_REPO_ORG}/start-points-exercises.git" \
-)
-
-DEFAULT_LANGUAGE_URLS=( \
-  "${CDL_REPO_ORG}/csharp-nunit"         \
-  "${CDL_REPO_ORG}/gcc-googletest"       \
-  "${CDL_REPO_ORG}/gplusplus-googlemock" \
-  "${CDL_REPO_ORG}/java-junit"           \
-  "${CDL_REPO_ORG}/javascript-jasmine"   \
-  "${CDL_REPO_ORG}/python-pytest"        \
-  "${CDL_REPO_ORG}/ruby-minitest"        \
-)
-
-show_default_urls()
-{
-  echo '  Default <git-repo-url>s:'
-  echo '    --custom'
-  for url in "${DEFAULT_CUSTOM_URLS[@]}"; do
-    echo "      ${url}"
-  done
-  echo '    --exercises'
-  for url in "${DEFAULT_EXERCISE_URLS[@]}"; do
-    echo "      ${url}"
-  done
-  echo '    --exercises'
-  for url in "${DEFAULT_LANGUAGE_URLS[@]}"; do
-    echo "      ${url}"
-  done
-  echo
+  show_default_urls
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 exit_zero_if_show_use()
 {
-  local v0="${BASH_ARGV[0]}"
+  local -r v0="${BASH_ARGV[0]}"
   if [ "${v0}" = '' ] || [ "${v0}" = '--help' ]; then
     show_use
-    show_default_urls
     exit 0
   fi
 }
@@ -132,11 +91,11 @@ exit_zero_if_show_use()
 
 exit_non_zero_if_bad_args()
 {
-  local args="${@}"
+  local -r args="${@}"
   set +e
   docker container run --rm $(base_image_name) \
     /app/src/from_script/bad_args.rb ${args}
-  local status=$?
+  local -r status=$?
   set -e
   if [ "${status}" != "0" ]; then
     exit "${status}"
@@ -147,7 +106,7 @@ exit_non_zero_if_bad_args()
 
 exit_non_zero_unless_git_installed()
 {
-  local git="${GIT_PROGRAM:-git}"
+  local -r git="${GIT_PROGRAM:-git}"
   if ! hash "${git}" 2> /dev/null; then
     error 1 'git is not installed!'
   fi
@@ -157,7 +116,7 @@ exit_non_zero_unless_git_installed()
 
 exit_non_zero_unless_docker_installed()
 {
-  local docker="${DOCKER_PROGRAM:-docker}"
+  local -r docker="${DOCKER_PROGRAM:-docker}"
   if ! hash "${docker}" 2> /dev/null; then
     error 2 'docker is not installed!'
   fi
@@ -177,9 +136,32 @@ declare -a CUSTOM_URLS=()
 declare -a EXERCISE_URLS=()
 declare -a LANGUAGE_URLS=()
 
+declare -r CD_REPO_ORG=https://github.com/cyber-dojo
+declare -r CDL_REPO_ORG=https://github.com/cyber-dojo-languages
+
+declare -ar DEFAULT_CUSTOM_URLS=( \
+  "${CD_REPO_ORG}/start-points-custom.git" \
+)
+
+declare -ar DEFAULT_EXERCISE_URLS=( \
+  "${CD_REPO_ORG}/start-points-exercises.git" \
+)
+
+declare -ar DEFAULT_LANGUAGE_URLS=( \
+  "${CDL_REPO_ORG}/csharp-nunit"         \
+  "${CDL_REPO_ORG}/gcc-googletest"       \
+  "${CDL_REPO_ORG}/gplusplus-googlemock" \
+  "${CDL_REPO_ORG}/java-junit"           \
+  "${CDL_REPO_ORG}/javascript-jasmine"   \
+  "${CDL_REPO_ORG}/python-pytest"        \
+  "${CDL_REPO_ORG}/ruby-minitest"        \
+)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 gather_urls_from_args()
 {
-  local urls="${@:2}" # $1==image_name
+  local -r urls="${@:2}" # $1==image_name
   local type=''
   for url in ${urls}; do
     if [ "${url}" = '--custom'    ] || \
@@ -210,6 +192,26 @@ set_default_urls()
   if [ ${#LANGUAGE_URLS[@]} -eq 0 ]; then
     LANGUAGE_URLS=( "${DEFAULT_LANGUAGE_URLS[@]}" )
   fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+show_default_urls()
+{
+  echo '  Default <git-repo-url>s:'
+  echo '    --custom'
+  for url in "${DEFAULT_CUSTOM_URLS[@]}"; do
+    echo "      ${url}"
+  done
+  echo '    --exercises'
+  for url in "${DEFAULT_EXERCISE_URLS[@]}"; do
+    echo "      ${url}"
+  done
+  echo '    --exercises'
+  for url in "${DEFAULT_LANGUAGE_URLS[@]}"; do
+    echo "      ${url}"
+  done
+  echo
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -247,7 +249,7 @@ git_clone_all_urls_into_context_dir()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-declare URL_INDEX=0
+declare -i URL_INDEX=0
 
 git_clone_one_url_to_context_dir()
 {
@@ -261,12 +263,12 @@ git_clone_one_url_to_context_dir()
   #
   # I choose 1) since 2) will not work for some local
   # file:///... urls on Docker-Toolbox.
-  local url="${1}"
-  local type="${2}"
+  local -r url="${1}"
+  local -r type="${2}"
   cd "${CONTEXT_DIR}/${type}"
   local stderr
   if ! stderr="$(git clone --depth 1 "${url}" "${URL_INDEX}" 2>&1)"; then
-    local newline=$'\n'
+    local -r newline=$'\n'
     local msg="git clone bad <git-repo-url>${newline}"
     msg+="--${type} ${url}${newline}"
     msg+="${stderr}"
@@ -323,8 +325,8 @@ build_image_from_context_dir()
       | grep --invert-match ' ---> Running in'                 \
       | >&2 grep --invert-match "The command '/bin/sh -c"      \
       || :
-    local last_line="${stderr##*$'\n'}"
-    local last_word="${last_line##* }"
+    local -r last_line="${stderr##*$'\n'}"
+    local -r last_word="${last_line##* }"
     exit "${last_word}" # eg 16
   else
     echo "Successfully built ${IMAGE_NAME}"
