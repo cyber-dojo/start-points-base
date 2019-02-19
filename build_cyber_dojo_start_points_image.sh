@@ -23,20 +23,6 @@ show_use()
   Its base image will be cyberdojo/start-points-base.
   It will contain git clones of all the specified <git-repo-url>s.
 
-  Default <git-repo-url>s:
-    --custom
-      https://github.com/cyber-dojo/start-points-custom.git
-    --exercises
-      https://github.com/cyber-dojo/start-points-exercises.git
-    --languages
-      https://github.com/cyber-dojo-languages/csharp-nunit
-      https://github.com/cyber-dojo-languages/gcc-googletest
-      https://github.com/cyber-dojo-languages/gplusplus-googlemock
-      https://github.com/cyber-dojo-languages/java-junit
-      https://github.com/cyber-dojo-languages/javascript-jasmine
-      https://github.com/cyber-dojo-languages/python-pytest
-      https://github.com/cyber-dojo-languages/ruby-minitest
-
   Example 1: local <git-repo-url>s
 
   \$ ./${MY_NAME} \\
@@ -89,6 +75,20 @@ show_use()
   https://github.com/cyber-dojo-languages/javascript-jasmine
   https://github.com/cyber-dojo-languages/python-pytest
   https://github.com/cyber-dojo-languages/ruby-minitest
+
+  Default <git-repo-url>s:
+    --custom
+      https://github.com/cyber-dojo/start-points-custom.git
+    --exercises
+      https://github.com/cyber-dojo/start-points-exercises.git
+    --languages
+      https://github.com/cyber-dojo-languages/csharp-nunit
+      https://github.com/cyber-dojo-languages/gcc-googletest
+      https://github.com/cyber-dojo-languages/gplusplus-googlemock
+      https://github.com/cyber-dojo-languages/java-junit
+      https://github.com/cyber-dojo-languages/javascript-jasmine
+      https://github.com/cyber-dojo-languages/python-pytest
+      https://github.com/cyber-dojo-languages/ruby-minitest
 
 EOF
 }
