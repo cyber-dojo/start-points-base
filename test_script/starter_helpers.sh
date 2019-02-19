@@ -93,7 +93,7 @@ build_start_points_image()
   IMAGE_NAME="${1}"
   IMAGE_NAMES+=("${IMAGE_NAME}")
   local script_name="$(root_dir)/build_cyber_dojo_start_points_image.sh"
-  ${script_name} ${*} >${stdoutF} 2>${stderrF}
+  ${script_name} ${@} >${stdoutF} 2>${stderrF}
   status=$?
   echo ${status} >${statusF}
 }

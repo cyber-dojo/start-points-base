@@ -108,9 +108,10 @@ exit_zero_if_show_use()
 
 exit_non_zero_if_bad_args()
 {
+  local args="${@}"
   set +e
   docker container run --rm $(base_image_name) \
-    /app/src/from_script/bad_args.rb ${*}
+    /app/src/from_script/bad_args.rb ${args}
   local status=$?
   set -e
   if [ "${status}" != "0" ]; then
@@ -150,7 +151,7 @@ error()
 
 gather_urls_from_args()
 {
-  local urls="${*}" # already checked
+  local urls="${@:2}" # $1==image_name
   local type=''
   for url in ${urls}; do
     if [ "${url}" = '--custom'    ] || \
@@ -326,12 +327,11 @@ base_image_name()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 exit_zero_if_show_use
-exit_non_zero_if_bad_args "${*}"
+exit_non_zero_if_bad_args "${@}"
 exit_non_zero_unless_git_installed
 exit_non_zero_unless_docker_installed
 
-shift # image_name
-gather_urls_from_args "${*}"
+gather_urls_from_args "${@}"
 set_default_urls
 prepare_context_dir
 git_clone_all_urls_into_context_dir
