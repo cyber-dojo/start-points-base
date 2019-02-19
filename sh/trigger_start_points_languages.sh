@@ -33,6 +33,8 @@ set -ev
 # start-points-base project in the CircleCI cyber-dojo organization.
 # Note too that these SSH keys are the preferred SSH keys for this project
 # and so do not have to be explicitly set in the config.yml file.
+# Once the SSH keys have been added the collaborator rights can be (and were)
+# dropped from Admin back to Write.
 #
 # The cyber-dojo-machine-user had to be added as a collaborator
 # (with Write rights) to the github repo for 2).
