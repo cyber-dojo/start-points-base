@@ -188,7 +188,7 @@ remove_start_points_images()
 assert_stdout_equals_use()
 {
   local help_line_1="Use:"
-  local help_line_2="$ ./build_cyber_dojo_start_points_image.sh \\"
+  local help_line_2="$ build_cyber_dojo_start_points_image.sh \\"
   local help_line_3="    <image-name> \\"
   local help_line_4="      [--custom    <git-repo-url>...]... \\"
   local help_line_5="      [--exercises <git-repo-url>...]... \\"

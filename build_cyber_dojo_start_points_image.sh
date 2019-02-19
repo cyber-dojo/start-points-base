@@ -1,30 +1,102 @@
 #!/usr/bin/env bash
 set -e
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Design choice: where to git-clone?
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# 1) directly, from this script, into the context dir
-#    before running [docker image build].
-#    This will run on the host.
-# 2) indirectly, inside a command in the Dockerfile
-#    passed to [docker image build].
-#    This will run wherever the docker daemon is.
-#
-# I choose 1) since 2) will not work for some local
-# file:///... urls on Docker-Toolbox.
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+readonly MY_NAME=$(basename "${0}")
 readonly IMAGE_NAME="${1}"
 
 declare -a CUSTOM_URLS=()
 declare -a EXERCISE_URLS=()
 declare -a LANGUAGE_URLS=()
 
+show_use()
+{
+  cat <<- EOF
+
+  Use:
+  \$ ${MY_NAME} \\
+      <image-name> \\
+        [--custom    <git-repo-url>...]... \\
+        [--exercises <git-repo-url>...]... \\
+        [--languages <git-repo-url>...]...
+
+  Creates a cyber-dojo start-point image named <image-name>.
+  Its base image will be cyberdojo/start-points-base.
+  It will contain checked git clones of all the specified repo-urls.
+
+  Default <git-repo-url>s:
+    --custom
+      https://github.com/cyber-dojo/start-points-custom.git
+    --exercises
+      https://github.com/cyber-dojo/start-points-exercises.git
+    --languages
+      https://github.com/cyber-dojo-languages/csharp-nunit
+      https://github.com/cyber-dojo-languages/gcc-googletest
+      https://github.com/cyber-dojo-languages/gplusplus-googlemock
+      https://github.com/cyber-dojo-languages/java-junit
+      https://github.com/cyber-dojo-languages/javascript-jasmine
+      https://github.com/cyber-dojo-languages/python-pytest
+      https://github.com/cyber-dojo-languages/ruby-minitest
+
+  Example 1: local <git-repo-url>s
+
+  \$ ${MY_NAME} \\
+    acme/first-start-point \\
+      --custom    file:///.../yahtzee    \\
+      --exercises file:///.../katas      \\
+      --languages file:///.../java-junit
+
+  Example 2: non-local <git-repo-url>s
+
+  \$ ${MY_NAME} \\
+    acme/second-start-point \\
+      --custom    https://github.com/.../my-custom.git    \\
+      --exercises https://github.com/.../my-exercises.git \\
+      --languages https://github.com/.../my-languages.git
+
+  Example 3: multiple <git-repo-url>s for --languages
+
+  \$ ${MY_NAME} \\
+    acme/third-start-point \\
+      --custom    file:///.../yahtzee    \\
+      --exercises file:///.../katas      \\
+      --languages file:///.../asm-assert \\
+                  file:///.../java-junit
+
+  Example 4: use default <git-repo-url>s for --exercises and --languages
+
+  \$ ${MY_NAME} \\
+    acme/fourth-start-point \\
+      --custom    file:///.../yahtzee
+
+  Example 5: multiple --languages sections
+  \$ ${MY_NAME} \\
+    acme/fifth-start-point \\
+      --custom    file:///.../yahtzee    \\
+      --exercises file:///.../katas      \\
+      --languages file:///.../asm-assert \\
+      --languages file:///.../java-junit
+
+  Example 6: read <git-repo-url>s from a file
+
+  \$ ${MY_NAME} \\
+    acme/sixth-start-point \\
+      --custom    https://github.com/.../my-custom.git     \\
+      --exercises https://github.com/.../my-exercises.git  \\
+      --languages "\$(< my-language-selection.txt)"
+
+  \$ cat my-language-selection.txt
+  https://github.com/cyber-dojo-languages/java-junit
+  https://github.com/cyber-dojo-languages/javascript-jasmine
+  https://github.com/cyber-dojo-languages/python-pytest
+  https://github.com/cyber-dojo-languages/ruby-minitest
+
+EOF
+}
+
 exit_zero_if_show_use()
 {
-  if docker container run --rm $(base_image_name) \
-    /app/src/from_script/show_use.rb "${0}" "${1}"
-  then
+  if [ "${IMAGE_NAME}" = '' ] || [ "${IMAGE_NAME}" = '--help' ]; then
+    show_use
     exit 0
   fi
 }
@@ -139,6 +211,17 @@ declare URL_INDEX=0
 
 git_clone_one_url_to_context_dir()
 {
+  # Design choice: where to git-clone?
+  # 1) directly, from this script, into the context dir
+  #    before running [docker image build].
+  #    This will run [git clone] on the host.
+  # 2) indirectly, inside a command in the Dockerfile
+  #    passed to [docker image build].
+  #    This will run [git clone] wherever the docker daemon is.
+  #
+  # I choose 1) since 2) will not work for some local
+  # file:///... urls on Docker-Toolbox.
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   local url="${1}"
   local type="${2}"
   cd "${CONTEXT_DIR}/${type}"
@@ -157,7 +240,7 @@ git_clone_one_url_to_context_dir()
   echo -e "--${type} \t ${url}"
   echo -e "${URL_INDEX} \t ${sha} \t ${url}" >> "${CONTEXT_DIR}/${type}_shas.txt"
   rm -rf "${CONTEXT_DIR}/${type}/${URL_INDEX}/.git"
-  # Two or more git-repo-urls could have the same name
+  # Two or more git-repo-urls could have the same repo name
   # but be from different repositories.
   # So git clone each repo into its own unique directory
   # based on a simple incrementing index.
