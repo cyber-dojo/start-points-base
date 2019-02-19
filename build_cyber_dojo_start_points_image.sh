@@ -325,7 +325,7 @@ base_image_name()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-exit_zero_if_show_use "${*}"
+exit_zero_if_show_use
 exit_non_zero_if_bad_args "${*}"
 exit_non_zero_unless_git_installed
 exit_non_zero_unless_docker_installed
