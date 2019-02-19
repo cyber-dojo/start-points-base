@@ -35,7 +35,7 @@ $ ./build_cyber_dojo_start_points_image.sh \
 ```
 Default git-repo-urls:
 #### --custom
-* https://github.com/cyber-dojo/start-points-custom.git
+###### https://github.com/cyber-dojo/start-points-custom.git
 #### --exercises
 * https://github.com/cyber-dojo/start-points-exercises.git
 #### --languages
@@ -47,6 +47,9 @@ Default git-repo-urls:
 * https://github.com/cyber-dojo-languages/python-pytest
 * https://github.com/cyber-dojo-languages/ruby-minitest
 
+- - - -
+
+### Format of <git-repo-url>s
 There are 2 kinds of start-points
 - languages/custom...
 - exercises...
