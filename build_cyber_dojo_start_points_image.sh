@@ -4,10 +4,6 @@ set -e
 readonly MY_NAME=$(basename "${0}")
 readonly IMAGE_NAME="${1}"
 
-declare -a CUSTOM_URLS=()
-declare -a EXERCISE_URLS=()
-declare -a LANGUAGE_URLS=()
-
 show_use()
 {
   cat <<- EOF
@@ -76,21 +72,49 @@ show_use()
   https://github.com/cyber-dojo-languages/python-pytest
   https://github.com/cyber-dojo-languages/ruby-minitest
 
-  Default <git-repo-url>s:
-    --custom
-      https://github.com/cyber-dojo/start-points-custom.git
-    --exercises
-      https://github.com/cyber-dojo/start-points-exercises.git
-    --languages
-      https://github.com/cyber-dojo-languages/csharp-nunit
-      https://github.com/cyber-dojo-languages/gcc-googletest
-      https://github.com/cyber-dojo-languages/gplusplus-googlemock
-      https://github.com/cyber-dojo-languages/java-junit
-      https://github.com/cyber-dojo-languages/javascript-jasmine
-      https://github.com/cyber-dojo-languages/python-pytest
-      https://github.com/cyber-dojo-languages/ruby-minitest
-
 EOF
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+declare -a CUSTOM_URLS=()
+declare -a EXERCISE_URLS=()
+declare -a LANGUAGE_URLS=()
+
+DEFAULT_CUSTOM_URLS=( \
+  https://github.com/cyber-dojo/start-points-custom.git \
+)
+
+DEFAULT_EXERCISE_URLS=( \
+  https://github.com/cyber-dojo/start-points-exercises.git \
+)
+
+DEFAULT_LANGUAGE_URLS=( \
+  https://github.com/cyber-dojo-languages/csharp-nunit         \
+  https://github.com/cyber-dojo-languages/gcc-googletest       \
+  https://github.com/cyber-dojo-languages/gplusplus-googlemock \
+  https://github.com/cyber-dojo-languages/java-junit           \
+  https://github.com/cyber-dojo-languages/javascript-jasmine   \
+  https://github.com/cyber-dojo-languages/python-pytest        \
+  https://github.com/cyber-dojo-languages/ruby-minitest        \
+)
+
+show_default_urls()
+{
+  echo '  Default <git-repo-url>s:'
+  echo '    --custom'
+  for url in "${DEFAULT_CUSTOM_URLS[@]}"; do
+    echo "      ${url}"
+  done
+  echo '    --exercises'
+  for url in "${DEFAULT_EXERCISE_URLS[@]}"; do
+    echo "      ${url}"
+  done
+  echo '    --exercises'
+  for url in "${DEFAULT_LANGUAGE_URLS[@]}"; do
+    echo "      ${url}"
+  done
+  echo 
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -100,6 +124,7 @@ exit_zero_if_show_use()
   local v0="${BASH_ARGV[0]}"
   if [ "${v0}" = '' ] || [ "${v0}" = '--help' ]; then
     show_use
+    show_default_urls
     exit 0
   fi
 }
@@ -174,25 +199,13 @@ gather_urls_from_args()
 set_default_urls()
 {
   if [ ${#CUSTOM_URLS[@]} -eq 0 ]; then
-    CUSTOM_URLS=( \
-      https://github.com/cyber-dojo/start-points-custom.git \
-    )
+    CUSTOM_URLS=( "${DEFAULT_CUSTOM_URLS[@]}" )
   fi
   if [ ${#EXERCISE_URLS[@]} -eq 0 ]; then
-    EXERCISE_URLS=( \
-      https://github.com/cyber-dojo/start-points-exercises.git \
-    )
+    EXERCISE_URLS=( "${DEFAULT_EXERCISE_URLS[@]}" )
   fi
   if [ ${#LANGUAGE_URLS[@]} -eq 0 ]; then
-    LANGUAGE_URLS=( \
-      https://github.com/cyber-dojo-languages/csharp-nunit         \
-      https://github.com/cyber-dojo-languages/gcc-googletest       \
-      https://github.com/cyber-dojo-languages/gplusplus-googlemock \
-      https://github.com/cyber-dojo-languages/java-junit           \
-      https://github.com/cyber-dojo-languages/javascript-jasmine   \
-      https://github.com/cyber-dojo-languages/python-pytest        \
-      https://github.com/cyber-dojo-languages/ruby-minitest        \
-    )
+    LANGUAGE_URLS=( "${DEFAULT_LANGUAGE_URLS[@]}" )
   fi
 }
 
@@ -245,7 +258,6 @@ git_clone_one_url_to_context_dir()
   #
   # I choose 1) since 2) will not work for some local
   # file:///... urls on Docker-Toolbox.
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   local url="${1}"
   local type="${2}"
   cd "${CONTEXT_DIR}/${type}"
