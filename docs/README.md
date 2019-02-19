@@ -5,9 +5,11 @@ New starter architecture (currently live on https://beta.cyber-dojo.org only)
 [![CircleCI](https://circleci.com/gh/cyber-dojo/start-points-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/start-points-base)
 
 The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) docker image.
+
+## The build script
 * Use the [build_cyber_dojo_start_points_image.sh](../build_cyber_dojo_start_point_image.sh)
 script to create your cyber-dojo start-point docker image.
-* It will use cyberdojo/start-points-base as its base (FROM) image.
+* It will use [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) as its base (FROM) image.
 * The first argument is the name of the docker image you want to create.
 * The subsequent arguments are git-cloneable URLs containing the source for the start points.
 
@@ -33,12 +35,13 @@ $ ./build_cyber_dojo_start_points_image.sh \
           https://github.com/cyber-dojo-languages/gplusplus-googlemock \
           https://github.com/cyber-dojo-languages/java-junit
 ```
-Default git-repo-urls:
-#### --custom
-###### https://github.com/cyber-dojo/start-points-custom.git
-#### --exercises
+
+## Default git-repo-urls
+### --custom
+* https://github.com/cyber-dojo/start-points-custom.git
+### --exercises
 * https://github.com/cyber-dojo/start-points-exercises.git
-#### --languages
+### --languages
 * https://github.com/cyber-dojo-languages/csharp-nunit
 * https://github.com/cyber-dojo-languages/gcc-googletest
 * https://github.com/cyber-dojo-languages/gplusplus-googlemock
@@ -49,13 +52,14 @@ Default git-repo-urls:
 
 - - - -
 
-### Format of <git-repo-url>s
+## git-repo-url format
 There are 2 kinds of start-points
 - languages/custom...
 - exercises...
 
 - - - -
 
+## micro-service API
 - A docker-containerized micro-service for [cyber-dojo](http://cyber-dojo.org).
 - Holds the start-points used when setting up a practice session.
 
@@ -77,7 +81,7 @@ API:
 
 - - - -
 
-## GET ready?()
+### GET ready?()
 - parameters, none
 ```
   {}
@@ -90,7 +94,7 @@ API:
 
 - - - -
 
-## GET sha()
+### GET sha()
 Returns the git commit sha used to create the docker image.
 - parameters, none
 ```
@@ -103,7 +107,7 @@ Returns the git commit sha used to create the docker image.
 
 - - - -
 
-## GET language_start_points()
+### GET language_start_points()
 - parameters, none
 ```
   {}
@@ -130,7 +134,7 @@ Returns the git commit sha used to create the docker image.
 
 - - - -
 
-## GET language_manifest(display_name,exercise_name)
+### GET language_manifest(display_name,exercise_name)
 - parameters, display_name and exercise_name from a previous call to
 the language_start_points method above, eg
 ```
@@ -165,7 +169,7 @@ and the exercise instructions text for the given exercise_name, eg
 
 - - - -
 
-## GET custom_start_points()
+### GET custom_start_points()
 - parameters, none
 ```
   {}
@@ -183,7 +187,7 @@ and the exercise instructions text for the given exercise_name, eg
 
 - - - -
 
-## GET custom_manifest(display_name)
+### GET custom_manifest(display_name)
 - parameter, display_name from a previous call to the custom_start_points method above, eg
 ```
   {  "display_name": "Yahtzee refactoring, C# NUnit"
