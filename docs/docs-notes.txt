@@ -1,5 +1,4 @@
 
-----------------------------------------------------
 Considered checking for a start-point branch in the named git-repo-urls.
 This would help not git clone repos with large docker/ dirs (eg jars).
 Not doing this because CircleCI build-times are pretty good without it
