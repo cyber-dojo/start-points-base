@@ -13,15 +13,15 @@ show_use()
   cat <<- EOF
 
   Use:
-  \$ ${MY_NAME} \\
+  \$ ./${MY_NAME} \\
       <image-name> \\
         [--custom    <git-repo-url>...]... \\
         [--exercises <git-repo-url>...]... \\
         [--languages <git-repo-url>...]...
 
-  Creates a cyber-dojo start-point image named <image-name>.
+  Creates a cyber-dojo start-point docker image named <image-name>.
   Its base image will be cyberdojo/start-points-base.
-  It will contain checked git clones of all the specified repo-urls.
+  It will contain git clones of all the specified <git-repo-url>s.
 
   Default <git-repo-url>s:
     --custom
@@ -39,50 +39,50 @@ show_use()
 
   Example 1: local <git-repo-url>s
 
-  \$ ${MY_NAME} \\
-    acme/first-start-point \\
-      --custom    file:///.../yahtzee    \\
-      --exercises file:///.../katas      \\
-      --languages file:///.../java-junit
+  \$ ./${MY_NAME} \\
+        acme/first-start-point \\
+          --custom    file:///.../yahtzee    \\
+          --exercises file:///.../katas      \\
+          --languages file:///.../java-junit
 
   Example 2: non-local <git-repo-url>s
 
-  \$ ${MY_NAME} \\
-    acme/second-start-point \\
-      --custom    https://github.com/.../my-custom.git    \\
-      --exercises https://github.com/.../my-exercises.git \\
-      --languages https://github.com/.../my-languages.git
+  \$ ./${MY_NAME} \\
+        acme/second-start-point \\
+          --custom    https://github.com/.../my-custom.git    \\
+          --exercises https://github.com/.../my-exercises.git \\
+          --languages https://github.com/.../my-languages.git
 
   Example 3: multiple <git-repo-url>s for --languages
 
-  \$ ${MY_NAME} \\
-    acme/third-start-point \\
-      --custom    file:///.../yahtzee    \\
-      --exercises file:///.../katas      \\
-      --languages file:///.../asm-assert \\
-                  file:///.../java-junit
+  \$ ./${MY_NAME} \\
+        acme/third-start-point \\
+          --custom    file:///.../yahtzee    \\
+          --exercises file:///.../katas      \\
+          --languages file:///.../asm-assert \\
+                      file:///.../java-junit
 
   Example 4: use default <git-repo-url>s for --exercises and --languages
 
-  \$ ${MY_NAME} \\
-    acme/fourth-start-point \\
-      --custom    file:///.../yahtzee
+  \$ ./${MY_NAME} \\
+        acme/fourth-start-point \\
+          --custom    file:///.../yahtzee
 
   Example 5: multiple --languages sections
-  \$ ${MY_NAME} \\
-    acme/fifth-start-point \\
-      --custom    file:///.../yahtzee    \\
-      --exercises file:///.../katas      \\
-      --languages file:///.../asm-assert \\
-      --languages file:///.../java-junit
+  \$ ./${MY_NAME} \\
+        acme/fifth-start-point \\
+          --custom    file:///.../yahtzee    \\
+          --exercises file:///.../katas      \\
+          --languages file:///.../asm-assert \\
+          --languages file:///.../java-junit
 
   Example 6: read <git-repo-url>s from a file
 
-  \$ ${MY_NAME} \\
-    acme/sixth-start-point \\
-      --custom    https://github.com/.../my-custom.git     \\
-      --exercises https://github.com/.../my-exercises.git  \\
-      --languages "\$(< my-language-selection.txt)"
+  \$ ./${MY_NAME} \\
+        acme/sixth-start-point \\
+          --custom    https://github.com/.../my-custom.git     \\
+          --exercises https://github.com/.../my-exercises.git  \\
+          --languages "\$(< my-language-selection.txt)"
 
   \$ cat my-language-selection.txt
   https://github.com/cyber-dojo-languages/java-junit

@@ -4,12 +4,12 @@
 New starter architecture (currently live on https://beta.cyber-dojo.org only)
 [![CircleCI](https://circleci.com/gh/cyber-dojo/start-points-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/start-points-base)
 
-The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) docker-image.
+The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) docker image.
 * Use the [build_cyber_dojo_start_points_image.sh](../build_cyber_dojo_start_point_image.sh)
-script to create your cyber-dojo starter docker-image.
+script to create your cyber-dojo start-point docker image.
 * It will use cyberdojo/start-points-base as its base (FROM) image.
-* The first argument is the name of the image you want to create.
-* The subsequent arguments are git-cloneable URLs containing the source for the start-points.
+* The first argument is the name of the docker image you want to create.
+* The subsequent arguments are git-cloneable URLs containing the source for the start points.
 
 ```bash
 $ ./build_cyber_dojo_start_points_image.sh --help
@@ -18,6 +18,7 @@ Use: ./build_cyber_dojo_start_points_image.sh \
            [--custom    <git-repo-url>...]... \
            [--exercises <git-repo-url>...]... \
            [--languages <git-repo-url>...]... \
+...
 ```
 For example:
 ```bash
