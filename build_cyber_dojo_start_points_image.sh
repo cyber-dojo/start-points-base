@@ -93,13 +93,18 @@ show_use()
 EOF
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 exit_zero_if_show_use()
 {
-  if [ "${IMAGE_NAME}" = '' ] || [ "${IMAGE_NAME}" = '--help' ]; then
+  local v0="${BASH_ARGV[0]}"
+  if [ "${v0}" = '' ] || [ "${v0}" = '--help' ]; then
     show_use
     exit 0
   fi
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 exit_non_zero_if_bad_args()
 {
@@ -113,6 +118,8 @@ exit_non_zero_if_bad_args()
   fi
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 exit_non_zero_unless_git_installed()
 {
   local git="${GIT_PROGRAM:-git}"
@@ -120,6 +127,8 @@ exit_non_zero_unless_git_installed()
     error 1 'git is not installed!'
   fi
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 exit_non_zero_unless_docker_installed()
 {
@@ -129,11 +138,15 @@ exit_non_zero_unless_docker_installed()
   fi
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 error()
 {
   >&2 echo "ERROR: ${2}"
   exit "${1}"
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 gather_urls_from_args()
 {
@@ -154,6 +167,8 @@ gather_urls_from_args()
     fi
   done
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 set_default_urls()
 {
@@ -180,6 +195,8 @@ set_default_urls()
   fi
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 prepare_context_dir()
 {
   CONTEXT_DIR=$(mktemp -d)
@@ -189,10 +206,14 @@ prepare_context_dir()
   mkdir "${CONTEXT_DIR}/languages"
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 remove_context_dir()
 {
   rm -rf "${CONTEXT_DIR}" > /dev/null
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 git_clone_all_urls_into_context_dir()
 {
@@ -206,6 +227,8 @@ git_clone_all_urls_into_context_dir()
     git_clone_one_url_to_context_dir "${url}" languages
   done
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 declare URL_INDEX=0
 
@@ -246,6 +269,8 @@ git_clone_one_url_to_context_dir()
   # based on a simple incrementing index.
   URL_INDEX=$((URL_INDEX + 1))
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 build_image_from_context_dir()
 {
@@ -290,13 +315,15 @@ build_image_from_context_dir()
   fi
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 base_image_name()
 {
   # Must be pushed to dockerhub in .circleci/config.yml
   echo 'cyberdojo/start-points-base:latest'
 }
 
-# - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 exit_zero_if_show_use "${*}"
 exit_non_zero_if_bad_args "${*}"
