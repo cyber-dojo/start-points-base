@@ -98,46 +98,9 @@ build_start_points_image()
   echo ${status} >${statusF}
 }
 
-build_start_points_image_custom()
+build_start_points_image_cel()
 {
   local image_name="${1}"
-  local url="${2}"
-  local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
-  local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
-  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-python-unittest)
-  build_start_points_image \
-    "${image_name}"        \
-    --custom               \
-      "${C_TMP_URL}"       \
-      "${url}"             \
-    --exercises            \
-      "${E_TMP_URL}"       \
-    --languages            \
-      "${L_TMP_URL}"
-}
-
-build_start_points_image_exercises()
-{
-  local image_name="${1}"
-  local url="${2}"
-  local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
-  local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
-  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-python-unittest)
-  build_start_points_image \
-    "${image_name}"        \
-    --custom               \
-      "${C_TMP_URL}"       \
-    --exercises            \
-      "${E_TMP_URL}"       \
-      "${url}"             \
-    --languages            \
-      "${L_TMP_URL}"
-}
-
-build_start_points_image_languages()
-{
-  local image_name="${1}"
-  local url="${2}"
   local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
   local E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
   local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-python-unittest)
@@ -149,7 +112,31 @@ build_start_points_image_languages()
       "${E_TMP_URL}"       \
     --languages            \
       "${L_TMP_URL}"       \
-      "${url}"
+      "${@:2}"
+}
+
+build_start_points_image_custom()
+{
+  local image_name="${1}"
+  local url="${2}"
+  build_start_points_image_cel \
+    "${image_name}" --custom "${url}"
+}
+
+build_start_points_image_exercises()
+{
+  local image_name="${1}"
+  local url="${2}"
+  build_start_points_image_cel \
+    "${image_name}" --exercises "${url}"
+}
+
+build_start_points_image_languages()
+{
+  local image_name="${1}"
+  local url="${2}"
+  build_start_points_image_cel \
+    "${image_name}" --languages "${url}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
