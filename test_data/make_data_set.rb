@@ -139,8 +139,16 @@ def languages_manifest_has_non_string_display_name
   peturn_language_manifest('display_name', [1,2,3])
 end
 
+def exercises_manifest_has_non_string_display_name
+  peturn_exercise_manifest('display_name', [1,2,3])
+end
+
 def languages_manifest_has_empty_display_name
   peturn_language_manifest('display_name', '')
+end
+
+def exercises_manifest_has_empty_display_name
+  peturn_exercise_manifest('display_name', '')
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -358,6 +366,14 @@ end
 
 def languages_manifest_has_display_names_duplicate_2
   peturn_language_manifest('display_name', 'Dup', 'languages-python-unittest')
+end
+
+def exercises_manifest_has_display_names_duplicate_1
+  peturn_exercise_manifest('display_name', 'Dup')
+end
+
+def exercises_manifest_has_display_names_duplicate_2
+  peturn_exercise_manifest('display_name', 'Dup', 'exercises-tiny-maze')
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
