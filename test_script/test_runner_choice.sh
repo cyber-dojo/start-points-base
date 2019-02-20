@@ -14,7 +14,7 @@ test_error()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"runner_choice": "stateless"'
   assert_stderr_line_count_equals 4
-  assert_status_equals 30
+  assert_status_equals 50
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

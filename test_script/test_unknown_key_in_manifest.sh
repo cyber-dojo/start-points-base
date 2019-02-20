@@ -13,7 +13,7 @@ test_failure_language_unknown_key()
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_line_count_equals 3
-  assert_status_equals 19
+  assert_status_equals 20
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

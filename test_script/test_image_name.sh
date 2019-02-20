@@ -14,7 +14,7 @@ test_failure_non_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"image_name": [1, 2, 3]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 21
+  assert_status_equals 30
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -33,7 +33,7 @@ test_failure_malformed()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"image_name": "CYBERDOJO/csharp_nunit"'
   assert_stderr_line_count_equals 4
-  assert_status_equals 21
+  assert_status_equals 30
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

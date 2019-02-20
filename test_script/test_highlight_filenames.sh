@@ -29,7 +29,7 @@ test_failure_int()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"highlight_filenames": 42'
   assert_stderr_line_count_equals 4
-  assert_status_equals 28
+  assert_status_equals 43
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -48,7 +48,7 @@ test_failure_int_array()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"highlight_filenames": [42]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 28
+  assert_status_equals 43
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -67,7 +67,7 @@ test_failure_empty_array()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"highlight_filenames": []'
   assert_stderr_line_count_equals 4
-  assert_status_equals 28
+  assert_status_equals 43
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -86,7 +86,7 @@ test_failure_empty_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"highlight_filenames": [""]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 28
+  assert_status_equals 43
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -105,7 +105,7 @@ test_failure_not_visible()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"highlight_filenames": ["Hiker.cs", "xx.cs"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 28
+  assert_status_equals 43
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -124,7 +124,7 @@ test_failure_duplicates()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"highlight_filenames": ["Hiker.cs", "HikerTest.cs", "Hiker.cs"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 28
+  assert_status_equals 43
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

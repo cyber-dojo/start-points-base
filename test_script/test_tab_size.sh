@@ -44,7 +44,7 @@ test_failure_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"tab_size": "6"'
   assert_stderr_line_count_equals 4
-  assert_status_equals 26
+  assert_status_equals 41
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -63,7 +63,7 @@ test_failure_int_too_small()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"tab_size": 0'
   assert_stderr_line_count_equals 4
-  assert_status_equals 26
+  assert_status_equals 41
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -82,7 +82,7 @@ test_failure_int_too_large()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"tab_size": 9'
   assert_stderr_line_count_equals 4
-  assert_status_equals 26
+  assert_status_equals 41
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
