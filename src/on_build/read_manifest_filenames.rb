@@ -1,7 +1,7 @@
 
 module ReadManifestFilenames
 
-  def read_manifest_filenames(root_dir, type)
+  def read_manifest_filenames(root_dir, type, error_code)
     result = {}
     lines = `cat #{root_dir}/#{type}_shas.txt`.lines
     lines.each do |line|
@@ -11,7 +11,7 @@ module ReadManifestFilenames
       if manifest_filenames == []
         STDERR.puts('ERROR: no manifest.json files in')
         STDERR.puts("--#{type} #{url}")
-        exit(16)
+        exit(error_code)
       else
         result[url] = manifest_filenames
       end

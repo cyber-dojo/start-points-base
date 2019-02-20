@@ -13,7 +13,7 @@ class ExerciseManifestChecker
 
   def check_all(root_dir)
     display_names = {}
-    filenames = read_manifest_filenames(root_dir, @type)
+    filenames = read_manifest_filenames(root_dir, @type, 16)
     filenames.each do |url,filenames|
       check_one(url, filenames, display_names)
     end
