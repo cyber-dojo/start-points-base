@@ -3,18 +3,29 @@ Add visible_filenames as required key in exercise's manifest.json
 It must not be allowed to contain a file called cyber-dojo.sh
 starter.rb will still just assume instructions file is present.
 Update start-points-exercises repo accordingly.
+This is not a breaking change for commander since it will
+ignore an exercise's manifest.json file (it just gets the instructions file)
 
-Add check that each visible_filename (exercises and languages) is less
+in SPB, add check that each visible_filename (exercises and languages) is less
 than the truncation limit (25K?) in the runner. (Later)
 
-Refactor web and saver so web passes saver the
-display_name and exercise_name and saver gets the manifest.json
-file from SPB. SPB will merge the visible_files from both manifests.
-
-Lastly, SPB will need to have a bit of new functionality to
+SPB will need to have a bit of new functionality to
 pick one file from the exercise's manifest.json visible_filenames
 which it returns to web when web is showing the exercises name+content.
 Algorithm.
 if there is a file called instructions use that.
 if there is a file called readme.txt use that.
 otherwise use the biggest file.
+
+Refactor web and saver so web passes saver the
+display_name and exercise_name and saver gets the manifest.json
+file from SPB. SPB will merge the visible_files from both manifests.
+THIS IS A BREAKING CHANGE FOR commander because we will be
+changing the behaviour of web.
+
+I could write a blog post on what to do to prepare for this
+upcoming change...
+o) add manifest.json file for each exercise
+o) ensure you are (currently) creating your
+   exercise start-points (volumes) using the --git option.
+   But note that the URL can be a local url (file://....)
