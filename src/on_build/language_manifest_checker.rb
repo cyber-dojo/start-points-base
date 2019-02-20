@@ -64,6 +64,7 @@ class LanguageManifestChecker
     check_runner_choice(url, filename, json, 50)
   end
 
+  include ReadManifestFilenames
   include CleanJson
   include CheckNoUnknownKeysExist
   include CheckAllRequiredKeysExist

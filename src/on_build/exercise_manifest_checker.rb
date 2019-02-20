@@ -22,6 +22,7 @@ class ExerciseManifestChecker
 
   private
 
+  include ReadManifestFilenames
   include CleanJson
   include CheckNoUnknownKeysExist
   include CheckAllRequiredKeysExist
@@ -44,6 +45,7 @@ class ExerciseManifestChecker
 
   def check_required_keys(url, filename, json)
     check_display_name(url, filename, json, 60)
+    # TODO: check instructions/readme.txt file exists
   end
 
   def known_keys
