@@ -29,3 +29,11 @@ o) add manifest.json file for each exercise
 o) ensure you are (currently) creating your
    exercise start-points (volumes) using the --git option.
    But note that the URL can be a local url (file://....)
+   ?Also give instructions on how to create a git repo in
+   a dir:
+     $ cd dir
+     $ git init
+     $ git add .
+     $ git config --global user.email "EMAIL"
+     $ git config --global user.name "NAME"
+     $ git commit -m "initial commit"
