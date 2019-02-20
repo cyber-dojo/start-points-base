@@ -34,8 +34,8 @@ class LanguageManifestChecker
   def check_one(url, filenames, display_names)
     filenames.each do |filename|
       json = clean_json(url, filename)
-      check_no_unknown_keys_exist(url, filename, json, 20)
-      check_all_required_keys_exist(url, filename, json, 21)
+      check_no_unknown_keys_exist(known_keys, url, filename, json, 20)
+      check_all_required_keys_exist(required_keys, url, filename, json, 21)
       check_required_keys(url, filename, json)
       check_optional_keys(url, filename, json)
       check_deprecated_keys(url, filename, json)
@@ -78,5 +78,27 @@ class LanguageManifestChecker
   include CheckProgressRegexs
   include CheckDisplayNames
   include CheckRunnerChoice
+
+  def known_keys
+    %w( display_name
+        visible_filenames
+        hidden_filenames
+        image_name
+        runner_choice
+        filename_extension
+        highlight_filenames
+        progress_regexs
+        tab_size
+        max_seconds
+      )
+  end
+
+  def required_keys
+    %w( display_name
+        visible_filenames
+        image_name
+        filename_extension
+      )
+  end
 
 end
