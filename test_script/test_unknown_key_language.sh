@@ -1,6 +1,6 @@
 #!/bin/bash
 
-test_failure_language_unknown_key()
+test_failure_unknown_key()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos

@@ -96,10 +96,18 @@ def languages_manifest_has_unknown_key
   peturn_language_manifest('Display_name', 'C#, NUnit')
 end
 
+def exercise_manifest_has_unknown_key
+  peturn_exercise_manifest('Display_name', 'C#, NUnit')
+end
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_missing_display_name
   peturn_language_manifest('display_name', nil)
+end
+
+def exercises_manifest_missing_display_name
+  peturn_exercise_manifest('display_name', nil)
 end
 
 def languages_manifest_missing_visible_filenames
@@ -361,6 +369,20 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturn_language_manifest(key, value, dir_name = 'languages-csharp-nunit')
+  `cp -R /app/#{dir_name} #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    json = JSON.parse!(IO.read(manifest_filename))
+    if value.nil?
+      json.delete(key)
+    else
+      json[key] = value
+    end
+    IO.write(manifest_filename, JSON.pretty_generate(json))
+    break
+  end
+end
+
+def peturn_exercise_manifest(key, value, dir_name = 'exercises-fizz-buzz')
   `cp -R /app/#{dir_name} #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     json = JSON.parse!(IO.read(manifest_filename))
