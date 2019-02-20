@@ -2,7 +2,7 @@
 Add visible_filenames as required key in exercise's manifest.json
 It must not be allowed to contain a file called cyber-dojo.sh
 starter.rb will still just assume instructions file is present.
-Update start-points-exercises repo accordingly.
+Update start-points-exercises repo accordingly (done)
 This is not a breaking change for commander since it will
 ignore an exercise's manifest.json file (it just gets the instructions file)
 
@@ -21,7 +21,18 @@ Refactor web and saver so web passes saver the
 display_name and exercise_name and saver gets the manifest.json
 file from SPB. SPB will merge the visible_files from both manifests.
 THIS IS A BREAKING CHANGE FOR commander because we will be
-changing the behaviour of web.
+changing the behaviour of web. Do later. Once commander switched.
+
+Add new option [cyber-dojo up --starter=IMAGE_NAME]
+Use this to allow commander to try out new starter images.
+This can initially be in place together with the existing functionality.
+See https://stackoverflow.com/questions/29377853
+Is this doable? What about the volumes?
+Have to make sure they do not interfere with the
+paths of the start-points inside the image.
+Pretty sure I'm ok.
+existing (starter) path: '/app/start_points'
+new (SPB) path: "/app/repos/#{type}"
 
 I could write a blog post on what to do to prepare for this
 upcoming change...

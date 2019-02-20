@@ -45,7 +45,7 @@ class ExerciseManifestChecker
 
   def check_required_keys(url, filename, json)
     check_display_name(url, filename, json, 60)
-    # TODO: check instructions/readme.txt file exists
+    #TODO: check_visible_filenames(url, filename, json, 61)
   end
 
   def known_keys
