@@ -7,13 +7,13 @@ module CheckHighlightFilenames
   def check_highlight_filenames(url, manifest_filename, json, error_code)
     if json.has_key?('highlight_filenames')
       highlight_filenames = json['highlight_filenames']
-      exit_unless_highlight_filenames_well_formed(highlight_filenames, url, manifest_filename, json, error_code)
+      exit_unless_highlight_filenames_well_formed(highlight_filenames, url, manifest_filename, error_code)
       exit_unless_highlight_filenames_visible(highlight_filenames, url, manifest_filename, json, error_code)
-      exit_if_highlight_filenames_duplicates(highlight_filenames, url, manifest_filename, json, error_code)
+      exit_if_highlight_filenames_duplicates(highlight_filenames, url, manifest_filename, error_code)
     end
   end
 
-  def exit_unless_highlight_filenames_well_formed(highlight_filenames, url, manifest_filename, json, error_code)
+  def exit_unless_highlight_filenames_well_formed(highlight_filenames, url, manifest_filename, error_code)
     unless highlight_filenames_well_formed?(highlight_filenames)
       title = 'highlight_filenames must be an Array of Strings'
       msg = "\"highlight_filenames\": #{highlight_filenames}"
@@ -41,7 +41,7 @@ module CheckHighlightFilenames
     end
   end
 
-  def exit_if_highlight_filenames_duplicates(highlight_filenames, url, manifest_filename, json, error_code)
+  def exit_if_highlight_filenames_duplicates(highlight_filenames, url, manifest_filename, error_code)
     highlight_filenames.each do |filename|
       dup_indexes = get_dup_indexes(highlight_filenames, filename)
       unless dup_indexes == ''
