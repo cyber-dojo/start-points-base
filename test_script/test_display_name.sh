@@ -14,7 +14,7 @@ test_failure_non_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"display_name": [1, 2, 3]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 23
+  assert_status_equals 22
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -33,7 +33,7 @@ test_failure_empty_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"display_name": ""'
   assert_stderr_line_count_equals 4
-  assert_status_equals 24
+  assert_status_equals 22
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

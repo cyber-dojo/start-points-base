@@ -15,7 +15,7 @@ jobs:
             set -ev
             ./pipe_build_up_test.sh
       - run:
-          name: push docker image to dockerhub
+          name: push tagged docker image to dockerhub
           command: |
             set -ev
             readonly project=${CIRCLE_PROJECT_REPONAME}

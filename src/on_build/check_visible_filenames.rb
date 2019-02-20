@@ -4,105 +4,105 @@ module CheckVisibleFilenames
 
   include ShowError
 
-  def check_visible_filenames(url, manifest_filename, json)
+  def check_visible_filenames(url, manifest_filename, json, error_code)
     visible_filenames = json['visible_filenames']
-    exit_unless_visible_filenames_is_array(visible_filenames, url, manifest_filename)
-    exit_if_visible_filenames_is_empty(visible_filenames, url, manifest_filename)
+    exit_unless_visible_filenames_is_array(visible_filenames, url, manifest_filename, error_code)
+    exit_if_visible_filenames_is_empty(visible_filenames, url, manifest_filename, error_code)
     visible_filenames.each_with_index do |filename,index|
-      exit_unless_visible_filename_is_a_String(visible_filenames, filename, index, url, manifest_filename)
-      exit_if_visible_filename_is_empty(visible_filenames, filename, index, url, manifest_filename)
-      exit_unless_visible_filename_is_portable(visible_filenames, filename, index, url, manifest_filename)
+      exit_unless_visible_filename_is_a_String(visible_filenames, filename, index, url, manifest_filename, error_code)
+      exit_if_visible_filename_is_empty(visible_filenames, filename, index, url, manifest_filename, error_code)
+      exit_unless_visible_filename_is_portable(visible_filenames, filename, index, url, manifest_filename, error_code)
     end
-    exit_if_visible_filename_duplicate(visible_filenames, url, manifest_filename)
-    exit_unless_all_visible_filenames_exist(visible_filenames, url, manifest_filename)
-    exit_unless_visible_filename_includes_cyber_dojo_sh(visible_filenames, url, manifest_filename)
+    exit_if_visible_filename_duplicate(visible_filenames, url, manifest_filename, error_code)
+    exit_unless_all_visible_filenames_exist(visible_filenames, url, manifest_filename, error_code)
+    exit_unless_visible_filename_includes_cyber_dojo_sh(visible_filenames, url, manifest_filename, error_code)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def exit_unless_visible_filenames_is_array(visible_filenames, url, manifest_filename)
+  def exit_unless_visible_filenames_is_array(visible_filenames, url, manifest_filename, error_code)
     unless visible_filenames.is_a?(Array)
       title = 'visible_filenames is not an Array'
       msg = "\"visible_filenames\": #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
-      exit(25)
+      exit(error_code)
     end
   end
 
-  def exit_if_visible_filenames_is_empty(visible_filenames, url, manifest_filename)
+  def exit_if_visible_filenames_is_empty(visible_filenames, url, manifest_filename, error_code)
     if visible_filenames.empty?
       title = 'visible_filenames is empty'
       msg = "\"visible_filenames\": #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
-      exit(26)
+      exit(error_code)
     end
   end
 
-  def exit_unless_visible_filename_is_a_String(visible_filenames, filename, index, url, manifest_filename)
+  def exit_unless_visible_filename_is_a_String(visible_filenames, filename, index, url, manifest_filename, error_code)
     unless filename.is_a?(String)
       title = "visible_filenames[#{index}] is not a String"
       msg = "\"visible_filenames\": #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
-      exit(27)
+      exit(error_code)
     end
   end
 
-  def exit_if_visible_filename_is_empty(visible_filenames, filename, index, url, manifest_filename)
+  def exit_if_visible_filename_is_empty(visible_filenames, filename, index, url, manifest_filename, error_code)
     if filename.empty?
       title = "visible_filenames[#{index}] is empty"
       msg = "\"visible_filenames\": #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
-      exit(28)
+      exit(error_code)
     end
   end
 
-  def exit_unless_visible_filename_is_portable(visible_filenames, filename, index, url, manifest_filename)
+  def exit_unless_visible_filename_is_portable(visible_filenames, filename, index, url, manifest_filename, error_code)
     filename.each_char do |ch|
       unless portable?(ch)
         title = "visible_filenames[#{index}] has non-portable character '#{ch}'"
         msg = "\"visible_filenames\": #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
-        exit(29)
+        exit(error_code)
       end
     end
     if filename[0] == '-'
       title = "visible_filenames[#{index}] has non-portable leading character '-'"
       msg = "\"visible_filenames\": #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
-      exit(30)
+      exit(error_code)
     end
   end
 
-  def exit_if_visible_filename_duplicate(visible_filenames, url, manifest_filename)
+  def exit_if_visible_filename_duplicate(visible_filenames, url, manifest_filename, error_code)
     visible_filenames.each do |filename|
       dup_indexes = get_dup_indexes(visible_filenames, filename)
       unless dup_indexes == ''
         title = "visible_filenames has duplicates #{dup_indexes}"
         msg = "\"visible_filenames\": #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
-        exit(31)
+        exit(error_code)
       end
     end
   end
 
-  def exit_unless_all_visible_filenames_exist(visible_filenames, url, manifest_filename)
+  def exit_unless_all_visible_filenames_exist(visible_filenames, url, manifest_filename, error_code)
     dir_name = File.dirname(manifest_filename)
     visible_filenames.each_with_index do |filename,index|
       unless File.exists?(dir_name + '/' + filename)
         title = "visible_filenames[#{index}] does not exist"
         msg = "\"visible_filenames\": #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
-        exit(32)
+        exit(error_code)
       end
     end
   end
 
-  def exit_unless_visible_filename_includes_cyber_dojo_sh(visible_filenames, url, manifest_filename)
+  def exit_unless_visible_filename_includes_cyber_dojo_sh(visible_filenames, url, manifest_filename, error_code)
     unless visible_filenames.include?('cyber-dojo.sh')
       title = 'visible_filenames does not include "cyber-dojo.sh"'
       msg = "\"visible_filenames\": #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
-      exit(33)
+      exit(error_code)
     end
   end
 

@@ -4,12 +4,12 @@ module CheckAllRequiredKeysExist
 
   include ShowError
 
-  def check_all_required_keys_exist(url, filename, json)
+  def check_all_required_keys_exist(url, filename, json, error_code)
     required_keys.each do |key|
       unless json.keys.include?(key)
         title = "missing required key \"#{key}\""
         show_error(title, url, filename)
-        exit(20)
+        exit(error_code)
       end
     end
   end

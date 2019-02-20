@@ -33,7 +33,7 @@ test_failure_malformed()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"image_name": "CYBERDOJO/csharp_nunit"'
   assert_stderr_line_count_equals 4
-  assert_status_equals 22
+  assert_status_equals 21
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

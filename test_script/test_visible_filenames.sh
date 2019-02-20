@@ -14,7 +14,7 @@ test_failure_non_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": 1'
   assert_stderr_line_count_equals 4
-  assert_status_equals 25
+  assert_status_equals 23
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -33,7 +33,7 @@ test_failure_empty()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": []'
   assert_stderr_line_count_equals 4
-  assert_status_equals 26
+  assert_status_equals 23
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -52,7 +52,7 @@ test_failure_non_array_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": [1, 2, 3]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 27
+  assert_status_equals 23
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -71,7 +71,7 @@ test_failure_empty_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["hiker.cs", ""]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 28
+  assert_status_equals 23
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -90,7 +90,7 @@ test_failure_non_portable_character()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["hiker.cs", "hiker&.cs"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 29
+  assert_status_equals 23
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -109,7 +109,7 @@ test_failure_non_portable_leading_character()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["-hiker.cs", "hiker.test.cs"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 30
+  assert_status_equals 23
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -128,7 +128,7 @@ test_failure_duplicates()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["a.cs", "b.cs", "c.cs", "b.cs"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 31
+  assert_status_equals 23
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -147,7 +147,7 @@ test_failure_does_not_exist()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["HikerTest.cs", "xHiker.cs", "cyber-dojo.sh"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 32
+  assert_status_equals 23
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -166,7 +166,7 @@ test_failure_no_cyber_dojo_sh()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["HikerTest.cs", "Hiker.cs"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 33
+  assert_status_equals 23
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

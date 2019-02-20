@@ -34,8 +34,8 @@ class LanguageManifestChecker
   def check_one(url, filenames, display_names)
     filenames.each do |filename|
       json = clean_json(url, filename)
-      check_no_unknown_keys_exist(url, filename, json)
-      check_all_required_keys_exist(url, filename, json)
+      check_no_unknown_keys_exist(url, filename, json, 19)
+      check_all_required_keys_exist(url, filename, json, 20)
       check_required_keys(url, filename, json)
       check_optional_keys(url, filename, json)
       check_deprecated_keys(url, filename, json)
@@ -46,22 +46,22 @@ class LanguageManifestChecker
   end
 
   def check_required_keys(url, filename, json)
-    check_image_name(url, filename, json)
-    check_display_name(url, filename, json)
-    check_visible_filenames(url, filename, json)
-    check_filename_extension(url, filename, json)
+    check_image_name(url, filename, json, 21)
+    check_display_name(url, filename, json, 22)
+    check_visible_filenames(url, filename, json, 23)
+    check_filename_extension(url, filename, json, 24)
   end
 
   def check_optional_keys(url, filename, json)
-    check_hidden_filenames(url, filename, json)
-    check_tab_size(url, filename, json)
-    check_max_seconds(url, filename, json)
-    check_highlight_filenames(url, filename, json)
-    check_progress_regexs(url, filename, json)
+    check_hidden_filenames(url, filename, json, 25)
+    check_tab_size(url, filename, json, 26)
+    check_max_seconds(url, filename, json, 27)
+    check_highlight_filenames(url, filename, json, 28)
+    check_progress_regexs(url, filename, json, 29)
   end
 
   def check_deprecated_keys(url, filename, json)
-    check_runner_choice(url, filename, json)
+    check_runner_choice(url, filename, json, 30)
   end
 
   include CleanJson
