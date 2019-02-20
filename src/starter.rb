@@ -102,20 +102,6 @@ class Starter
 
   # - - - - - - - - - - - - - - - - - - - -
 
-=begin
-  def exercises
-      result = {}
-      pattern = "#{start_points_dir('exercises')}/**/instructions"
-      Dir.glob(pattern).each do |filename|
-        name = filename.split('/')[-2] # eg Bowling_Game
-        result[name] = {
-          'content' => IO.read(filename)
-        }
-      end
-      result
-  end
-=end
-
   def exercises
     result = {}
     manifests = "#{start_points_dir('exercises')}/**/manifest.json"
