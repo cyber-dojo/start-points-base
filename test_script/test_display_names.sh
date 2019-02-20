@@ -21,7 +21,7 @@ test_failure_duplicates()
   assert_stderr_includes "manifest='languages-python-unittest/start_point/manifest.json'"
   assert_stderr_includes '"display_name": "Dup"'
   assert_stderr_line_count_equals 7
-  assert_status_equals 48
+  assert_status_equals 40
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

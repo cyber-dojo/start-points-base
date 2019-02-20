@@ -4,7 +4,7 @@ module CheckDisplayNames
 
   include ShowError
 
-  def check_display_names(display_names)
+  def check_display_names(display_names, error_code)
     display_names.each do |display_name,locations|
       if locations.size > 1
         STDERR.puts('ERROR: display_name duplicate')
@@ -13,7 +13,7 @@ module CheckDisplayNames
           STDERR.puts("manifest='#{relative(filename)}'")
           STDERR.puts("\"display_name\": \"#{display_name}\"")
         end
-        exit(48)
+        exit(error_code)
       end
     end
   end

@@ -26,7 +26,7 @@ class LanguageManifestChecker
     filenames.each do |url,filenames|
       check_one(url, filenames, display_names)
     end
-    check_display_names(display_names)
+    check_display_names(display_names, 40)
   end
 
   private
