@@ -50,6 +50,7 @@ class ExerciseManifestChecker
 
   def known_keys
     %w( display_name
+        visible_filenames
       )
   end
 
