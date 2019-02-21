@@ -21,13 +21,11 @@ Refactor web and saver so web passes saver the
 display_name and exercise_name and saver gets the manifest.json
 file from SPB. SPB will merge the visible_files from both manifests.
 THIS IS A BREAKING CHANGE FOR commander because we will be
-changing the behaviour of web. Do later. Once commander switched.
+changing the behaviour of web. Do later. Once commander is switched.
 
-I could write a blog post on what to do to prepare for this
-upcoming change...
-o) add manifest.json file for each exercise
+Write a blog post on what to do to prepare for this upcoming change...
 o) ensure you are (currently) creating your
-   exercise start-points (volumes) using the --git option.
+   exercise start-points (volumes) using the --git or --list options.
    But note that the URL can be a local url (file://....)
    ?Also give instructions on how to create a git repo in
    a dir:
@@ -37,3 +35,30 @@ o) ensure you are (currently) creating your
      $ git config --global user.email "EMAIL"
      $ git config --global user.name "NAME"
      $ git commit -m "initial commit"
+ o) add manifest.json file for each exercise with "display_name" key.
+ o) use the new build-cd-sp script to create your own start-points image
+    naming the git repo URLS from step 1.
+
+A start-point image created with the new build-cd-sp script
+should add a LABEL like the volume-labels.
+LABEL org.cyber-dojo.start-point=true
+This will allow me to reimplement
+[cyber-dojo start-point ls]
+and to find and show the images (instead of the labels).
+Similarly, reimplement
+[cyber-dojo start-point inspect NAME]
+to show lots of meta-data for NAME, specifically all the
+git-repo-url/sha/display_names info.
+Show this in json format. Get info from X_shas.txt created by script.
+X=custom/exercises/languages
+Info unit == URL+SHA + array of display_names
+
+Once a start-point is an image, it could be just a local image.
+It might not be in any repository (such as dockerhub).
+Is this a problem? Does it ever need to do a [docker pull]?
+I'm presuming that for a minikube'd server there is no scaling...?
+
+Aside: add standard LABELs to cyber-dojo images. eg cyberdojo/differ
+LABEL org.cyber-dojo.vcs-ref=SHA
+LABEL org.cyber-dojo.vcs-url=URL
+See https://label-schema.org
