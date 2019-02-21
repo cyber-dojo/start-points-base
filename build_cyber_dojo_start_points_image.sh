@@ -292,7 +292,10 @@ git_clone_one_url_to_context_dir()
 
 build_image_from_context_dir()
 {
-  echo "FROM $(base_image_name)" > "${CONTEXT_DIR}/Dockerfile"
+  {
+    echo "FROM $(base_image_name)"
+    echo "LABEL org.cyber-dojo.start-point=true"
+  } > "${CONTEXT_DIR}/Dockerfile"
   local stderr
   if ! stderr=$(docker image build \
         --quiet                    \

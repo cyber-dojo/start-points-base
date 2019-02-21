@@ -1,31 +1,13 @@
 
-Add visible_filenames as required key in exercise's manifest.json
-It must not be allowed to contain a file called cyber-dojo.sh
-starter.rb will still just assume instructions file is present.
-Update start-points-exercises repo accordingly (done)
-This is not a breaking change for commander since it will
-ignore an exercise's manifest.json file (it just gets the instructions file)
-
 in SPB, add check that each visible_filename (exercises and languages) is less
 than the truncation limit (25K?) in the runner. (Later)
 
-SPB will need to have a bit of new functionality to
-pick one file from the exercise's manifest.json visible_filenames
-which it returns to web when web is showing the exercises name+content.
-Algorithm.
-if there is a file called instructions use that.
-if there is a file called readme.txt use that.
-otherwise use the biggest file.
-
-Refactor web and saver so web passes saver the
-display_name and exercise_name and saver gets the manifest.json
-file from SPB. SPB will merge the visible_files from both manifests.
-THIS IS A BREAKING CHANGE FOR commander because we will be
-changing the behaviour of web. Do later. Once commander is switched.
-
 Write a blog post on what to do to prepare for this upcoming change...
+o) say these changes do not break existing behaviour.
+   for a while old and new behaviours will live side by side.
 o) ensure you are (currently) creating your
-   exercise start-points (volumes) using the --git or --list options.
+   exercise start-points (volumes) using the --git or --list
+   options and not the --dir option.
    But note that the URL can be a local url (file://....)
    ?Also give instructions on how to create a git repo in
    a dir:
@@ -35,14 +17,15 @@ o) ensure you are (currently) creating your
      $ git config --global user.email "EMAIL"
      $ git config --global user.name "NAME"
      $ git commit -m "initial commit"
- o) add manifest.json file for each exercise with "display_name" key.
- o) use the new build-cd-sp script to create your own start-points image
-    naming the git repo URLS from step 1.
+o) add manifest.json file for each exercise with "display_name" key
+   and "visible_filenames" array.
+o) use the new build-cd-sp script to create your own start-points image
+   naming the git repo URLS from step 1. Once this works...
+o) use [cyber-dojo up --starter=IMAGE_NAME]
 
-A start-point image created with the new build-cd-sp script
-should add a LABEL like the volume-labels.
-LABEL org.cyber-dojo.start-point=true
-This will allow me to reimplement
+
+Use LABEL org.cyber-dojo.start-point=true in build-cd-script
+to reimplement
 [cyber-dojo start-point ls]
 and to find and show the images (instead of the labels).
 Similarly, reimplement
@@ -51,14 +34,43 @@ to show lots of meta-data for NAME, specifically all the
 git-repo-url/sha/display_names info.
 Show this in json format. Get info from X_shas.txt created by script.
 X=custom/exercises/languages
-Info unit == URL+SHA + array of display_names
+Info unit == URL+SHA + [display_name...] How to get the array?
 
 Once a start-point is an image, it could be just a local image.
 It might not be in any repository (such as dockerhub).
 Is this a problem? Does it ever need to do a [docker pull]?
 I'm presuming that for a minikube'd server there is no scaling...?
 
+Make visible_filenames a required key in exercise's manifest.json
+It must not be allowed to contain a file called cyber-dojo.sh
+Update start-points-exercises repo accordingly (done)
+This is not a breaking change since commander's [up] can now
+take a [--starter=IMAGE_NAME] option.
+So using volumes, exercise manifest.json files are ignored.
+Using images, exercise manifest.json files are required.
+
+
+SPB will need to have a bit of new functionality to
+pick one file from the exercise's manifest.json visible_filenames
+which it returns to web when web is showing the exercises name+content.
+Algorithm.
+if there is a file called instructions use that.
+if there is a file called readme.txt use that.
+otherwise use the biggest file.
+
+--------------------------
+LATER
+--------------------------
+
+Refactor web and saver so web passes saver the
+display_name and exercise_name and saver gets the manifest.json
+file from SPB. SPB will merge the visible_files from both manifests.
+THIS IS A BREAKING CHANGE FOR commander because we will be
+changing the behaviour of web. Do later. Once commander is switched.
+
 Aside: add standard LABELs to cyber-dojo images. eg cyberdojo/differ
 LABEL org.cyber-dojo.vcs-ref=SHA
 LABEL org.cyber-dojo.vcs-url=URL
 See https://label-schema.org
+
+Aside: add a magic-numbers button on the footer that takes you to the sha/index page.
