@@ -323,7 +323,7 @@ build_image_from_context_dir()
     # We want only lines 5,6
     echo "${stderr}" \
       | grep --invert-match 'Sending build context to Docker'  \
-      | grep --invert-match 'Step 1/1'                         \
+      | grep --invert-match 'Step 1/2'                         \
       | grep --invert-match '# Executing 2 build triggers'     \
       | grep --invert-match ' ---> Running in'                 \
       | >&2 grep --invert-match "The command '/bin/sh -c"      \
