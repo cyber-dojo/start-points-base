@@ -309,7 +309,7 @@ build_image_from_context_dir()
     #
     # On a Macbook using Docker-Toolbox stderr looks like this
     #   1 Sending build context to Docker daemon  185.9kB
-    #   2 Step 1/1 : FROM cyberdojo/start-points-base:latest
+    #   2 Step 1/2 : FROM cyberdojo/start-points-base:latest
     #   3 # Executing 2 build triggers
     #   4  ---> Running in fe6adeee193c
     #---5 ERROR: no manifest.json files in
@@ -323,6 +323,7 @@ build_image_from_context_dir()
     # We want only lines 5,6
     echo "${stderr}" \
       | grep --invert-match 'Sending build context to Docker'  \
+      | grep --invert-match 'Step 1/1'                         \
       | grep --invert-match 'Step 1/2'                         \
       | grep --invert-match '# Executing 2 build triggers'     \
       | grep --invert-match ' ---> Running in'                 \
