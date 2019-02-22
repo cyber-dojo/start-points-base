@@ -11,8 +11,8 @@ class Starter
     }
     @cache['exercises'] = {
       'display_names' => display_names('exercises'),
-      'manifests'     => manifests('exercises'),
-      'CURRENT' => exercises,
+      'manifests'     => manifests('exercises')
+      #'CURRENT' => exercises,
     }
     @cache['custom'] = {
       'display_names' => display_names('custom'),
@@ -35,9 +35,15 @@ class Starter
   # - - - - - - - - - - - - - - - - -
 
   def language_start_points
+    languages_display_names = cache['languages']['display_names']
+    exercises_display_names = cache['exercises']['display_names']
     {
-      'languages' => cache['languages']['display_names'],
-      'exercises' => cache['exercises']['CURRENT']
+      'languages' => languages_display_names,
+      'exercises' => Hash[
+        exercises_display_names.map do |display_name|
+          [ display_name, cached_exercise(display_name) ]
+        end
+      ]
     }
   end
 
@@ -102,22 +108,6 @@ class Starter
       manifests[display_name] = manifest
     end
     manifests
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def exercises
-    result = {}
-    manifests = "#{start_points_dir('exercises')}/**/manifest.json"
-    Dir.glob(manifests).each do |manifest_filename|
-      manifest = JSON.parse!(IO.read(manifest_filename))
-      display_name = manifest['display_name']
-      dir = File.dirname(manifest_filename)
-      result[display_name] = {
-        'content' => IO.read("#{dir}/instructions")
-      }
-    end
-    result
   end
 
   # - - - - - - - - - - - - - - - - - - - -
