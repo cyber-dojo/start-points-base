@@ -101,6 +101,8 @@ def exercise_manifest_has_unknown_key
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
+# missing required keys
+# - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_missing_display_name
   peturn_language_manifest('display_name', nil)
@@ -123,6 +125,8 @@ def languages_manifest_missing_filename_extension
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
+# image_name
+# - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_string_image_name
   peturn_language_manifest('image_name', [1,2,3])
@@ -133,6 +137,8 @@ def languages_manifest_has_malformed_image_name
   peturn_language_manifest('image_name', value)
 end
 
+# - - - - - - - - - - - - - - - - - - - - - - -
+# display_name
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_string_display_name
@@ -152,6 +158,8 @@ def exercises_manifest_has_empty_display_name
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
+# visible_filenames
+# - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_array_visible_filenames
   peturn_language_manifest('visible_filenames', 1)
@@ -165,8 +173,16 @@ def languages_manifest_has_empty_visible_filenames
   peturn_language_manifest('visible_filenames', [])
 end
 
+def exercises_manifest_has_empty_visible_filenames
+  peturn_exercise_manifest('visible_filenames', [])
+end
+
 def languages_manifest_has_non_array_string_visible_filenames
   peturn_language_manifest('visible_filenames', [1,2,3])
+end
+
+def exercises_manifest_has_non_array_string_visible_filenames
+  peturn_exercise_manifest('visible_filenames', [1,2,3])
 end
 
 def languages_manifest_has_empty_string_visible_filename
@@ -174,9 +190,19 @@ def languages_manifest_has_empty_string_visible_filename
   peturn_language_manifest('visible_filenames', value)
 end
 
+def exercises_manifest_has_empty_string_visible_filename
+  value = ["hiker.txt", ""]
+  peturn_exercise_manifest('visible_filenames', value)
+end
+
 def languages_manifest_visible_filename_has_non_portable_character
   value = ["hiker.cs","hiker&.cs"]
   peturn_language_manifest('visible_filenames', value)
+end
+
+def exercises_manifest_visible_filename_has_non_portable_character
+  value = ["hiker.txt","hiker&.txt"]
+  peturn_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_has_non_portable_leading_character
@@ -184,9 +210,19 @@ def languages_manifest_visible_filename_has_non_portable_leading_character
   peturn_language_manifest('visible_filenames', value)
 end
 
+def exercises_manifest_visible_filename_has_non_portable_leading_character
+  value = ["-hiker.txt","hiker.test.txt"]
+  peturn_exercise_manifest('visible_filenames', value)
+end
+
 def languages_manifest_visible_filename_has_duplicates
   value = ["a.cs", "b.cs", "c.cs", "b.cs"]
   peturn_language_manifest('visible_filenames', value)
+end
+
+def exercises_manifest_visible_filename_has_duplicates
+  value = ["a.txt", "b.txt", "c.txt", "b.txt"]
+  peturn_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_does_not_exist
@@ -194,10 +230,17 @@ def languages_manifest_visible_filename_does_not_exist
   peturn_language_manifest('visible_filenames', value)
 end
 
+def exercises_manifest_visible_filename_does_not_exist
+  value = [ 'instructions', 'HikerTest.txt' ]
+  peturn_exercise_manifest('visible_filenames', value)
+end
+
 def languages_manifest_visible_filename_no_cyber_dojo_sh
   value = [ 'HikerTest.cs', 'Hiker.cs' ]
   peturn_language_manifest('visible_filenames', value)
 end
+
+# ...
 
 def languages_manifest_visible_file_too_large
   value = [ 'tiny.cs', 'large.cs', 'small.cs' ]
@@ -211,6 +254,20 @@ def languages_manifest_visible_file_too_large
   end
 end
 
+def exercises_manifest_visible_file_too_large
+  value = [ 'tiny.txt', 'large.txt', 'small.txt' ]
+  peturn_exercise_manifest('visible_filenames', value)
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    dir = File.dirname(manifest_filename)
+    IO.write("#{dir}/tiny.txt", 'tiny')
+    IO.write("#{dir}/small.txt", 'small')
+    IO.write("#{dir}/large.txt", 'L'*(1024*25+1))
+    break
+  end
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# filename_extension
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_filename_extension_is_int
@@ -243,6 +300,8 @@ def languages_manifest_filename_extension_duplicates
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
+# hidden_filenames
+# - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_hidden_filenames_success
   value = [ "coverage/\\.last_run\\.json" ]
@@ -274,6 +333,8 @@ def languages_manifest_hidden_filenames_duplicate
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
+# tab_size
+# - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_tab_size_smallest_int
   peturn_language_manifest('tab_size', 1)
@@ -296,6 +357,8 @@ def languages_manifest_tab_size_int_too_large
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
+# max_seconds
+# - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_max_seconds_smallest_int
   peturn_language_manifest('max_seconds', 1)
@@ -317,6 +380,8 @@ def languages_manifest_max_seconds_int_too_large
   peturn_language_manifest('max_seconds', 21)
 end
 
+# - - - - - - - - - - - - - - - - - - - - - - -
+# highlight_filenames
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_highlight_filenames_success
@@ -348,6 +413,8 @@ def languages_manifest_highlight_filenames_duplicates
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
+# progress_regexs
+# - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_progress_regexs_success
   value = [ "FAILED \\(failures=\\d+\\)", "OK" ]
@@ -374,6 +441,8 @@ def languages_manifest_progress_regexs_bad_regex
   peturn_language_manifest('progress_regexs', ['OK','('])
 end
 
+# - - - - - - - - - - - - - - - - - - - - - - -
+# display_names
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_display_names_duplicate_1
