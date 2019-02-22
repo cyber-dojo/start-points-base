@@ -8,9 +8,12 @@ class Starter
     @cache['languages'] = {
       'display_names' => display_names('languages'),
       'manifests'     => manifests('languages')
-      #'exercises'     => exercises
     }
-    @cache['exercises'] = exercises
+    @cache['exercises'] = {
+      'display_names' => display_names('exercises'),
+      'manifests'     => manifests('exercises'),
+      'CURRENT' => exercises,
+    }
     @cache['custom'] = {
       'display_names' => display_names('custom'),
       'manifests'     => manifests('custom')
@@ -34,7 +37,7 @@ class Starter
   def language_start_points
     {
       'languages' => cache['languages']['display_names'],
-      'exercises' => cache['exercises']
+      'exercises' => cache['exercises']['CURRENT']
     }
   end
 
@@ -127,12 +130,12 @@ class Starter
     result
   end
 
-  def cached_exercise(exercise_name)
-    result = cache['exercises'][exercise_name]
-    if result.nil?
-      error('exercise_name', "#{exercise_name}:unknown")
+  def cached_exercise(display_name)
+    manifest = cache['exercises']['manifests'][display_name]
+    if manifest.nil?
+      error('exercise_name', "#{display_name}:unknown")
     end
-    result
+    manifest['visible_files']['instructions']
   end
 
   # - - - - - - - - - - - - - - - - - - - -
