@@ -152,7 +152,7 @@ test_failure_does_not_exist()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-xtest_failure_has_cyber_dojo_sh()
+test_failure_has_cyber_dojo_sh()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
@@ -161,10 +161,10 @@ xtest_failure_has_cyber_dojo_sh()
   build_start_points_image_exercises "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: visible_filenames does not include "cyber-dojo.sh"'
+  assert_stderr_includes 'ERROR: visible_filenames cannot include "cyber-dojo.sh"'
   assert_stderr_includes "--exercises ${TMP_URL}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"visible_filenames": ["HikerTest.cs", "Hiker.cs"]'
+  assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
+  assert_stderr_includes '"visible_filenames": ["HikerTest.txt", "cyber-dojo.sh"]'
   assert_stderr_line_count_equals 4
   assert_status_equals 61
 }

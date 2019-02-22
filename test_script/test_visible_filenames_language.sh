@@ -183,7 +183,7 @@ test_failure_file_too_large()
   assert_stderr_includes 'ERROR: visible_filenames[1] is too large (>25K)'
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"visible_filenames": ["tiny.cs", "large.cs", "small.cs"]'
+  assert_stderr_includes '"visible_filenames": ["tiny.cs", "large.cs", "small.cs", "cyber-dojo.sh"]'
   assert_stderr_line_count_equals 4
   assert_status_equals 32
 }

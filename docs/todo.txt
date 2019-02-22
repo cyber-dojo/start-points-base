@@ -1,13 +1,4 @@
 
-Make visible_filenames a required key in exercise's manifest.json
-It must not be allowed to contain a file called cyber-dojo.sh
-Update start-points-exercises repo accordingly (done)
-This is not a breaking change since commander's [up] can now
-take a [--starter=IMAGE_NAME] option.
-So using volumes, exercise manifest.json files are ignored.
-Using images, exercise manifest.json files are required.
-Then use exercise's manifest.json in starter.rb
-
 SPB will need to have a bit of new functionality to
 pick one file from the exercise's manifest.json visible_filenames
 which it returns to web when web is showing the exercises name+content.

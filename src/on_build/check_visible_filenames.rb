@@ -14,9 +14,9 @@ module CheckVisibleFilenames
       exit_unless_visible_filename_is_portable(visible_filenames, filename, index, url, manifest_filename, error_code)
     end
     exit_if_visible_filename_duplicate(visible_filenames, url, manifest_filename, error_code)
+    check_language_visible_filename_cyber_dojo_sh(visible_filenames, url, manifest_filename, error_code)
     exit_unless_all_visible_filenames_exist(visible_filenames, url, manifest_filename, error_code)
     exit_if_visible_file_too_large(visible_filenames, url, manifest_filename, error_code)
-    exit_unless_visible_filename_includes_cyber_dojo_sh(visible_filenames, url, manifest_filename, error_code)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -110,13 +110,22 @@ module CheckVisibleFilenames
     end
   end
 
-  def exit_unless_visible_filename_includes_cyber_dojo_sh(visible_filenames, url, manifest_filename, error_code)
-    return if @type == 'exercises'
-    unless visible_filenames.include?('cyber-dojo.sh')
-      title = 'visible_filenames does not include "cyber-dojo.sh"'
-      msg = "\"visible_filenames\": #{visible_filenames}"
-      show_error(title, url, manifest_filename, msg)
-      exit(error_code)
+  def check_language_visible_filename_cyber_dojo_sh(visible_filenames, url, manifest_filename, error_code)
+    if @type == 'languages'
+      unless visible_filenames.include?('cyber-dojo.sh')
+        title = 'visible_filenames does not include "cyber-dojo.sh"'
+        msg = "\"visible_filenames\": #{visible_filenames}"
+        show_error(title, url, manifest_filename, msg)
+        exit(error_code)
+      end
+    end
+    if @type == 'exercises'
+      if visible_filenames.include?('cyber-dojo.sh')
+        title = 'visible_filenames cannot include "cyber-dojo.sh"'
+        msg = "\"visible_filenames\": #{visible_filenames}"
+        show_error(title, url, manifest_filename, msg)
+        exit(error_code)
+      end
     end
   end
 

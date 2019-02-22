@@ -240,16 +240,20 @@ def languages_manifest_visible_filename_no_cyber_dojo_sh
   peturn_language_manifest('visible_filenames', value)
 end
 
-# ...
+def exercises_manifest_visible_filename_has_cyber_dojo_sh
+  value = [ 'HikerTest.txt', 'cyber-dojo.sh' ]
+  peturn_exercise_manifest('visible_filenames', value)
+end
 
 def languages_manifest_visible_file_too_large
-  value = [ 'tiny.cs', 'large.cs', 'small.cs' ]
+  value = [ 'tiny.cs', 'large.cs', 'small.cs', 'cyber-dojo.sh' ]
   peturn_language_manifest('visible_filenames', value)
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     dir = File.dirname(manifest_filename)
     IO.write("#{dir}/tiny.cs", 'tiny')
     IO.write("#{dir}/small.cs", 'small')
     IO.write("#{dir}/large.cs", 'L'*(1024*25+1))
+    IO.write("#{dir}/cyber-dojo.sh", 'required')
     break
   end
 end
