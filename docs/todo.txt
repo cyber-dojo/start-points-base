@@ -1,7 +1,4 @@
 
-in SPB, add check that each visible_filename (exercises and languages) is less
-than the truncation limit (25K?) in the runner.
-
 Make visible_filenames a required key in exercise's manifest.json
 It must not be allowed to contain a file called cyber-dojo.sh
 Update start-points-exercises repo accordingly (done)
