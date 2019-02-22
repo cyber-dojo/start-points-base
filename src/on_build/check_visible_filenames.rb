@@ -111,6 +111,7 @@ module CheckVisibleFilenames
   end
 
   def exit_unless_visible_filename_includes_cyber_dojo_sh(visible_filenames, url, manifest_filename, error_code)
+    return if @type == 'exercises'
     unless visible_filenames.include?('cyber-dojo.sh')
       title = 'visible_filenames does not include "cyber-dojo.sh"'
       msg = "\"visible_filenames\": #{visible_filenames}"

@@ -4,6 +4,7 @@ require_relative 'check_no_unknown_keys_exist'
 require_relative 'check_all_required_keys_exist'
 require_relative 'check_display_name'
 require_relative 'check_display_names'
+require_relative 'check_visible_filenames'
 
 class ExerciseManifestChecker
 
@@ -28,6 +29,7 @@ class ExerciseManifestChecker
   include CheckAllRequiredKeysExist
   include CheckDisplayName
   include CheckDisplayNames
+  include CheckVisibleFilenames
 
   def check_one(url, filenames, display_names)
     filenames.each do |filename|
@@ -45,7 +47,7 @@ class ExerciseManifestChecker
 
   def check_required_keys(url, filename, json)
     check_display_name(url, filename, json, 60)
-    # check_visible_filenames(url, filename, json, 61)
+    check_visible_filenames(url, filename, json, 61)
   end
 
   def known_keys
@@ -56,7 +58,7 @@ class ExerciseManifestChecker
 
   def required_keys
     %w( display_name
-        visible_filenames      
+        visible_filenames
       )
   end
 

@@ -157,6 +157,10 @@ def languages_manifest_has_non_array_visible_filenames
   peturn_language_manifest('visible_filenames', 1)
 end
 
+def exercises_manifest_has_non_array_visible_filenames
+  peturn_exercise_manifest('visible_filenames', 1)
+end
+
 def languages_manifest_has_empty_visible_filenames
   peturn_language_manifest('visible_filenames', [])
 end
