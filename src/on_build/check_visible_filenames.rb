@@ -15,6 +15,7 @@ module CheckVisibleFilenames
     end
     exit_if_visible_filename_duplicate(visible_filenames, url, manifest_filename, error_code)
     exit_unless_all_visible_filenames_exist(visible_filenames, url, manifest_filename, error_code)
+    exit_if_visible_file_too_large(visible_filenames, url, manifest_filename, error_code)
     exit_unless_visible_filename_includes_cyber_dojo_sh(visible_filenames, url, manifest_filename, error_code)
   end
 
@@ -90,6 +91,18 @@ module CheckVisibleFilenames
     visible_filenames.each_with_index do |filename,index|
       unless File.exists?(dir_name + '/' + filename)
         title = "visible_filenames[#{index}] does not exist"
+        msg = "\"visible_filenames\": #{visible_filenames}"
+        show_error(title, url, manifest_filename, msg)
+        exit(error_code)
+      end
+    end
+  end
+
+  def exit_if_visible_file_too_large(visible_filenames, url, manifest_filename, error_code)
+    dir_name = File.dirname(manifest_filename)
+    visible_filenames.each_with_index do |filename,index|
+      if File.size("#{dir_name}/#{filename}") > 25*1024
+        title = "visible_filenames[#{index}] is too large (>25K)"
         msg = "\"visible_filenames\": #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
         exit(error_code)
