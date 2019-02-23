@@ -68,10 +68,10 @@ show_use()
           --languages "\$(< my-language-selection.txt)"
 
   \$ cat my-language-selection.txt
-  https://github.com/.../java-junit
-  https://github.com/.../javascript-jasmine
-  https://github.com/.../python-pytest
-  https://github.com/.../ruby-minitest
+  https://github.com/.../java-junit.git
+  https://github.com/.../javascript-jasmine.git
+  https://github.com/.../python-pytest.git
+  https://github.com/.../ruby-minitest.git
 
 EOF
   show_default_urls
@@ -149,13 +149,13 @@ declare -ar DEFAULT_EXERCISE_URLS=( \
 )
 
 declare -ar DEFAULT_LANGUAGE_URLS=( \
-  "${CDL_REPO_ORG}/csharp-nunit"         \
-  "${CDL_REPO_ORG}/gcc-googletest"       \
-  "${CDL_REPO_ORG}/gplusplus-googlemock" \
-  "${CDL_REPO_ORG}/java-junit"           \
-  "${CDL_REPO_ORG}/javascript-jasmine"   \
-  "${CDL_REPO_ORG}/python-pytest"        \
-  "${CDL_REPO_ORG}/ruby-minitest"        \
+  "${CDL_REPO_ORG}/csharp-nunit.git"         \
+  "${CDL_REPO_ORG}/gcc-googletest.git"       \
+  "${CDL_REPO_ORG}/gplusplus-googlemock.git" \
+  "${CDL_REPO_ORG}/java-junit.git"           \
+  "${CDL_REPO_ORG}/javascript-jasmine.git"   \
+  "${CDL_REPO_ORG}/python-pytest.git"        \
+  "${CDL_REPO_ORG}/ruby-minitest.git"        \
 )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -199,7 +199,7 @@ set_default_urls()
 
 show_default_urls()
 {
-  echo '  Default <git-repo-url>s:'
+  echo '  Default <git-repo-url>s are:'
   echo '    --custom'
   for url in "${DEFAULT_CUSTOM_URLS[@]}"; do
     echo "      ${url}"
@@ -261,7 +261,6 @@ git_clone_one_url_to_context_dir()
   # 2) indirectly, inside a command in the Dockerfile
   #    passed to [docker image build].
   #    This will run [git clone] wherever the docker daemon is.
-  #
   # I choose 1) since 2) will not work for some local
   # file:///... urls on Docker-Toolbox.
   local -r url="${1}"
