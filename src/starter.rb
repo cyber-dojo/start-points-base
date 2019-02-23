@@ -12,7 +12,6 @@ class Starter
     @cache['exercises'] = {
       'display_names' => display_names('exercises'),
       'manifests'     => manifests('exercises')
-      #'CURRENT' => exercises,
     }
     @cache['custom'] = {
       'display_names' => display_names('custom'),
@@ -125,7 +124,14 @@ class Starter
     if manifest.nil?
       error('exercise_name', "#{display_name}:unknown")
     end
-    manifest['visible_files']['instructions']
+    visible_files = manifest['visible_files']
+    if visible_files.has_key?('instructions')
+      return visible_files['instructions']
+    end
+    if visible_files.has_key?('readme.txt')
+      return visible_files['readme.txt']
+    end
+    visible_files.max{ |lhs,rhs| lhs[1].size <=> rhs[1].size }[1]
   end
 
   # - - - - - - - - - - - - - - - - - - - -

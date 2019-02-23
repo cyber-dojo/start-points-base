@@ -26,7 +26,9 @@ class LanguageStartPointsTest < TestBase
     start_points = language_start_points
     expected = [
       'Bowling Game',
+      'Calc Stats',
       'Fizz Buzz',
+      'Gray Code',
       'Leap Years',
       'Tiny Maze'
     ]
@@ -42,8 +44,14 @@ class LanguageStartPointsTest < TestBase
     expected = 'Write a program to score a game of Ten-Pin Bowling.'
     assert_line('Bowling Game', expected)
 
+    expected = 'Your task is to process a sequence of integer numbers'
+    assert_line('Calc Stats', expected)
+
     expected = 'Write a program that prints the numbers from 1 to 100.'
     assert_line('Fizz Buzz', expected)
+
+    expected = 'Create functions to encode a number to and decode'
+    assert_line('Gray Code', expected)
 
     expected = 'Write a function that returns true or false depending on '
     assert_line('Leap Years', expected)

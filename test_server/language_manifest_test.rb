@@ -98,4 +98,24 @@ class LanguageManifestTest < TestBase
     assert instructions['content'].start_with?('Write a program that prints')
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '751', %w( exercise_manifest chooses readme.txt when no instructions ) do
+    body,stderr = language_manifest(200, 'Python, unittest', 'Calc Stats')
+
+    assert_equal({}, stderr)
+    result = body['language_manifest']
+    assert result['exercise']['content'].start_with?('Your task is to process')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '752', %w( exercise_manifest chooses largest file when no readme.txt and no instructions ) do
+    body,stderr = language_manifest(200, 'Python, unittest', 'Gray Code')
+
+    assert_equal({}, stderr)
+    result = body['language_manifest']
+    assert result['exercise']['content'].start_with?('Create functions to encode')
+  end
+
 end

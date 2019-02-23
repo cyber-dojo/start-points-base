@@ -89,10 +89,14 @@ exit_if_ROOT_DIR_not_in_context
 make_TMP_DIR
 
 readonly C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-yahtzee)
+
 readonly E1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-bowling-game)
 readonly E2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-fizz-buzz)
 readonly E3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-leap-years)
 readonly E4_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-tiny-maze)
+readonly E5_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-calc-stats)
+readonly E6_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-gray-code)
+
 readonly L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-csharp-nunit)
 readonly L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-python-unittest)
 readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-ruby-minitest)
@@ -106,6 +110,8 @@ readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-ruby-minitest)
       "file://${E2_TMP_DIR}"             \
       "file://${E3_TMP_DIR}"             \
       "file://${E4_TMP_DIR}"             \
+      "file://${E5_TMP_DIR}"             \
+      "file://${E6_TMP_DIR}"             \
     --languages                          \
       "file://${L1_TMP_DIR}"             \
       "file://${L2_TMP_DIR}"             \

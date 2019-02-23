@@ -32,6 +32,8 @@ create_data_set_in_target_dir()
   exercises-fizz-buzz   ) copy_data_set_to_target_dir;;
   exercises-leap-years  ) copy_data_set_to_target_dir;;
   exercises-tiny-maze   ) copy_data_set_to_target_dir;;
+  exercises-calc-stats  ) copy_data_set_to_target_dir;;
+  exercises-gray-code   ) copy_data_set_to_target_dir;;
 
   languages-csharp-nunit   ) copy_data_set_to_target_dir;;
   languages-python-unittest) copy_data_set_to_target_dir;;

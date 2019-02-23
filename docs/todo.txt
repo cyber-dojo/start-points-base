@@ -1,12 +1,4 @@
 
-SPB will need to have a bit of new functionality to
-pick one file from the exercise's manifest.json visible_filenames
-which it returns to web when web is showing the exercises name+content.
-Algorithm.
-if there is a file called instructions use that.
-if there is a file called readme.txt use that.
-otherwise use the biggest file.
-
 Write a blog post on what to do to prepare for this upcoming change...
 o) say these changes do not break existing behaviour.
    for a while old and new behaviours will live side by side.
