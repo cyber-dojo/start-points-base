@@ -35,7 +35,7 @@ show_use()
           --exercises https://github.com/.../my-exercises.git \\
           --languages https://github.com/.../my-languages.git
 
-  Example 3: multiple <git-repo-url>s for --languages
+  Example 3: --languages with multiple <git-repo-url>s
 
   \$ ./${MY_NAME} \\
         acme/third-start-point \\
@@ -50,7 +50,8 @@ show_use()
         acme/fourth-start-point \\
           --custom    file:///.../yahtzee
 
-  Example 5: multiple --languages sections
+  Example 5: repeated --languages
+
   \$ ./${MY_NAME} \\
         acme/fifth-start-point \\
           --custom    file:///.../yahtzee    \\

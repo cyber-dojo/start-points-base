@@ -18,7 +18,18 @@ o) add manifest.json file for each exercise with "display_name" key
    and "visible_filenames" array.
 o) use the new build-cd-sp script to create your own start-points image
    naming the git repo URLS from step 1. Once this works...
+   $ curl -O https://raw.githubusercontent.com/cyber-dojo/start-points-base/master/build_cyber_dojo_start_points_image.sh
+   $ chmod 700 build_cyber_dojo_start_points_image.sh
+
 o) use [cyber-dojo up --starter=IMAGE_NAME]
+
+
+Notes. ran through this... The up command still creates default volumes
+and so takes a while. Consider instead...
+$ ./cyber-dojo start-point create rt --git=https://github.com/cyber-dojo-languages/ruby-testunit.git
+$ ./build_cyber_dojo_start_points_image.sh jj/rt --languages https://github.com/cyber-dojo-languages/ruby-test
+unit.git
+$ ./cyber-dojo up --starter=jj/rt --languages=rt
 
 
 Added LABEL org.cyber-dojo.start-point=true in build-cd-script
