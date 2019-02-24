@@ -14,8 +14,8 @@ script to create your cyber-dojo start-point docker image.
 * The subsequent arguments are git-cloneable URLs containing the source for the start points.
 
 ```bash
-$ ./build_cyber_dojo_start_points_image.sh --help
-Use: ./build_cyber_dojo_start_points_image.sh \
+$ ./cyber_dojo_start_points_create.sh --help
+Use: ./cyber_dojo_start_points_create.sh \
          <image-name> \
            [--custom    <git-repo-url>...]... \
            [--exercises <git-repo-url>...]... \
@@ -24,23 +24,23 @@ Use: ./build_cyber_dojo_start_points_image.sh \
 ```
 For example:
 ```bash
-$ ./build_cyber_dojo_start_points_image.sh \
+$ ./cyber_dojo_start_points_create.sh \
       acme/my-start-points \
         --custom \
-          https://github.com/cyber-dojo/start-points-custom.git \
+          https://github.com/cyber-dojo/start-points-custom \
         --exercises \
-          https://github.com/cyber-dojo/start-points-exercises.git \
+          https://github.com/cyber-dojo/start-points-exercises \
         --languages \
           https://github.com/cyber-dojo-languages/csharp-nunit         \
-          https://github.com/cyber-dojo-languages/gplusplus-googlemock \
-          https://github.com/cyber-dojo-languages/java-junit
+          https://github.com/cyber-dojo-languages/gplusplus-googlemock.git \
+          https://github.com/cyber-dojo-languages/java-junit.git
 ```
 
 ## Default git-repo-urls
 ### --custom
-* https://github.com/cyber-dojo/start-points-custom.git
+* https://github.com/cyber-dojo/start-points-custom
 ### --exercises
-* https://github.com/cyber-dojo/start-points-exercises.git
+* https://github.com/cyber-dojo/start-points-exercises
 ### --languages
 * https://github.com/cyber-dojo-languages/csharp-nunit
 * https://github.com/cyber-dojo-languages/gcc-googletest
