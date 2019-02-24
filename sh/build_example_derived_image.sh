@@ -74,7 +74,7 @@ create_git_repo_in_TMP_DIR_from()
 
 build_image_script_name()
 {
-  echo 'build_cyber_dojo_start_points_image.sh'
+  echo 'cyber_dojo_start_points_create.sh'
 }
 
 image_name()

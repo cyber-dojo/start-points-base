@@ -92,7 +92,7 @@ build_start_points_image()
 {
   IMAGE_NAME="${1}"
   IMAGE_NAMES+=("${IMAGE_NAME}")
-  local -r script_name="$(root_dir)/build_cyber_dojo_start_points_image.sh"
+  local -r script_name="$(root_dir)/cyber_dojo_start_points_create.sh"
   ${script_name} ${@} >${stdoutF} 2>${stderrF}
   status=$?
   echo ${status} >${statusF}
@@ -175,7 +175,7 @@ remove_start_points_images()
 assert_stdout_equals_use()
 {
   local -r help_line_1="Use:"
-  local -r help_line_2="$ ./build_cyber_dojo_start_points_image.sh \\"
+  local -r help_line_2="$ ./cyber_dojo_start_points_create.sh \\"
   local -r help_line_3="    <image-name> \\"
   local -r help_line_4="      [--custom    <git-repo-url>...]... \\"
   local -r help_line_5="      [--exercises <git-repo-url>...]... \\"
