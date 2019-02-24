@@ -7,7 +7,7 @@ New starter architecture (currently live on https://beta.cyber-dojo.org only)
 The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) docker image.
 
 ## The build script
-* Use the [build_cyber_dojo_start_points_image.sh](../build_cyber_dojo_start_points_image.sh)
+* Use the [cyber_dojo_start_points_create.sh](../cyber_dojo_start_points_create.sh)
 script to create your cyber-dojo start-point docker image.
 * It will use [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) as its base (FROM) image.
 * The first argument is the name of the docker image you want to create.
