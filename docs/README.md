@@ -54,8 +54,11 @@ $ ./cyber_dojo_start_points_create.sh \
 
 ## git-repo-url format
 There are 2 kinds of start-points
-- languages/custom...
-- exercises...
+- languages/custom. These are specified with full [manifest.json](https://blog.cyber-dojo.org/2016/08/cyber-dojo-start-points-manifestjson.html) files.
+- exercises. These are specified with a subset of the custom/languages manifest.json files and has only two entries:
+  - You must specify a display_name
+  - You must specify the visible_filenames
+  - visible_filenames cannot contain a file called cyber-dojo.sh
 
 - - - -
 
