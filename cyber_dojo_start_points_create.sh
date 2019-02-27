@@ -254,15 +254,10 @@ declare -i URL_INDEX=0
 
 git_clone_one_url_to_context_dir()
 {
-  # Design choice: where to git-clone?
-  # 1) directly, from this script, into the context dir
-  #    before running [docker image build].
-  #    This will run [git clone] on the host.
-  # 2) indirectly, inside a command in the Dockerfile
-  #    passed to [docker image build].
-  #    This will run [git clone] wherever the docker daemon is.
-  # I choose 1) since 2) will not work for some local
-  # file:///... urls on Docker-Toolbox.
+  # git-clone directly, from this script, into the
+  # context dir before running [docker image build].
+  # Viz, run [git clone] on the host rather than wherever
+  # the docker daemon is (via a command in the Dockerfile).
   local -r url="${1}"
   local -r type="${2}"
   cd "${CONTEXT_DIR}/${type}"
