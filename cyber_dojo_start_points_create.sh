@@ -291,8 +291,8 @@ build_image_from_context_dir()
     echo "FROM $(base_image_name)"
     echo "LABEL org.cyber-dojo.start-point=true"
   } > "${CONTEXT_DIR}/Dockerfile"
-  local stderr
-  if ! stderr=$(docker image build \
+  local output
+  if ! output=$(docker image build \
         --quiet                    \
         --tag "${IMAGE_NAME}"      \
         "${CONTEXT_DIR}" 2>&1)
@@ -316,7 +316,7 @@ build_image_from_context_dir()
     #   3  Step 1/1 : RUN /app/src/on_build/check_all.rb /app/repos
     #
     # We want only lines 5,6
-    echo "${stderr}" \
+    echo "${output}" \
       | grep --invert-match 'Sending build context to Docker'  \
       | grep --invert-match 'Step 1/1'                         \
       | grep --invert-match 'Step 1/2'                         \
@@ -324,7 +324,7 @@ build_image_from_context_dir()
       | grep --invert-match ' ---> Running in'                 \
       | >&2 grep --invert-match "The command '/bin/sh -c"      \
       || :
-    local -r last_line="${stderr##*$'\n'}"
+    local -r last_line="${output##*$'\n'}"
     local -r last_word="${last_line##* }"
     exit "${last_word}" # eg 16
   else
