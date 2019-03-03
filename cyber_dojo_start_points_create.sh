@@ -276,6 +276,7 @@ git_clone_one_url_to_context_dir()
   echo -e "--${type} \t ${url}"
   echo -e "${URL_INDEX} \t ${sha} \t ${url}" >> "${CONTEXT_DIR}/${type}_shas.txt"
   rm -rf "${CONTEXT_DIR}/${type}/${URL_INDEX}/.git"
+  rm -rf "${CONTEXT_DIR}/${type}/${URL_INDEX}/docker"
   # Two or more git-repo-urls could have the same repo name
   # but be from different repositories.
   # So git clone each repo into its own unique directory
