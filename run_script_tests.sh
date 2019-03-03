@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 rm -rf "${MY_DIR}/tmp" && mkdir "${MY_DIR}/tmp"
