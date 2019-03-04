@@ -25,7 +25,7 @@ jobs:
             docker push cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker push cyberdojo/${project}:beta
             # NB: latest is the tag used in the FROM inside the Dockerfile
-            #     (in the main script build_cyber_dojo_start_points_image.sh)
+            #     (in the main script cyber_dojo_start_points_create.sh)
             #     and so must be pushed.
             docker push cyberdojo/${project}:latest
       - run:
