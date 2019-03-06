@@ -288,6 +288,9 @@ git_clone_one_url_to_context_dir()
 
 build_image_from_context_dir()
 {
+  if [ -z "${DONT_PULL_START_POINTS_BASE}" ]; then
+    docker pull $(base_image_name) 2>&1 /dev/null
+  fi
   {
     echo "FROM $(base_image_name)"
     echo "LABEL org.cyber-dojo.start-point=true"

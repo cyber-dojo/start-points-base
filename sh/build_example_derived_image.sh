@@ -101,6 +101,8 @@ readonly L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-csharp-nunit)
 readonly L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-python-unittest)
 readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-ruby-minitest)
 
+export DONT_PULL_START_POINTS_BASE=true
+
 "${ROOT_DIR}/$(build_image_script_name)" \
   "$(image_name)"                        \
     --custom                             \
