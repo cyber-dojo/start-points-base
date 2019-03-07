@@ -293,7 +293,8 @@ build_image_from_context_dir()
   fi
   {
     echo "FROM $(base_image_name)"
-    echo "LABEL org.cyber-dojo.start-point=true"
+    echo "LABEL org.cyber-dojo.start-point=--custom"
+    echo "ENV SERVER_TYPE=--custom"
   } > "${CONTEXT_DIR}/Dockerfile"
   local output
   if ! output=$(docker image build \

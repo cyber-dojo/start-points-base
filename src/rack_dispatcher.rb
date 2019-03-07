@@ -7,6 +7,8 @@ class RackDispatcher
   def initialize(request)
     @request = request
     @starter = Starter.new
+    @server_type = ENV['SERVER_TYPE']
+    puts "@server_type=#{@server_type}"    
   end
 
   def call(env)

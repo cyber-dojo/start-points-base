@@ -29,31 +29,6 @@ Main problem it will have is the base image needs to pass
 the type [custom/exercises/languages] to the rack server
 so that it can expose the correct API...
 
-Currently main script does...
-docker image build \
-      --quiet                    \
-      --tag "${IMAGE_NAME}"      \
-      "${CONTEXT_DIR}
-
-docker build has option...
-   --build-arg list
-
-So
-docker image build \
-      --build-arg SERVER_TYPE=--custom  \
-      --quiet                    \
-      --tag "${IMAGE_NAME}"      \
-      "${CONTEXT_DIR}
-
-Get that being passed through as a first step...
-
-Dockerfile has
-CMD [ "./up.sh" ]
-I think that will need to become
-ARG SERVER_TYPE
-ENV SERVER_TYPE=${SERVER_TYPE}
-CMD [ "./up.sh" ]
-
 Then SERVER_TYPE will be an env-var available inside rack_dispatcher.rb
 
 class RackDispatcher
