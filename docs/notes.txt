@@ -1,0 +1,73 @@
+
+main script needs to do a [docker pull] of the base image
+before creating the image FROM it.
+However, this [docker pull] cannot be allowed to happen
+when you are running the tests after just doing a
+[docker build] to create a _local_ base image!
+
+How about checking for the presence of an env-var...
+That would make parsing the command-line easier.
+It its similar to the way I check for whether git/docker is installed.
+
+The output from the [docker pull] needs to be piped to /dev/null
+(partly so that the tests still pass).
+
+Also, my plan is to create 3 separate images.
+One for custom, one for exercises, one for languages.
+Does this means there will be no default git-repo-urls?
+I don't see why.
+    ./script <image-name> --custom
+
+If this uses default git-repo-urls this will git clone them.
+Wouldn't it be simpler to just [docker pull] the image?
+Yes. But that is an implementation detail!
+From the user's point of view, there are still defaults.
+
+Don't try to make current script to both 3 in 1 and separate 3.
+Create new script.
+Main problem it will have is the base image needs to pass
+the type [custom/exercises/languages] to the rack server
+so that it can expose the correct API...
+
+Currently main script does...
+docker image build \
+      --quiet                    \
+      --tag "${IMAGE_NAME}"      \
+      "${CONTEXT_DIR}
+
+docker build has option...
+   --build-arg list
+
+So
+docker image build \
+      --build-arg SERVER_TYPE=--custom  \
+      --quiet                    \
+      --tag "${IMAGE_NAME}"      \
+      "${CONTEXT_DIR}
+
+Get that being passed through as a first step...
+
+Dockerfile has
+CMD [ "./up.sh" ]
+I think that will need to become
+ARG SERVER_TYPE
+ENV SERVER_TYPE=${SERVER_TYPE}
+CMD [ "./up.sh" ]
+
+Then SERVER_TYPE will be an env-var available inside rack_dispatcher.rb
+
+class RackDispatcher
+  def initialize(request)
+    @request = request
+    @starter = Starter.new
+    @server_type = ENV['SERVER_TYPE']
+    ...
+  end
+
+A new branch...?
+
+Program cyber-dojo script to handle
+  --custom=NAME
+and look for NAME as volume OR image.
+Then tell James et al to simply convert each volume to an image.
+docker-compose.yml will obviously need updating...
