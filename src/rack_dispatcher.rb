@@ -1,5 +1,6 @@
 require_relative 'client_error'
 require_relative 'starter_custom'
+require_relative 'starter_exercises'
 require 'json'
 
 class RackDispatcher
@@ -8,6 +9,9 @@ class RackDispatcher
     @request = request
     if ENV['SERVER_TYPE'] == '--custom'
       @starter = StarterCustom.new
+    end
+    if ENV['SERVER_TYPE'] == '--exercises'
+      @starter = StarterExercises.new
     end
   end
 
