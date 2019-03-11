@@ -1,25 +1,6 @@
 require 'json'
 
-class Starter
-
-  def initialize
-    @cache = {}
-
-    @cache['languages'] = {
-      'display_names' => display_names('languages'),
-      'manifests'     => manifests('languages')
-    }
-    @cache['exercises'] = {
-      'display_names' => display_names('exercises'),
-      'manifests'     => manifests('exercises')
-    }
-    @cache['custom'] = {
-      'display_names' => display_names('custom'),
-      'manifests'     => manifests('custom')
-    }
-  end
-
-  # - - - - - - - - - - - - - - - - -
+module Starter
 
   def ready?
     true
@@ -29,48 +10,7 @@ class Starter
     ENV['SHA']
   end
 
-  # - - - - - - - - - - - - - - - - -
-  # setting up a cyber-dojo: language,testFramwork + exercise
-  # - - - - - - - - - - - - - - - - -
-
-  def language_start_points
-    languages_display_names = cache['languages']['display_names']
-    exercises_display_names = cache['exercises']['display_names']
-    {
-      'languages' => languages_display_names,
-      'exercises' => Hash[
-        exercises_display_names.map do |display_name|
-          [ display_name, cached_exercise(display_name) ]
-        end
-      ]
-    }
-  end
-
-  def language_manifest(display_name, exercise_name)
-    assert_string('display_name', display_name)
-    assert_string('exercise_name', exercise_name)
-    {
-      'manifest' => cached_manifest('languages', display_name),
-      'exercise' => cached_exercise(exercise_name)
-    }
-  end
-
-  # - - - - - - - - - - - - - - - - -
-  # setting up a cyber-dojo: custom
-  # - - - - - - - - - - - - - - - - -
-
-  def custom_start_points
-    cache['custom']['display_names']
-  end
-
-  def custom_manifest(display_name)
-    assert_string('display_name', display_name)
-    cached_manifest('custom', display_name)
-  end
-
-  private # = = = = = = = = = = = = =
-
-  attr_reader :cache
+  # - - - - - - - - - - - - - - - - - - - -
 
   def display_names(type)
     display_names = []
@@ -81,6 +21,8 @@ class Starter
     end
     display_names.sort
   end
+
+  # - - - - - - - - - - - - - - - - - - - -
 
   def manifests(type)
     manifests = {}
@@ -111,27 +53,12 @@ class Starter
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def cached_manifest(type, display_name)
-    result = cache[type]['manifests'][display_name]
+  def cached_manifest(display_name)
+    result = cache['manifests'][display_name]
     if result.nil?
       error('display_name', "#{display_name}:unknown")
     end
     result
-  end
-
-  def cached_exercise(display_name)
-    manifest = cache['exercises']['manifests'][display_name]
-    if manifest.nil?
-      error('exercise_name', "#{display_name}:unknown")
-    end
-    visible_files = manifest['visible_files']
-    if visible_files.has_key?('instructions')
-      return visible_files['instructions']
-    end
-    if visible_files.has_key?('readme.txt')
-      return visible_files['readme.txt']
-    end
-    visible_files.max{ |lhs,rhs| lhs[1].size <=> rhs[1].size }[1]
   end
 
   # - - - - - - - - - - - - - - - - - - - -

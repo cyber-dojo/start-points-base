@@ -8,15 +8,11 @@ class RackDispatcher
 
   def initialize(request)
     @request = request
-    if ENV['SERVER_TYPE'] == '--custom'
-      @starter = StarterCustom.new
-    end
-    if ENV['SERVER_TYPE'] == '--exercises'
-      @starter = StarterExercises.new
-    end
-    if ENV['SERVER_TYPE'] == '--languages'
-      @starter = StarterLanguages.new
-    end
+    @starter = {
+      '--custom'    => StarterCustom.new,
+      '--exercises' => StarterExercises.new,
+      '--languages' => StarterLanguages.new
+    }[ENV['SERVER_TYPE']]
   end
 
   def call(env)
