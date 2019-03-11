@@ -6,9 +6,9 @@ class RackDispatcher
 
   def initialize(request)
     @request = request
-    @starter = StarterCustom.new
-    @server_type = ENV['SERVER_TYPE']
-    puts "@server_type=#{@server_type}"
+    if ENV['SERVER_TYPE'] == '--custom'
+      @starter = StarterCustom.new
+    end
   end
 
   def call(env)

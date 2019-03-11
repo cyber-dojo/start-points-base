@@ -3,6 +3,7 @@ set -e
 
 declare -r MY_NAME=$(basename "${0}")
 declare -r IMAGE_NAME="${1}"
+declare -r IMAGE_TYPE="${2}"
 
 show_use()
 {
@@ -221,9 +222,15 @@ prepare_context_dir()
 {
   CONTEXT_DIR=$(mktemp -d)
   trap remove_context_dir EXIT
-  mkdir "${CONTEXT_DIR}/custom"
-  mkdir "${CONTEXT_DIR}/exercises"
-  mkdir "${CONTEXT_DIR}/languages"
+  if [ "${IMAGE_TYPE}" = "--custom" ]; then
+    mkdir "${CONTEXT_DIR}/custom"
+  fi
+  if [ "${IMAGE_TYPE}" = "--exercises" ]; then
+    mkdir "${CONTEXT_DIR}/exercises"
+  fi
+  if [ "${IMAGE_TYPE}" = "--languages" ]; then
+    mkdir "${CONTEXT_DIR}/languages"
+  fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -235,25 +242,23 @@ remove_context_dir()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-git_clone_custom_urls_into_context_dir()
+git_clone_urls_into_context_dir()
 {
-  for url in "${CUSTOM_URLS[@]}"; do
-    git_clone_one_url_to_context_dir "${url}" custom
-  done
-}
-
-git_clone_exercise_urls_into_context_dir()
-{
-  for url in "${EXERCISE_URLS[@]}"; do
-    git_clone_one_url_to_context_dir "${url}" exercises
-  done
-}
-
-git_clone_language_urls_into_context_dir()
-{
-  for url in "${LANGUAGE_URLS[@]}"; do
-    git_clone_one_url_to_context_dir "${url}" languages
-  done
+  if [ "${IMAGE_TYPE}" = "--custom" ]; then
+    for url in "${CUSTOM_URLS[@]}"; do
+      git_clone_one_url_to_context_dir "${url}" custom
+    done
+  fi
+  if [ "${IMAGE_TYPE}" = "--exercises" ]; then
+    for url in "${EXERCISE_URLS[@]}"; do
+      git_clone_one_url_to_context_dir "${url}" exercises
+    done
+  fi
+  if [ "${IMAGE_TYPE}" = "--languages" ]; then
+    for url in "${LANGUAGE_URLS[@]}"; do
+      git_clone_one_url_to_context_dir "${url}" languages
+    done
+  fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -301,8 +306,8 @@ build_image_from_context_dir()
   fi
   {
     echo "FROM $(base_image_name)"
-    echo "LABEL org.cyber-dojo.start-point=--custom"
-    echo "ENV SERVER_TYPE=--custom"
+    echo "LABEL org.cyber-dojo.start-point=${IMAGE_TYPE}"
+    echo "ENV SERVER_TYPE=${IMAGE_TYPE}"
   } > "${CONTEXT_DIR}/Dockerfile"
   local output
   if ! output=$(docker image build \
@@ -363,5 +368,5 @@ exit_non_zero_unless_docker_installed
 gather_urls_from_args "${@}"
 #set_default_urls
 prepare_context_dir
-git_clone_custom_urls_into_context_dir
+git_clone_urls_into_context_dir
 build_image_from_context_dir
