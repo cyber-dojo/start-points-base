@@ -3,10 +3,9 @@ require 'json'
 class StarterCustom
 
   def initialize
-    @cache = {}
-    @cache['custom'] = {
-      'display_names' => display_names('custom'),
-      'manifests'     => manifests('custom')
+    @cache = {
+      'display_names' => display_names,
+      'manifests'     => manifests
     }
   end
 
@@ -21,21 +20,21 @@ class StarterCustom
   end
 
   def start_points
-    cache['custom']['display_names']
+    cache['display_names']
   end
 
   def manifest(display_name)
     assert_string('display_name', display_name)
-    cached_manifest('custom', display_name)
+    cached_manifest(display_name)
   end
 
   private # = = = = = = = = = = = = =
 
   attr_reader :cache
 
-  def display_names(type)
+  def display_names
     display_names = []
-    pattern = "#{start_points_dir(type)}/**/manifest.json"
+    pattern = "#{start_points_dir}/**/manifest.json"
     Dir.glob(pattern).each do |manifest_filename|
       json = JSON.parse!(IO.read(manifest_filename))
       display_names << json['display_name']
@@ -43,9 +42,9 @@ class StarterCustom
     display_names.sort
   end
 
-  def manifests(type)
+  def manifests
     manifests = {}
-    pattern = "#{start_points_dir(type)}/**/manifest.json"
+    pattern = "#{start_points_dir}/**/manifest.json"
     Dir.glob(pattern).each do |manifest_filename|
       manifest = JSON.parse!(IO.read(manifest_filename))
       display_name = manifest['display_name']
@@ -72,8 +71,8 @@ class StarterCustom
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def cached_manifest(type, display_name)
-    result = cache[type]['manifests'][display_name]
+  def cached_manifest(display_name)
+    result = cache['manifests'][display_name]
     if result.nil?
       error('display_name', "#{display_name}:unknown")
     end
@@ -82,8 +81,8 @@ class StarterCustom
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def start_points_dir(type)
-    "/app/repos/#{type}"
+  def start_points_dir
+    '/app/repos/custom'
   end
 
   # - - - - - - - - - - - - - - - - - - - -
