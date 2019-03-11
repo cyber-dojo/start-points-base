@@ -9,9 +9,6 @@ How about checking for the presence of an env-var...
 That would make parsing the command-line easier.
 It its similar to the way I check for whether git/docker is installed.
 
-The output from the [docker pull] needs to be piped to /dev/null
-(partly so that the tests still pass).
-
 Also, my plan is to create 3 separate images.
 One for custom, one for exercises, one for languages.
 Does this means there will be no default git-repo-urls?

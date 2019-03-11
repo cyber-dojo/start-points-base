@@ -1,14 +1,14 @@
 require_relative 'client_error'
-require_relative 'starter'
+require_relative 'starter_custom'
 require 'json'
 
 class RackDispatcher
 
   def initialize(request)
     @request = request
-    @starter = Starter.new
+    @starter = StarterCustom.new
     @server_type = ENV['SERVER_TYPE']
-    puts "@server_type=#{@server_type}"    
+    puts "@server_type=#{@server_type}"
   end
 
   def call(env)
@@ -38,12 +38,10 @@ class RackDispatcher
   def validated_name_args(name, body)
     @args = JSON.parse(body)
     args = case name
-      when /^ready$/                 then []
-      when /^sha$/                   then []
-      when /^language_start_points$/ then []
-      when /^custom_start_points$/   then []
-      when /^language_manifest$/     then [display_name,exercise_name]
-      when /^custom_manifest$/       then [display_name]
+      when /^ready$/          then []
+      when /^sha$/            then []
+      when /^start_points$/   then []
+      when /^manifest$/       then [display_name]
       else
         raise ClientError, 'json:malformed'
     end
@@ -85,10 +83,6 @@ class RackDispatcher
   # - - - - - - - - - - - - - - - -
 
   def display_name
-    argument(__method__.to_s)
-  end
-
-  def exercise_name
     argument(__method__.to_s)
   end
 

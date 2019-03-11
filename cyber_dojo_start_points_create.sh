@@ -235,14 +235,22 @@ remove_context_dir()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-git_clone_all_urls_into_context_dir()
+git_clone_custom_urls_into_context_dir()
 {
   for url in "${CUSTOM_URLS[@]}"; do
     git_clone_one_url_to_context_dir "${url}" custom
   done
+}
+
+git_clone_exercise_urls_into_context_dir()
+{
   for url in "${EXERCISE_URLS[@]}"; do
     git_clone_one_url_to_context_dir "${url}" exercises
   done
+}
+
+git_clone_language_urls_into_context_dir()
+{
   for url in "${LANGUAGE_URLS[@]}"; do
     git_clone_one_url_to_context_dir "${url}" languages
   done
@@ -353,7 +361,7 @@ exit_non_zero_unless_git_installed
 exit_non_zero_unless_docker_installed
 
 gather_urls_from_args "${@}"
-set_default_urls
+#set_default_urls
 prepare_context_dir
-git_clone_all_urls_into_context_dir
+git_clone_custom_urls_into_context_dir
 build_image_from_context_dir
