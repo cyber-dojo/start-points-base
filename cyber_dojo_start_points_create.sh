@@ -209,7 +209,7 @@ show_default_urls()
   for url in "${DEFAULT_EXERCISE_URLS[@]}"; do
     echo "      ${url}"
   done
-  echo '    --exercises'
+  echo '    --languages'
   for url in "${DEFAULT_LANGUAGE_URLS[@]}"; do
     echo "      ${url}"
   done

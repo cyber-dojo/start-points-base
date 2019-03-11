@@ -1,6 +1,7 @@
 require_relative 'client_error'
 require_relative 'starter_custom'
 require_relative 'starter_exercises'
+require_relative 'starter_languages'
 require 'json'
 
 class RackDispatcher
@@ -12,6 +13,9 @@ class RackDispatcher
     end
     if ENV['SERVER_TYPE'] == '--exercises'
       @starter = StarterExercises.new
+    end
+    if ENV['SERVER_TYPE'] == '--languages'
+      @starter = StarterLanguages.new
     end
   end
 
