@@ -40,7 +40,7 @@ show_use()
         acme/third-start-point \\
           --languages \\
             file:///.../asm-assert \\
-            file:///.../java-junit
+            https://github.com/.../my-exercises.git
 
   Example 4: read <git-repo-url>s from a file
 
