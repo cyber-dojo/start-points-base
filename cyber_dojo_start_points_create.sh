@@ -114,9 +114,7 @@ error()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-declare -a CUSTOM_URLS=()
-declare -a EXERCISE_URLS=()
-declare -a LANGUAGE_URLS=()
+declare -a GIT_REPO_URLS=()
 
 declare -r CD_REPO_ORG=https://github.com/cyber-dojo
 declare -r CDL_REPO_ORG=https://github.com/cyber-dojo-languages
@@ -146,9 +144,9 @@ gather_urls_from_args()
   local -r urls="${@:3}" # $1==image_name $2==image_type
   for url in ${urls}; do
     case "${IMAGE_TYPE}" in
-    '--custom'   )   CUSTOM_URLS+=("${url}");;
-    '--exercises') EXERCISE_URLS+=("${url}");;
-    '--languages') LANGUAGE_URLS+=("${url}");;
+    '--custom'   ) GIT_REPO_URLS+=("${url}");;
+    '--exercises') GIT_REPO_URLS+=("${url}");;
+    '--languages') GIT_REPO_URLS+=("${url}");;
     esac
   done
 }
@@ -157,14 +155,8 @@ gather_urls_from_args()
 
 set_default_urls()
 {
-  if [ ${#CUSTOM_URLS[@]} -eq 0 ]; then
-    CUSTOM_URLS=( "${DEFAULT_CUSTOM_URLS[@]}" )
-  fi
-  if [ ${#EXERCISE_URLS[@]} -eq 0 ]; then
-    EXERCISE_URLS=( "${DEFAULT_EXERCISE_URLS[@]}" )
-  fi
-  if [ ${#LANGUAGE_URLS[@]} -eq 0 ]; then
-    LANGUAGE_URLS=( "${DEFAULT_LANGUAGE_URLS[@]}" )
+  if [ ${#GIT_REPO_URLS[@]} -eq 0 ]; then
+    GIT_REPO_URLS=( "${DEFAULT_CUSTOM_URLS[@]}" )
   fi
 }
 
@@ -211,17 +203,17 @@ remove_context_dir()
 git_clone_urls_into_context_dir()
 {
   if [ "${IMAGE_TYPE}" = "--custom" ]; then
-    for url in "${CUSTOM_URLS[@]}"; do
+    for url in "${GIT_REPO_URLS[@]}"; do
       git_clone_one_url_to_context_dir "${url}"
     done
   fi
   if [ "${IMAGE_TYPE}" = "--exercises" ]; then
-    for url in "${EXERCISE_URLS[@]}"; do
+    for url in "${GIT_REPO_URLS[@]}"; do
       git_clone_one_url_to_context_dir "${url}"
     done
   fi
   if [ "${IMAGE_TYPE}" = "--languages" ]; then
-    for url in "${LANGUAGE_URLS[@]}"; do
+    for url in "${GIT_REPO_URLS[@]}"; do
       git_clone_one_url_to_context_dir "${url}"
     done
   fi
