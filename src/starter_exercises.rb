@@ -14,14 +14,14 @@ class StarterExercises
     exercises_display_names = cache['display_names']
     Hash[
         exercises_display_names.map do |display_name|
-          [ display_name, cached_exercise(display_name) ]
+          [ display_name, readme(display_name) ]
         end
       ]
   end
 
   def manifest(display_name)
     assert_string('display_name', display_name)
-    cached_exercise(display_name)
+    cached_manifest(display_name)
   end
 
   private
@@ -29,7 +29,7 @@ class StarterExercises
   attr_reader :cache
   include Starter
 
-  def cached_exercise(display_name)
+  def readme(display_name)
     manifest = cache['manifests'][display_name]
     if manifest.nil?
       error('exercise_name', "#{display_name}:unknown")
