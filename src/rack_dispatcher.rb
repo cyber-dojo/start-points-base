@@ -83,15 +83,11 @@ class RackDispatcher
   end
 
   # - - - - - - - - - - - - - - - -
-  # method arguments
-  # - - - - - - - - - - - - - - - -
 
   def display_name
     argument(__method__.to_s)
   end
 
-  # - - - - - - - - - - - - - - - -
-  # validations
   # - - - - - - - - - - - - - - - -
 
   def argument(name)

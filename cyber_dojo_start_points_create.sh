@@ -12,9 +12,8 @@ show_use()
   Use:
   \$ ./${MY_NAME} \\
       <image-name> \\
-        [--custom    <git-repo-url>...]... \\
-        [--exercises <git-repo-url>...]... \\
-        [--languages <git-repo-url>...]...
+        --custom|--exercises|--languages \\
+          [<git-repo-url>...]
 
   Creates a cyber-dojo start-point docker image named <image-name>.
   Its base image will be cyberdojo/start-points-base.
@@ -24,49 +23,30 @@ show_use()
 
   \$ ./${MY_NAME} \\
         acme/first-start-point \\
-          --custom    file:///.../yahtzee    \\
-          --exercises file:///.../katas      \\
-          --languages file:///.../java-junit
+          --custom \\
+            file:///.../yahtzee
 
   Example 2: non-local <git-repo-url>s
 
   \$ ./${MY_NAME} \\
         acme/second-start-point \\
-          --custom    https://github.com/.../my-custom.git    \\
-          --exercises https://github.com/.../my-exercises.git \\
-          --languages https://github.com/.../my-languages.git
+          --exercises \\
+            https://github.com/.../my-exercises.git
 
-  Example 3: --languages with multiple <git-repo-url>s
+  Example 3: multiple <git-repo-url>s
 
   \$ ./${MY_NAME} \\
         acme/third-start-point \\
-          --custom    file:///.../yahtzee    \\
-          --exercises file:///.../katas      \\
-          --languages file:///.../asm-assert \\
-                      file:///.../java-junit
+          --languages \\
+            file:///.../asm-assert \\
+            file:///.../java-junit
 
-  Example 4: use default <git-repo-url>s for --exercises and --languages
-
-  \$ ./${MY_NAME} \\
-        acme/fourth-start-point \\
-          --custom    file:///.../yahtzee
-
-  Example 5: repeated --languages
-
-  \$ ./${MY_NAME} \\
-        acme/fifth-start-point \\
-          --custom    file:///.../yahtzee    \\
-          --exercises file:///.../katas      \\
-          --languages file:///.../asm-assert \\
-          --languages file:///.../java-junit
-
-  Example 6: read <git-repo-url>s from a file
+  Example 4: read <git-repo-url>s from a file
 
   \$ ./${MY_NAME} \\
         acme/sixth-start-point \\
-          --custom    https://github.com/.../my-custom.git     \\
-          --exercises https://github.com/.../my-exercises.git  \\
-          --languages "\$(< my-language-selection.txt)"
+          --languages \\
+            "\$(< my-language-selection.txt)"
 
   \$ cat my-language-selection.txt
   https://github.com/.../java-junit.git
@@ -163,21 +143,13 @@ declare -ar DEFAULT_LANGUAGE_URLS=( \
 
 gather_urls_from_args()
 {
-  local -r urls="${@:2}" # $1==image_name
-  local type=''
+  local -r urls="${@:3}" # $1==image_name $2==image_type
   for url in ${urls}; do
-    if [ "${url}" = '--custom'    ] || \
-       [ "${url}" = '--exercises' ] || \
-       [ "${url}" = '--languages' ]
-    then
-      type="${url}"
-    else
-      case "${type}" in
-      '--custom'   )   CUSTOM_URLS+=("${url}");;
-      '--exercises') EXERCISE_URLS+=("${url}");;
-      '--languages') LANGUAGE_URLS+=("${url}");;
-      esac
-    fi
+    case "${IMAGE_TYPE}" in
+    '--custom'   )   CUSTOM_URLS+=("${url}");;
+    '--exercises') EXERCISE_URLS+=("${url}");;
+    '--languages') LANGUAGE_URLS+=("${url}");;
+    esac
   done
 }
 
@@ -218,19 +190,13 @@ show_default_urls()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+declare CONTEXT_DIR
+
 prepare_context_dir()
 {
   CONTEXT_DIR=$(mktemp -d)
   trap remove_context_dir EXIT
-  if [ "${IMAGE_TYPE}" = "--custom" ]; then
-    mkdir "${CONTEXT_DIR}/custom"
-  fi
-  if [ "${IMAGE_TYPE}" = "--exercises" ]; then
-    mkdir "${CONTEXT_DIR}/exercises"
-  fi
-  if [ "${IMAGE_TYPE}" = "--languages" ]; then
-    mkdir "${CONTEXT_DIR}/languages"
-  fi
+  mkdir "${CONTEXT_DIR}/$(image_type)"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -246,17 +212,17 @@ git_clone_urls_into_context_dir()
 {
   if [ "${IMAGE_TYPE}" = "--custom" ]; then
     for url in "${CUSTOM_URLS[@]}"; do
-      git_clone_one_url_to_context_dir "${url}" custom
+      git_clone_one_url_to_context_dir "${url}"
     done
   fi
   if [ "${IMAGE_TYPE}" = "--exercises" ]; then
     for url in "${EXERCISE_URLS[@]}"; do
-      git_clone_one_url_to_context_dir "${url}" exercises
+      git_clone_one_url_to_context_dir "${url}"
     done
   fi
   if [ "${IMAGE_TYPE}" = "--languages" ]; then
     for url in "${LANGUAGE_URLS[@]}"; do
-      git_clone_one_url_to_context_dir "${url}" languages
+      git_clone_one_url_to_context_dir "${url}"
     done
   fi
 }
@@ -272,13 +238,12 @@ git_clone_one_url_to_context_dir()
   # Viz, run [git clone] on the host rather than wherever
   # the docker daemon is (via a command in the Dockerfile).
   local -r url="${1}"
-  local -r type="${2}"
-  cd "${CONTEXT_DIR}/${type}"
+  cd "${CONTEXT_DIR}/$(image_type)"
   local stderr
   if ! stderr="$(git clone --depth 1 "${url}" "${URL_INDEX}" 2>&1)"; then
     local -r newline=$'\n'
     local msg="git clone bad <git-repo-url>${newline}"
-    msg+="--${type} ${url}${newline}"
+    msg+="${IMAGE_TYPE} ${url}${newline}"
     msg+="${stderr}"
     error 15 "${msg}"
   fi
@@ -286,10 +251,10 @@ git_clone_one_url_to_context_dir()
   chmod -R +rX "${URL_INDEX}"
   local sha
   sha=$(cd ${URL_INDEX} && git rev-parse HEAD)
-  echo -e "--${type} \t ${url}"
-  echo -e "${URL_INDEX} \t ${sha} \t ${url}" >> "${CONTEXT_DIR}/${type}_shas.txt"
-  rm -rf "${CONTEXT_DIR}/${type}/${URL_INDEX}/.git"
-  rm -rf "${CONTEXT_DIR}/${type}/${URL_INDEX}/docker"
+  echo -e "${IMAGE_TYPE} \t ${url}"
+  echo -e "${URL_INDEX} \t ${sha} \t ${url}" >> "${CONTEXT_DIR}/$(image_type)_shas.txt"
+  rm -rf "${CONTEXT_DIR}/$(image_type)/${URL_INDEX}/.git"
+  rm -rf "${CONTEXT_DIR}/$(image_type)/${URL_INDEX}/docker"
   # Two or more git-repo-urls could have the same repo name
   # but be from different repositories.
   # So git clone each repo into its own unique directory
@@ -315,8 +280,8 @@ build_image_from_context_dir()
         --tag "${IMAGE_NAME}"      \
         "${CONTEXT_DIR}" 2>&1)
   then
-    # We are building FROM an image that has an ONBUILD.
-    # We want the output from that ONBUILD.
+    # We are building FROM an image that has ONBUILD instructions.
+    # We want the output from those ONBUILDs.
     # But we don't want the output from [docker build] itself.
     # Hence the --quiet option.
     #
@@ -358,6 +323,12 @@ base_image_name()
   echo 'cyberdojo/start-points-base:latest'
 }
 
+image_type()
+{
+  # '--languages' => 'languages'
+  echo "${IMAGE_TYPE:2}"
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 exit_zero_if_show_use
@@ -366,7 +337,7 @@ exit_non_zero_unless_git_installed
 exit_non_zero_unless_docker_installed
 
 gather_urls_from_args "${@}"
-#set_default_urls
+set_default_urls
 prepare_context_dir
 git_clone_urls_into_context_dir
 build_image_from_context_dir
