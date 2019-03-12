@@ -9,9 +9,9 @@ class RackDispatcher
   def initialize(request)
     @request = request
     @starter = {
-      '--custom'    => StarterCustom.new,
-      '--exercises' => StarterExercises.new,
-      '--languages' => StarterLanguages.new
+      'custom'    => StarterCustom.new,
+      'exercises' => StarterExercises.new,
+      'languages' => StarterLanguages.new
     }[ENV['SERVER_TYPE']]
   end
 

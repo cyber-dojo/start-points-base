@@ -4,6 +4,7 @@ set -e
 declare -r MY_NAME=$(basename "${0}")
 declare -r IMAGE_NAME="${1}"
 declare -r IMAGE_TYPE="${2}"
+declare -a GIT_REPO_URLS="(${@:3})"
 
 show_use()
 {
@@ -114,8 +115,6 @@ error()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-declare -a GIT_REPO_URLS=()
-
 declare -r CD_REPO_ORG=https://github.com/cyber-dojo
 declare -r CDL_REPO_ORG=https://github.com/cyber-dojo-languages
 
@@ -139,24 +138,14 @@ declare -ar DEFAULT_LANGUAGE_URLS=( \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-gather_urls_from_args()
-{
-  local -r urls="${@:3}" # $1==image_name $2==image_type
-  for url in ${urls}; do
-    case "${IMAGE_TYPE}" in
-    '--custom'   ) GIT_REPO_URLS+=("${url}");;
-    '--exercises') GIT_REPO_URLS+=("${url}");;
-    '--languages') GIT_REPO_URLS+=("${url}");;
-    esac
-  done
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 set_default_urls()
 {
   if [ ${#GIT_REPO_URLS[@]} -eq 0 ]; then
-    GIT_REPO_URLS=( "${DEFAULT_CUSTOM_URLS[@]}" )
+    case "$(image_type)" in
+    'custom'   ) GIT_REPO_URLS=( "${DEFAULT_CUSTOM_URLS[@]}" );;
+    'exercises') GIT_REPO_URLS=( "${DEFAULT_EXERCISES_URLS[@]}" );;
+    'languages') GIT_REPO_URLS=( "${DEFAULT_LANGUAGES_URLS[@]}" );;
+    esac
   fi
 }
 
@@ -202,28 +191,16 @@ remove_context_dir()
 
 git_clone_urls_into_context_dir()
 {
-  if [ "${IMAGE_TYPE}" = "--custom" ]; then
-    for url in "${GIT_REPO_URLS[@]}"; do
-      git_clone_one_url_to_context_dir "${url}"
-    done
-  fi
-  if [ "${IMAGE_TYPE}" = "--exercises" ]; then
-    for url in "${GIT_REPO_URLS[@]}"; do
-      git_clone_one_url_to_context_dir "${url}"
-    done
-  fi
-  if [ "${IMAGE_TYPE}" = "--languages" ]; then
-    for url in "${GIT_REPO_URLS[@]}"; do
-      git_clone_one_url_to_context_dir "${url}"
-    done
-  fi
+  for url in "${GIT_REPO_URLS[@]}"; do
+    git_clone_one_url_into_context_dir "${url}"
+  done
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 declare -i URL_INDEX=0
 
-git_clone_one_url_to_context_dir()
+git_clone_one_url_into_context_dir()
 {
   # git-clone directly, from this script, into the
   # context dir before running [docker image build].
@@ -234,7 +211,7 @@ git_clone_one_url_to_context_dir()
   local stderr
   if ! stderr="$(git clone --depth 1 "${url}" "${URL_INDEX}" 2>&1)"; then
     local -r newline=$'\n'
-    local msg="git clone bad <git-repo-url>${newline}"
+    local msg="BAD git clone <git-repo-url>${newline}"
     msg+="${IMAGE_TYPE} ${url}${newline}"
     msg+="${stderr}"
     error 15 "${msg}"
@@ -263,8 +240,8 @@ build_image_from_context_dir()
   fi
   {
     echo "FROM $(base_image_name)"
-    echo "LABEL org.cyber-dojo.start-point=${IMAGE_TYPE}"
-    echo "ENV SERVER_TYPE=${IMAGE_TYPE}"
+    echo "LABEL org.cyber-dojo.start-point=$(image_type)"
+    echo "ENV SERVER_TYPE=$(image_type)"
   } > "${CONTEXT_DIR}/Dockerfile"
   local output
   if ! output=$(docker image build \
@@ -317,8 +294,7 @@ base_image_name()
 
 image_type()
 {
-  # '--languages' => 'languages'
-  echo "${IMAGE_TYPE:2}"
+  echo "${IMAGE_TYPE:2}"    # '--languages' => 'languages'
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -328,8 +304,7 @@ exit_non_zero_if_bad_args "${@}"
 exit_non_zero_unless_git_installed
 exit_non_zero_unless_docker_installed
 
-gather_urls_from_args "${@}"
-set_default_urls
 prepare_context_dir
+set_default_urls
 git_clone_urls_into_context_dir
 build_image_from_context_dir
