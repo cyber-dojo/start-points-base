@@ -10,18 +10,21 @@
 # the [docker build] fails and the main Bash script fails
 # to build a docker image.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Off root_dir are:
-#  3 dirs: custom/ exercises/ languages/
-#  3 files: custom_shas.txt
-#           exercises_shas.txt
-#           languages_shas.txt
+# Special file+dir off the root dir are:
+#    custom-image =>    custom_shas.txt    custom/
+# exercises-image => exercises_shas.txt exercises/
+# languages-image => languages_shas.txt languages/
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 require_relative 'language_manifest_checker'
 require_relative 'exercise_manifest_checker'
 
+checker = {
+  'custom'    => LanguageManifestChecker.new('custom'   ),
+  'exercises' => ExerciseManifestChecker.new('exercises'),
+  'languages' => LanguageManifestChecker.new('languages')
+}[ENV['SERVER_TYPE']]
+
 root_dir = ARGV[0] # /app/repos
-LanguageManifestChecker.new('custom'   ).check_all(root_dir)
-ExerciseManifestChecker.new('exercises').check_all(root_dir)
-LanguageManifestChecker.new('languages').check_all(root_dir)
+checker.check_all(root_dir)
 exit(0)

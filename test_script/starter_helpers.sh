@@ -98,7 +98,7 @@ build_start_points_image()
   echo ${status} >${statusF}
 }
 
-build_start_points_image_cel()
+XXXX_build_start_points_image_cel()
 {
   local -r image_name="${1}"
   local -r C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
@@ -119,7 +119,7 @@ build_start_points_image_custom()
 {
   local -r image_name="${1}"
   local -r url="${2}"
-  build_start_points_image_cel \
+  build_start_points_image \
     "${image_name}" --custom "${url}"
 }
 
@@ -127,7 +127,7 @@ build_start_points_image_exercises()
 {
   local -r image_name="${1}"
   local -r url="${2}"
-  build_start_points_image_cel \
+  build_start_points_image \
     "${image_name}" --exercises "${url}"
 }
 
@@ -135,7 +135,7 @@ build_start_points_image_languages()
 {
   local -r image_name="${1}"
   local -r url="${2}"
-  build_start_points_image_cel \
+  build_start_points_image \
     "${image_name}" --languages "${url}"
 }
 

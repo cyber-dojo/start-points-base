@@ -19,7 +19,7 @@ test_failure_non_string()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_failure_empty_string()
+xtest_failure_empty_string()
 {
   local image_name="${FUNCNAME[0]}"
   make_TMP_DIR_for_git_repos
