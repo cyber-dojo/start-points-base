@@ -17,14 +17,16 @@ ${MY_DIR}/../cyber_dojo_start_points_create.sh \
       file:///Users/jonjagger/repos/cyber-dojo/start-points-exercises
 
 ${MY_DIR}/../cyber_dojo_start_points_create.sh \
-  acme/spl \
+  acme/spl4 \
     --languages \
       file:///Users/jonjagger/repos/cyber-dojo-languages/ruby-minitest \
-      file:///Users/jonjagger/repos/cyber-dojo-languages/ruby-testunit
+      file:///Users/jonjagger/repos/cyber-dojo-languages/ruby-testunit \
+      file:///Users/jonjagger/repos/cyber-dojo-languages/gcc-assert \
+      file:///Users/jonjagger/repos/cyber-dojo-languages/python-pytest
 
 ${MY_DIR}/../../web/sh/build_docker_images.sh
 ${MY_DIR}/../../commander/sh/build_docker_images.sh
 
-${MY_DIR}/../../commander/cyber-dojo up \
-  --languages=ruby-minitest \
-  --starter=acme/ruby_mini_test2
+${MY_DIR}/../../commander/cyber-dojo \
+  up \
+    --languages=acme/spl4 \
