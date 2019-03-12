@@ -11,10 +11,9 @@ show_use()
   cat <<- EOF
 
   Use:
-  \$ ./${MY_NAME} \\
-      <image-name> \\
-        --custom|--exercises|--languages \\
-          [<git-repo-url>...]
+  \$ ./${MY_NAME} <image-name> --custom    [<git-repo-url>...]
+  \$ ./${MY_NAME} <image-name> --exercises [<git-repo-url>...]
+  \$ ./${MY_NAME} <image-name> --languages [<git-repo-url>...]
 
   Creates a cyber-dojo start-point docker image named <image-name>.
   Its base image will be cyberdojo/start-points-base.
@@ -64,7 +63,7 @@ EOF
 exit_zero_if_show_use()
 {
   local -r v0="${BASH_ARGV[0]}"
-  if [ "${v0}" = '' ] || [ "${v0}" = '--help' ]; then
+  if [ "${v0}" = '' ] || [ "${v0}" = '-h' ] || [ "${v0}" = '--help' ]; then
     show_use
     exit 0
   fi
