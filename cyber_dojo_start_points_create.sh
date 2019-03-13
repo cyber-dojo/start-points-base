@@ -241,6 +241,9 @@ build_image_from_context_dir()
     echo "FROM $(base_image_name)"
     echo "LABEL org.cyber-dojo.start-point=$(image_type)"
     echo "ENV SERVER_TYPE=$(image_type)"
+    echo "COPY . /app/repos"
+    echo "RUN /app/src/on_build/check_all.rb /app/repos"
+    echo 'CMD [ "./up.sh" ]'
   } > "${CONTEXT_DIR}/Dockerfile"
   local output
   if ! output=$(docker image build \
@@ -248,6 +251,7 @@ build_image_from_context_dir()
         --tag "${IMAGE_NAME}"      \
         "${CONTEXT_DIR}" 2>&1)
   then
+    # TODO: REVISIT - NOT using ONBUILD now
     # We are building FROM an image that has ONBUILD instructions.
     # We want the output from those ONBUILDs.
     # But we don't want the output from [docker build] itself.
