@@ -185,7 +185,7 @@ build_image_from_context_dir()
     echo "LABEL org.cyber-dojo.start-point=$(image_type)"
     echo "ENV SERVER_TYPE=$(image_type)"
     echo "COPY . /app/repos"
-    echo "RUN /app/src/on_build/check_all.rb /app/repos"
+    echo "RUN /app/src/from_script/check_all.rb /app/repos"
     echo 'CMD [ "./up.sh" ]'
   } > "${CONTEXT_DIR}/Dockerfile"
   local output
