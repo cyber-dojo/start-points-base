@@ -46,7 +46,7 @@ test_git_repo_url_requires_preceding_custom_or_exercises_or_languages()
   build_start_points_image "${image_name}" "${git_repo_url}"
 
   assert_stdout_equals ''
-  assert_stderr_equals "ERROR: <git-repo-url> ${git_repo_url} without preceding --custom/--exercises/--languages"
+  assert_stderr_equals "ERROR: <image-name> must be followed by one of --custom/--exercises/--languages"
   assert_status_equals 7
   refute_image_created "${image_name}"
 }
@@ -149,8 +149,9 @@ test_duplicate_language_urls()
 test_malformed_image_name()
 {
   local image_name='ALPHA/name' # no upper-case
+  local url='https://github.com/cyber-dojo-languages/ruby-minitest'
 
-  build_start_points_image "${image_name}"
+  build_start_points_image "${image_name}" --languages "${url}"
 
   assert_stderr_includes "ERROR: malformed <image-name> ${image_name}"
   assert_stderr_line_count_equals 1
