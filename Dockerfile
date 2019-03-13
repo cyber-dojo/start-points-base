@@ -8,5 +8,4 @@ RUN chown -R nobody:nogroup .
 ARG SHA
 ENV SHA=${SHA}
 
-EXPOSE 4527
 USER nobody

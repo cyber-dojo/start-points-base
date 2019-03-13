@@ -180,12 +180,21 @@ build_image_from_context_dir()
   if [ -z "${DONT_PULL_START_POINTS_BASE}" ]; then
     docker pull "$(base_image_name)" >/dev/null 2>&1
   fi
+
+  case "$(image_type)" in
+       'custom') PORT=4527;;
+    'exercises') PORT=4526;;
+    'languages') PORT=4525;;
+  esac
+
   {
     echo "FROM $(base_image_name)"
     echo "LABEL org.cyber-dojo.start-point=$(image_type)"
     echo "ENV SERVER_TYPE=$(image_type)"
+    echo "ENV PORT=${PORT}"
     echo "COPY . /app/repos"
     echo "RUN /app/src/from_script/check_all.rb /app/repos"
+    echo "EXPOSE ${PORT}"
     echo 'CMD [ "./up.sh" ]'
   } > "${CONTEXT_DIR}/Dockerfile"
   local output
