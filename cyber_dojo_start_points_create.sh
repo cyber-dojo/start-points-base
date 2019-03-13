@@ -207,9 +207,8 @@ build_image_from_context_dir()
     #---6 --custom file:///Users/.../custom_no_manifests
     #   7 The command '/bin/sh -c ...' returned a non-zero code: 16
     #
-    # On CircleCI, stderr looks similar except for
-    #   2  Step 1/1 : COPY . /app/repos
-    #   3  Step 1/1 : RUN /app/src/on_build/check_all.rb /app/repos
+    # On CircleCI, stderr looks similar so the
+    # grep patterns are a little loose.
     #
     # We want only lines 5,6
 
