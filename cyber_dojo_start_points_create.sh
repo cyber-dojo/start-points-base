@@ -194,32 +194,29 @@ build_image_from_context_dir()
         --tag "${IMAGE_NAME}"      \
         "${CONTEXT_DIR}" 2>&1)
   then
-    # TODO: REVISIT - NOT using ONBUILD now
-    # We are building FROM an image that has ONBUILD instructions.
-    # We want the output from those ONBUILDs.
-    # But we don't want the output from [docker build] itself.
+    # We are building FROM an image and we want any diagnostics
+    # but we do not want the output from the [docker build] itself.
     # Hence the --quiet option.
     #
     # On a Macbook using Docker-Toolbox stderr looks like this
     #   1 Sending build context to Docker daemon  185.9kB
-    #   2 Step 1/2 : FROM cyberdojo/start-points-base:latest
-    #   3 # Executing 2 build triggers
-    #   4  ---> Running in fe6adeee193c
+    #   2 Step 1/N : FROM cyberdojo/start-points-base:latest
+    #   3  ---> Running in fe6adeee193c
+    #   ...
     #---5 ERROR: no manifest.json files in
     #---6 --custom file:///Users/.../custom_no_manifests
     #   7 The command '/bin/sh -c ...' returned a non-zero code: 16
     #
-    # On CircleCI stderr looks similar except for
+    # On CircleCI, stderr looks similar except for
     #   2  Step 1/1 : COPY . /app/repos
     #   3  Step 1/1 : RUN /app/src/on_build/check_all.rb /app/repos
     #
     # We want only lines 5,6
+
     echo "${output}" \
       | grep --invert-match 'Sending build context to Docker'  \
-      | grep --invert-match 'Step 1/1'                         \
-      | grep --invert-match 'Step 1/2'                         \
-      | grep --invert-match '# Executing 2 build triggers'     \
-      | grep --invert-match ' ---> Running in'                 \
+      | grep --invert-match '\-\-\-'                           \
+      | grep --invert-match 'Step'                             \
       | >&2 grep --invert-match "The command '/bin/sh -c"      \
       || :
     local -r last_line="${output##*$'\n'}"
