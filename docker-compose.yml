@@ -22,20 +22,6 @@ services:
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  starter:
-    user: nobody
-    image: cyberdojo/start-points-test
-    init: true
-    container_name: test-starter-server
-    volumes:
-      - ./test_server:/app/test:ro
-    read_only: true
-    tmpfs: /tmp
-    restart: 'no'
-    ports:
-      - 4527:4527
-
-
   custom:
     user: nobody
     image: cyberdojo/start-points-custom

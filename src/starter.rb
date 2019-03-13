@@ -2,16 +2,6 @@ require 'json'
 
 module Starter
 
-  def ready?
-    true
-  end
-
-  def sha
-    ENV['SHA']
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
   def display_names(type)
     display_names = []
     pattern = "#{start_points_dir(type)}/**/manifest.json"

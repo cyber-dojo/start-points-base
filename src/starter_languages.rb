@@ -1,4 +1,6 @@
 require 'json'
+require_relative 'ready'
+require_relative 'sha'
 require_relative 'starter'
 
 class StarterLanguages
@@ -9,6 +11,9 @@ class StarterLanguages
       'manifests'     => manifests('languages')
     }
   end
+
+  include Ready
+  include Sha
 
   def start_points
     cache['display_names']

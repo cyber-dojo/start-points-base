@@ -1,4 +1,6 @@
 require 'json'
+require_relative 'ready'
+require_relative 'sha'
 require_relative 'starter'
 
 class StarterExercises
@@ -9,6 +11,9 @@ class StarterExercises
       'manifests'     => manifests('exercises')
     }
   end
+
+  include Ready
+  include Sha
 
   def start_points
     exercises_display_names = cache['display_names']

@@ -58,7 +58,8 @@ docker-compose \
   up \
   -d  \
   --force-recreate \
-  custom exercises languages starter_client
+  custom exercises languages
+  #starter_client
 
 wait_until_ready  "test-custom-server" 4527
 exit_unless_clean "test-custom-server"
@@ -69,6 +70,7 @@ exit_unless_clean "test-exercises-server"
 wait_until_ready  "test-languages-server" 4525
 exit_unless_clean "test-languages-server"
 
-wait_until_ready  "test-${MY_NAME}-client" 4528
+#wait_until_ready  "test-${MY_NAME}-client" 4528
+
 # Why does the server start cleanly but not the client???
 #exit_unless_clean "test-${MY_NAME}-client"
