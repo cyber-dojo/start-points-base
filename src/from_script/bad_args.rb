@@ -41,14 +41,10 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-if image_name == '--custom'
-  error(4, '--custom requires preceding <image_name>')
-end
-if image_name == '--exercises'
-  error(5, '--exercises requires preceding <image_name>')
-end
-if image_name == '--languages'
-  error(6, '--languages requires preceding <image_name>')
+case image_name
+when '--custom'    then error(4, '--custom requires preceding <image_name>')
+when '--exercises' then error(5, '--exercises requires preceding <image_name>')
+when '--languages' then error(6, '--languages requires preceding <image_name>')
 end
 
 unless ['--custom','--exercises','--languages'].include?(image_type)
