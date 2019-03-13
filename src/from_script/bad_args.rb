@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Checks command-line arguments passed to the main Bash script:
-#   build_cyber_dojo_start_points_image.sh
+#   cyber_dojo_start_points_create.sh
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 require_relative 'well_formed_image_name'
