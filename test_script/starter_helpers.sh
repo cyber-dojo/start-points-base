@@ -175,14 +175,14 @@ remove_start_points_images()
 assert_stdout_equals_use()
 {
   local -r help_line_1="Use:"
-  local -r help_line_2="$ ./cyber_dojo_start_points_create.sh <image-name> --custom    [<git-repo-url>...]"
-  local -r help_line_3="$ ./cyber_dojo_start_points_create.sh <image-name> --exercises [<git-repo-url>...]"
-  local -r help_line_4="$ ./cyber_dojo_start_points_create.sh <image-name> --languages [<git-repo-url>...]"
+  local -r help_line_2="$ ./cyber_dojo_start_points_create.sh <image-name> --custom    <git-repo-url>..."
+  local -r help_line_3="$ ./cyber_dojo_start_points_create.sh <image-name> --exercises <git-repo-url>..."
+  local -r help_line_4="$ ./cyber_dojo_start_points_create.sh <image-name> --languages <git-repo-url>..."
   assert_stdout_includes "${help_line_1}"
   assert_stdout_includes "${help_line_2}"
   assert_stdout_includes "${help_line_3}"
   assert_stdout_includes "${help_line_4}"
-  assert_stdout_line_count_equals 58
+  assert_stdout_line_count_equals 44
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

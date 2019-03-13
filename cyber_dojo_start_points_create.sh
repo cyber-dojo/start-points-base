@@ -4,16 +4,16 @@ set -e
 declare -r MY_NAME=$(basename "${0}")
 declare -r IMAGE_NAME="${1}"
 declare -r IMAGE_TYPE="${2}"
-declare -a GIT_REPO_URLS="(${@:3})"
+declare -ar GIT_REPO_URLS="(${@:3})"
 
 show_use()
 {
   cat <<- EOF
 
   Use:
-  \$ ./${MY_NAME} <image-name> --custom    [<git-repo-url>...]
-  \$ ./${MY_NAME} <image-name> --exercises [<git-repo-url>...]
-  \$ ./${MY_NAME} <image-name> --languages [<git-repo-url>...]
+  \$ ./${MY_NAME} <image-name> --custom    <git-repo-url>...
+  \$ ./${MY_NAME} <image-name> --exercises <git-repo-url>...
+  \$ ./${MY_NAME} <image-name> --languages <git-repo-url>...
 
   Creates a cyber-dojo start-point docker image named <image-name>.
   Its base image will be cyberdojo/start-points-base.
@@ -55,7 +55,6 @@ show_use()
   https://github.com/.../ruby-minitest.git
 
 EOF
-  show_default_urls
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -110,62 +109,6 @@ error()
 {
   >&2 echo "ERROR: ${2}"
   exit "${1}"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-declare -r CD_REPO_ORG=https://github.com/cyber-dojo
-declare -r CDL_REPO_ORG=https://github.com/cyber-dojo-languages
-
-declare -ar DEFAULT_CUSTOM_URLS=( \
-  "${CD_REPO_ORG}/start-points-custom.git" \
-)
-
-declare -ar DEFAULT_EXERCISE_URLS=( \
-  "${CD_REPO_ORG}/start-points-exercises.git" \
-)
-
-declare -ar DEFAULT_LANGUAGE_URLS=( \
-  "${CDL_REPO_ORG}/csharp-nunit.git"         \
-  "${CDL_REPO_ORG}/gcc-googletest.git"       \
-  "${CDL_REPO_ORG}/gplusplus-googlemock.git" \
-  "${CDL_REPO_ORG}/java-junit.git"           \
-  "${CDL_REPO_ORG}/javascript-jasmine.git"   \
-  "${CDL_REPO_ORG}/python-pytest.git"        \
-  "${CDL_REPO_ORG}/ruby-minitest.git"        \
-)
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-set_default_urls()
-{
-  if [ ${#GIT_REPO_URLS[@]} -eq 0 ]; then
-    case "$(image_type)" in
-    'custom'   ) GIT_REPO_URLS=( "${DEFAULT_CUSTOM_URLS[@]}" );;
-    'exercises') GIT_REPO_URLS=( "${DEFAULT_EXERCISES_URLS[@]}" );;
-    'languages') GIT_REPO_URLS=( "${DEFAULT_LANGUAGES_URLS[@]}" );;
-    esac
-  fi
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-show_default_urls()
-{
-  echo '  Default <git-repo-url>s are:'
-  echo '    --custom'
-  for url in "${DEFAULT_CUSTOM_URLS[@]}"; do
-    echo "      ${url}"
-  done
-  echo '    --exercises'
-  for url in "${DEFAULT_EXERCISE_URLS[@]}"; do
-    echo "      ${url}"
-  done
-  echo '    --languages'
-  for url in "${DEFAULT_LANGUAGE_URLS[@]}"; do
-    echo "      ${url}"
-  done
-  echo
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -308,6 +251,5 @@ exit_non_zero_unless_git_installed
 exit_non_zero_unless_docker_installed
 
 prepare_context_dir
-set_default_urls
 git_clone_urls_into_context_dir
 build_image_from_context_dir
