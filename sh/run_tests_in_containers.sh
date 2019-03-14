@@ -39,7 +39,7 @@ declare client_status=0
 
 run_server_tests()
 {
-  run_tests 'nobody' 'server' "${*}"
+  run_tests nobody server "${*}"
   server_status=$?
 }
 
@@ -47,16 +47,16 @@ run_server_tests()
 
 run_client_tests()
 {
-  run_tests 'nobody' 'client' "${*}"
+  run_tests nobody client "${*}"
   client_status=$?
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-if [ "$1" = "server" ]; then
+if [ "$1" = 'server' ]; then
   shift
   run_server_tests "$@"
-elif [ "$1" = "client" ]; then
+elif [ "$1" = 'client' ]; then
   shift
   run_client_tests "$@"
 else
@@ -66,7 +66,7 @@ fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-if [ "${server_status}" = "0" ] && [ "${client_status}" = "0" ]; then
+if [ "${server_status}" = '0' ] && [ "${client_status}" = '0' ]; then
   echo '------------------------------------------------------'
   echo 'All passed'
   exit 0
