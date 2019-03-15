@@ -61,8 +61,7 @@ EOF
 
 exit_zero_if_show_use()
 {
-  local -r v0="${BASH_ARGV[0]}"
-  if [ "${v0}" = '' ] || [ "${v0}" = '-h' ] || [ "${v0}" = '--help' ]; then
+  if [ "${1}" = '' ] || [ "${1}" = '-h' ] || [ "${1}" = '--help' ]; then
     show_use
     exit 0
   fi
@@ -78,7 +77,7 @@ exit_non_zero_if_bad_args()
     /app/src/from_script/bad_args.rb ${args}
   local -r status=$?
   set -e
-  if [ "${status}" != "0" ]; then
+  if [ "${status}" != '0' ]; then
     exit "${status}"
   fi
 }
@@ -185,7 +184,7 @@ build_image_from_context_dir()
 
   {
     echo "FROM $(base_image_name)"
-    echo "LABEL org.cyber-dojo.start-point=$(image_type)"
+    echo "LABEL org.cyber-dojo.start-points=$(image_type)"
     echo "ENV SERVER_TYPE=$(image_type)"
     echo "ENV PORT=${PORT}"
     echo "COPY . /app/repos"
@@ -202,8 +201,9 @@ build_image_from_context_dir()
     # We are building FROM an image and we want any diagnostics
     # but we do not want the output from the [docker build] itself.
     # Hence the --quiet option.
+    # On a Macbook using Docker-Toolbox stderr looks like this:
+    # (On CircleCI, stderr is similar so the grep patterns are a little loose.)
     #
-    # On a Macbook using Docker-Toolbox stderr looks like this
     #   1 Sending build context to Docker daemon  185.9kB
     #   2 Step 1/N : FROM cyberdojo/start-points-base:latest
     #   3  ---> Running in fe6adeee193c
@@ -211,9 +211,6 @@ build_image_from_context_dir()
     #---5 ERROR: no manifest.json files in
     #---6 --custom file:///Users/.../custom_no_manifests
     #   7 The command '/bin/sh -c ...' returned a non-zero code: 16
-    #
-    # On CircleCI, stderr looks similar so the
-    # grep patterns are a little loose.
     #
     # We want only lines 5,6
 
@@ -241,12 +238,12 @@ base_image_name()
 
 image_type()
 {
-  echo "${IMAGE_TYPE:2}"    # '--languages' => 'languages'
+  echo "${IMAGE_TYPE:2}" # '--languages' => 'languages'
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-exit_zero_if_show_use
+exit_zero_if_show_use "${@}"
 exit_non_zero_if_bad_args "${@}"
 exit_non_zero_unless_git_installed
 exit_non_zero_unless_docker_installed
