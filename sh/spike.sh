@@ -3,8 +3,6 @@ set -e
 
 readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
-export DONT_PULL_START_POINTS_BASE=true
-
 ${MY_DIR}/build_base_docker_image.sh
 
 ${MY_DIR}/../cyber_dojo_start_points_create.sh \

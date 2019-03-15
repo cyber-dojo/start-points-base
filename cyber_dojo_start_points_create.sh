@@ -177,10 +177,6 @@ git_clone_one_url_into_context_dir()
 
 build_image_from_context_dir()
 {
-  if [ -z "${DONT_PULL_START_POINTS_BASE}" ]; then
-    docker pull "$(base_image_name)" >/dev/null 2>&1
-  fi
-
   case "$(image_type)" in
        'custom') PORT=4527;;
     'exercises') PORT=4526;;
