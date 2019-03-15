@@ -218,6 +218,7 @@ build_image_from_context_dir()
       | grep --invert-match 'Sending build context to Docker'  \
       | grep --invert-match '\-\-\-'                           \
       | grep --invert-match 'Step'                             \
+      | grep --invert-match 'Removing intermediate container'  \
       | >&2 grep --invert-match "The command '/bin/sh -c"      \
       || :
     local -r last_line="${output##*$'\n'}"
