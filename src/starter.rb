@@ -1,6 +1,38 @@
 require 'json'
 
-module Starter
+class Starter
+
+  def initialize(type)
+    @cache = {
+      'names'     => read_names(type),
+      'manifests' => read_manifests(type)
+    }
+  end
+
+  def sha
+    ENV['SHA']
+  end
+
+  def ready?
+    true
+  end
+
+  def names
+    cache['names']
+  end
+
+  def manifests
+    cache['manifests']
+  end
+
+  def manifest(name)
+    assert_string('name', name)
+    cached_manifest(name)
+  end
+
+  private
+
+  attr_reader :cache
 
   def read_names(type)
     display_names = []

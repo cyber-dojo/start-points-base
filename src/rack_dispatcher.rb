@@ -1,18 +1,12 @@
 require_relative 'client_error'
-require_relative 'starter_custom'
-require_relative 'starter_exercises'
-require_relative 'starter_languages'
+require_relative 'starter'
 require 'json'
 
 class RackDispatcher
 
   def initialize(request)
     @request = request
-    @starter = {
-      'custom'    => StarterCustom.new,
-      'exercises' => StarterExercises.new,
-      'languages' => StarterLanguages.new
-    }[ENV['SERVER_TYPE']]
+    @starter = Starter.new(ENV['SERVER_TYPE'])
   end
 
   def call(env)

@@ -1,3 +1,5 @@
 /tmp
 /test_custom_server/coverage/
+/test_exercises_server/coverage/
+/test_languages_server/coverage/
 /test_client/coverage/
