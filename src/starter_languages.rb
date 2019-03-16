@@ -7,8 +7,8 @@ class StarterLanguages
 
   def initialize
     @cache = {
-      'display_names' => display_names('languages'),
-      'manifests'     => manifests('languages')
+      'display_names' => read_names('languages'),
+      'manifests'     => read_manifests('languages')
     }
   end
 

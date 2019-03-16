@@ -1,4 +1,3 @@
-
 public class Yahtzee {
 
     public static int Chance(int d1, int d2, int d3, int d4, int d5)
@@ -29,7 +28,7 @@ public class Yahtzee {
         if (d2 == 1) sum++;
         if (d3 == 1) sum++;
         if (d4 == 1) sum++;
-        if (d5 == 1) 
+        if (d5 == 1)
             sum++;
 
         return sum;
@@ -46,7 +45,7 @@ public class Yahtzee {
     }
 
     public static int Threes(int d1, int d2, int d3, int d4, int d5) {
-        int s;    
+        int s;
         s = 0;
         if (d1 == 3) s += 3;
         if (d2 == 3) s += 3;
@@ -69,7 +68,7 @@ public class Yahtzee {
 
     public int Fours()
     {
-        int sum;    
+        int sum;
         sum = 0;
         for (int at = 0; at != 5; at++) {
             if (dice[at] == 4) {
@@ -83,7 +82,7 @@ public class Yahtzee {
     {
         int s = 0;
         int i;
-        for (i = 0; i < dice.Length; i++) 
+        for (i = 0; i < dice.Length; i++)
             if (dice[i] == 5)
                 s = s + 5;
         return s;
@@ -92,7 +91,7 @@ public class Yahtzee {
     public int sixes()
     {
         int sum = 0;
-        for (int at = 0; at < dice.Length; at++) 
+        for (int at = 0; at < dice.Length; at++)
             if (dice[at] == 6)
                 sum = sum + 6;
         return sum;
@@ -127,7 +126,7 @@ public class Yahtzee {
             if (counts[6-i-1] == 2) {
                 n++;
                 score += (6-i);
-            }        
+            }
         if (n == 2)
             return score * 2;
         else
@@ -237,4 +236,3 @@ public class Yahtzee {
             return 0;
     }
 }
-

@@ -7,8 +7,8 @@ class StarterExercises
 
   def initialize
     @cache = {
-      'display_names' => display_names('exercises'),
-      'manifests'     => manifests('exercises')
+      'display_names' => read_names('exercises'),
+      'manifests'     => read_manifests('exercises')
     }
   end
 

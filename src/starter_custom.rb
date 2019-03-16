@@ -7,21 +7,25 @@ class StarterCustom
 
   def initialize
     @cache = {
-      'display_names' => display_names('custom'),
-      'manifests'     => manifests('custom')
+      'names'    => read_names('custom'),
+      'manifests' => read_manifests('custom')
     }
   end
 
   include Ready
   include Sha
 
-  def start_points
-    cache['display_names']
+  def names
+    cache['names']
   end
 
-  def manifest(display_name)
-    assert_string('display_name', display_name)
-    cached_manifest(display_name)
+  def manifests
+    cache['manifests']
+  end
+
+  def manifest(name)
+    assert_string('name', name)
+    cached_manifest(name)
   end
 
   private

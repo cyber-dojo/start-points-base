@@ -39,18 +39,19 @@ class RackDispatcher
 
   private # = = = = = = = = = = = =
 
-  def validated_name_args(name, body)
+  def validated_name_args(method_name, body)
     @args = json_parse(body)
-    args = case name
+    args = case method_name
       when /^ready$/          then []
       when /^sha$/            then []
-      when /^start_points$/   then []
-      when /^manifest$/       then [display_name]
+      when /^names$/          then []
+      when /^manifests$/      then []
+      when /^manifest$/       then [name]
       else
         raise ClientError, 'json:malformed'
     end
-    name += '?' if query?(name)
-    [name, args]
+    method_name += '?' if query?(method_name)
+    [method_name, args]
   end
 
   # - - - - - - - - - - - - - - - -
@@ -94,7 +95,7 @@ class RackDispatcher
 
   # - - - - - - - - - - - - - - - -
 
-  def display_name
+  def name
     argument(__method__.to_s)
   end
 

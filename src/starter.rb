@@ -2,7 +2,7 @@ require 'json'
 
 module Starter
 
-  def display_names(type)
+  def read_names(type)
     display_names = []
     pattern = "#{start_points_dir(type)}/**/manifest.json"
     Dir.glob(pattern).each do |manifest_filename|
@@ -14,7 +14,7 @@ module Starter
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def manifests(type)
+  def read_manifests(type)
     manifests = {}
     pattern = "#{start_points_dir(type)}/**/manifest.json"
     Dir.glob(pattern).each do |manifest_filename|
@@ -43,10 +43,10 @@ module Starter
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def cached_manifest(display_name)
-    result = cache['manifests'][display_name]
+  def cached_manifest(name)
+    result = cache['manifests'][name]
     if result.nil?
-      error('display_name', "#{display_name}:unknown")
+      error('name', "#{name}:unknown")
     end
     result
   end
