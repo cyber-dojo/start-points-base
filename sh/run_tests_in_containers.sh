@@ -1,7 +1,6 @@
 #!/bin/bash
 
 readonly root_dir="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-readonly my_name=starter
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -9,8 +8,8 @@ run_tests()
 {
   local coverage_root=/tmp/coverage
   local user="${1}"
-  local test_dir="test_${2}"
-  local cid=$(docker ps --all --quiet --filter "name=test-${my_name}-${2}")
+  local test_dir="test_${2}_server"
+  local cid=$(docker ps --all --quiet --filter "name=test-${2}-server")
 
   docker exec \
     --user "${user}" \
@@ -39,7 +38,9 @@ declare client_status=0
 
 run_server_tests()
 {
-  run_tests nobody server "${*}"
+  run_tests nobody custom    "${*}"
+  run_tests nobody exercises "${*}"
+  run_tests nobody languages "${*}"
   server_status=$?
 }
 
@@ -72,8 +73,8 @@ if [ "${server_status}" = '0' ] && [ "${client_status}" = '0' ]; then
   exit 0
 else
   echo
-  echo "test-${my_name}-server: status = ${server_status}"
-  echo "test-${my_name}-client: status = ${client_status}"
+  echo "test-starter-server: status = ${server_status}"
+  echo "test-starter-client: status = ${client_status}"
   echo
   exit 1
 fi

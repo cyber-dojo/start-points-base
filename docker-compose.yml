@@ -28,7 +28,7 @@ services:
     init: true
     container_name: test-custom-server
     volumes:
-      - ./test_server:/app/test:ro
+      - ./test_custom_server:/app/test:ro
     read_only: true
     tmpfs: /tmp
     restart: 'no'
@@ -41,7 +41,7 @@ services:
     init: true
     container_name: test-exercises-server
     volumes:
-      - ./test_server:/app/test:ro
+      - ./test_exercises_server:/app/test:ro
     read_only: true
     tmpfs: /tmp
     restart: 'no'
@@ -54,7 +54,7 @@ services:
     init: true
     container_name: test-languages-server
     volumes:
-      - ./test_server:/app/test:ro
+      - ./test_languages_server:/app/test:ro
     read_only: true
     tmpfs: /tmp
     restart: 'no'

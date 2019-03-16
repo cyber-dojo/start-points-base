@@ -15,7 +15,7 @@ class RackDispatcherTest < TestBase
     body,stderr = assert_rack_call_raw(400, 'blah', '{}')
     assert_exception('ClientError', 'json:malformed', body, stderr)
 
-    body,stderr = assert_rack_call_raw(400, 'Languages_choices', '{}')
+    body,stderr = assert_rack_call_raw(400, 'Start_points', '{}')
     assert_exception('ClientError', 'json:malformed', body, stderr)
 
     body,stderr = assert_rack_call_raw(400, 'a b', '{}')
@@ -26,10 +26,10 @@ class RackDispatcherTest < TestBase
 
   test 'BB1',
   %w( invalid json in http payload becomes exception ) do
-    body,stderr = assert_rack_call_raw(500, 'languages_choices', 'sdfsdf')
+    body,stderr = assert_rack_call_raw(500, 'start_points', 'sdfsdf')
     assert_exception('JSON::ParserError', "765: unexpected token at 'sdfsdf'", body, stderr)
 
-    body,stderr = assert_rack_call_raw(500, 'languages_choices', 'nil')
+    body,stderr = assert_rack_call_raw(500, 'start_points', 'nil')
     assert_exception('JSON::ParserError', "765: unexpected token at 'nil'", body, stderr)
   end
 
@@ -37,10 +37,10 @@ class RackDispatcherTest < TestBase
 
   test 'BB2',
   %w( non-hash in http payload becomes exception ) do
-    body,stderr = assert_rack_call_raw(400, 'languages_choices', 'null')
+    body,stderr = assert_rack_call_raw(400, 'start_points', 'null')
     assert_exception('ClientError', 'json:malformed', body, stderr)
-
-    body,stderr = assert_rack_call_raw(400, 'languages_choices', '[]')
+    
+    body,stderr = assert_rack_call_raw(400, 'start_points', '[]')
     assert_exception('ClientError', 'json:malformed', body, stderr)
   end
 

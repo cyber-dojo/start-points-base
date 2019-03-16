@@ -1,6 +1,6 @@
 require_relative 'test_base'
 
-class CustomManifestTest < TestBase
+class ManifestTest < TestBase
 
   def self.hex_prefix
     'F49'
@@ -10,7 +10,7 @@ class CustomManifestTest < TestBase
 
   test '9C0',
   %w( missing display_name becomes exception ) do
-    body,stderr = assert_rack_call_raw(500, 'custom_manifest', '{}')
+    body,stderr = assert_rack_call_raw(500, 'manifest', '{}')
     assert_exception('ArgumentError', 'display_name:missing', body, stderr)
   end
 
@@ -18,7 +18,7 @@ class CustomManifestTest < TestBase
 
   test '9C1',
   %w( non-string display_name becomes exception ) do
-    body,stderr = custom_manifest(500, 42)
+    body,stderr = manifest(500, 42)
     assert_exception('ArgumentError', 'display_name:!string', body, stderr)
   end
 
@@ -26,7 +26,7 @@ class CustomManifestTest < TestBase
 
   test '9C2',
   %w( unknown display_name becomes exception ) do
-    body,stderr = custom_manifest(500, 'xxx, C# NUnit')
+    body,stderr = manifest(500, 'xxx, C# NUnit')
     assert_exception('ArgumentError', 'display_name:xxx, C# NUnit:unknown', body, stderr)
   end
 
@@ -34,9 +34,9 @@ class CustomManifestTest < TestBase
 
   test '9C3',
   %w( valid display_name ) do
-    body,stderr = custom_manifest(200, 'Yahtzee refactoring, C# NUnit')
+    body,stderr = manifest(200, 'Yahtzee refactoring, C# NUnit')
     assert_equal({}, stderr)
-    manifest = body['custom_manifest']
+    manifest = body['manifest']
 
     expected_keys = %w(
       display_name image_name visible_files filename_extension

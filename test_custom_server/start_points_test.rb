@@ -1,6 +1,6 @@
 require_relative 'test_base'
 
-class CustomStartPointsTest < TestBase
+class StartPointsTest < TestBase
 
   def self.hex_prefix
     '721'
@@ -10,9 +10,9 @@ class CustomStartPointsTest < TestBase
 
   test '6C1',
   %w( display-names are unique and sorted ) do
-    body,stderr = custom_start_points(200)
+    body,stderr = start_points(200)
     assert_equal({}, stderr)
-    start_points = body['custom_start_points']
+    start_points = body['start_points']
     expected = [
       'Yahtzee refactoring, C# NUnit',
       'Yahtzee refactoring, C (gcc) assert',
