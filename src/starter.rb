@@ -2,10 +2,10 @@ require 'json'
 
 class Starter
 
-  def initialize(type)
+  def initialize
     @cache = {
-      'names'     => read_names(type),
-      'manifests' => read_manifests(type)
+      'names'     => read_names,
+      'manifests' => read_manifests
     }
   end
 
@@ -40,9 +40,9 @@ class Starter
 
   attr_reader :cache
 
-  def read_names(type)
+  def read_names
     display_names = []
-    pattern = "#{start_points_dir(type)}/**/manifest.json"
+    pattern = "#{start_points_dir}/**/manifest.json"
     Dir.glob(pattern).each do |manifest_filename|
       json = JSON.parse!(IO.read(manifest_filename))
       display_names << json['display_name']
@@ -52,9 +52,9 @@ class Starter
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def read_manifests(type)
+  def read_manifests
     manifests = {}
-    pattern = "#{start_points_dir(type)}/**/manifest.json"
+    pattern = "#{start_points_dir}/**/manifest.json"
     Dir.glob(pattern).each do |manifest_filename|
       manifest = JSON.parse!(IO.read(manifest_filename))
       display_name = manifest['display_name']
@@ -79,8 +79,8 @@ class Starter
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def start_points_dir(type)
-    "/app/repos/#{type}"
+  def start_points_dir
+    "/app/repos"
   end
 
   # - - - - - - - - - - - - - - - - - - - -

@@ -6,7 +6,7 @@ class RackDispatcher
 
   def initialize(request)
     @request = request
-    @starter = Starter.new(ENV['SERVER_TYPE'])
+    @starter = Starter.new
   end
 
   def call(env)

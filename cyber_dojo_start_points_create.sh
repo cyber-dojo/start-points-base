@@ -118,7 +118,6 @@ prepare_context_dir()
 {
   CONTEXT_DIR=$(mktemp -d)
   trap remove_context_dir EXIT
-  mkdir "${CONTEXT_DIR}/$(image_type)"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -148,7 +147,7 @@ git_clone_one_url_into_context_dir()
   # Viz, run [git clone] on the host rather than wherever
   # the docker daemon is (via a command in the Dockerfile).
   local -r url="${1}"
-  cd "${CONTEXT_DIR}/$(image_type)"
+  cd "${CONTEXT_DIR}"
   local stderr
   if ! stderr="$(git clone --depth 1 "${url}" "${URL_INDEX}" 2>&1)"; then
     local -r newline=$'\n'
@@ -162,9 +161,9 @@ git_clone_one_url_into_context_dir()
   local sha
   sha=$(cd ${URL_INDEX} && git rev-parse HEAD)
   echo -e "${IMAGE_TYPE} \t ${url}"
-  echo -e "${URL_INDEX} \t ${sha} \t ${url}" >> "${CONTEXT_DIR}/$(image_type)_shas.txt"
-  rm -rf "${CONTEXT_DIR}/$(image_type)/${URL_INDEX}/.git"
-  rm -rf "${CONTEXT_DIR}/$(image_type)/${URL_INDEX}/docker"
+  echo -e "${URL_INDEX} \t ${sha} \t ${url}" >> "${CONTEXT_DIR}/shas.txt"
+  rm -rf "${CONTEXT_DIR}/${URL_INDEX}/.git"
+  rm -rf "${CONTEXT_DIR}/${URL_INDEX}/docker"
   # Two or more git-repo-urls could have the same repo name
   # but be from different repositories.
   # So git clone each repo into its own unique directory
