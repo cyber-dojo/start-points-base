@@ -38,7 +38,7 @@ make_TMP_DIR()
   [ -d "${ROOT_DIR}/tmp" ] || mkdir "${ROOT_DIR}/tmp"
   TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
   trap remove_TMP_DIR EXIT
-  chmod 777 "${TMP_DIR}"
+  chmod 700 "${TMP_DIR}"
 }
 
 remove_TMP_DIR()
