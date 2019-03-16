@@ -3,10 +3,8 @@ require 'json'
 class Starter
 
   def initialize
-    @cache = {
-      'names'     => read_names,
-      'manifests' => read_manifests
-    }
+    @names = read_names
+    @manifests = read_manifests
   end
 
   def sha
@@ -18,11 +16,11 @@ class Starter
   end
 
   def names
-    cache['names']
+    @names
   end
 
   def manifests
-    cache['manifests']
+    @manifests
   end
 
   def manifest(name)
@@ -37,8 +35,6 @@ class Starter
   end
 
   private
-
-  attr_reader :cache
 
   def read_names
     display_names = []
