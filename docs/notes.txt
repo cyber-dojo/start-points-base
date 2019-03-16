@@ -1,45 +1,10 @@
 
-main script needs to do a [docker pull] of the base image
-before creating the image FROM it.
-However, this [docker pull] cannot be allowed to happen
-when you are running the tests after just doing a
-[docker build] to create a _local_ base image!
+exercises should not be deciding which visible_file to return.
 
-How about checking for the presence of an env-var...
-That would make parsing the command-line easier.
-It its similar to the way I check for whether git/docker is installed.
+New API?
+o) names           (was start_points)
+o) manifests       (new, returns everything, batch-method)
+o) manifest(name)  (was manifest(display_name))
 
-Also, my plan is to create 3 separate images.
-One for custom, one for exercises, one for languages.
-Does this means there will be no default git-repo-urls?
-I don't see why.
-    ./script <image-name> --custom
-
-If this uses default git-repo-urls this will git clone them.
-Wouldn't it be simpler to just [docker pull] the image?
-Yes. But that is an implementation detail!
-From the user's point of view, there are still defaults.
-
-Don't try to make current script to both 3 in 1 and separate 3.
-Create new script.
-Main problem it will have is the base image needs to pass
-the type [custom/exercises/languages] to the rack server
-so that it can expose the correct API...
-
-Then SERVER_TYPE will be an env-var available inside rack_dispatcher.rb
-
-class RackDispatcher
-  def initialize(request)
-    @request = request
-    @starter = Starter.new
-    @server_type = ENV['SERVER_TYPE']
-    ...
-  end
-
-A new branch...?
-
-Program cyber-dojo script to handle
-  --custom=NAME
-and look for NAME as volume OR image.
-Then tell James et al to simply convert each volume to an image.
-docker-compose.yml will obviously need updating...
+Use names(), manifest(name) for custom,languages
+Use manifests() for exercises
