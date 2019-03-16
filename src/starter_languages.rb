@@ -7,21 +7,25 @@ class StarterLanguages
 
   def initialize
     @cache = {
-      'display_names' => read_names('languages'),
-      'manifests'     => read_manifests('languages')
+      'names'     => read_names('languages'),
+      'manifests' => read_manifests('languages')
     }
   end
 
   include Ready
   include Sha
 
-  def start_points
-    cache['display_names']
+  def names
+    cache['names']
   end
 
-  def manifest(display_name)
-    assert_string('display_name', display_name)
-    cached_manifest(display_name)
+  def manifests
+    cache['manifests']
+  end
+
+  def manifest(name)
+    assert_string('name', name)
+    cached_manifest(name)
   end
 
   private

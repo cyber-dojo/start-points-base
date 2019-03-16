@@ -38,8 +38,8 @@ declare client_status=0
 
 run_server_tests()
 {
-  run_tests nobody custom    "${*}"
-  #run_tests nobody exercises "${*}"
+  #run_tests nobody custom    "${*}"
+  run_tests nobody exercises "${*}"
   #run_tests nobody languages "${*}"
   server_status=$?
 }

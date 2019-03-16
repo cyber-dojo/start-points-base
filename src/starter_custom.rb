@@ -7,7 +7,7 @@ class StarterCustom
 
   def initialize
     @cache = {
-      'names'    => read_names('custom'),
+      'names'     => read_names('custom'),
       'manifests' => read_manifests('custom')
     }
   end

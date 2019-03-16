@@ -3,10 +3,10 @@ require_relative 'test_base'
 class ApiTest < TestBase
 
   def self.hex_prefix
-    '477'
+    'FB3'
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - -
 
   test '190', %w( sha looks like a sha ) do
     body,stderr = sha(200)
@@ -18,7 +18,7 @@ class ApiTest < TestBase
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - -
 
   test '602', %w( its ready ) do
     body,stderr = ready?(200)
@@ -27,7 +27,7 @@ class ApiTest < TestBase
     assert_equal true, result, body
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - -
 
   test '6C1',
   %w( names are unique and sorted ) do
@@ -37,7 +37,7 @@ class ApiTest < TestBase
     assert_equal expected_names.sort, actual_names
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - -
 
   test '71D',
   %w( manifests ) do
@@ -46,13 +46,13 @@ class ApiTest < TestBase
     manifests = body['manifests']
     assert manifests.is_a?(Hash)
     assert_equal expected_names.sort, manifests.keys.sort
-    manifest = manifests['Yahtzee refactoring, C# NUnit']
-    assert_is_Yahtzee_refactoring_CSharp_NUnit_manifest(manifest)
+    manifest = manifests['Gray Code']
+    assert_is_Gray_Code_manifest(manifest)
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - -
 
-  test '9C0',
+  test 'D7A',
   %w( manifest with missing name becomes exception ) do
     body,stderr = assert_rack_call_raw(500, 'manifest', '{}')
     assert_exception('ArgumentError', 'name:missing', body, stderr)
@@ -60,15 +60,15 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C1',
-  %w( manifest with non-string name becomes exception ) do
+  test 'D7B',
+  %w( manifest with non-string argument becomes exception ) do
     body,stderr = manifest(500, 42)
     assert_exception('ArgumentError', 'name:!string', body, stderr)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C2',
+  test 'D7E',
   %w( manifest with unknown name becomes exception ) do
     body,stderr = manifest(500, 'xxx')
     assert_exception('ArgumentError', 'name:xxx:unknown', body, stderr)
@@ -76,41 +76,37 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C3',
+  test '751',
   %w( manifest with known name ) do
-    body,stderr = manifest(200, 'Yahtzee refactoring, C# NUnit')
+    body,stderr = manifest(200, 'Gray Code')
     assert_equal({}, stderr)
     manifest = body['manifest']
-    assert_is_Yahtzee_refactoring_CSharp_NUnit_manifest(manifest)
+    assert_is_Gray_Code_manifest(manifest)
   end
-
 
   private
 
   def expected_names
     [
-      'Yahtzee refactoring, C# NUnit',
-      'Yahtzee refactoring, C (gcc) assert',
-      'Yahtzee refactoring, C++ (g++) assert',
-      'Yahtzee refactoring, Java JUnit',
-      'Yahtzee refactoring, Python unitttest'
+      'Bowling Game',
+      'Calc Stats',
+      'Fizz Buzz',
+      'Gray Code',
+      'Leap Years',
+      'Tiny Maze'
     ]
   end
 
-  def assert_is_Yahtzee_refactoring_CSharp_NUnit_manifest(manifest)
-    expected_keys = %w( display_name image_name visible_files filename_extension )
+  def assert_is_Gray_Code_manifest(manifest)
+    expected_keys = %w( display_name visible_files )
     assert_equal expected_keys.sort, manifest.keys.sort
 
-    assert_equal 'Yahtzee refactoring, C# NUnit', manifest['display_name']
-    assert_equal ['.cs'], manifest['filename_extension']
-    assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name']
-    expected_filenames = %w( Yahtzee.cs YahtzeeTest.cs cyber-dojo.sh instructions )
+    assert_equal 'Gray Code', manifest['display_name']
+    expected_filenames = %w( larger.txt smaller.txt )
     visible_files = manifest['visible_files']
     assert_equal expected_filenames, visible_files.keys.sort
-    assert_starts_with(visible_files, 'instructions', 'The starting code and tests')
-    assert_starts_with(visible_files, 'Yahtzee.cs', 'public class Yahtzee {')
-    assert_starts_with(visible_files, 'YahtzeeTest.cs', 'using NUnit.Framework;')
-    assert_starts_with(visible_files, 'cyber-dojo.sh', 'NUNIT_PATH=/nunit/lib/net45')
+    assert_starts_with(visible_files, 'larger.txt', 'Create functions to')
+    assert_starts_with(visible_files, 'smaller.txt', 'small content')
   end
 
   def assert_starts_with(visible_files, filename, content)
