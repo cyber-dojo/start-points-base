@@ -26,8 +26,14 @@ class Starter
   end
 
   def manifest(name)
-    assert_string('name', name)
-    cached_manifest(name)
+    unless name.is_a?(String)
+      error('name', '!string')
+    end
+    result = manifests[name]
+    if result.nil?
+      error('name', "#{name}:unknown")
+    end
+    result
   end
 
   private
@@ -65,9 +71,7 @@ class Starter
       manifest.delete('visible_filenames')
       manifest.delete('runner_choice')
       fe = manifest['filename_extension']
-      if fe.is_a?(String)
-        manifest['filename_extension'] = [ fe ]
-      end
+      manifest['filename_extension'] = [ fe ] if fe.is_a?(String)
       manifests[display_name] = manifest
     end
     manifests
@@ -75,26 +79,8 @@ class Starter
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def cached_manifest(name)
-    result = cache['manifests'][name]
-    if result.nil?
-      error('name', "#{name}:unknown")
-    end
-    result
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
   def start_points_dir(type)
     "/app/repos/#{type}"
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def assert_string(arg_name, arg)
-    unless arg.is_a?(String)
-      error(arg_name, '!string')
-    end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
