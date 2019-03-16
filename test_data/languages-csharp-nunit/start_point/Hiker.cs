@@ -1,4 +1,3 @@
-
 public class Hiker
 {
     public static int Answer

@@ -21,14 +21,17 @@ class TestBase < HexMiniTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def start_points(status)
-    assert_rack_call_raw(status, 'start_points', '{}')
+  def names(status)
+    assert_rack_call_raw(status, 'names', '{}')
   end
 
-  def manifest(status, display_name)
-    args = { display_name:display_name }
-    raw = JSON.pretty_generate(args)
-    assert_rack_call_raw(status, 'manifest', raw)
+  def manifests(status)
+    assert_rack_call_raw(status, 'manifests', '{}')
+  end
+
+  def manifest(status, name)
+    args = JSON.pretty_generate({ name:name })
+    assert_rack_call_raw(status, 'manifest', args)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -

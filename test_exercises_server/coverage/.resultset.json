@@ -597,37 +597,6 @@
         1,
         1,
         null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
         null
       ],
       "/app/src/starter_languages.rb": [
@@ -786,6 +755,6 @@
         null
       ]
     },
-    "timestamp": 1552737971
+    "timestamp": 1552738839
   }
 }
