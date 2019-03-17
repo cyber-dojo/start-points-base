@@ -190,6 +190,7 @@ build_image_from_context_dir()
     echo "EXPOSE ${PORT}"
     echo 'CMD [ "./up.sh" ]'
   } > "${CONTEXT_DIR}/Dockerfile"
+  echo "Dockerfile" > "${CONTEXT_DIR}/.dockerignore"
   local output
   if ! output=$(docker image build \
         --quiet                    \
