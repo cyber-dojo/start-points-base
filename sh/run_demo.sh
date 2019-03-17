@@ -12,7 +12,6 @@ docker-compose \
   -d  \
   --force-recreate
 
-
 if [ ! -z "${DOCKER_MACHINE_NAME}" ]; then
   declare ip=$(docker-machine ip "${DOCKER_MACHINE_NAME}")
 else
