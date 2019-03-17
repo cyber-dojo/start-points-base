@@ -84,7 +84,6 @@ class ApiTest < TestBase
     assert_is_Yahtzee_refactoring_CSharp_NUnit_manifest(manifest)
   end
 
-
   private
 
   def expected_names
