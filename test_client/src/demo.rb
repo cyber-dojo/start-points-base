@@ -5,6 +5,10 @@ require_relative 'languages_service'
 class Demo
 
   def call(_env)
+    c_name = 'Yahtzee refactoring, Java JUnit'
+    e_name = 'Tiny Maze'
+    l_name = 'C#, NUnit'
+
     html = [
       pre('   custom.sha()') {    custom.sha },
       pre('exercises.sha()') { exercises.sha },
@@ -22,16 +26,12 @@ class Demo
       pre('exercises.manifests()') { exercises.manifests },
       pre('languages.manifests()') { languages.manifests },
 
-      c_name = 'Yahtzee refactoring, Java JUnit'
-      e_name = 'Tiny Maze'
-      l_name = 'C#, NUnit'
-
       pre("   custom.manifest(#{c_name})") {    custom.manifest(c_name) },
       pre("exercises.manifest(#{e_name})") { exercises.manifest(e_name) },
       pre("languages.manifest(#{l_name})") { languages.manifest(l_name) },
 
-      pre('   custom.wibble()') {    custom.wibble }
-      pre('exercises.wibble()') { exercises.wibble }
+      pre('   custom.wibble()') {    custom.wibble },
+      pre('exercises.wibble()') { exercises.wibble },
       pre('languages.wibble()') { languages.wibble }
 
     ].join
@@ -71,7 +71,7 @@ class Demo
       end
     }
     [
-      "<pre>/#{name}[#{duration}s]</pre>",
+      "<pre>/#{name.strip}[#{duration}s]</pre>",
       "<pre style='#{style}'>",
         "#{JSON.pretty_unparse(result)}",
       '</pre>'
