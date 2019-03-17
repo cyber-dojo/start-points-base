@@ -51,7 +51,6 @@ exit_unless_clean()
 # - - - - - - - - - - - - - - - - - - - -
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-readonly MY_NAME=starter
 
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
@@ -60,14 +59,18 @@ docker-compose \
   --force-recreate \
   starter_client
 
-wait_until_ready  "test-custom-server" 4527
-exit_unless_clean "test-custom-server"
+readonly CUSTOM_CONTAINER_NAME=test-custom-server
+readonly EXERCISES_CONTAINER_NAME=test-exercises-server
+readonly LANGUAGES_CONTAINER_NAME=test-languages-server
 
-wait_until_ready  "test-exercises-server" 4526
-exit_unless_clean "test-exercises-server"
+wait_until_ready  "${CUSTOM_CONTAINER_NAME}" 4527
+exit_unless_clean "${CUSTOM_CONTAINER_NAME}"
 
-wait_until_ready  "test-languages-server" 4525
-exit_unless_clean "test-languages-server"
+wait_until_ready  "${EXERCISES_CONTAINER_NAME}" 4526
+exit_unless_clean "${EXERCISES_CONTAINER_NAME}"
+
+wait_until_ready  "${LANGUAGES_CONTAINER_NAME}" 4525
+exit_unless_clean "${LANGUAGES_CONTAINER_NAME}"
 
 #wait_until_ready  "test-starter-client" 4528
 #exit_unless_clean "test-starter-client"
