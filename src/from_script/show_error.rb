@@ -13,9 +13,9 @@ module ShowError
   end
 
   def relative(filename)
-    # eg '/app/repos/languages/3/languages-python-unittest/start_point/manifest.json'
+    # eg '/app/repos/3/languages-python-unittest/start_point/manifest.json'
     parts = filename.split('/')
-    parts[5..-1].join('/')
+    parts[4..-1].join('/')
     # eg 'languages-python-unittest/start_point/manifest.json'
   end
 
