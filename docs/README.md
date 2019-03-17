@@ -8,47 +8,28 @@ The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberd
 
 ## The build script
 * Use the [cyber_dojo_start_points_create.sh](../cyber_dojo_start_points_create.sh)
-script to create your cyber-dojo start-point docker image.
+script to create your cyber-dojo start-point docker images.
 * It will use [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) as its base (FROM) image.
 * The first argument is the name of the docker image you want to create.
 * The subsequent arguments are git-cloneable URLs containing the source for the start points.
 
 ```bash
 $ ./cyber_dojo_start_points_create.sh --help
-Use: ./cyber_dojo_start_points_create.sh \
-         <image-name> \
-           [--custom    <git-repo-url>...]... \
-           [--exercises <git-repo-url>...]... \
-           [--languages <git-repo-url>...]... \
-...
+  Use:
+  $ ./cyber_dojo_start_points_create.sh <image-name> --custom    <git-repo-url>...
+  $ ./cyber_dojo_start_points_create.sh <image-name> --exercises <git-repo-url>...
+  $ ./cyber_dojo_start_points_create.sh <image-name> --languages <git-repo-url>...
+  ...
 ```
 For example:
 ```bash
 $ ./cyber_dojo_start_points_create.sh \
-      acme/my-start-points \
-        --custom \
-          https://github.com/cyber-dojo/start-points-custom \
-        --exercises \
-          https://github.com/cyber-dojo/start-points-exercises \
+      acme/my-languages-start-points \
         --languages \
-          https://github.com/cyber-dojo-languages/csharp-nunit         \
+          https://github.com/cyber-dojo-languages/csharp-nunit             \
           https://github.com/cyber-dojo-languages/gplusplus-googlemock.git \
           https://github.com/cyber-dojo-languages/java-junit.git
 ```
-
-## Default git-repo-urls
-### --custom
-* https://github.com/cyber-dojo/start-points-custom
-### --exercises
-* https://github.com/cyber-dojo/start-points-exercises
-### --languages
-* https://github.com/cyber-dojo-languages/csharp-nunit
-* https://github.com/cyber-dojo-languages/gcc-googletest
-* https://github.com/cyber-dojo-languages/gplusplus-googlemock
-* https://github.com/cyber-dojo-languages/java-junit
-* https://github.com/cyber-dojo-languages/javascript-jasmine
-* https://github.com/cyber-dojo-languages/python-pytest
-* https://github.com/cyber-dojo-languages/ruby-minitest
 
 - - - -
 
@@ -76,11 +57,9 @@ API:
 - [GET ready?()](#get-ready)
 - [GET sha()](#get-sha)
 #
-- [GET language_start_points()](#get-language_start_points)
-- [GET language_manifest(display_name,exercise_name)](#get-language_manifestdisplay_nameexercise_name)
-#
-- [GET custom_start_points()](#get-custom_start_points)
-- [GET custom_manifest(display_name)](#get-custom_manifestdisplay_name)
+- [GET names()](#get-names)
+- [GET manifests()](#get-manifests)
+- [GET manifest(name)](#get-manifestname)
 
 - - - -
 
@@ -110,112 +89,51 @@ Returns the git commit sha used to create the docker image.
 
 - - - -
 
-### GET language_start_points()
+### GET names()
 - parameters, none
 ```
   {}
 ```
-- returns two arrays; the language-test-framework display_names and the exercises names, eg
+- returns a sorted array of the display_names from all manifests, eg
 ```
-  { "language_start_points": {
-      "languages": [
-        "C (gcc), assert",
-        "C#, NUnit",
-        "C++ (g++), assert",
-        "Python, py.test",
-        "Python, unittest"
-      ],
-      "exercises": [
-        "Bowling_Game",
-        "Fizz_Buzz",
-        "Leap_Years",
-        "Tiny_Maze"
-      ]
-    }
-  }
-```
-
-- - - -
-
-### GET language_manifest(display_name,exercise_name)
-- parameters, display_name and exercise_name from a previous call to
-the language_start_points method above, eg
-```
-  {  "display_name": "C#, NUnit",
-     "exercise_name": "Fizz_Buzz"
-  }
-```
-- returns, the manifest for the given display_name
-and the exercise instructions text for the given exercise_name, eg
-```
-  { "language_manifest": {
-       "manifest": {
-          "display_name": "C#, NUNit",
-          "image_name": "cyberdojofoundation/csharp_nunit",
-          "filename_extension": [ ".cs" ],
-          "visible_files": {
-             "Hiker.cs": {               
-               "content" => "public class Hiker..."
-             },
-             "HikerTest.cs": {
-               "content" => "using NUnit.Framework;..."
-             },
-             "cyber-dojo.sh": {
-               "content" => "NUNIT_PATH=/nunit/lib/net45..."
-             }
-          }
-       },
-       "exercise": "Write a program that prints..."
-    }
-  }
-```
-
-- - - -
-
-### GET custom_start_points()
-- parameters, none
-```
-  {}
-```
-- returns an array of the custom start-point display_names, eg
-```
-  { "custom_start_points": [
-      "Yahtzee refactoring, C# NUnit",
-      "Yahtzee refactoring, C++ (g++) assert",
-      "Yahtzee refactoring, Java JUnit",
-      "Yahtzee refactoring, Python unitttest"
+  { "names": [
+      "C (gcc), assert",
+      "C#, NUnit",
+      "C++ (g++), assert",
+      "Python, py.test",
+      "Python, unittest"
     ]
   }
 ```
 
 - - - -
 
-### GET custom_manifest(display_name)
-- parameter, display_name from a previous call to the custom_start_points method above, eg
+### GET manifests()
+
+- - - -
+
+### GET manifest(name)
+- parameters, name from a previous call to the names method above, eg
 ```
-  {  "display_name": "Yahtzee refactoring, C# NUnit"
-  }
+  {  "name": "C#, NUnit" }
 ```
-- returns, the manifest for the given display_name, eg
+- returns the manifest for the given name, eg
 ```
-  { "custom_manifest": {
-       "display_name": "Yahtzee refactoring, C# NUnit",
-       "image_name": "cyberdojofoundation/csharp_nunit",
-       "filename_extension": [ ".cs" ],
-       "visible_files": {
-          "Yahtzee.cs": {
-            "content"= > "public class Yahtzee {..."
-          },
-          "YahtzeeTest.cs": {
-            "content"= > "using NUnit.Framework;..."
-          },
-          "cyber-dojo.sh": {
-            "content"= > "NUNIT_PATH=/nunit/lib/net45..."
-          }
-          "instructions": {
-            "content"= > "The starting code..."
-          }
-       }
+  { "manifest": {
+      "display_name": "C#, NUNit",
+      "image_name": "cyberdojofoundation/csharp_nunit",
+      "filename_extension": [ ".cs" ],
+      "visible_files": {
+        "Hiker.cs": {               
+          "content" => "public class Hiker..."
+        },
+        "HikerTest.cs": {
+          "content" => "using NUnit.Framework;..."
+        },
+        "cyber-dojo.sh": {
+          "content" => "NUNIT_PATH=/nunit/lib/net45..."
+        }
+      }
     }
   }
 ```
