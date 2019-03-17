@@ -15,13 +15,7 @@ class Starter
     true
   end
 
-  def names
-    @names
-  end
-
-  def manifests
-    @manifests
-  end
+  attr_reader :names, :manifests
 
   def manifest(name)
     unless name.is_a?(String)
@@ -56,14 +50,11 @@ class Starter
       display_name = manifest['display_name']
       visible_filenames = manifest['visible_filenames']
       dir = File.dirname(manifest_filename)
-      manifest['visible_files'] =
-        Hash[visible_filenames.map { |filename|
-          [ filename,
-            {
-              'content' => IO.read("#{dir}/#{filename}")
-            }
-          ]
-        }]
+      manifest['visible_files'] = Hash[
+        visible_filenames.map { |filename|
+          [ filename, { 'content' => IO.read("#{dir}/#{filename}") } ]
+        }
+      ]
       manifest.delete('visible_filenames')
       fe = manifest['filename_extension']
       manifest['filename_extension'] = [ fe ] if fe.is_a?(String)
