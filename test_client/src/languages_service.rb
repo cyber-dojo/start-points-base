@@ -1,13 +1,11 @@
 require_relative 'api'
 require_relative 'http_helper'
+require_relative 'unknown_method'
 
 class LanguagesService
 
   include Api
-
-  def wibble # unknown
-    http.get
-  end
+  include UnknownMethod
 
   private
 
