@@ -184,10 +184,9 @@ build_image_from_context_dir()
   {
     echo "FROM $(base_image_name)"
     echo "LABEL org.cyber-dojo.start-points=$(image_type)"
-    echo "ENV SERVER_TYPE=$(image_type)"
-    echo "ENV PORT=${PORT}"
     echo "COPY . /app/repos"
-    echo "RUN /app/src/from_script/check_all.rb /app/repos"
+    echo "RUN /app/src/from_script/check_all.rb /app/repos $(image_type)"
+    echo "ENV PORT=${PORT}"
     echo "EXPOSE ${PORT}"
     echo 'CMD [ "./up.sh" ]'
   } > "${CONTEXT_DIR}/Dockerfile"
