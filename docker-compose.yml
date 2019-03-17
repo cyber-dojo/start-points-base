@@ -11,7 +11,7 @@ services:
     init: true
     container_name: test-starter-client
     volumes:
-      - ./test_client:/app/test:ro    
+      - ./test_client:/app/test:ro
     read_only: true
     tmpfs: /tmp
     depends_on:

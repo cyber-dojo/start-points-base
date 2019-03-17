@@ -9,7 +9,7 @@ class CustomStartPointsTest < TestBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '9C1',
-  %w( display-names are unique and sorted ) do
+  %w( names are unique and sorted ) do
     expected = [
       'Yahtzee refactoring, C (gcc) assert',
       'Yahtzee refactoring, C# NUnit',
@@ -17,7 +17,7 @@ class CustomStartPointsTest < TestBase
       'Yahtzee refactoring, Java JUnit',
       'Yahtzee refactoring, Python unitttest'
     ]
-    assert_equal expected.sort, custom_start_points.sort
+    assert_equal expected.sort, custom.names
   end
 
 end

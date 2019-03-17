@@ -8,14 +8,14 @@ run_tests()
 {
   local coverage_root=/tmp/coverage
   local user="${1}"
-  local test_dir="test_${2}_server"
-  local cid=$(docker ps --all --quiet --filter "name=test-${2}-server")
+  local test_dir="${2}"
+  local cid=$(docker ps --all --quiet --filter "name=${3}")
 
   docker exec \
     --user "${user}" \
     --env COVERAGE_ROOT=${coverage_root} \
     "${cid}" \
-      sh -c "/app/test/util/run.sh ${@:3}"
+      sh -c "/app/test/util/run.sh ${@:4}"
 
   local status=$?
 
@@ -33,22 +33,26 @@ run_tests()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-declare server_status=0
+declare custom_server_status=0
+declare exercises_server_status=0
+declare languages_server_status=0
 declare client_status=0
 
 run_server_tests()
 {
-  run_tests nobody custom    "${*}"
-  run_tests nobody exercises "${*}"
-  run_tests nobody languages "${*}"
-  server_status=$?
+  run_tests nobody test_custom_server test-custom-server "${*}"
+  custom_server_status=$?
+  run_tests nobody test_exercises_server test-exercises-server "${*}"
+  exercises_server_status=$?
+  run_tests nobody test_languages_server test-languages-server "${*}"
+  languages_server_status=$?
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 run_client_tests()
 {
-  run_tests nobody client "${*}"
+  run_tests nobody test_client test-starter-client "${*}"
   client_status=$?
 }
 
@@ -67,14 +71,28 @@ fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-if [ "${server_status}" = '0' ] && [ "${client_status}" = '0' ]; then
+if [ "${custom_server_status}" = '0' ] && \
+   [ "${exercises_server_status}" = '0' ] && \
+   [ "${languages_server_status}" = '0' ] && \
+   [ "${client_status}" = '0' ]
+then
   echo '------------------------------------------------------'
   echo 'All passed'
   exit 0
 else
   echo
-  echo "test-starter-server: status = ${server_status}"
-  echo "test-starter-client: status = ${client_status}"
+  if [ "${custom_server_status}" != '0' ]; then
+    echo "test-custom-server: status = ${custom_server_status}"
+  fi
+  if [ "${exercises_server_status}" != '0' ]; then
+    echo "test-exercises-server: status = ${exercises_server_status}"
+  fi
+  if [ "${languages_server_status}" != '0' ]; then
+    echo "test-languages-server: status = ${languages_server_status}"
+  fi
+  if [ "${client_status}" != '0' ]; then
+    echo "test-starter-client: status = ${client_status}"
+  fi
   echo
   exit 1
 fi
