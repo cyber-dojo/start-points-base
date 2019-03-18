@@ -40,7 +40,7 @@ declare client_status=0
 
 run_server_tests()
 {
-  run_tests nobody test_custom_server test-custom-server "${*}"
+  run_tests nobody test_custom_server    test-custom-server    "${*}"
   custom_server_status=$?
   run_tests nobody test_exercises_server test-exercises-server "${*}"
   exercises_server_status=$?

@@ -15,10 +15,10 @@ jobs:
             set -ev
             ./pipe_build_up_test.sh
       - run:
-          name: push tagged docker image to dockerhub
+          name: publish tagged docker image to dockerhub
           command: |
             set -ev
-            readonly project=${CIRCLE_PROJECT_REPONAME}
+            readonly project=starter-base
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:beta
             echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
@@ -29,10 +29,12 @@ jobs:
             #     and so must be pushed.
             docker push cyberdojo/${project}:latest
       - run:
-          name: trigger start-points-languages
+          name: trigger custom/exercises/languages
           command: |
             set -ev
-            ./sh/trigger_start_points_languages.sh
+            ./sh/trigger.sh custom
+            ./sh/trigger.sh exercises
+            ./sh/trigger.sh languages
 
 workflows:
   version: 2

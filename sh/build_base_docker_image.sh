@@ -7,5 +7,5 @@ readonly SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
 
 docker build \
   --build-arg SHA=${SHA} \
-  --tag cyberdojo/start-points-base \
+  --tag cyberdojo/starter-base \
   "${ROOT_DIR}"

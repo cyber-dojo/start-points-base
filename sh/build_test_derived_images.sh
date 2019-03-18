@@ -80,12 +80,12 @@ build_image_script_name()
 
 image_name()
 {
-  echo 'cyberdojo/start-points'
+  echo 'cyberdojo/test'
 }
 
 # - - - - - - - - - - - - - - - - -
 
-build_start_point_custom_image()
+build_test_custom_image()
 {
   make_TMP_DIR
   readonly C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-yahtzee)
@@ -98,7 +98,7 @@ build_start_point_custom_image()
 
 # - - - - - - - - - - - - - - - - -
 
-build_start_point_exercises_image()
+build_test_exercises_image()
 {
   make_TMP_DIR
   readonly E1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-bowling-game)
@@ -121,7 +121,7 @@ build_start_point_exercises_image()
 
 # - - - - - - - - - - - - - - - - -
 
-build_start_point_languages_image()
+build_test_languages_image()
 {
   make_TMP_DIR
   readonly L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-csharp-nunit)
@@ -140,6 +140,6 @@ build_start_point_languages_image()
 
 build_image_which_creates_test_data_git_repos
 exit_if_ROOT_DIR_not_in_context
-build_start_point_custom_image
-build_start_point_exercises_image
-build_start_point_languages_image
+build_test_custom_image
+build_test_exercises_image
+build_test_languages_image

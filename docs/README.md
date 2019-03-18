@@ -2,15 +2,16 @@
 <img src="https://raw.githubusercontent.com/cyber-dojo/nginx/master/images/home_page_logo.png" alt="cyber-dojo yin/yang logo" width="50px" height="50px"/>
 
 New starter architecture (currently live on https://beta.cyber-dojo.org only)
-[![CircleCI](https://circleci.com/gh/cyber-dojo/start-points-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/start-points-base)
+[![CircleCI](https://circleci.com/gh/cyber-dojo/starter-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/starter-base)
 
-The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) docker image.
+The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/starter-base) docker image.
 
 ## The build script
 * Use the [cyber_dojo_start_points_create.sh](../cyber_dojo_start_points_create.sh)
 script to create your cyber-dojo start-point docker images.
-* It will use [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) as its base (FROM) image.
-* The first argument is the name of the docker image you want to create.
+* It will use [cyberdojo/starter-base](https://hub.docker.com/r/cyberdojo/starter-base) as its base (FROM) image.
+* The 1st argument is the name of the docker image you want to create.
+# The 2nd argument is --custom or --exercises or --languages.
 * The subsequent arguments are git-cloneable URLs containing the source for the start points.
 
 ```bash
@@ -36,7 +37,7 @@ $ ./cyber_dojo_start_points_create.sh \
 ## git-repo-url format
 There are 2 kinds of start-points
 - languages/custom. These are specified with full [manifest.json](https://blog.cyber-dojo.org/2016/08/cyber-dojo-start-points-manifestjson.html) files.
-- exercises. These are specified with a subset of the languages/custom manifest.json files and has only two entries:
+- exercises. These are specified with a subset of the languages/custom manifest.json files and have only two entries:
   - You must specify a display_name
   - You must specify the visible_filenames
   - visible_filenames cannot contain a file called cyber-dojo.sh

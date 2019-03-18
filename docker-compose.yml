@@ -7,7 +7,7 @@ services:
     build:
       context: test_client
     user: nobody
-    image: cyberdojo/starter-client
+    image: cyberdojo/test-starter-client
     init: true
     container_name: test-starter-client
     read_only: true
@@ -24,7 +24,7 @@ services:
 
   custom:
     user: nobody
-    image: cyberdojo/start-points-custom
+    image: cyberdojo/test-custom
     init: true
     container_name: test-custom-server
     volumes:
@@ -37,7 +37,7 @@ services:
 
   exercises:
     user: nobody
-    image: cyberdojo/start-points-exercises
+    image: cyberdojo/test-exercises
     init: true
     container_name: test-exercises-server
     volumes:
@@ -50,7 +50,7 @@ services:
 
   languages:
     user: nobody
-    image: cyberdojo/start-points-languages
+    image: cyberdojo/test-languages
     init: true
     container_name: test-languages-server
     volumes:

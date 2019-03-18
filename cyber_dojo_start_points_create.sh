@@ -233,7 +233,7 @@ build_image_from_context_dir()
 base_image_name()
 {
   # Must be pushed to dockerhub in .circleci/config.yml
-  echo 'cyberdojo/start-points-base:latest'
+  echo 'cyberdojo/starter-base:latest'
 }
 
 image_type()
