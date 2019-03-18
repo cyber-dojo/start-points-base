@@ -18,16 +18,16 @@ jobs:
           name: publish tagged docker image to dockerhub
           command: |
             set -ev
-            readonly project=starter-base
-            docker tag  cyberdojo/${project}:latest cyberdojo/${project}:${CIRCLE_SHA1:0:7}
-            docker tag  cyberdojo/${project}:latest cyberdojo/${project}:beta
+            readonly image=cyberdojo/starter-base
+            docker tag  ${image}:latest ${image}:${CIRCLE_SHA1:0:7}
+            docker tag  ${image}:latest ${image}:beta
             echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
-            docker push cyberdojo/${project}:${CIRCLE_SHA1:0:7}
-            docker push cyberdojo/${project}:beta
+            docker push ${image}:${CIRCLE_SHA1:0:7}
+            docker push ${image}:beta
             # NB: latest is the tag used in the FROM inside the Dockerfile
             #     (in the main script cyber_dojo_start_points_create.sh)
             #     and so must be pushed.
-            docker push cyberdojo/${project}:latest
+            docker push ${image}:latest
       - run:
           name: trigger dependent repos
           command: |
