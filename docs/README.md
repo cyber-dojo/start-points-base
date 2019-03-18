@@ -11,7 +11,7 @@ The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberd
 script to create your cyber-dojo start-point docker images.
 * It will use [cyberdojo/starter-base](https://hub.docker.com/r/cyberdojo/starter-base) as its base (FROM) image.
 * The 1st argument is the name of the docker image you want to create.
-# The 2nd argument is --custom or --exercises or --languages.
+* The 2nd argument is --custom or --exercises or --languages.
 * The subsequent arguments are git-cloneable URLs containing the source for the start points.
 
 ```bash
