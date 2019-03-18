@@ -29,7 +29,7 @@ jobs:
             #     and so must be pushed.
             docker push cyberdojo/${project}:latest
       - run:
-          name: trigger custom/exercises/languages
+          name: trigger dependent repos
           command: |
             set -ev
             ./sh/trigger.sh custom
