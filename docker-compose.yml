@@ -13,22 +13,50 @@ services:
     read_only: true
     tmpfs: /tmp
     depends_on:
-      - starter
+      - custom
+      - exercises
+      - languages
     restart: 'no'
     ports:
       - 4528:4528
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  starter:
+  custom:
     user: nobody
-    image: cyberdojo/start-points-test
+    image: cyberdojo/start-points-custom
     init: true
-    container_name: test-starter-server
+    container_name: test-custom-server
     volumes:
-      - ./test_server:/app/test:ro
+      - ./test_custom_server:/app/test:ro
     read_only: true
     tmpfs: /tmp
     restart: 'no'
     ports:
       - 4527:4527
+
+  exercises:
+    user: nobody
+    image: cyberdojo/start-points-exercises
+    init: true
+    container_name: test-exercises-server
+    volumes:
+      - ./test_exercises_server:/app/test:ro
+    read_only: true
+    tmpfs: /tmp
+    restart: 'no'
+    ports:
+      - 4526:4526
+
+  languages:
+    user: nobody
+    image: cyberdojo/start-points-languages
+    init: true
+    container_name: test-languages-server
+    volumes:
+      - ./test_languages_server:/app/test:ro
+    read_only: true
+    tmpfs: /tmp
+    restart: 'no'
+    ports:
+      - 4525:4525

@@ -8,9 +8,4 @@ RUN chown -R nobody:nogroup .
 ARG SHA
 ENV SHA=${SHA}
 
-EXPOSE 4527
 USER nobody
-CMD [ "./up.sh" ]
-
-ONBUILD COPY . /app/repos
-ONBUILD RUN /app/src/on_build/check_all.rb /app/repos

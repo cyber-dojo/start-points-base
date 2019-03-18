@@ -51,19 +51,26 @@ exit_unless_clean()
 # - - - - - - - - - - - - - - - - - - - -
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-readonly MY_NAME=starter
 
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
   up \
   -d  \
   --force-recreate \
-  "${MY_NAME}" \
-  "${MY_NAME}_client"
+  starter_client
 
-wait_until_ready  "test-${MY_NAME}-server" 4527
-exit_unless_clean "test-${MY_NAME}-server"
+readonly CUSTOM_CONTAINER_NAME=test-custom-server
+readonly EXERCISES_CONTAINER_NAME=test-exercises-server
+readonly LANGUAGES_CONTAINER_NAME=test-languages-server
 
-wait_until_ready  "test-${MY_NAME}-client" 4528
-# Why does the server start cleanly but not the client???
-#exit_unless_clean "test-${MY_NAME}-client"
+wait_until_ready  "${CUSTOM_CONTAINER_NAME}" 4527
+exit_unless_clean "${CUSTOM_CONTAINER_NAME}"
+
+wait_until_ready  "${EXERCISES_CONTAINER_NAME}" 4526
+exit_unless_clean "${EXERCISES_CONTAINER_NAME}"
+
+wait_until_ready  "${LANGUAGES_CONTAINER_NAME}" 4525
+exit_unless_clean "${LANGUAGES_CONTAINER_NAME}"
+
+#wait_until_ready  "test-starter-client" 4528
+#exit_unless_clean "test-starter-client"

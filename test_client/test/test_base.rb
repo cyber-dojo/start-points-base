@@ -1,35 +1,46 @@
 require_relative 'hex_mini_test'
-require_relative '../src/starter_service'
+require_relative '../src/custom_service'
+require_relative '../src/exercises_service'
+require_relative '../src/languages_service'
 require 'json'
 
 class TestBase < HexMiniTest
 
-  def ready?
-    starter.ready?
+  def custom
+    CustomService.new
   end
 
-  def sha
-    starter.sha
+  def exercises
+    ExercisesService.new
   end
 
-  def language_start_points
-    starter.language_start_points
+  def languages
+    LanguagesService.new
   end
 
-  def language_manifest(display_name, exercise_name)
-    starter.language_manifest(display_name, exercise_name)
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def assert_starts_with(visible_files, filename, content)
+    actual = visible_files[filename]['content']
+    diagnostic = [
+      "filename:#{filename}",
+      "expected:#{content}:",
+      "--actual:#{actual.split[0]}:"
+    ].join("\n")
+    assert actual.start_with?(content), diagnostic
   end
 
-  def custom_start_points
-    starter.custom_start_points
-  end
+  # - - - - - - - - - - - - - - - - - - - -
 
-  def custom_manifest(display_name)
-    starter.custom_manifest(display_name)
-  end
-
-  def starter
-    StarterService.new
+  def assert_error(error, expected)
+    assert_equal 'HttpHelper', error.service_name
+    assert_equal expected[:path], error.method_name
+    json = JSON.parse(error.message)
+    assert_equal expected[:path], json['path']
+    assert_equal expected[:body], json['body']
+    assert_equal expected[:class], json['class']
+    assert_equal expected[:message], json['message']
+    assert_equal 'Array', json['backtrace'].class.name
   end
 
 end

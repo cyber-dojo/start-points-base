@@ -13,7 +13,7 @@ public class UntitledTest
     }
 
     [Test]
-    public void Yahtzee_scores_50() 
+    public void Yahtzee_scores_50()
     {
         int expected = 50;
         int actual = Yahtzee.yahtzee(4,4,4,4,4);
@@ -31,21 +31,21 @@ public class UntitledTest
     }
 
     [Test]
-    public void test_2s() 
+    public void test_2s()
     {
         Assert.AreEqual(4, Yahtzee.Twos(1,2,3,2,6));
         Assert.AreEqual(10, Yahtzee.Twos(2,2,2,2,2));
     }
 
     [Test]
-    public void test_threes() 
+    public void test_threes()
     {
         Assert.AreEqual(6, Yahtzee.Threes(1,2,3,2,3));
         Assert.AreEqual(12, Yahtzee.Threes(2,3,3,3,3));
     }
 
     [Test]
-    public void fours_test() 
+    public void fours_test()
     {
         Assert.AreEqual(12, new Yahtzee(4,4,4,5,5).Fours());
         Assert.AreEqual(8, new Yahtzee(4,4,5,5,5).Fours());
@@ -60,7 +60,7 @@ public class UntitledTest
     }
 
     [Test]
-    public void sixes_test() 
+    public void sixes_test()
     {
         Assert.AreEqual(0, new Yahtzee(4,4,4,5,5).sixes());
         Assert.AreEqual(6, new Yahtzee(4,4,6,5,5).sixes());
@@ -68,7 +68,7 @@ public class UntitledTest
     }
 
     [Test]
-    public void one_pair() 
+    public void one_pair()
     {
         Assert.AreEqual(6, Yahtzee.ScorePair(3,4,3,5,6));
         Assert.AreEqual(10, Yahtzee.ScorePair(5,3,3,3,5));
@@ -76,14 +76,14 @@ public class UntitledTest
     }
 
     [Test]
-    public void two_Pair() 
+    public void two_Pair()
     {
         Assert.AreEqual(16, Yahtzee.TwoPair(3,3,5,4,5));
         Assert.AreEqual(0, Yahtzee.TwoPair(3,3,5,5,5));
     }
 
     [Test]
-    public void three_of_a_kind() 
+    public void three_of_a_kind()
     {
         Assert.AreEqual(9, Yahtzee.ThreeOfAKind(3,3,3,4,5));
         Assert.AreEqual(15, Yahtzee.ThreeOfAKind(5,3,5,4,5));
@@ -91,7 +91,7 @@ public class UntitledTest
     }
 
     [Test]
-    public void four_of_a_knd() 
+    public void four_of_a_knd()
     {
         Assert.AreEqual(12, Yahtzee.FourOfAKind(3,3,3,3,5));
         Assert.AreEqual(20, Yahtzee.FourOfAKind(5,5,5,4,5));
@@ -99,7 +99,7 @@ public class UntitledTest
     }
 
     [Test]
-    public void smallStraight() 
+    public void smallStraight()
     {
         Assert.AreEqual(15, Yahtzee.SmallStraight(1,2,3,4,5));
         Assert.AreEqual(15, Yahtzee.SmallStraight(2,3,4,5,1));
@@ -107,7 +107,7 @@ public class UntitledTest
     }
 
     [Test]
-    public void largeStraight() 
+    public void largeStraight()
     {
         Assert.AreEqual(20, Yahtzee.LargeStraight(6,2,3,4,5));
         Assert.AreEqual(20, Yahtzee.LargeStraight(2,3,4,5,6));
@@ -115,7 +115,7 @@ public class UntitledTest
     }
 
     [Test]
-    public void fullHouse() 
+    public void fullHouse()
     {
         Assert.AreEqual(18, Yahtzee.FullHouse(6,2,2,2,6));
         Assert.AreEqual(0, Yahtzee.FullHouse(2,3,4,5,6));

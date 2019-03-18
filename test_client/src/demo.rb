@@ -1,42 +1,56 @@
-require_relative 'starter_service'
+require_relative 'custom_service'
+require_relative 'exercises_service'
+require_relative 'languages_service'
 
 class Demo
 
   def call(_env)
-    inner_call
-  end
+    c_name = 'Yahtzee refactoring, Java JUnit'
+    e_name = 'Tiny Maze'
+    l_name = 'C#, NUnit'
 
-  private
-
-  def inner_call
-    starter = StarterService.new
     html = [
-      pre('ready?()') {
-        starter.ready?
-      },
-      pre('sha()') {
-        starter.sha
-      },
-      pre('language_start_points()') {
-        starter.language_start_points
-      },
-      pre('language_manifest("C#, NUnit", "Tiny_Maze")') {
-        starter.language_manifest('C#, NUnit', 'Tiny_Maze')
-      },
-      pre('custom_start_points()') {
-        starter.custom_start_points
-      },
-      pre('custom_manifest("Yahtzee refactoring, Java JUnit")') {
-        starter.custom_manifest('Yahtzee refactoring, Java JUnit')
-      },
-      pre('wibble()') {
-        starter.wibble
-      }
+      pre('   custom.sha()') {    custom.sha },
+      pre('exercises.sha()') { exercises.sha },
+      pre('languages.sha()') { languages.sha },
+
+      pre('   custom.ready?()') {    custom.ready? },
+      pre('exercises.ready?()') { exercises.ready? },
+      pre('languages.ready?()') { languages.ready? },
+
+      pre('   custom.names()') {    custom.names },
+      pre('exercises.names()') { exercises.names },
+      pre('languages.names()') { languages.names },
+
+      pre('   custom.manifests()') {    custom.manifests },
+      pre('exercises.manifests()') { exercises.manifests },
+      pre('languages.manifests()') { languages.manifests },
+
+      pre("   custom.manifest(#{c_name})") {    custom.manifest(c_name) },
+      pre("exercises.manifest(#{e_name})") { exercises.manifest(e_name) },
+      pre("languages.manifest(#{l_name})") { languages.manifest(l_name) },
+
+      pre('   custom.wibble()') {    custom.wibble },
+      pre('exercises.wibble()') { exercises.wibble },
+      pre('languages.wibble()') { languages.wibble }
+
     ].join
     [ 200, { 'Content-Type' => 'text/html' }, [ html ] ]
   end
 
   # - - - - - - - - - - - - - - - - -
+
+  def custom
+    CustomService.new
+  end
+
+  def exercises
+    ExercisesService.new
+  end
+
+  def languages
+    LanguagesService.new
+  end
 
   def timed
     started = Time.now
@@ -57,7 +71,7 @@ class Demo
       end
     }
     [
-      "<pre>/#{name}[#{duration}s]</pre>",
+      "<pre>/#{name.strip}[#{duration}s]</pre>",
       "<pre style='#{style}'>",
         "#{JSON.pretty_unparse(result)}",
       '</pre>'

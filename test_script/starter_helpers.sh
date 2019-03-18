@@ -98,28 +98,11 @@ build_start_points_image()
   echo ${status} >${statusF}
 }
 
-build_start_points_image_cel()
-{
-  local -r image_name="${1}"
-  local -r C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
-  local -r E_TMP_URL=$(git_repo_url_in_TMP_DIR_from exercises-bowling-game)
-  local -r L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-python-unittest)
-  build_start_points_image \
-    "${image_name}"        \
-    --custom               \
-      "${C_TMP_URL}"       \
-    --exercises            \
-      "${E_TMP_URL}"       \
-    --languages            \
-      "${L_TMP_URL}"       \
-      "${@:2}"
-}
-
 build_start_points_image_custom()
 {
   local -r image_name="${1}"
   local -r url="${2}"
-  build_start_points_image_cel \
+  build_start_points_image \
     "${image_name}" --custom "${url}"
 }
 
@@ -127,7 +110,7 @@ build_start_points_image_exercises()
 {
   local -r image_name="${1}"
   local -r url="${2}"
-  build_start_points_image_cel \
+  build_start_points_image \
     "${image_name}" --exercises "${url}"
 }
 
@@ -135,7 +118,7 @@ build_start_points_image_languages()
 {
   local -r image_name="${1}"
   local -r url="${2}"
-  build_start_points_image_cel \
+  build_start_points_image \
     "${image_name}" --languages "${url}"
 }
 
@@ -175,18 +158,14 @@ remove_start_points_images()
 assert_stdout_equals_use()
 {
   local -r help_line_1="Use:"
-  local -r help_line_2="$ ./cyber_dojo_start_points_create.sh \\"
-  local -r help_line_3="    <image-name> \\"
-  local -r help_line_4="      [--custom    <git-repo-url>...]... \\"
-  local -r help_line_5="      [--exercises <git-repo-url>...]... \\"
-  local -r help_line_6="      [--languages <git-repo-url>...]..."
+  local -r help_line_2="$ ./cyber_dojo_start_points_create.sh <image-name> --custom    <git-repo-url>..."
+  local -r help_line_3="$ ./cyber_dojo_start_points_create.sh <image-name> --exercises <git-repo-url>..."
+  local -r help_line_4="$ ./cyber_dojo_start_points_create.sh <image-name> --languages <git-repo-url>..."
   assert_stdout_includes "${help_line_1}"
   assert_stdout_includes "${help_line_2}"
   assert_stdout_includes "${help_line_3}"
   assert_stdout_includes "${help_line_4}"
-  assert_stdout_includes "${help_line_5}"
-  assert_stdout_includes "${help_line_6}"
-  assert_stdout_line_count_equals 79
+  assert_stdout_line_count_equals 44
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -196,35 +175,4 @@ cd_github_org()
   echo 'https://github.com/cyber-dojo'
 }
 
-assert_stdout_includes_default_custom_url()
-{
-  local -r default_custom="$(cd_github_org)/start-points-custom.git"
-  assert_stdout_includes "$(echo -e "--custom \t ${default_custom}")"
-}
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-assert_stdout_includes_default_exercises_url()
-{
-  local -r default_exercises="$(cd_github_org)/start-points-exercises.git"
-  assert_stdout_includes "$(echo -e "--exercises \t ${default_exercises}")"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-assert_stdout_includes_default_languages_urls()
-{
-  local -r cdl_github_org=https://github.com/cyber-dojo-languages
-  local -r default_languages=( \
-    csharp-nunit            \
-    gcc-googletest          \
-    gplusplus-googlemock    \
-    java-junit              \
-    javascript-jasmine      \
-    python-pytest           \
-    ruby-minitest           \
-  )
-  for default_language in ${default_languages}; do
-    assert_stdout_includes "$(echo -e "--languages \t ${cdl_github_org}/${default_language}")"
-  done
-}
