@@ -8,13 +8,14 @@ root_dir()
   cd "${my_dir}" && cd .. && pwd
 }
 
-export COMMANDER_SCRIPT_NAME="$(root_dir)/cyber_dojo_start_points_create.sh"
+export COMMANDER_SCRIPT_NAME="$(root_dir)/cyber-dojo"
 
-#export COMMANDER_SCRIPT_NAME="$(root_dir)/../commander/cyber-dojo"
-# "$(root_dir)/tmp/cyber-dojo-start-points-base.XXX")
 # TODO:
 # create tmp-dir for cyber-dojo script
-# if tmp-dir does not contain cyber-dojo script curl it there from commander
+# cd ${TMP_DIR}
+# curl -O --silent "${GITHUB_ORG}/commander/master/cyber-dojo"
+# chmod 700 ./cyber-dojo
+# export COMMANDER_SCRIPT_NAME="${TMP_DIR}/cyber-dojo"
 
 if [ "$1" = '' ]; then
   for test_file in ${my_dir}/test_*; do
