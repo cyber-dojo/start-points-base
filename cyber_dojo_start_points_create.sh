@@ -75,7 +75,7 @@ exit_non_zero_if_bad_args()
 {
   set +e
   docker container run --rm $(base_image_name) \
-    /app/src/from_script/bad_args.rb ${IMAGE_NAME} ${IMAGE_TYPE} ${GIT_REPO_URLS}
+    /app/src/from_script/bad_args.rb ${@:1}
   local -r status=$?
   set -e
   if [ "${status}" != '0' ]; then
@@ -245,7 +245,7 @@ image_type()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 exit_zero_if_show_use "${3}"
-exit_non_zero_if_bad_args
+exit_non_zero_if_bad_args ${@:3}
 exit_non_zero_unless_git_installed
 exit_non_zero_unless_docker_installed
 
