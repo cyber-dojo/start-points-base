@@ -11,6 +11,17 @@ test_no_arguments()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+test_short_help_option()
+{
+  build_start_points_image -h
+
+  assert_stdout_equals_use
+  assert_stderr_equals ''
+  assert_status_equals 0
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 test_long_help_option()
 {
   build_start_points_image --help

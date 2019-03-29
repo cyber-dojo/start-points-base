@@ -2,7 +2,6 @@
 
 echo "::${0##*/}"
 
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 test_custom_option_requires_image_name()

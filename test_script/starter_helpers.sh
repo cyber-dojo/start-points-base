@@ -8,26 +8,37 @@ oneTimeTearDown()
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 
-script_dir()
+my_dir()
 {
   cd "$( dirname "${BASH_ARGV[0]}" )" && pwd
 }
 
 root_dir()
 {
-  cd "$(script_dir)" && cd .. && pwd
+  cd "$(my_dir)" && cd .. && pwd
+}
+
+script_name()
+{
+  if [ -z "${COMMANDER_SCRIPT_NAME}" ]; then
+    >&2 echo 'ERROR'
+    >&2 echo 'COMMANDER_SCRIPT_NAME env-var must be set'
+    exit 1
+  else
+    echo "${COMMANDER_SCRIPT_NAME}"
+  fi
 }
 
 exit_if_bad_ROOT_DIR()
 {
   if using_DockerToolbox && on_Mac; then
-    local -r ROOT_DIR=$(root_dir)
+    declare -r ROOT_DIR=$(root_dir)
     if [ "${ROOT_DIR:0:6}" != '/Users' ]; then
-      echo 'ERROR'
-      echo 'You are using Docker-Toolbox for Mac'
-      echo "This script lives off ${ROOT_DIR}"
-      echo 'It must live off /Users so the docker-context'
-      echo "is automatically mounted into the default VM"
+      >&2 echo 'ERROR'
+      >&2 echo 'You are using Docker-Toolbox for Mac'
+      >&2 echo "This script lives off ${ROOT_DIR}"
+      >&2 echo 'It must live off /Users so the docker-context'
+      >&2 echo "is automatically mounted into the default VM"
       exit 1
     fi
   fi
@@ -92,8 +103,7 @@ build_start_points_image()
 {
   IMAGE_NAME="${1}"
   IMAGE_NAMES+=("${IMAGE_NAME}")
-  local -r script_name="$(root_dir)/cyber_dojo_start_points_create.sh"
-  ${script_name} ${@} >${stdoutF} 2>${stderrF}
+  $(script_name) start-point create ${@} >${stdoutF} 2>${stderrF}
   status=$?
   echo ${status} >${statusF}
 }
@@ -158,9 +168,9 @@ remove_start_points_images()
 assert_stdout_equals_use()
 {
   local -r help_line_1="Use:"
-  local -r help_line_2="$ ./cyber_dojo_start_points_create.sh <image-name> --custom    <git-repo-url>..."
-  local -r help_line_3="$ ./cyber_dojo_start_points_create.sh <image-name> --exercises <git-repo-url>..."
-  local -r help_line_4="$ ./cyber_dojo_start_points_create.sh <image-name> --languages <git-repo-url>..."
+  local -r help_line_2="$ ./cyber-dojo start-point create <image-name> --custom    <git-repo-url>..."
+  local -r help_line_3="$ ./cyber-dojo start-point create <image-name> --exercises <git-repo-url>..."
+  local -r help_line_4="$ ./cyber-dojo start-point create <image-name> --languages <git-repo-url>..."
   assert_stdout_includes "${help_line_1}"
   assert_stdout_includes "${help_line_2}"
   assert_stdout_includes "${help_line_3}"

@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
 set -e
 
-declare -r MY_NAME=$(basename "${0}")
-declare -r IMAGE_NAME="${1}"
-declare -r IMAGE_TYPE="${2}"
-declare -ar GIT_REPO_URLS="(${@:3})"
+declare -r MY_NAME='cyber-dojo'
+# 1 == start-point
+# 2 == create
+declare -r IMAGE_NAME="${3}"
+declare -r IMAGE_TYPE="${4}"
+declare -ar GIT_REPO_URLS="(${@:5})"
 
 show_use()
 {
   cat <<- EOF
 
   Use:
-  \$ ./${MY_NAME} <image-name> --custom    <git-repo-url>...
-  \$ ./${MY_NAME} <image-name> --exercises <git-repo-url>...
-  \$ ./${MY_NAME} <image-name> --languages <git-repo-url>...
+  \$ ./${MY_NAME} start-point create <image-name> --custom    <git-repo-url>...
+  \$ ./${MY_NAME} start-point create <image-name> --exercises <git-repo-url>...
+  \$ ./${MY_NAME} start-point create <image-name> --languages <git-repo-url>...
 
   Creates a cyber-dojo start-point docker image named <image-name>.
   Its base image will be cyberdojo/start-points-base.
@@ -71,10 +73,9 @@ exit_zero_if_show_use()
 
 exit_non_zero_if_bad_args()
 {
-  local -r args="${@}"
   set +e
   docker container run --rm $(base_image_name) \
-    /app/src/from_script/bad_args.rb ${args}
+    /app/src/from_script/bad_args.rb ${IMAGE_NAME} ${IMAGE_TYPE} ${GIT_REPO_URLS}
   local -r status=$?
   set -e
   if [ "${status}" != '0' ]; then
@@ -243,8 +244,8 @@ image_type()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-exit_zero_if_show_use "${@}"
-exit_non_zero_if_bad_args "${@}"
+exit_zero_if_show_use "${3}"
+exit_non_zero_if_bad_args
 exit_non_zero_unless_git_installed
 exit_non_zero_unless_docker_installed
 
