@@ -1,4 +1,5 @@
 *
+!repos/inspect.rb
 !src
 !config.ru
 !up.sh
