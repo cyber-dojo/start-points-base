@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . .
 RUN chown -R nobody:nogroup .
 
-ARG SHA
-ENV SHA=${SHA}
+ARG BASE_SHA
+ENV BASE_SHA=${BASE_SHA}
 
 USER nobody
