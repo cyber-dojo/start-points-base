@@ -33,7 +33,7 @@ services:
     tmpfs: /tmp
     restart: 'no'
     ports:
-      - 4527:4527
+      - 4526:4526
 
   exercises:
     user: nobody
@@ -46,7 +46,7 @@ services:
     tmpfs: /tmp
     restart: 'no'
     ports:
-      - 4526:4526
+      - 4525:4525
 
   languages:
     user: nobody
@@ -59,4 +59,4 @@ services:
     tmpfs: /tmp
     restart: 'no'
     ports:
-      - 4525:4525
+      - 4524:4524

@@ -10,7 +10,7 @@ class LanguagesService
   private
 
   def http
-    HttpHelper.new(self, 'languages', 4525)
+    HttpHelper.new(self, 'languages', 4524)
   end
 
 end

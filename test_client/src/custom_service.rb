@@ -10,7 +10,7 @@ class CustomService
   private
 
   def http
-    HttpHelper.new(self, 'custom', 4527)
+    HttpHelper.new(self, 'custom', 4526)
   end
 
 end

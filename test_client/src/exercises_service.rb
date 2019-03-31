@@ -10,7 +10,7 @@ class ExercisesService
   private
 
   def http
-    HttpHelper.new(self, 'exercises', 4526)
+    HttpHelper.new(self, 'exercises', 4525)
   end
 
 end
