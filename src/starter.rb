@@ -8,7 +8,7 @@ class Starter
   end
 
   def sha
-    ENV['BASE_SHA']
+    ENV['SHA'] || ENV['BASE_SHA']
   end
 
   def ready?
