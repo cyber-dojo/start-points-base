@@ -63,13 +63,13 @@ readonly CUSTOM_CONTAINER_NAME=test-custom-server
 readonly EXERCISES_CONTAINER_NAME=test-exercises-server
 readonly LANGUAGES_CONTAINER_NAME=test-languages-server
 
-wait_until_ready  "${CUSTOM_CONTAINER_NAME}" 4527
+wait_until_ready  "${CUSTOM_CONTAINER_NAME}" 4526
 exit_unless_clean "${CUSTOM_CONTAINER_NAME}"
 
-wait_until_ready  "${EXERCISES_CONTAINER_NAME}" 4526
+wait_until_ready  "${EXERCISES_CONTAINER_NAME}" 4525
 exit_unless_clean "${EXERCISES_CONTAINER_NAME}"
 
-wait_until_ready  "${LANGUAGES_CONTAINER_NAME}" 4525
+wait_until_ready  "${LANGUAGES_CONTAINER_NAME}" 4524
 exit_unless_clean "${LANGUAGES_CONTAINER_NAME}"
 
 #wait_until_ready  "test-starter-client" 4528
