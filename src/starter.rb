@@ -66,7 +66,7 @@ class Starter
   # - - - - - - - - - - - - - - - - - - - -
 
   def start_points_dir
-    "/app/repos"
+    '/app/repos'
   end
 
   # - - - - - - - - - - - - - - - - - - - -
