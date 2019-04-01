@@ -11,9 +11,11 @@ lines.each do |line|
     content = IO.read(manifest_filename)
     manifest = JSON.parse!(content)
     display_name = manifest['display_name']
+    image_name = manifest['image_name']
     json[display_name] = {
+      'url' => url, 
       'sha' => sha,
-      'git-repo-url' => url
+      'image_name' => image_name
     }
   end
 end
