@@ -59,7 +59,7 @@ create_git_repo_in_target_dir()
 
 set_permissions_on_target_dir()
 {
-  chmod 777 "${TARGET_DIR}"
+  chmod 700 "${TARGET_DIR}"
   chown -R "${USER_ID}" "${TARGET_DIR}"
 }
 
