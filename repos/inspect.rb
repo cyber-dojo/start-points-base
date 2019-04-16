@@ -1,4 +1,14 @@
 require 'json'
+require 'uri'
+
+def clean_url(url)
+  if url.start_with?('file:///')
+    url = URI(url)
+    'file://' + File.expand_path(url.path)
+  else
+    url
+  end
+end
 
 root_dir = '/app/repos'
 json = {}
@@ -13,7 +23,7 @@ lines.each do |line|
     display_name = manifest['display_name']
     image_name = manifest['image_name']
     json[display_name] = {
-      'url' => url, 
+      'url' => clean_url(url),
       'sha' => sha,
       'image_name' => image_name
     }
