@@ -93,11 +93,11 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_unknown_key
-  peturn_language_manifest('Display_name', 'C#, NUnit')
+  peturb_language_manifest('Display_name', 'C#, NUnit')
 end
 
 def exercise_manifest_has_unknown_key
-  peturn_exercise_manifest('Display_name', 'C#, NUnit')
+  peturb_exercise_manifest('Display_name', 'C#, NUnit')
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -105,23 +105,23 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_missing_display_name
-  peturn_language_manifest('display_name', nil)
+  peturb_language_manifest('display_name', nil)
 end
 
 def exercises_manifest_missing_display_name
-  peturn_exercise_manifest('display_name', nil)
+  peturb_exercise_manifest('display_name', nil)
 end
 
 def languages_manifest_missing_visible_filenames
-  peturn_language_manifest('visible_filenames', nil)
+  peturb_language_manifest('visible_filenames', nil)
 end
 
 def languages_manifest_missing_image_name
-  peturn_language_manifest('image_name', nil)
+  peturb_language_manifest('image_name', nil)
 end
 
 def languages_manifest_missing_filename_extension
-  peturn_language_manifest('filename_extension', nil)
+  peturb_language_manifest('filename_extension', nil)
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -129,12 +129,12 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_string_image_name
-  peturn_language_manifest('image_name', [1,2,3])
+  peturb_language_manifest('image_name', [1,2,3])
 end
 
 def languages_manifest_has_malformed_image_name
   value = 'CYBERDOJO/csharp_nunit'
-  peturn_language_manifest('image_name', value)
+  peturb_language_manifest('image_name', value)
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -142,19 +142,19 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_string_display_name
-  peturn_language_manifest('display_name', [1,2,3])
+  peturb_language_manifest('display_name', [1,2,3])
 end
 
 def exercises_manifest_has_non_string_display_name
-  peturn_exercise_manifest('display_name', [1,2,3])
+  peturb_exercise_manifest('display_name', [1,2,3])
 end
 
 def languages_manifest_has_empty_display_name
-  peturn_language_manifest('display_name', '')
+  peturb_language_manifest('display_name', '')
 end
 
 def exercises_manifest_has_empty_display_name
-  peturn_exercise_manifest('display_name', '')
+  peturb_exercise_manifest('display_name', '')
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -162,92 +162,92 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_non_array_visible_filenames
-  peturn_language_manifest('visible_filenames', 1)
+  peturb_language_manifest('visible_filenames', 1)
 end
 
 def exercises_manifest_has_non_array_visible_filenames
-  peturn_exercise_manifest('visible_filenames', 1)
+  peturb_exercise_manifest('visible_filenames', 1)
 end
 
 def languages_manifest_has_empty_visible_filenames
-  peturn_language_manifest('visible_filenames', [])
+  peturb_language_manifest('visible_filenames', [])
 end
 
 def exercises_manifest_has_empty_visible_filenames
-  peturn_exercise_manifest('visible_filenames', [])
+  peturb_exercise_manifest('visible_filenames', [])
 end
 
 def languages_manifest_has_non_array_string_visible_filenames
-  peturn_language_manifest('visible_filenames', [1,2,3])
+  peturb_language_manifest('visible_filenames', [1,2,3])
 end
 
 def exercises_manifest_has_non_array_string_visible_filenames
-  peturn_exercise_manifest('visible_filenames', [1,2,3])
+  peturb_exercise_manifest('visible_filenames', [1,2,3])
 end
 
 def languages_manifest_has_empty_string_visible_filename
   value = ["hiker.cs", ""]
-  peturn_language_manifest('visible_filenames', value)
+  peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_has_empty_string_visible_filename
   value = ["hiker.txt", ""]
-  peturn_exercise_manifest('visible_filenames', value)
+  peturb_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_has_non_portable_character
   value = ["hiker.cs","hiker&.cs"]
-  peturn_language_manifest('visible_filenames', value)
+  peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_visible_filename_has_non_portable_character
   value = ["hiker.txt","hiker&.txt"]
-  peturn_exercise_manifest('visible_filenames', value)
+  peturb_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_has_non_portable_leading_character
   value = ["-hiker.cs","hiker.test.cs"]
-  peturn_language_manifest('visible_filenames', value)
+  peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_visible_filename_has_non_portable_leading_character
   value = ["-hiker.txt","hiker.test.txt"]
-  peturn_exercise_manifest('visible_filenames', value)
+  peturb_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_has_duplicates
   value = ["a.cs", "b.cs", "c.cs", "b.cs"]
-  peturn_language_manifest('visible_filenames', value)
+  peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_visible_filename_has_duplicates
   value = ["a.txt", "b.txt", "c.txt", "b.txt"]
-  peturn_exercise_manifest('visible_filenames', value)
+  peturb_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_does_not_exist
   value = [ 'HikerTest.cs', 'xHiker.cs', 'cyber-dojo.sh' ]
-  peturn_language_manifest('visible_filenames', value)
+  peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_visible_filename_does_not_exist
   value = [ 'instructions', 'HikerTest.txt' ]
-  peturn_exercise_manifest('visible_filenames', value)
+  peturb_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_no_cyber_dojo_sh
   value = [ 'HikerTest.cs', 'Hiker.cs' ]
-  peturn_language_manifest('visible_filenames', value)
+  peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_visible_filename_has_cyber_dojo_sh
   value = [ 'HikerTest.txt', 'cyber-dojo.sh' ]
-  peturn_exercise_manifest('visible_filenames', value)
+  peturb_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_file_too_large
   value = [ 'tiny.cs', 'large.cs', 'small.cs', 'cyber-dojo.sh' ]
-  peturn_language_manifest('visible_filenames', value)
+  peturb_language_manifest('visible_filenames', value)
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     dir = File.dirname(manifest_filename)
     IO.write("#{dir}/tiny.cs", 'tiny')
@@ -260,7 +260,7 @@ end
 
 def exercises_manifest_visible_file_too_large
   value = [ 'tiny.txt', 'large.txt', 'small.txt' ]
-  peturn_exercise_manifest('visible_filenames', value)
+  peturb_exercise_manifest('visible_filenames', value)
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     dir = File.dirname(manifest_filename)
     IO.write("#{dir}/tiny.txt", 'tiny')
@@ -275,32 +275,32 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_filename_extension_is_int
-  peturn_language_manifest('filename_extension', 1)
+  peturb_language_manifest('filename_extension', 1)
 end
 
 def languages_manifest_filename_extension_is_int_array
-  peturn_language_manifest('filename_extension', [1,2,3])
+  peturb_language_manifest('filename_extension', [1,2,3])
 end
 
 def languages_manifest_filename_extension_is_empty_array
-  peturn_language_manifest('filename_extension', [])
+  peturb_language_manifest('filename_extension', [])
 end
 
 def languages_manifest_filename_extension_is_empty_string
-  peturn_language_manifest('filename_extension', '')
+  peturb_language_manifest('filename_extension', '')
 end
 
 def languages_manifest_filename_extension_is_dotless
-  peturn_language_manifest('filename_extension', 'cs')
+  peturb_language_manifest('filename_extension', 'cs')
 end
 
 def languages_manifest_filename_extension_is_only_dot
-  peturn_language_manifest('filename_extension', '.')
+  peturb_language_manifest('filename_extension', '.')
 end
 
 def languages_manifest_filename_extension_duplicates
   value = [".cs", ".h", ".c", ".h"]
-  peturn_language_manifest('filename_extension', value)
+  peturb_language_manifest('filename_extension', value)
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -309,31 +309,31 @@ end
 
 def languages_manifest_hidden_filenames_success
   value = [ "coverage/\\.last_run\\.json" ]
-  peturn_language_manifest('hidden_filenames', value)
+  peturb_language_manifest('hidden_filenames', value)
 end
 
 def languages_manifest_hidden_filenames_int
-  peturn_language_manifest('hidden_filenames', 1)
+  peturb_language_manifest('hidden_filenames', 1)
 end
 
 def languages_manifest_hidden_filenames_int_array
-  peturn_language_manifest('hidden_filenames', [1,2,3])
+  peturb_language_manifest('hidden_filenames', [1,2,3])
 end
 
 def languages_manifest_hidden_filenames_empty_array
-  peturn_language_manifest('hidden_filenames', [])
+  peturb_language_manifest('hidden_filenames', [])
 end
 
 def languages_manifest_hidden_filenames_empty_string
-  peturn_language_manifest('hidden_filenames', [''])
+  peturb_language_manifest('hidden_filenames', [''])
 end
 
 def languages_manifest_hidden_filenames_bad_regex
-  peturn_language_manifest('hidden_filenames', ['('])
+  peturb_language_manifest('hidden_filenames', ['('])
 end
 
 def languages_manifest_hidden_filenames_duplicate
-  peturn_language_manifest('hidden_filenames', ['sd','gg','sd'])
+  peturb_language_manifest('hidden_filenames', ['sd','gg','sd'])
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -341,23 +341,23 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_tab_size_smallest_int
-  peturn_language_manifest('tab_size', 1)
+  peturb_language_manifest('tab_size', 1)
 end
 
 def languages_manifest_tab_size_biggest_int
-  peturn_language_manifest('tab_size', 8)
+  peturb_language_manifest('tab_size', 8)
 end
 
 def languages_manifest_tab_size_string
-  peturn_language_manifest('tab_size', '6')
+  peturb_language_manifest('tab_size', '6')
 end
 
 def languages_manifest_tab_size_int_too_small
-  peturn_language_manifest('tab_size', 0)
+  peturb_language_manifest('tab_size', 0)
 end
 
 def languages_manifest_tab_size_int_too_large
-  peturn_language_manifest('tab_size', 9)
+  peturb_language_manifest('tab_size', 9)
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -365,23 +365,23 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_max_seconds_smallest_int
-  peturn_language_manifest('max_seconds', 1)
+  peturb_language_manifest('max_seconds', 1)
 end
 
 def languages_manifest_max_seconds_biggest_int
-  peturn_language_manifest('max_seconds', 20)
+  peturb_language_manifest('max_seconds', 20)
 end
 
 def languages_manifest_max_seconds_string
-  peturn_language_manifest('max_seconds', '6')
+  peturb_language_manifest('max_seconds', '6')
 end
 
 def languages_manifest_max_seconds_int_too_small
-  peturn_language_manifest('max_seconds', 0)
+  peturb_language_manifest('max_seconds', 0)
 end
 
 def languages_manifest_max_seconds_int_too_large
-  peturn_language_manifest('max_seconds', 21)
+  peturb_language_manifest('max_seconds', 21)
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -389,31 +389,31 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_highlight_filenames_success
-  peturn_language_manifest('highlight_filenames', ['HikerTest.cs'])
+  peturb_language_manifest('highlight_filenames', ['HikerTest.cs'])
 end
 
 def languages_manifest_highlight_filenames_int
-  peturn_language_manifest('highlight_filenames', 42)
+  peturb_language_manifest('highlight_filenames', 42)
 end
 
 def languages_manifest_highlight_filenames_int_array
-  peturn_language_manifest('highlight_filenames', [42])
+  peturb_language_manifest('highlight_filenames', [42])
 end
 
 def languages_manifest_highlight_filenames_empty_array
-  peturn_language_manifest('highlight_filenames', [])
+  peturb_language_manifest('highlight_filenames', [])
 end
 
 def languages_manifest_highlight_filenames_empty_string
-  peturn_language_manifest('highlight_filenames', [''])
+  peturb_language_manifest('highlight_filenames', [''])
 end
 
 def languages_manifest_highlight_filenames_not_visible
-  peturn_language_manifest('highlight_filenames', ['Hiker.cs','xx.cs'])
+  peturb_language_manifest('highlight_filenames', ['Hiker.cs','xx.cs'])
 end
 
 def languages_manifest_highlight_filenames_duplicates
-  peturn_language_manifest('highlight_filenames', ['Hiker.cs','HikerTest.cs', 'Hiker.cs'])
+  peturb_language_manifest('highlight_filenames', ['Hiker.cs','HikerTest.cs', 'Hiker.cs'])
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -422,27 +422,27 @@ end
 
 def languages_manifest_progress_regexs_success
   value = [ "FAILED \\(failures=\\d+\\)", "OK" ]
-  peturn_language_manifest('progress_regexs', value)
+  peturb_language_manifest('progress_regexs', value)
 end
 
 def languages_manifest_progress_regexs_int
-  peturn_language_manifest('progress_regexs', 6)
+  peturb_language_manifest('progress_regexs', 6)
 end
 
 def languages_manifest_progress_regexs_string
-  peturn_language_manifest('progress_regexs', '6')
+  peturb_language_manifest('progress_regexs', '6')
 end
 
 def languages_manifest_progress_regexs_int_array
-  peturn_language_manifest('progress_regexs', [1,2])
+  peturb_language_manifest('progress_regexs', [1,2])
 end
 
 def languages_manifest_progress_regexs_empty_array
-  peturn_language_manifest('progress_regexs', [])
+  peturb_language_manifest('progress_regexs', [])
 end
 
 def languages_manifest_progress_regexs_bad_regex
-  peturn_language_manifest('progress_regexs', ['OK','('])
+  peturb_language_manifest('progress_regexs', ['OK','('])
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -450,30 +450,30 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_display_names_duplicate_1
-  peturn_language_manifest('display_name', 'Dup')
+  peturb_language_manifest('display_name', 'Dup')
 end
 
 def languages_manifest_has_display_names_duplicate_2
-  peturn_language_manifest('display_name', 'Dup', 'languages-python-unittest')
+  peturb_language_manifest('display_name', 'Dup', 'languages-python-unittest')
 end
 
 def exercises_manifest_has_display_names_duplicate_1
-  peturn_exercise_manifest('display_name', 'Dup')
+  peturb_exercise_manifest('display_name', 'Dup')
 end
 
 def exercises_manifest_has_display_names_duplicate_2
-  peturn_exercise_manifest('display_name', 'Dup', 'exercises-tiny-maze')
+  peturb_exercise_manifest('display_name', 'Dup', 'exercises-tiny-maze')
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_runner_choice_stateless
-  peturn_language_manifest('runner_choice', 'stateless')
+  peturb_language_manifest('runner_choice', 'stateless')
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
-def peturn_language_manifest(key, value, dir_name = 'languages-csharp-nunit')
+def peturb_language_manifest(key, value, dir_name = 'languages-csharp-nunit')
   `cp -R /app/#{dir_name} #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     json = JSON.parse!(IO.read(manifest_filename))
@@ -487,7 +487,7 @@ def peturn_language_manifest(key, value, dir_name = 'languages-csharp-nunit')
   end
 end
 
-def peturn_exercise_manifest(key, value, dir_name = 'exercises-fizz-buzz')
+def peturb_exercise_manifest(key, value, dir_name = 'exercises-fizz-buzz')
   `cp -R /app/#{dir_name} #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     json = JSON.parse!(IO.read(manifest_filename))
