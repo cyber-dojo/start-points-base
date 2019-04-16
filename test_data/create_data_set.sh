@@ -38,7 +38,8 @@ create_data_set_in_target_dir()
   languages-csharp-nunit   ) copy_data_set_to_target_dir;;
   languages-python-unittest) copy_data_set_to_target_dir;;
   languages-ruby-minitest  ) copy_data_set_to_target_dir;;
-               *) "${MY_DIR}/make_data_set.rb" "${DATA_SET_NAME}" "${TARGET_DIR}";;
+
+  *) "${MY_DIR}/make_data_set.rb" "${DATA_SET_NAME}" "${TARGET_DIR}";;
   esac
 }
 
