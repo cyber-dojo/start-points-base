@@ -20,9 +20,9 @@
 #
 # There are four git-repos/circleci-projects involved...
 # 1) cyber-dojo/starter-base
-# 2) cyber-dojo/starter-custom
-# 3) cyber-dojo/starter-exercises
-# 4) cyber-dojo/starter-languages
+# 2) cyber-dojo/custom
+# 3) cyber-dojo/exercises
+# 4) cyber-dojo/languages
 #
 # The ./circleci/config.yml for 1) has to do a [git commit] + [git push]
 # into the github repo for 2)3)4)
@@ -40,9 +40,9 @@
 #
 # Note too that these SSH keys are the preferred SSH keys for this project
 # and so do not have to be explicitly set in the .circleci/config.yml file.
-# Once the SSH keys have been added, the collaborator rights can be (and were)
-# dropped from Admin back to Write.
+# Once the SSH keys have been added, the collaborator rights (on Github)
+# can be (and were) dropped from Admin back to Write.
 #
-# The cyber-dojo-machine-user had to be added as a collaborator
+# The cyber-dojo-machine-user has to be retained as a collaborator
 # (with Write rights) to the github repo for 2)3)4).
 # This is so the [git push] works.
