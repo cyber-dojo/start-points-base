@@ -34,7 +34,7 @@ module CheckHighlightFilenames
     visible_filenames = json['visible_filenames']
     highlight_filenames.each_with_index do |filename,index|
       unless visible_filenames.include?(filename)
-        title = "highlight_filenames[#{index}] not in visible_filenames"
+        title = "highlight_filenames[#{index}]=#{quoted(filename)} not in visible_filenames"
         key = quoted('highlight_filenames')
         msg = "#{key}: #{highlight_filenames}"
         show_error(title, url, manifest_filename, msg)
@@ -45,9 +45,9 @@ module CheckHighlightFilenames
 
   def exit_if_highlight_filenames_duplicates(highlight_filenames, url, manifest_filename, error_code)
     highlight_filenames.each do |filename|
-      dup_indexes = get_dup_indexes(highlight_filenames, filename)
-      unless dup_indexes == ''
-        title = "highlight_filenames has duplicates #{dup_indexes}"
+      dups = get_dup_indexes(highlight_filenames, filename)
+      unless dups == []
+        title = "highlight_filenames#{dups} are duplicates of #{quoted(filename)}"
         key = quoted('highlight_filenames')
         msg = "#{key}: #{highlight_filenames}"
         show_error(title, url, manifest_filename, msg)

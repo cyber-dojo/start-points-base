@@ -100,7 +100,7 @@ test_failure_not_visible()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: highlight_filenames[1] not in visible_filenames"
+  assert_stderr_includes "ERROR: highlight_filenames[1]=\"xx.cs\" not in visible_filenames"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"highlight_filenames": ["Hiker.cs", "xx.cs"]'
@@ -119,7 +119,7 @@ test_failure_duplicates()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: highlight_filenames has duplicates [0][2]"
+  assert_stderr_includes "ERROR: highlight_filenames[0, 2] are duplicates of \"Hiker.cs\""
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"highlight_filenames": ["Hiker.cs", "HikerTest.cs", "Hiker.cs"]'

@@ -37,7 +37,7 @@ module CheckHiddenFilenames
       begin
         Regexp.new(s)
       rescue
-        title = "hidden_filenames[#{index}] cannot create Regexp"
+        title = "hidden_filenames[#{index}]=#{quoted(s)} cannot create Regexp"
         key = quoted('hidden_filenames')
         msg = "#{key}: #{hidden_filenames}"
         show_error(title, url, manifest_filename, msg)
@@ -48,9 +48,9 @@ module CheckHiddenFilenames
 
   def exit_if_hidden_filenames_has_duplicates(hidden_filenames, url, manifest_filename, error_code)
     hidden_filenames.each do |filename|
-      dup_indexes = get_dup_indexes(hidden_filenames, filename)
-      unless dup_indexes == ''
-        title = "hidden_filenames has duplicates #{dup_indexes}"
+      dups = get_dup_indexes(hidden_filenames, filename)
+      unless dups == []
+        title = "hidden_filenames#{dups} are duplicates of #{quoted(filename)}"
         key = quoted('hidden_filenames')
         msg = "#{key}: #{hidden_filenames}"
         show_error(title, url, manifest_filename, msg)

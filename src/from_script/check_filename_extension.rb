@@ -37,7 +37,7 @@ module CheckFilenameExtension
   def exit_if_filename_extension_is_empty_string(filename_extension, url, manifest_filename, error_code)
     filename_extension.each_with_index do |ext, index|
       if ext == ''
-        title = "filename_extension[#{index}] must be non-empty String"
+        title = "filename_extension[#{index}]='' cannot be empty String"
         key = quoted('filename_extension')
         msg = "#{key}: #{filename_extension}"
         show_error(title, url, manifest_filename, msg)
@@ -49,7 +49,7 @@ module CheckFilenameExtension
   def exit_if_filename_extension_dotless(filename_extension, url, manifest_filename, error_code)
     filename_extension.each_with_index do |ext, index|
       unless ext[0] == '.'
-        title = "filename_extension[#{index}] must start with a dot"
+        title = "filename_extension[#{index}]=#{quoted(ext)} must start with a dot"
         key = quoted('filename_extension')
         msg = "#{key}: #{filename_extension}"
         show_error(title, url, manifest_filename, msg)
@@ -61,7 +61,7 @@ module CheckFilenameExtension
   def exit_if_filename_extension_only_dots(filename_extension, url, manifest_filename, error_code)
     filename_extension.each_with_index do |ext, index|
       if ext == '.'
-        title = "filename_extension[#{index}] must be more than just a dot"
+        title = "filename_extension[#{index}]=#{quoted(ext)} must be more than just a dot"
         key = quoted('filename_extension')
         msg = "#{key}: #{filename_extension}"
         show_error(title, url, manifest_filename, msg)
@@ -72,9 +72,9 @@ module CheckFilenameExtension
 
   def exit_if_filename_extension_duplicates(filename_extension, url, manifest_filename, error_code)
     filename_extension.each do |ext|
-      dup_indexes = get_dup_indexes(filename_extension, ext)
-      unless dup_indexes == ''
-        title = "filename_extension has duplicates #{dup_indexes}"
+      dups = get_dup_indexes(filename_extension, ext)
+      unless dups == []
+        title = "filename_extension#{dups} are duplicates of #{quoted(ext)}"
         key = quoted('filename_extension')
         msg = "#{key}: #{filename_extension}"
         show_error(title, url, manifest_filename, msg)

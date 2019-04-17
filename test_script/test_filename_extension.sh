@@ -81,7 +81,7 @@ test_failure_empty_string()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: filename_extension[0] must be non-empty String"
+  assert_stderr_includes "ERROR: filename_extension[0]='' cannot be empty String"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"filename_extension": [""]'
@@ -100,7 +100,7 @@ test_failure_doesnt_start_dot()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: filename_extension[0] must start with a dot"
+  assert_stderr_includes "ERROR: filename_extension[0]=\"cs\" must start with a dot"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"filename_extension": ["cs"]'
@@ -119,7 +119,7 @@ test_failure_only_a_dot()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: filename_extension[0] must be more than just a dot"
+  assert_stderr_includes "ERROR: filename_extension[0]=\".\" must be more than just a dot"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"filename_extension": ["."]'
@@ -138,7 +138,7 @@ test_failure_duplicates()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: filename_extension has duplicates [1][3]"
+  assert_stderr_includes "ERROR: filename_extension[1, 3] are duplicates of \".h\""
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"filename_extension": [".cs", ".h", ".c", ".h"]'

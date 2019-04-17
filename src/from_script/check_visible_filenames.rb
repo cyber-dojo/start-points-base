@@ -33,7 +33,7 @@ module CheckVisibleFilenames
 
   def exit_if_visible_filenames_is_empty(visible_filenames, url, manifest_filename, error_code)
     if visible_filenames.empty?
-      title = 'visible_filenames is empty'
+      title = 'visible_filenames cannot be empty'
       key = quoted('visible_filenames')
       msg = "#{key}: #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
@@ -43,7 +43,7 @@ module CheckVisibleFilenames
 
   def exit_unless_visible_filename_is_a_String(visible_filenames, filename, index, url, manifest_filename, error_code)
     unless filename.is_a?(String)
-      title = "visible_filenames[#{index}] is not a String"
+      title = "visible_filenames[#{index}]=#{filename.to_s} is not a String"
       key = quoted('visible_filenames')
       msg = "#{key}: #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
@@ -53,7 +53,7 @@ module CheckVisibleFilenames
 
   def exit_if_visible_filename_is_empty(visible_filenames, filename, index, url, manifest_filename, error_code)
     if filename.empty?
-      title = "visible_filenames[#{index}] is empty"
+      title = "visible_filenames[#{index}]='' cannot be empty String"
       key = quoted('visible_filenames')
       msg = "#{key}: #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
@@ -64,7 +64,7 @@ module CheckVisibleFilenames
   def exit_unless_visible_filename_is_portable(visible_filenames, filename, index, url, manifest_filename, error_code)
     filename.each_char do |ch|
       unless portable?(ch)
-        title = "visible_filenames[#{index}] has non-portable character '#{ch}'"
+        title = "visible_filenames[#{index}]=#{quoted(filename)} has non-portable character '#{ch}'"
         key = quoted('visible_filenames')
         msg = "#{key}: #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
@@ -72,7 +72,7 @@ module CheckVisibleFilenames
       end
     end
     if filename[0] == '-'
-      title = "visible_filenames[#{index}] has non-portable leading character '-'"
+      title = "visible_filenames[#{index}]=#{quoted(filename)} has non-portable leading character '-'"
       key = quoted('visible_filenames')
       msg = "#{key}: #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
@@ -82,9 +82,9 @@ module CheckVisibleFilenames
 
   def exit_if_visible_filename_duplicate(visible_filenames, url, manifest_filename, error_code)
     visible_filenames.each do |filename|
-      dup_indexes = get_dup_indexes(visible_filenames, filename)
-      unless dup_indexes == ''
-        title = "visible_filenames has duplicates #{dup_indexes}"
+      dups = get_dup_indexes(visible_filenames, filename)
+      unless dups == []
+        title = "visible_filenames#{dups} are duplicates of #{quoted(filename)}"
         key = quoted('visible_filenames')
         msg = "#{key}: #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
@@ -97,7 +97,7 @@ module CheckVisibleFilenames
     dir_name = File.dirname(manifest_filename)
     visible_filenames.each_with_index do |filename,index|
       unless File.exists?(dir_name + '/' + filename)
-        title = "visible_filenames[#{index}] does not exist"
+        title = "visible_filenames[#{index}]=#{quoted(filename)} does not exist"
         key = quoted('visible_filenames')
         msg = "#{key}: #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
@@ -110,7 +110,7 @@ module CheckVisibleFilenames
     dir_name = File.dirname(manifest_filename)
     visible_filenames.each_with_index do |filename,index|
       if File.size("#{dir_name}/#{filename}") > 25*1024
-        title = "visible_filenames[#{index}] is too large (>25K)"
+        title = "visible_filenames[#{index}]=#{quoted(filename)} is too large (>25K)"
         key = quoted('visible_filenames')
         msg = "#{key}: #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
@@ -143,18 +143,13 @@ module CheckVisibleFilenames
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def get_dup_indexes(all, value)
-    (0...all.size).each do |i|
-      dups = all.each_index.select { |index| all[i] == all[index] }
-      if dups.size != 1
-        return dups.map{|i| "[#{i}]"}.join
-      end
-    end
-    return ''
+    dups = all.each_index.select { |index| all[index] == value }
+    dups.size != 1 ? dups : []
   end
 
   def portable?(ch)
     # http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_278
-    # I also allow forward slash since some filenames include dirs.
+    # I allow forward slash since some filenames include dirs.
     upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     lower = 'abcdefghijklmnopqrstuvwxyz'
     digits = '0123456789'

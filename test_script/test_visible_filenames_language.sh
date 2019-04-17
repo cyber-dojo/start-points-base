@@ -28,7 +28,7 @@ test_failure_empty()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: visible_filenames is empty"
+  assert_stderr_includes "ERROR: visible_filenames cannot be empty"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": []'
@@ -47,7 +47,7 @@ test_failure_non_array_string()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: visible_filenames[0] is not a String"
+  assert_stderr_includes "ERROR: visible_filenames[0]=1 is not a String"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": [1, 2, 3]'
@@ -66,7 +66,7 @@ test_failure_empty_string()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: visible_filenames[1] is empty"
+  assert_stderr_includes "ERROR: visible_filenames[1]='' cannot be empty String"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["hiker.cs", ""]'
@@ -85,7 +85,7 @@ test_failure_non_portable_character()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: visible_filenames[1] has non-portable character '&'"
+  assert_stderr_includes "ERROR: visible_filenames[1]=\"hiker&.cs\" has non-portable character '&'"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["hiker.cs", "hiker&.cs"]'
@@ -104,7 +104,7 @@ test_failure_non_portable_leading_character()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: visible_filenames[0] has non-portable leading character '-'"
+  assert_stderr_includes "ERROR: visible_filenames[0]=\"-hiker.cs\" has non-portable leading character '-'"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["-hiker.cs", "hiker.test.cs"]'
@@ -123,7 +123,7 @@ test_failure_duplicates()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: visible_filenames has duplicates [1][3]'
+  assert_stderr_includes 'ERROR: visible_filenames[1, 3] are duplicates of "b.cs"'
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["a.cs", "b.cs", "c.cs", "b.cs"]'
@@ -142,7 +142,7 @@ test_failure_does_not_exist()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: visible_filenames[1] does not exist'
+  assert_stderr_includes 'ERROR: visible_filenames[1]="xHiker.cs" does not exist'
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["HikerTest.cs", "xHiker.cs", "cyber-dojo.sh"]'
@@ -180,7 +180,7 @@ test_failure_file_too_large()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: visible_filenames[1] is too large (>25K)'
+  assert_stderr_includes 'ERROR: visible_filenames[1]="large.cs" is too large (>25K)'
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["tiny.cs", "large.cs", "small.cs", "cyber-dojo.sh"]'

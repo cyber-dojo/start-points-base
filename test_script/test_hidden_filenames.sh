@@ -100,7 +100,7 @@ test_failure_bad_regex()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: hidden_filenames[0] cannot create Regexp'
+  assert_stderr_includes 'ERROR: hidden_filenames[0]="(" cannot create Regexp'
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"hidden_filenames": ["("]'
@@ -119,7 +119,7 @@ test_failure_duplicates()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: hidden_filenames has duplicates [0][2]'
+  assert_stderr_includes 'ERROR: hidden_filenames[0, 2] are duplicates of "sd"'
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"hidden_filenames": ["sd", "gg", "sd"]'
