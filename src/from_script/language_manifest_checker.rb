@@ -19,6 +19,7 @@ class LanguageManifestChecker
 
   def initialize(type)
     @type = type
+    @error_codes = []
   end
 
   def check_all(root_dir)
@@ -28,6 +29,10 @@ class LanguageManifestChecker
       check_one(url, filenames, display_names)
     end
     check_display_names(display_names, 40)
+
+    if @error_codes != []
+      exit(@error_codes[0])
+    end
   end
 
   private
