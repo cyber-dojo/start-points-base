@@ -40,7 +40,7 @@ module CheckProgressRegexs
       begin
         Regexp.new(s)
       rescue
-        title = "progress_regexs[#{index}] cannot create Regexp"
+        title = "progress_regexs[#{index}]=#{quoted(s)} cannot create Regexp"
         key = quoted('progress_regexs')
         msg = "#{key}: #{progress_regexs}"
         show_error(title, url, manifest_filename, msg)

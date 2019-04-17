@@ -28,7 +28,7 @@ test_failure_empty_string()
   build_start_points_image_exercises "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: display_name is empty"
+  assert_stderr_includes "ERROR: display_name cannot be empty String"
   assert_stderr_includes "--exercises ${TMP_URL}"
   assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
   assert_stderr_includes '"display_name": ""'

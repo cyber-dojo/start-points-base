@@ -14,7 +14,7 @@ module CheckDisplayName
       exit(error_code)
     end
     unless display_name.size > 0
-      title = 'display_name is empty'
+      title = 'display_name cannot be empty String'
       msg = '"display_name": ""'
       show_error(title, url, filename, msg)
       exit(error_code)

@@ -100,7 +100,7 @@ test_failure_bad_regex()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: progress_regexs[1] cannot create Regexp'
+  assert_stderr_includes 'ERROR: progress_regexs[1]="(" cannot create Regexp'
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"progress_regexs": ["OK", "("]'
