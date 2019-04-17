@@ -7,14 +7,15 @@ module CheckMaxSeconds
   def check_max_seconds(url, manifest_filename, json, error_code)
     if json.has_key?('max_seconds')
       max_seconds = json['max_seconds']
-      exit_unless_max_seconds_is_integer(max_seconds, url, manifest_filename, error_code)
-      exit_unless_max_seconds_in_range(max_seconds, url, manifest_filename, error_code)
+      ok = max_seconds_is_integer(max_seconds, url, manifest_filename, error_code)
+      ok && max_seconds_in_range(max_seconds, url, manifest_filename, error_code)
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  def exit_unless_max_seconds_is_integer(max_seconds, url, manifest_filename, error_code)
+  def max_seconds_is_integer(max_seconds, url, manifest_filename, error_code)
+    result = true
     unless max_seconds.is_a?(Integer)
       title = 'max_seconds must be an Integer'
       key = quoted('max_seconds')
@@ -23,18 +24,17 @@ module CheckMaxSeconds
       else
         msg = "#{key}: #{max_seconds}"
       end
-      show_error(title, url, manifest_filename, msg)
-      exit(error_code)
+      result = error(title, url, manifest_filename, msg, error_code)
     end
+    result
   end
 
-  def exit_unless_max_seconds_in_range(max_seconds, url, manifest_filename, error_code)
+  def max_seconds_in_range(max_seconds, url, manifest_filename, error_code)
     unless (1..20).include?(max_seconds)
       title = 'max_seconds must be an Integer (1..20)'
       key = quoted('max_seconds')
       msg = "#{key}: #{max_seconds}"
-      show_error(title, url, manifest_filename, msg)
-      exit(error_code)
+      error(title, url, manifest_filename, msg, error_code)
     end
   end
 
