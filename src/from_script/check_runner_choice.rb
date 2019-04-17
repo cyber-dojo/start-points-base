@@ -10,8 +10,7 @@ module CheckRunnerChoice
       title = 'runner_choice is no longer used. Please remove'
       key = quoted('runner_choice')
       msg = "#{key}: \"#{runner_choice}\""
-      show_error(title, url, manifest_filename, msg)
-      exit(error_code)
+      error(title, url, manifest_filename, msg, error_code)
     end
   end
 
