@@ -1,6 +1,12 @@
 
 module ShowError
 
+  def error(title, url, filename, msg, error_code)
+    show_error(title, url, filename, msg)
+    @error_codes << error_code
+    false
+  end
+
   def show_error(title, url, filename, msg = '')
     stream = STDERR
     stream.puts("ERROR: #{title}")

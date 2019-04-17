@@ -38,10 +38,4 @@ module CheckTabSize
     end
   end
 
-  def error(title, url, filename, msg, error_code)
-    show_error(title, url, filename, msg)
-    @error_codes << error_code
-    false
-  end
-
 end
