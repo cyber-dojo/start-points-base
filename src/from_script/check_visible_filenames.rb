@@ -24,7 +24,8 @@ module CheckVisibleFilenames
   def exit_unless_visible_filenames_is_array(visible_filenames, url, manifest_filename, error_code)
     unless visible_filenames.is_a?(Array)
       title = 'visible_filenames is not an Array'
-      msg = "\"visible_filenames\": #{visible_filenames}"
+      key = quoted('visible_filenames')
+      msg = "#{key}: #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
       exit(error_code)
     end
@@ -33,7 +34,8 @@ module CheckVisibleFilenames
   def exit_if_visible_filenames_is_empty(visible_filenames, url, manifest_filename, error_code)
     if visible_filenames.empty?
       title = 'visible_filenames is empty'
-      msg = "\"visible_filenames\": #{visible_filenames}"
+      key = quoted('visible_filenames')
+      msg = "#{key}: #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
       exit(error_code)
     end
@@ -42,7 +44,8 @@ module CheckVisibleFilenames
   def exit_unless_visible_filename_is_a_String(visible_filenames, filename, index, url, manifest_filename, error_code)
     unless filename.is_a?(String)
       title = "visible_filenames[#{index}] is not a String"
-      msg = "\"visible_filenames\": #{visible_filenames}"
+      key = quoted('visible_filenames')
+      msg = "#{key}: #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
       exit(error_code)
     end
@@ -51,7 +54,8 @@ module CheckVisibleFilenames
   def exit_if_visible_filename_is_empty(visible_filenames, filename, index, url, manifest_filename, error_code)
     if filename.empty?
       title = "visible_filenames[#{index}] is empty"
-      msg = "\"visible_filenames\": #{visible_filenames}"
+      key = quoted('visible_filenames')
+      msg = "#{key}: #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
       exit(error_code)
     end
@@ -61,14 +65,16 @@ module CheckVisibleFilenames
     filename.each_char do |ch|
       unless portable?(ch)
         title = "visible_filenames[#{index}] has non-portable character '#{ch}'"
-        msg = "\"visible_filenames\": #{visible_filenames}"
+        key = quoted('visible_filenames')
+        msg = "#{key}: #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
         exit(error_code)
       end
     end
     if filename[0] == '-'
       title = "visible_filenames[#{index}] has non-portable leading character '-'"
-      msg = "\"visible_filenames\": #{visible_filenames}"
+      key = quoted('visible_filenames')
+      msg = "#{key}: #{visible_filenames}"
       show_error(title, url, manifest_filename, msg)
       exit(error_code)
     end
@@ -79,7 +85,8 @@ module CheckVisibleFilenames
       dup_indexes = get_dup_indexes(visible_filenames, filename)
       unless dup_indexes == ''
         title = "visible_filenames has duplicates #{dup_indexes}"
-        msg = "\"visible_filenames\": #{visible_filenames}"
+        key = quoted('visible_filenames')
+        msg = "#{key}: #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
         exit(error_code)
       end
@@ -91,7 +98,8 @@ module CheckVisibleFilenames
     visible_filenames.each_with_index do |filename,index|
       unless File.exists?(dir_name + '/' + filename)
         title = "visible_filenames[#{index}] does not exist"
-        msg = "\"visible_filenames\": #{visible_filenames}"
+        key = quoted('visible_filenames')
+        msg = "#{key}: #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
         exit(error_code)
       end
@@ -103,7 +111,8 @@ module CheckVisibleFilenames
     visible_filenames.each_with_index do |filename,index|
       if File.size("#{dir_name}/#{filename}") > 25*1024
         title = "visible_filenames[#{index}] is too large (>25K)"
-        msg = "\"visible_filenames\": #{visible_filenames}"
+        key = quoted('visible_filenames')
+        msg = "#{key}: #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
         exit(error_code)
       end
@@ -114,7 +123,8 @@ module CheckVisibleFilenames
     if @type == 'languages'
       unless visible_filenames.include?('cyber-dojo.sh')
         title = 'visible_filenames does not include "cyber-dojo.sh"'
-        msg = "\"visible_filenames\": #{visible_filenames}"
+        key = quoted('visible_filenames')
+        msg = "#{key}: #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
         exit(error_code)
       end
@@ -122,7 +132,8 @@ module CheckVisibleFilenames
     if @type == 'exercises'
       if visible_filenames.include?('cyber-dojo.sh')
         title = 'visible_filenames cannot include "cyber-dojo.sh"'
-        msg = "\"visible_filenames\": #{visible_filenames}"
+        key = quoted('visible_filenames')
+        msg = "#{key}: #{visible_filenames}"
         show_error(title, url, manifest_filename, msg)
         exit(error_code)
       end

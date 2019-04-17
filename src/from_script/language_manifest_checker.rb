@@ -1,18 +1,19 @@
-require_relative 'read_manifest_filenames'
-require_relative 'clean_json'
 require_relative 'check_no_unknown_keys_exist'
 require_relative 'check_all_required_keys_exist'
-require_relative 'check_image_name'
 require_relative 'check_display_name'
-require_relative 'check_visible_filenames'
+require_relative 'check_display_names'
 require_relative 'check_filename_extension'
 require_relative 'check_hidden_filenames'
-require_relative 'check_tab_size'
-require_relative 'check_max_seconds'
 require_relative 'check_highlight_filenames'
+require_relative 'check_image_name'
+require_relative 'check_max_seconds'
 require_relative 'check_progress_regexs'
-require_relative 'check_display_names'
 require_relative 'check_runner_choice'
+require_relative 'check_tab_size'
+require_relative 'check_visible_filenames'
+require_relative 'clean_json'
+require_relative 'quoted'
+require_relative 'read_manifest_filenames'
 
 class LanguageManifestChecker
 
@@ -64,21 +65,22 @@ class LanguageManifestChecker
     check_runner_choice(url, filename, json, 50)
   end
 
-  include ReadManifestFilenames
-  include CleanJson
-  include CheckNoUnknownKeysExist
   include CheckAllRequiredKeysExist
-  include CheckImageName
   include CheckDisplayName
-  include CheckVisibleFilenames
+  include CheckDisplayNames
   include CheckFilenameExtension
   include CheckHiddenFilenames
-  include CheckTabSize
-  include CheckMaxSeconds
   include CheckHighlightFilenames
+  include CheckImageName
+  include CheckMaxSeconds
+  include CheckNoUnknownKeysExist
   include CheckProgressRegexs
-  include CheckDisplayNames
   include CheckRunnerChoice
+  include CheckTabSize
+  include CheckVisibleFilenames
+  include CleanJson
+  include Quoted
+  include ReadManifestFilenames
 
   def known_keys
     %w( display_name

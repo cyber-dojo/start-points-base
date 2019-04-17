@@ -16,7 +16,8 @@ module CheckHighlightFilenames
   def exit_unless_highlight_filenames_well_formed(highlight_filenames, url, manifest_filename, error_code)
     unless highlight_filenames_well_formed?(highlight_filenames)
       title = 'highlight_filenames must be an Array of Strings'
-      msg = "\"highlight_filenames\": #{highlight_filenames}"
+      key = quoted('highlight_filenames')
+      msg = "#{key}: #{highlight_filenames}"
       show_error(title, url, manifest_filename, msg)
       exit(error_code)
     end
@@ -34,7 +35,8 @@ module CheckHighlightFilenames
     highlight_filenames.each_with_index do |filename,index|
       unless visible_filenames.include?(filename)
         title = "highlight_filenames[#{index}] not in visible_filenames"
-        msg = "\"highlight_filenames\": #{highlight_filenames}"
+        key = quoted('highlight_filenames')
+        msg = "#{key}: #{highlight_filenames}"
         show_error(title, url, manifest_filename, msg)
         exit(error_code)
       end
@@ -46,7 +48,8 @@ module CheckHighlightFilenames
       dup_indexes = get_dup_indexes(highlight_filenames, filename)
       unless dup_indexes == ''
         title = "highlight_filenames has duplicates #{dup_indexes}"
-        msg = "\"highlight_filenames\": #{highlight_filenames}"
+        key = quoted('highlight_filenames')
+        msg = "#{key}: #{highlight_filenames}"
         show_error(title, url, manifest_filename, msg)
         exit(error_code)
       end

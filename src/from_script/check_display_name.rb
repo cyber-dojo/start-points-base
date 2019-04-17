@@ -8,7 +8,8 @@ module CheckDisplayName
     display_name = json['display_name']
     unless display_name.is_a?(String)
       title = 'display_name is not a String'
-      msg = "\"display_name\": #{display_name}"
+      key = quoted('display_name')
+      msg = "#{key}: #{display_name}"
       show_error(title, url, filename, msg)
       exit(error_code)
     end

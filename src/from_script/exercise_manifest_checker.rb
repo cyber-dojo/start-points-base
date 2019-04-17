@@ -1,10 +1,11 @@
-require_relative 'read_manifest_filenames'
-require_relative 'clean_json'
-require_relative 'check_no_unknown_keys_exist'
 require_relative 'check_all_required_keys_exist'
 require_relative 'check_display_name'
 require_relative 'check_display_names'
+require_relative 'check_no_unknown_keys_exist'
 require_relative 'check_visible_filenames'
+require_relative 'clean_json'
+require_relative 'quoted'
+require_relative 'read_manifest_filenames'
 
 class ExerciseManifestChecker
 
@@ -23,13 +24,14 @@ class ExerciseManifestChecker
 
   private
 
-  include ReadManifestFilenames
-  include CleanJson
-  include CheckNoUnknownKeysExist
   include CheckAllRequiredKeysExist
   include CheckDisplayName
   include CheckDisplayNames
+  include CheckNoUnknownKeysExist
   include CheckVisibleFilenames
+  include CleanJson
+  include Quoted
+  include ReadManifestFilenames
 
   def check_one(url, filenames, display_names)
     filenames.each do |filename|

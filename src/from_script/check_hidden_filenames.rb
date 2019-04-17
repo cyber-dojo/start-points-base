@@ -18,7 +18,8 @@ module CheckHiddenFilenames
   def exit_unless_hidden_filenames_well_formed(hidden_filenames, url, manifest_filename, error_code)
     unless hidden_filenames_well_formed?(hidden_filenames)
       title = 'hidden_filenames must be an Array of Strings'
-      msg = "\"hidden_filenames\": #{hidden_filenames}"
+      key = quoted('hidden_filenames')
+      msg = "#{key}: #{hidden_filenames}"
       show_error(title, url, manifest_filename, msg)
       exit(error_code)
     end
@@ -37,7 +38,8 @@ module CheckHiddenFilenames
         Regexp.new(s)
       rescue
         title = "hidden_filenames[#{index}] cannot create Regexp"
-        msg = "\"hidden_filenames\": #{hidden_filenames}"
+        key = quoted('hidden_filenames')
+        msg = "#{key}: #{hidden_filenames}"
         show_error(title, url, manifest_filename, msg)
         exit(error_code)
       end
@@ -49,7 +51,8 @@ module CheckHiddenFilenames
       dup_indexes = get_dup_indexes(hidden_filenames, filename)
       unless dup_indexes == ''
         title = "hidden_filenames has duplicates #{dup_indexes}"
-        msg = "\"hidden_filenames\": #{hidden_filenames}"
+        key = quoted('hidden_filenames')
+        msg = "#{key}: #{hidden_filenames}"
         show_error(title, url, manifest_filename, msg)
         exit(error_code)
       end

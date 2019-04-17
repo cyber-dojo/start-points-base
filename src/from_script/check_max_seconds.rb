@@ -17,10 +17,11 @@ module CheckMaxSeconds
   def exit_unless_max_seconds_is_integer(max_seconds, url, manifest_filename, error_code)
     unless max_seconds.is_a?(Integer)
       title = 'max_seconds must be an Integer'
+      key = quoted('max_seconds')
       if max_seconds.is_a?(String)
-        msg = "\"max_seconds\": \"#{max_seconds}\""
+        msg = "#{key}: #{quoted(max_seconds)}"
       else
-        msg = "\"max_seconds\": #{max_seconds}"
+        msg = "#{key}: #{max_seconds}"
       end
       show_error(title, url, manifest_filename, msg)
       exit(error_code)
@@ -30,7 +31,8 @@ module CheckMaxSeconds
   def exit_unless_max_seconds_in_range(max_seconds, url, manifest_filename, error_code)
     unless (1..20).include?(max_seconds)
       title = 'max_seconds must be an Integer (1..20)'
-      msg = "\"max_seconds\": #{max_seconds}"
+      key = quoted('max_seconds')
+      msg = "#{key}: #{max_seconds}"
       show_error(title, url, manifest_filename, msg)
       exit(error_code)
     end

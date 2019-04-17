@@ -17,10 +17,11 @@ module CheckTabSize
   def exit_unless_tab_size_is_integer(tab_size, url, manifest_filename, error_code)
     unless tab_size.is_a?(Integer)
       title = 'tab_size must be an Integer'
+      key = quoted('tab_size')
       if tab_size.is_a?(String)
-        msg = "\"tab_size\": \"#{tab_size}\""
+        msg = "#{key}: \"#{tab_size}\""
       else
-        msg = "\"tab_size\": #{tab_size}"
+        msg = "#{key}: #{tab_size}"
       end
       show_error(title, url, manifest_filename, msg)
       exit(error_code)
@@ -30,7 +31,8 @@ module CheckTabSize
   def exit_unless_tab_size_in_range(tab_size, url, manifest_filename, error_code)
     unless (1..8).include?(tab_size)
       title = 'tab_size must be an Integer (1..8)'
-      msg = "\"tab_size\": #{tab_size}"
+      key = quoted('tab_size')
+      msg = "#{key}: #{tab_size}"
       show_error(title, url, manifest_filename, msg)
       exit(error_code)
     end
