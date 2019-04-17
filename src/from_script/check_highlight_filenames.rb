@@ -6,21 +6,22 @@ module CheckHighlightFilenames
 
   def check_highlight_filenames(url, manifest_filename, json, error_code)
     if json.has_key?('highlight_filenames')
-      highlight_filenames = json['highlight_filenames']
-      exit_unless_highlight_filenames_well_formed(highlight_filenames, url, manifest_filename, error_code)
-      exit_unless_highlight_filenames_visible(highlight_filenames, url, manifest_filename, json, error_code)
-      exit_if_highlight_filenames_duplicates(highlight_filenames, url, manifest_filename, error_code)
+      ok = highlight_filenames_well_formed(url, manifest_filename, json, error_code)
+      ok && highlight_filenames_visible(url, manifest_filename, json, error_code)
+      ok && highlight_filenames_duplicates(url, manifest_filename, json, error_code)
     end
   end
 
-  def exit_unless_highlight_filenames_well_formed(highlight_filenames, url, manifest_filename, error_code)
+  def highlight_filenames_well_formed(url, manifest_filename, json, error_code)
+    result = true
+    highlight_filenames = json['highlight_filenames']
     unless highlight_filenames_well_formed?(highlight_filenames)
       title = 'highlight_filenames must be an Array of Strings'
       key = quoted('highlight_filenames')
       msg = "#{key}: #{highlight_filenames}"
-      show_error(title, url, manifest_filename, msg)
-      exit(error_code)
+      result = error(title, url, manifest_filename, msg, error_code)
     end
+    result
   end
 
   def highlight_filenames_well_formed?(highlight_filenames)
@@ -30,28 +31,29 @@ module CheckHighlightFilenames
           highlight_filenames.all?{|s| s != '' }
   end
 
-  def exit_unless_highlight_filenames_visible(highlight_filenames, url, manifest_filename, json, error_code)
+  def highlight_filenames_visible(url, manifest_filename, json, error_code)
+    highlight_filenames = json['highlight_filenames']
     visible_filenames = json['visible_filenames']
     highlight_filenames.each_with_index do |filename,index|
       unless visible_filenames.include?(filename)
         title = "highlight_filenames[#{index}]=#{quoted(filename)} not in visible_filenames"
         key = quoted('highlight_filenames')
         msg = "#{key}: #{highlight_filenames}"
-        show_error(title, url, manifest_filename, msg)
-        exit(error_code)
+        error(title, url, manifest_filename, msg, error_code)
       end
     end
   end
 
-  def exit_if_highlight_filenames_duplicates(highlight_filenames, url, manifest_filename, error_code)
+  def highlight_filenames_duplicates(url, manifest_filename, json, error_code)
+    highlight_filenames = json['highlight_filenames']
     highlight_filenames.each do |filename|
       dups = get_dup_indexes(highlight_filenames, filename)
       unless dups == []
         title = "highlight_filenames#{dups} are duplicates of #{quoted(filename)}"
         key = quoted('highlight_filenames')
         msg = "#{key}: #{highlight_filenames}"
-        show_error(title, url, manifest_filename, msg)
-        exit(error_code)
+        error(title, url, manifest_filename, msg, error_code)
+        return # don't produce same error twice
       end
     end
   end
