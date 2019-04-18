@@ -6,6 +6,7 @@ module CheckVisibleFilenames
 
   def check_visible_filenames(url, manifest_filename, json, error_code)
     visible_filenames = json['visible_filenames']
+    return if visible_filenames.nil?
     exit_unless_visible_filenames_is_array(visible_filenames, url, manifest_filename, error_code)
     exit_if_visible_filenames_is_empty(visible_filenames, url, manifest_filename, error_code)
     visible_filenames.each_with_index do |filename,index|
@@ -31,6 +32,8 @@ module CheckVisibleFilenames
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def exit_if_visible_filenames_is_empty(visible_filenames, url, manifest_filename, error_code)
     if visible_filenames.empty?
       title = 'visible_filenames cannot be empty'
@@ -40,6 +43,8 @@ module CheckVisibleFilenames
       exit(error_code)
     end
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def exit_unless_visible_filename_is_a_String(visible_filenames, filename, index, url, manifest_filename, error_code)
     unless filename.is_a?(String)
@@ -51,6 +56,8 @@ module CheckVisibleFilenames
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def exit_if_visible_filename_is_empty(visible_filenames, filename, index, url, manifest_filename, error_code)
     if filename.empty?
       title = "visible_filenames[#{index}]='' cannot be empty String"
@@ -60,6 +67,8 @@ module CheckVisibleFilenames
       exit(error_code)
     end
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def exit_unless_visible_filename_is_portable(visible_filenames, filename, index, url, manifest_filename, error_code)
     filename.each_char do |ch|
@@ -80,6 +89,8 @@ module CheckVisibleFilenames
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def exit_if_visible_filename_duplicate(visible_filenames, url, manifest_filename, error_code)
     visible_filenames.each do |filename|
       dups = get_dup_indexes(visible_filenames, filename)
@@ -92,6 +103,8 @@ module CheckVisibleFilenames
       end
     end
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def exit_unless_all_visible_filenames_exist(visible_filenames, url, manifest_filename, error_code)
     dir_name = File.dirname(manifest_filename)
@@ -106,6 +119,8 @@ module CheckVisibleFilenames
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def exit_if_visible_file_too_large(visible_filenames, url, manifest_filename, error_code)
     dir_name = File.dirname(manifest_filename)
     visible_filenames.each_with_index do |filename,index|
@@ -118,6 +133,8 @@ module CheckVisibleFilenames
       end
     end
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def check_language_visible_filename_cyber_dojo_sh(visible_filenames, url, manifest_filename, error_code)
     if @type == 'languages'

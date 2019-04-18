@@ -7,9 +7,9 @@ module CheckNoUnknownKeysExist
   def check_no_unknown_keys_exist(known_keys, url, filename, json, error_code)
     json.keys.each do |key|
       unless known_keys.include?(key)
-        title = "unknown key \"#{key}\""
+        title = "unknown key #{quoted(key)}"
         show_error(title, url, filename)
-        exit(error_code)
+        @error_codes << error_code
       end
     end
   end

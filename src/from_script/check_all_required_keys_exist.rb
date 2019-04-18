@@ -9,7 +9,7 @@ module CheckAllRequiredKeysExist
       unless json.keys.include?(key)
         title = "missing required key \"#{key}\""
         show_error(title, url, filename)
-        exit(error_code)
+        @error_codes << error_code
       end
     end
   end

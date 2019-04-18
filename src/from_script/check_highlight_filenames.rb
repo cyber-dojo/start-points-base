@@ -12,6 +12,8 @@ module CheckHighlightFilenames
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - -
+
   def highlight_filenames_well_formed(url, manifest_filename, json, error_code)
     result = true
     highlight_filenames = json['highlight_filenames']
@@ -24,12 +26,16 @@ module CheckHighlightFilenames
     result
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - -
+
   def highlight_filenames_well_formed?(highlight_filenames)
     highlight_filenames.is_a?(Array) &&
       highlight_filenames != [] &&
         highlight_filenames.all?{|s| s.is_a?(String) } &&
           highlight_filenames.all?{|s| s != '' }
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
 
   def highlight_filenames_visible(url, manifest_filename, json, error_code)
     highlight_filenames = json['highlight_filenames']
@@ -43,6 +49,8 @@ module CheckHighlightFilenames
       end
     end
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
 
   def highlight_filenames_duplicates(url, manifest_filename, json, error_code)
     highlight_filenames = json['highlight_filenames']
