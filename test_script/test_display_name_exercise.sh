@@ -15,6 +15,15 @@ test_failure_non_string()
   assert_stderr_includes '"display_name": [1, 2, 3]'
   assert_stderr_line_count_equals 4
   assert_status_equals 60
+
+#  expected=$(cat <<END_HEREDOC
+#ERROR: display_name is not a String
+#--exercises ${TMP_URL}
+#manifest='exercises-fizz-buzz/manifest.json'
+#"display_name": [1, 2, 3]
+#END_HEREDOC
+#)
+#  assert_stderr_equals "${expected}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
