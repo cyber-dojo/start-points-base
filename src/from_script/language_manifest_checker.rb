@@ -29,7 +29,6 @@ class LanguageManifestChecker
       check_one(url, filenames, display_names)
     end
     check_display_names(display_names, 40)
-
     if @error_codes != []
       exit(@error_codes[0])
     end
