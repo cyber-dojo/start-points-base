@@ -11,9 +11,9 @@ module CheckDisplayNames
         locations.each do |url,filename|
           STDERR.puts("--#{@type} #{url}")
           STDERR.puts("manifest='#{relative(filename)}'")
-          STDERR.puts("\"display_name\": \"#{display_name}\"")
+          STDERR.puts("#{quoted('display_name')}: #{quoted(display_name)}")
         end
-        exit(error_code)
+        @error_codes << error_code
       end
     end
   end
