@@ -6,7 +6,6 @@ module CheckHiddenFilenames
 
   def check_hidden_filenames(url, manifest_filename, json, error_code)
     if json.has_key?('hidden_filenames')
-      hidden_filenames = json['hidden_filenames']
       ok = check_hidden_filenames_well_formed(url, manifest_filename, json, error_code)
       ok && check_hidden_filenames_bad_regexp(url, manifest_filename, json, error_code)
       ok && check_hidden_filenames_duplicates(url, manifest_filename, json, error_code)

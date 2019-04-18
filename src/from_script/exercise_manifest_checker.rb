@@ -23,7 +23,7 @@ class ExerciseManifestChecker
     check_display_names(display_names, 90)
     if @error_codes != []
       exit(@error_codes[0])
-    end    
+    end
   end
 
   private

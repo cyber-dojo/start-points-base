@@ -6,16 +6,16 @@ module CheckTabSize
 
   def check_tab_size(url, manifest_filename, json, error_code)
     if json.has_key?('tab_size')
-      tab_size = json['tab_size']
-      ok = tab_size_is_integer(tab_size, url, manifest_filename, error_code)
-      ok && tab_size_in_range(tab_size, url, manifest_filename, error_code)
+      ok = tab_size_is_integer(url, manifest_filename, json, error_code)
+      ok && tab_size_in_range(url, manifest_filename, json, error_code)
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  def tab_size_is_integer(tab_size, url, manifest_filename, error_code)
+  def tab_size_is_integer(url, manifest_filename, json, error_code)
     result = true
+    tab_size = json['tab_size']
     unless tab_size.is_a?(Integer)
       title = 'tab_size must be an Integer'
       key = quoted('tab_size')
@@ -29,7 +29,10 @@ module CheckTabSize
     result
   end
 
-  def tab_size_in_range(tab_size, url, manifest_filename, error_code)
+  # - - - - - - - - - - - - - - - - - - - - - - -
+
+  def tab_size_in_range(url, manifest_filename, json, error_code)
+    tab_size = json['tab_size']
     unless (1..8).include?(tab_size)
       title = 'tab_size must be an Integer (1..8)'
       key = quoted('tab_size')

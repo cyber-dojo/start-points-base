@@ -7,7 +7,7 @@ module CheckDisplayName
   def check_display_name(url, filename, json, error_code)
     ok = json['display_name']
     ok &&= check_display_name_is_string(url, filename, json, error_code)
-    ok &&= check_display_name_is_non_empty(url, filename, json, error_code)
+    ok && check_display_name_is_non_empty(url, filename, json, error_code)
   end
 
   # - - - - - - - - - - - - - - - - - -

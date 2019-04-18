@@ -8,9 +8,9 @@ module CheckFilenameExtension
     ok = json['filename_extension']
     ok &&= check_filename_extension_well_formed(url, manifest_filename, json, error_code)
     ok &&= check_filename_extension_empty_string(url, manifest_filename, json, error_code)
-    ok &&= check_filename_extension_dotless(url, manifest_filename, json, error_code)
-    ok &&= check_filename_extension_only_dots(url, manifest_filename, json, error_code)
-    ok &&= check_filename_extension_duplicates(url, manifest_filename, json, error_code)
+    ok && check_filename_extension_dotless(url, manifest_filename, json, error_code)
+    ok && check_filename_extension_only_dots(url, manifest_filename, json, error_code)
+    ok && check_filename_extension_duplicates(url, manifest_filename, json, error_code)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

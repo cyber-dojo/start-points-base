@@ -9,7 +9,7 @@ module CheckImageName
   def check_image_name(url, filename, json, error_code)
     ok = json['image_name']
     ok &&= image_name_is_string(url, filename, json, error_code)
-    ok &&= image_name_is_well_formed(url, filename, json, error_code)
+    ok && image_name_is_well_formed(url, filename, json, error_code)
   end
 
   # - - - - - - - - - - - - - - - - - - - -

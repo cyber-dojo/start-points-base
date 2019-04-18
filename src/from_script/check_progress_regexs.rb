@@ -6,16 +6,16 @@ module CheckProgressRegexs
 
   def check_progress_regexs(url, manifest_filename, json, error_code)
     if json.has_key?('progress_regexs')
-      progress_regexs = json['progress_regexs']
-      ok = progress_regexs_well_formed(progress_regexs, url, manifest_filename, error_code)
-      ok && progress_regexs_bad(progress_regexs, url, manifest_filename, error_code)
+      ok = progress_regexs_well_formed(url, manifest_filename, json, error_code)
+      ok && progress_regexs_bad(url, manifest_filename, json, error_code)
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  def progress_regexs_well_formed(progress_regexs, url, manifest_filename,error_code)
+  def progress_regexs_well_formed(url, manifest_filename, json, error_code)
     result = true
+    progress_regexs = json['progress_regexs']
     unless progress_regexs_well_formed?(progress_regexs)
       title = 'progress_regexs must be an Array of 2 Strings'
       key = quoted('progress_regexs')
@@ -38,7 +38,8 @@ module CheckProgressRegexs
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  def progress_regexs_bad(progress_regexs, url, manifest_filename, error_code)
+  def progress_regexs_bad(url, manifest_filename, json, error_code)
+    progress_regexs = json['progress_regexs']
     progress_regexs.each_with_index do |s,index|
       begin
         Regexp.new(s)
