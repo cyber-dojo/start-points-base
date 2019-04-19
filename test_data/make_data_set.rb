@@ -186,42 +186,42 @@ def exercises_manifest_has_non_array_string_visible_filenames
 end
 
 def languages_manifest_has_empty_string_visible_filename
-  value = ["cyber-dojo.sh", ""]
+  value = ['cyber-dojo.sh', '']
   peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_has_empty_string_visible_filename
-  value = [""]
+  value = ['']
   peturb_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_has_non_portable_character
-  value = ["cyber-dojo.sh","hiker&.cs"]
+  value = ['cyber-dojo.sh','hiker&.cs']
   peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_visible_filename_has_non_portable_character
-  value = ["instructions","hiker&.txt"]
+  value = ['instructions','hiker&.txt']
   peturb_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_has_non_portable_leading_character
-  value = ["-hiker.cs","cyber-dojo.sh"]
+  value = ['-hiker.cs','cyber-dojo.sh']
   peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_visible_filename_has_non_portable_leading_character
-  value = ["-hiker.txt","instructions"]
+  value = ['-hiker.txt','instructions']
   peturb_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_has_duplicates
-  value = ["cyber-dojo.sh", "cyber-dojo.sh"]
+  value = ['cyber-dojo.sh', 'cyber-dojo.sh']
   peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_visible_filename_has_duplicates
-  value = ["instructions", "instructions"]
+  value = ['instructions', 'instructions']
   peturb_exercise_manifest('visible_filenames', value)
 end
 
@@ -426,7 +426,7 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_progress_regexs_success
-  value = [ "FAILED \\(failures=\\d+\\)", "OK" ]
+  value = [ "FAILED \\(failures=\\d+\\)", 'OK' ]
   peturb_language_manifest('progress_regexs', value)
 end
 
