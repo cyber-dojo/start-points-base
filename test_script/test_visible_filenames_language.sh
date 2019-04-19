@@ -50,7 +50,7 @@ test_failure_non_array_string()
   assert_stderr_includes "ERROR: visible_filenames[0]=1 is not a String"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"visible_filenames": [1, 2, 3]'
+  assert_stderr_includes '"visible_filenames": [1, "cyber-dojo.sh"]'
   assert_stderr_line_count_equals 4
   assert_status_equals 32
 }
@@ -69,7 +69,7 @@ test_failure_empty_string()
   assert_stderr_includes "ERROR: visible_filenames[1]='' cannot be empty String"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"visible_filenames": ["hiker.cs", ""]'
+  assert_stderr_includes '"visible_filenames": ["cyber-dojo.sh", ""]'
   assert_stderr_line_count_equals 4
   assert_status_equals 32
 }
@@ -88,7 +88,7 @@ test_failure_non_portable_character()
   assert_stderr_includes "ERROR: visible_filenames[1]=\"hiker&.cs\" has non-portable character '&'"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"visible_filenames": ["hiker.cs", "hiker&.cs"]'
+  assert_stderr_includes '"visible_filenames": ["cyber-dojo.sh", "hiker&.cs"]'
   assert_stderr_line_count_equals 4
   assert_status_equals 32
 }
@@ -107,7 +107,7 @@ test_failure_non_portable_leading_character()
   assert_stderr_includes "ERROR: visible_filenames[0]=\"-hiker.cs\" has non-portable leading character '-'"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"visible_filenames": ["-hiker.cs", "hiker.test.cs"]'
+  assert_stderr_includes '"visible_filenames": ["-hiker.cs", "cyber-dojo.sh"]'
   assert_stderr_line_count_equals 4
   assert_status_equals 32
 }
@@ -123,10 +123,10 @@ test_failure_duplicates()
   build_start_points_image_languages "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: visible_filenames[1, 3] are duplicates of "b.cs"'
+  assert_stderr_includes 'ERROR: visible_filenames[0, 1] are duplicates of "cyber-dojo.sh"'
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"visible_filenames": ["a.cs", "b.cs", "c.cs", "b.cs"]'
+  assert_stderr_includes '"visible_filenames": ["cyber-dojo.sh", "cyber-dojo.sh"]'
   assert_stderr_line_count_equals 4
   assert_status_equals 32
 }

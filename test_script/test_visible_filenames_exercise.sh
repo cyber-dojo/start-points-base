@@ -50,7 +50,7 @@ test_failure_non_array_string()
   assert_stderr_includes "ERROR: visible_filenames[0]=1 is not a String"
   assert_stderr_includes "--exercises ${TMP_URL}"
   assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stderr_includes '"visible_filenames": [1, 2, 3]'
+  assert_stderr_includes '"visible_filenames": [1]'
   assert_stderr_line_count_equals 4
   assert_status_equals 61
 }
@@ -66,10 +66,10 @@ test_failure_empty_string()
   build_start_points_image_exercises "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: visible_filenames[1]='' cannot be empty String"
+  assert_stderr_includes "ERROR: visible_filenames[0]='' cannot be empty String"
   assert_stderr_includes "--exercises ${TMP_URL}"
   assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stderr_includes '"visible_filenames": ["hiker.txt", ""]'
+  assert_stderr_includes '"visible_filenames": [""]'
   assert_stderr_line_count_equals 4
   assert_status_equals 61
 }
@@ -88,7 +88,7 @@ test_failure_non_portable_character()
   assert_stderr_includes "ERROR: visible_filenames[1]=\"hiker&.txt\" has non-portable character '&'"
   assert_stderr_includes "--exercises ${TMP_URL}"
   assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stderr_includes '"visible_filenames": ["hiker.txt", "hiker&.txt"]'
+  assert_stderr_includes '"visible_filenames": ["instructions", "hiker&.txt"]'
   assert_stderr_line_count_equals 4
   assert_status_equals 61
 }
@@ -107,7 +107,7 @@ test_failure_non_portable_leading_character()
   assert_stderr_includes "ERROR: visible_filenames[0]=\"-hiker.txt\" has non-portable leading character '-'"
   assert_stderr_includes "--exercises ${TMP_URL}"
   assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stderr_includes '"visible_filenames": ["-hiker.txt", "hiker.test.txt"]'
+  assert_stderr_includes '"visible_filenames": ["-hiker.txt", "instructions"]'
   assert_stderr_line_count_equals 4
   assert_status_equals 61
 }
@@ -123,10 +123,10 @@ test_failure_duplicates()
   build_start_points_image_exercises "${image_name}" "${TMP_URL}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: visible_filenames[1, 3] are duplicates of "b.txt"'
+  assert_stderr_includes 'ERROR: visible_filenames[0, 1] are duplicates of "instructions"'
   assert_stderr_includes "--exercises ${TMP_URL}"
   assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stderr_includes '"visible_filenames": ["a.txt", "b.txt", "c.txt", "b.txt"]'
+  assert_stderr_includes '"visible_filenames": ["instructions", "instructions"]'
   assert_stderr_line_count_equals 4
   assert_status_equals 61
 }
@@ -164,7 +164,7 @@ test_failure_has_cyber_dojo_sh()
   assert_stderr_includes 'ERROR: visible_filenames cannot include "cyber-dojo.sh"'
   assert_stderr_includes "--exercises ${TMP_URL}"
   assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stderr_includes '"visible_filenames": ["HikerTest.txt", "cyber-dojo.sh"]'
+  assert_stderr_includes '"visible_filenames": ["instructions", "cyber-dojo.sh"]'
   assert_stderr_line_count_equals 4
   assert_status_equals 61
 }

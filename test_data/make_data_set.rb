@@ -178,50 +178,50 @@ def exercises_manifest_has_empty_visible_filenames
 end
 
 def languages_manifest_has_non_array_string_visible_filenames
-  peturb_language_manifest('visible_filenames', [1,2,3])
+  peturb_language_manifest('visible_filenames', [1,'cyber-dojo.sh'])
 end
 
 def exercises_manifest_has_non_array_string_visible_filenames
-  peturb_exercise_manifest('visible_filenames', [1,2,3])
+  peturb_exercise_manifest('visible_filenames', [1])
 end
 
 def languages_manifest_has_empty_string_visible_filename
-  value = ["hiker.cs", ""]
+  value = ["cyber-dojo.sh", ""]
   peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_has_empty_string_visible_filename
-  value = ["hiker.txt", ""]
+  value = [""]
   peturb_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_has_non_portable_character
-  value = ["hiker.cs","hiker&.cs"]
+  value = ["cyber-dojo.sh","hiker&.cs"]
   peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_visible_filename_has_non_portable_character
-  value = ["hiker.txt","hiker&.txt"]
+  value = ["instructions","hiker&.txt"]
   peturb_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_has_non_portable_leading_character
-  value = ["-hiker.cs","hiker.test.cs"]
+  value = ["-hiker.cs","cyber-dojo.sh"]
   peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_visible_filename_has_non_portable_leading_character
-  value = ["-hiker.txt","hiker.test.txt"]
+  value = ["-hiker.txt","instructions"]
   peturb_exercise_manifest('visible_filenames', value)
 end
 
 def languages_manifest_visible_filename_has_duplicates
-  value = ["a.cs", "b.cs", "c.cs", "b.cs"]
+  value = ["cyber-dojo.sh", "cyber-dojo.sh"]
   peturb_language_manifest('visible_filenames', value)
 end
 
 def exercises_manifest_visible_filename_has_duplicates
-  value = ["a.txt", "b.txt", "c.txt", "b.txt"]
+  value = ["instructions", "instructions"]
   peturb_exercise_manifest('visible_filenames', value)
 end
 
@@ -241,8 +241,13 @@ def languages_manifest_visible_filename_no_cyber_dojo_sh
 end
 
 def exercises_manifest_visible_filename_has_cyber_dojo_sh
-  value = [ 'HikerTest.txt', 'cyber-dojo.sh' ]
+  value = [ 'instructions', 'cyber-dojo.sh' ]
   peturb_exercise_manifest('visible_filenames', value)
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    dir = File.dirname(manifest_filename)
+    IO.write("#{dir}/cyber-dojo.sh", 'not-here')
+    break
+  end
 end
 
 def languages_manifest_visible_file_too_large
