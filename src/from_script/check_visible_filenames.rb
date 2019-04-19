@@ -116,15 +116,16 @@ module CheckVisibleFilenames
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def check_visible_file_too_large(visible_filenames, filename, index, url, manifest_filename, error_code)
-    result = true
     dir_name = File.dirname(manifest_filename)
     if File.size("#{dir_name}/#{filename}") > 25*1024
       title = "visible_filenames[#{index}]=#{quoted(filename)} is too large (>25K)"
       key = quoted('visible_filenames')
       msg = "#{key}: #{visible_filenames}"
-      result = error(title, url, manifest_filename, msg, error_code)
+      error(title, url, manifest_filename, msg, error_code)
+      false
+    else
+      true
     end
-    result
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
