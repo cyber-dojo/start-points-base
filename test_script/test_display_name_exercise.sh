@@ -1,5 +1,7 @@
 #!/bin/bash
 
+readonly error_code=60
+
 test_failure_non_string()
 {
   local image_name="${FUNCNAME[0]}"
@@ -14,7 +16,7 @@ test_failure_non_string()
   assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
   assert_stderr_includes '"display_name": [1, 2, 3]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 60
+  assert_status_equals "${error_code}"
 
 #  expected=$(cat <<END_HEREDOC
 #ERROR: display_name is not a String
@@ -42,7 +44,7 @@ test_failure_empty_string()
   assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
   assert_stderr_includes '"display_name": ""'
   assert_stderr_line_count_equals 4
-  assert_status_equals 60
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

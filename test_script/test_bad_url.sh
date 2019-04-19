@@ -1,5 +1,7 @@
 #!/bin/bash
 
+readonly error_code=15
+
 test_bad_git_url()
 {
   local image_name="${FUNCNAME[0]}"
@@ -14,7 +16,7 @@ test_bad_git_url()
   assert_stderr_includes 'ERROR: BAD git clone <url>'
   assert_stderr_includes "--custom ${bad_url}"
   # "fatal: Unable to find remote helper for 'abc'"
-  assert_status_equals 15
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

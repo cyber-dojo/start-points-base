@@ -1,5 +1,7 @@
 #!/bin/bash
 
+readonly error_code=33
+
 test_success()
 {
   local image_name="${FUNCNAME[0]}"
@@ -29,7 +31,7 @@ test_failure_int()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"filename_extension": 1'
   assert_stderr_line_count_equals 4
-  assert_status_equals 33
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -48,7 +50,7 @@ test_failure_int_array()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"filename_extension": [1, 2, 3]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 33
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -67,7 +69,7 @@ test_failure_empty_array()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"filename_extension": []'
   assert_stderr_line_count_equals 4
-  assert_status_equals 33
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -86,7 +88,7 @@ test_failure_empty_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"filename_extension": [""]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 33
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -105,7 +107,7 @@ test_failure_doesnt_start_dot()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"filename_extension": ["cs"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 33
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -124,7 +126,7 @@ test_failure_only_a_dot()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"filename_extension": ["."]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 33
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -143,7 +145,7 @@ test_failure_duplicates()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"filename_extension": [".cs", ".h", ".c", ".h"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 33
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

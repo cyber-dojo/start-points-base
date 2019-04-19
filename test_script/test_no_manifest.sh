@@ -1,5 +1,7 @@
 #!/bin/bash
 
+readonly error_code=16
+
 test_custom()
 {
   local image_name="${FUNCNAME[0]}"
@@ -12,7 +14,7 @@ test_custom()
   assert_stderr_includes "ERROR: no manifest.json files in"
   assert_stderr_includes "--custom ${TMP_URL}"
   assert_stderr_line_count_equals 2
-  assert_status_equals 16
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -29,7 +31,7 @@ test_exercises()
   assert_stderr_includes "ERROR: no manifest.json files in"
   assert_stderr_includes "--exercises ${TMP_URL}"
   assert_stderr_line_count_equals 2
-  assert_status_equals 16
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -46,7 +48,7 @@ test_languages()
   assert_stderr_includes "ERROR: no manifest.json files in"
   assert_stderr_includes "--languages ${TMP_URL}"
   assert_stderr_line_count_equals 2
-  assert_status_equals 16
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

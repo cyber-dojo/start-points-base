@@ -1,5 +1,7 @@
 #!/bin/bash
 
+readonly error_code=50
+
 test_failure_unknown_key()
 {
   local image_name="${FUNCNAME[0]}"
@@ -13,7 +15,7 @@ test_failure_unknown_key()
   assert_stderr_includes "--exercises ${TMP_URL}"
   assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
   assert_stderr_line_count_equals 3
-  assert_status_equals 50
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

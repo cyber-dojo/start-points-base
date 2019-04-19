@@ -1,5 +1,7 @@
 #!/bin/bash
 
+readonly error_code=44
+
 test_success()
 {
   local image_name="${FUNCNAME[0]}"
@@ -29,7 +31,7 @@ test_failure_int()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"progress_regexs": 6'
   assert_stderr_line_count_equals 4
-  assert_status_equals 44
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -48,7 +50,7 @@ test_failure_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"progress_regexs": "6"'
   assert_stderr_line_count_equals 4
-  assert_status_equals 44
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -67,7 +69,7 @@ test_failure_int_array()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"progress_regexs": [1, 2]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 44
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -86,7 +88,7 @@ test_failure_empty_array()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"progress_regexs": []'
   assert_stderr_line_count_equals 4
-  assert_status_equals 44
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -105,7 +107,7 @@ test_failure_bad_regex()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"progress_regexs": ["OK", "("]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 44
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

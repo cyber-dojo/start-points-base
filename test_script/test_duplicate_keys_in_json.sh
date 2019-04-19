@@ -1,5 +1,7 @@
 #!/bin/bash
 
+readonly error_code=18
+
 test_language()
 {
   local image_name="${FUNCNAME[0]}"
@@ -17,7 +19,7 @@ test_language()
   assert_stderr_includes '  "display_name": "C#, JUnit"'
   assert_stderr_includes '}'
   assert_stderr_line_count_equals 7
-  assert_status_equals 18
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -39,7 +41,7 @@ test_exercise()
   assert_stderr_includes '  "display_name": "Years Leap"'
   assert_stderr_includes '}'
   assert_stderr_line_count_equals 7
-  assert_status_equals 18
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

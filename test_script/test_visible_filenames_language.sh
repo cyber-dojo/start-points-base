@@ -1,5 +1,7 @@
 #!/bin/bash
 
+readonly error_code=32
+
 test_failure_non_string()
 {
   local image_name="${FUNCNAME[0]}"
@@ -14,7 +16,7 @@ test_failure_non_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": 1'
   assert_stderr_line_count_equals 4
-  assert_status_equals 32
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -33,7 +35,7 @@ test_failure_empty()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": []'
   assert_stderr_line_count_equals 4
-  assert_status_equals 32
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -52,7 +54,7 @@ test_failure_non_array_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": [1, "cyber-dojo.sh"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 32
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -71,7 +73,7 @@ test_failure_empty_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["cyber-dojo.sh", ""]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 32
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -90,7 +92,7 @@ test_failure_non_portable_character()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["cyber-dojo.sh", "hiker&.cs"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 32
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -109,7 +111,7 @@ test_failure_non_portable_leading_character()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["-hiker.cs", "cyber-dojo.sh"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 32
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -128,7 +130,7 @@ test_failure_duplicates()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["cyber-dojo.sh", "cyber-dojo.sh"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 32
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -147,7 +149,7 @@ test_failure_does_not_exist()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["HikerTest.cs", "xHiker.cs", "cyber-dojo.sh"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 32
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -166,7 +168,7 @@ test_failure_no_cyber_dojo_sh()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["HikerTest.cs", "Hiker.cs"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 32
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -185,7 +187,7 @@ test_failure_file_too_large()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"visible_filenames": ["tiny.cs", "large.cs", "small.cs", "cyber-dojo.sh"]'
   assert_stderr_line_count_equals 4
-  assert_status_equals 32
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

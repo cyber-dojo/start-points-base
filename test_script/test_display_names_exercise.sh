@@ -1,5 +1,7 @@
 #!/bin/bash
 
+readonly error_code=90
+
 test_failure_duplicates()
 {
   local image_name="${FUNCNAME[0]}"
@@ -21,7 +23,7 @@ test_failure_duplicates()
   assert_stderr_includes "manifest='exercises-tiny-maze/manifest.json'"
   assert_stderr_includes '"display_name": "Dup"'
   assert_stderr_line_count_equals 7
-  assert_status_equals 90
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

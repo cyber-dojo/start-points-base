@@ -1,5 +1,7 @@
 #!/bin/bash
 
+readonly error_code=17
+
 test_language_manifest()
 {
   local image_name="${FUNCNAME[0]}"
@@ -14,7 +16,7 @@ test_language_manifest()
   assert_stderr_includes "manifest='languages-python-unittest/start_point/manifest.json'"
   assert_stderr_includes "765: unexpected token at 'sdfsdf'"
   assert_stderr_line_count_equals 4
-  assert_status_equals 17
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -33,7 +35,7 @@ test_exercise_manifest()
   assert_stderr_includes "manifest='exercises-bowling-game/manifest.json'"
   assert_stderr_includes "765: unexpected token at 'ggghhhjjj'"
   assert_stderr_line_count_equals 4
-  assert_status_equals 17
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+readonly error_code=42
+
 test_success_smallest_int()
 {
   local image_name="${FUNCNAME[0]}"
@@ -44,7 +46,7 @@ test_failure_string()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"max_seconds": "6"'
   assert_stderr_line_count_equals 4
-  assert_status_equals 42
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -63,7 +65,7 @@ test_failure_int_too_small()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"max_seconds": 0'
   assert_stderr_line_count_equals 4
-  assert_status_equals 42
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -82,7 +84,7 @@ test_failure_int_too_large()
   assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
   assert_stderr_includes '"max_seconds": 21'
   assert_stderr_line_count_equals 4
-  assert_status_equals 42
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
