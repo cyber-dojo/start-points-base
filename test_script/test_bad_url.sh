@@ -13,7 +13,7 @@ test_bad_git_url()
         "${bad_url}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: BAD git clone <url>'
+  assert_stderr_includes 'ERROR: bad git clone <url>'
   assert_stderr_includes "--custom ${bad_url}"
   # "fatal: Unable to find remote helper for 'abc'"
   assert_status_equals "${error_code}"
