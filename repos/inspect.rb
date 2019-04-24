@@ -10,6 +10,10 @@ def clean_url(url)
   end
 end
 
+def image_type
+  ENV['IMAGE_TYPE']
+end
+
 root_dir = '/app/repos'
 json = {}
 lines = `cat #{root_dir}/shas.txt`.lines
@@ -21,12 +25,13 @@ lines.each do |line|
     content = IO.read(manifest_filename)
     manifest = JSON.parse!(content)
     display_name = manifest['display_name']
-    image_name = manifest['image_name']
     json[display_name] = {
       'url' => clean_url(url),
-      'sha' => sha,
-      'image_name' => image_name
+      'sha' => sha
     }
+    unless image_type == 'exercises'
+      json[display_name]['image_name'] = manifest['image_name']
+    end
   end
 end
 puts JSON.pretty_generate(json)
