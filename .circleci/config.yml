@@ -13,6 +13,9 @@ jobs:
           name: build docker image
           command: |
             set -ev
+            curl --silent https://raw.githubusercontent.com/commander/master/cyber-dojo \
+              -o /tmp/cyber-dojo
+            chmod 700 /tmp/cyber-dojo
             ./pipe_build_up_test.sh
       - run:
           name: publish tagged docker image to dockerhub

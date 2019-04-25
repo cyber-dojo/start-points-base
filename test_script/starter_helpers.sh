@@ -26,11 +26,9 @@ on_CI()
 WIP_script_name()
 {
   if on_CI; then
-    # curl -O --silent "${GITHUB_ORG}/commander/master/cyber-dojo"
-    # chmod 700 ./cyber-dojo
-    echo "TODO"
+    # ./circleci/config/yml curls the cyber-dojo script into /tmp
+    echo '/tmp/cyber-dojo'
   else
-    #echo "$(root_dir)/../commander/cyber-dojo"
     echo "$(root_dir)/cyber-dojo"
   fi
 }
@@ -39,6 +37,8 @@ script_name()
 {
   echo "$(root_dir)/cyber-dojo"
 }
+
+#- - - - - - - - - - - - - - - - - - - - - - -
 
 exit_if_bad_ROOT_DIR()
 {
