@@ -26,7 +26,7 @@ on_CI()
 WIP_script_name()
 {
   if on_CI; then
-    # ./circleci/config/yml curls the cyber-dojo script into /tmp
+    # ./circleci/config.yml curls the cyber-dojo script into /tmp
     echo '/tmp/cyber-dojo'
   else
     echo "$(root_dir)/cyber-dojo"
