@@ -18,15 +18,26 @@ root_dir()
   cd "$(my_dir)" && cd .. && pwd
 }
 
+on_CI()
+{
+  [[ ! -z "${CIRCLE_SHA1}" ]]
+}
+
+WIP_script_name()
+{
+  if on_CI; then
+    # curl -O --silent "${GITHUB_ORG}/commander/master/cyber-dojo"
+    # chmod 700 ./cyber-dojo
+    echo "TODO"
+  else
+    #echo "$(root_dir)/../commander/cyber-dojo"
+    echo "$(root_dir)/cyber-dojo"
+  fi
+}
+
 script_name()
 {
-  if [ -z "${COMMANDER_SCRIPT_NAME}" ]; then
-    >&2 echo 'ERROR'
-    >&2 echo 'COMMANDER_SCRIPT_NAME env-var must be set'
-    exit 1
-  else
-    echo "${COMMANDER_SCRIPT_NAME}"
-  fi
+  echo "$(root_dir)/cyber-dojo"
 }
 
 exit_if_bad_ROOT_DIR()

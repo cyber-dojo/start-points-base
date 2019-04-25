@@ -162,7 +162,7 @@ git_clone_one_url_into_context_dir()
     local msg="bad git clone <url>${newline}"
     msg+="${IMAGE_TYPE} ${url}${newline}"
     msg+="${stderr}"
-    error 15 "${msg}"
+    error 3 "${msg}"
   fi
 
   chmod -R +rX "${URL_INDEX}"

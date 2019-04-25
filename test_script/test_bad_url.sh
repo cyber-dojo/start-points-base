@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly error_code=15
+readonly error_code=3
 
 test_bad_git_url()
 {
