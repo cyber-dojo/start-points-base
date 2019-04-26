@@ -13,6 +13,7 @@ jobs:
           name: build docker image
           command: |
             set -ev
+            # cyber-dojo script is used in sh tests
             curl --silent https://raw.githubusercontent.com/commander/master/cyber-dojo \
               -o /tmp/cyber-dojo
             chmod 700 /tmp/cyber-dojo
