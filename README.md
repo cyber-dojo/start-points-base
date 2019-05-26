@@ -1,30 +1,26 @@
 
 <img src="https://raw.githubusercontent.com/cyber-dojo/nginx/master/images/home_page_logo.png" alt="cyber-dojo yin/yang logo" width="50px" height="50px"/>
 
-New starter architecture (currently live on https://beta.cyber-dojo.org only)
 [![CircleCI](https://circleci.com/gh/cyber-dojo/starter-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/starter-base)
 
-The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/starter-base) docker image.
+The source for the [cyberdojo/starter-base](https://hub.docker.com/r/cyberdojo/starter-base) docker image.
 
 ## The build script
-* Use the [cyber_dojo_start_points_create.sh](../cyber_dojo_start_points_create.sh)
-script to create your cyber-dojo start-point docker images.
+* Use the [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo)
+script to create your own start-point images.
 * It will use [cyberdojo/starter-base](https://hub.docker.com/r/cyberdojo/starter-base) as its base (FROM) image.
-* The 1st argument is the name of the docker image you want to create.
-* The 2nd argument is --custom or --exercises or --languages.
-* The subsequent arguments are git-cloneable URLs containing the source for the start points.
 
 ```bash
-$ ./cyber_dojo_start_points_create.sh --help
+$ ./cyber-dojo start-point create --help
   Use:
-  $ ./cyber_dojo_start_points_create.sh <image-name> --custom    <git-repo-url>...
-  $ ./cyber_dojo_start_points_create.sh <image-name> --exercises <git-repo-url>...
-  $ ./cyber_dojo_start_points_create.sh <image-name> --languages <git-repo-url>...
+  $ ./cyber-dojo start-point create <name> --custom    <url>...
+  $ ./cyber-dojo start-point create <name> --exercises <url>...
+  $ ./cyber-dojo start-point create <name> --languages <url>...
   ...
 ```
 For example:
 ```bash
-$ ./cyber_dojo_start_points_create.sh \
+$ ./cyber-dojo start-point create \
       acme/my-languages-start-points \
         --languages \
           https://github.com/cyber-dojo-languages/csharp-nunit             \
