@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
@@ -69,6 +69,7 @@ build_image_script_name()
   fi
 }
 
+# - - - - - - - - - - - - - - - - -
 
 create_git_repo_in_TMP_DIR_from()
 {
