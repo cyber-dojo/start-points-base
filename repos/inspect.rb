@@ -34,4 +34,4 @@ lines.each do |line|
     end
   end
 end
-puts JSON.pretty_generate(json)
+puts JSON.pretty_generate(Hash[*json.sort.flatten])
