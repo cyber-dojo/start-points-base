@@ -23,19 +23,14 @@ on_CI()
   [[ ! -z "${CIRCLE_SHA1}" ]]
 }
 
-WIP_script_name()
+script_name()
 {
   if on_CI; then
     # ./circleci/config.yml curls the cyber-dojo script into /tmp
     echo '/tmp/cyber-dojo'
   else
-    echo "$(root_dir)/cyber-dojo"
+    echo "$(root_dir)/../commander/cyber-dojo"
   fi
-}
-
-script_name()
-{
-  echo "$(root_dir)/cyber-dojo"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -
