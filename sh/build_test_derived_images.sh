@@ -54,6 +54,22 @@ build_image_which_creates_test_data_git_repos()
   "${ROOT_DIR}/test_data/build_docker_image.sh"
 }
 
+on_CI()
+{
+  [[ ! -z "${CIRCLE_SHA1}" ]]
+}
+
+build_image_script_name()
+{
+  if on_CI; then
+    # ./circleci/config.yml curls the cyber-dojo script into /tmp
+    echo '/tmp/cyber-dojo'
+  else
+    echo "${ROOT_DIR}/../commander/cyber-dojo"
+  fi
+}
+
+
 create_git_repo_in_TMP_DIR_from()
 {
   local data_set_name="${1}"
@@ -73,11 +89,6 @@ create_git_repo_in_TMP_DIR_from()
 
 # - - - - - - - - - - - - - - - - -
 
-build_image_script_name()
-{
-  echo 'cyber-dojo'
-}
-
 image_name()
 {
   echo 'cyberdojo/test'
@@ -89,10 +100,11 @@ build_test_custom_image()
 {
   make_TMP_DIR
   readonly C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-yahtzee)
-  "${ROOT_DIR}/$(build_image_script_name)" \
-    start-point create                     \
-      "$(image_name)-custom"               \
-        --custom                           \
+
+  "$(build_image_script_name)"    \
+    start-point create            \
+      "$(image_name)-custom"      \
+        --custom                  \
           "file://${C1_TMP_DIR}"
   remove_TMP_DIR
 }
@@ -108,15 +120,16 @@ build_test_exercises_image()
   readonly E4_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-tiny-maze)
   readonly E5_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-calc-stats)
   readonly E6_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-gray-code)
-  "${ROOT_DIR}/$(build_image_script_name)" \
-    start-point create                     \
-      "$(image_name)-exercises"            \
-        --exercises                        \
-          "file://${E1_TMP_DIR}"           \
-          "file://${E2_TMP_DIR}"           \
-          "file://${E3_TMP_DIR}"           \
-          "file://${E4_TMP_DIR}"           \
-          "file://${E5_TMP_DIR}"           \
+
+  "$(build_image_script_name)"     \
+    start-point create             \
+      "$(image_name)-exercises"    \
+        --exercises                \
+          "file://${E1_TMP_DIR}"   \
+          "file://${E2_TMP_DIR}"   \
+          "file://${E3_TMP_DIR}"   \
+          "file://${E4_TMP_DIR}"   \
+          "file://${E5_TMP_DIR}"   \
           "file://${E6_TMP_DIR}"
   remove_TMP_DIR
 }
@@ -129,12 +142,13 @@ build_test_languages_image()
   readonly L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-csharp-nunit)
   readonly L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-python-unittest)
   readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-ruby-minitest)
-  "${ROOT_DIR}/$(build_image_script_name)" \
-    start-point create                     \
-      "$(image_name)-languages"            \
-        --languages                        \
-          "file://${L1_TMP_DIR}"           \
-          "file://${L2_TMP_DIR}"           \
+
+  "$(build_image_script_name)"     \
+    start-point create             \
+      "$(image_name)-languages"    \
+        --languages                \
+          "file://${L1_TMP_DIR}"   \
+          "file://${L2_TMP_DIR}"   \
           "file://${L3_TMP_DIR}"
   remove_TMP_DIR
 }
