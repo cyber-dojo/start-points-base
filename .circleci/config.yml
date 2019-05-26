@@ -14,7 +14,7 @@ jobs:
           command: |
             set -ev
             # cyber-dojo script is used in sh tests
-            curl --silent https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo \
+            curl --silent --fail https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo \
               -o /tmp/cyber-dojo
             chmod 700 /tmp/cyber-dojo
             ./pipe_build_up_test.sh
