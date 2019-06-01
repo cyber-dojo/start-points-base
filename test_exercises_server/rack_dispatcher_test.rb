@@ -27,10 +27,10 @@ class RackDispatcherTest < TestBase
   test 'BB1',
   %w( invalid json in http payload becomes exception ) do
     body,stderr = assert_rack_call_raw(500, 'start_points', 'sdfsdf')
-    assert_exception('JSON::ParserError', "765: unexpected token at 'sdfsdf'", body, stderr)
+    assert_exception('JSON::ParserError', "785: unexpected token at 'sdfsdf'", body, stderr)
 
     body,stderr = assert_rack_call_raw(500, 'start_points', 'nil')
-    assert_exception('JSON::ParserError', "765: unexpected token at 'nil'", body, stderr)
+    assert_exception('JSON::ParserError', "785: unexpected token at 'nil'", body, stderr)
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -39,7 +39,7 @@ class RackDispatcherTest < TestBase
   %w( non-hash in http payload becomes exception ) do
     body,stderr = assert_rack_call_raw(400, 'start_points', 'null')
     assert_exception('ClientError', 'json:malformed', body, stderr)
-    
+
     body,stderr = assert_rack_call_raw(400, 'start_points', '[]')
     assert_exception('ClientError', 'json:malformed', body, stderr)
   end
