@@ -2,12 +2,9 @@
 set -ev
 
 readonly REPO_NAME="${1}"
-
 readonly TMP_DIR=$(mktemp -d)
-trap remove_tmp_dir EXIT
-
 remove_tmp_dir() { rm -rf "${TMP_DIR}" > /dev/null; }
-
+trap remove_tmp_dir EXIT
 cd "${TMP_DIR}"
 git clone "https://github.com/cyber-dojo/${REPO_NAME}.git"
 cd "${REPO_NAME}"

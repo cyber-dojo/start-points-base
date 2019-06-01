@@ -12,7 +12,7 @@ jobs:
       - run:
           name: build docker image
           command: |
-            set -ev
+            set -e
             # cyber-dojo script is used in sh tests
             curl --silent --fail https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo \
               -o /tmp/cyber-dojo
@@ -34,7 +34,7 @@ jobs:
       - run:
           name: trigger dependent repos
           command: |
-            set -ev
+            set -e
             ./sh/trigger.sh custom
             ./sh/trigger.sh exercises
             ./sh/trigger.sh languages
