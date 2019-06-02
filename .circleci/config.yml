@@ -10,34 +10,40 @@ jobs:
     steps:
       - checkout
       - run:
-          name: build docker image
+          name: Curl cyber-dojo script
           command: |
             set -e
-            # cyber-dojo script is used in sh tests
             curl --silent --fail https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo \
               -o /tmp/cyber-dojo
             chmod 700 /tmp/cyber-dojo
+      - run:
+          name: Build tested docker image
+          command: |
             ./pipe_build_up_test.sh
       - run:
-          name: publish tagged docker image to dockerhub
-          command: |
-            set -ev
-            readonly image=cyberdojo/starter-base
-            docker tag  ${image}:latest ${image}:${CIRCLE_SHA1:0:7}
-            docker tag  ${image}:latest ${image}:beta
-            echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
-            docker push ${image}:${CIRCLE_SHA1:0:7}
-            docker push ${image}:beta
-            # NB: latest is the tag used in the FROM inside the Dockerfile
-            #     (in the main cyber-dojo script) and so must be pushed.
-            docker push ${image}:latest
-      - run:
-          name: trigger dependent repos
+          name: Tag docker image
           command: |
             set -e
-            ./sh/trigger.sh custom
-            ./sh/trigger.sh exercises
-            ./sh/trigger.sh languages
+            TAG=tag-image.sh
+            curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${TAG}
+            chmod 700 ./${TAG}
+            ./${TAG}
+      - run:
+          name: Publish tagged docker image on dockerhub
+          command: |
+            set -e
+            PUBLISH=publish-tagged-image.sh
+            curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${PUBLISH}
+            chmod 700 ./${PUBLISH}
+            ./${PUBLISH}
+      - run:
+          name: Trigger dependent repos
+          command: |
+            set -e
+            TRIGGER=trigger-dependent-repos.sh
+            curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${TRIGGER}
+            chmod 700 ./${TRIGGER}
+            ./${TRIGGER} custom exercises languages
 
 workflows:
   version: 2
