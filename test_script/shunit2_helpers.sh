@@ -15,13 +15,6 @@ assert_stdout_includes()
   fi
 }
 
-assert_stdout_ends()
-{
-  local stdout="`cat ${stdoutF}`"
-  local last="${stdout##*$'\n'}"
-  assertEquals "${1}" "${last}"
-}
-
 assert_stdout_line_count_equals()
 {
   local newline=$'\n'
