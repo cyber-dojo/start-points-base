@@ -22,7 +22,7 @@ test_short_help_option()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test_long_help_option()
+X_test_long_help_option()
 {
   build_start_points_image --help
 
