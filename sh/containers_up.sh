@@ -36,7 +36,7 @@ exit_unless_clean()
   local name="${1}"
   local docker_logs=$(docker logs "${name}")
   echo -n "Checking ${name} started cleanly..."
-  if [[ -z "${docker_logs}" ]]; then
+  if [ -z "${docker_logs}" ]; then
     echo 'OK'
   else
     echo 'FAIL'
