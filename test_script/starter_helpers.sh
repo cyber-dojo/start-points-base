@@ -174,9 +174,9 @@ remove_start_points_images()
 assert_stdout_equals_use()
 {
   local -r help_line_1="Use:"
-  local -r help_line_2="$ ./cyber-dojo start-point create <name> --custom    <url>..."
-  local -r help_line_3="$ ./cyber-dojo start-point create <name> --exercises <url>..."
-  local -r help_line_4="$ ./cyber-dojo start-point create <name> --languages <url>..."
+  local -r help_line_2="cyber-dojo start-point create <name> --custom    <url> ..."
+  local -r help_line_3="cyber-dojo start-point create <name> --exercises <url> ..."
+  local -r help_line_4="cyber-dojo start-point create <name> --languages <url> ..."
   assert_stdout_includes "${help_line_1}"
   assert_stdout_includes "${help_line_2}"
   assert_stdout_includes "${help_line_3}"
