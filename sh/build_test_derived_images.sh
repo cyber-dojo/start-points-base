@@ -102,6 +102,8 @@ build_test_custom_image()
   make_TMP_DIR
   readonly C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-yahtzee)
 
+  echo
+  echo "Building $(image_name)-custom"
   "$(build_image_script_name)"    \
     start-point create            \
       "$(image_name)-custom"      \
@@ -122,6 +124,8 @@ build_test_exercises_image()
   readonly E5_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-calc-stats)
   readonly E6_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-gray-code)
 
+  echo
+  echo "Building $(image_name)-exercises"
   "$(build_image_script_name)"     \
     start-point create             \
       "$(image_name)-exercises"    \
@@ -144,6 +148,8 @@ build_test_languages_image()
   readonly L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-python-unittest)
   readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-ruby-minitest)
 
+  echo
+  echo "Building $(image_name)-languages"
   "$(build_image_script_name)"     \
     start-point create             \
       "$(image_name)-languages"    \

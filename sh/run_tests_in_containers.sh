@@ -40,10 +40,13 @@ declare client_status=0
 
 run_server_tests()
 {
+  echo 'Running custom tests'
   run_tests nobody test_custom_server    test-custom-server    "${*}"
   custom_server_status=$?
+  echo 'Running exercises tests'
   run_tests nobody test_exercises_server test-exercises-server "${*}"
   exercises_server_status=$?
+  echo 'Running languages tests'
   run_tests nobody test_languages_server test-languages-server "${*}"
   languages_server_status=$?
 }
@@ -78,6 +81,7 @@ if [ "${custom_server_status}" = '0' ] && \
 then
   echo '------------------------------------------------------'
   echo 'All passed'
+  echo
   exit 0
 else
   echo
