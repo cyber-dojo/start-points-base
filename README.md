@@ -26,6 +26,11 @@ $ ./cyber-dojo start-point create \
           https://github.com/cyber-dojo-languages/csharp-nunit             \
           https://github.com/cyber-dojo-languages/gplusplus-googlemock.git \
           https://github.com/cyber-dojo-languages/java-junit.git
+
+--languages      https://github.com/cyber-dojo-languages/csharp-nunit
+--languages      https://github.com/cyber-dojo-languages/gplusplus-googlemock.git
+--languages      https://github.com/cyber-dojo-languages/java-junit.git
+Successfully built acme/my-languages-start-points
 ```
 
 - - - -
