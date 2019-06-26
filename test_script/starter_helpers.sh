@@ -181,7 +181,6 @@ assert_stdout_equals_use()
   assert_stdout_includes "${help_line_2}"
   assert_stdout_includes "${help_line_3}"
   assert_stdout_includes "${help_line_4}"
-  assert_stdout_line_count_equals 54
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -15,14 +15,6 @@ assert_stdout_includes()
   fi
 }
 
-assert_stdout_line_count_equals()
-{
-  local newline=$'\n'
-  local stdout="`cat ${stdoutF}`"
-  local diagnostic=$(printf 'stdout-line-count\n<stdout>\n%s\n</stdout>\n' "${stdout}")
-  assertEquals "${diagnostic}" ${1} $(echo "${stdout}" | wc -l | awk '{ print $1 }')
-}
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 assert_stderr_equals()
