@@ -43,7 +43,7 @@ class TestBase < HexMiniTest
     assert_equal({ 'Content-Type' => 'application/json' }, response[1])
     body = JSON.parse(response[2][0])
     stderr = (stderr == '') ? {} : JSON.parse(stderr)
-    return [ body, stderr ]
+    [ body, stderr ]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
