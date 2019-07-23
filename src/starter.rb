@@ -29,7 +29,7 @@ class Starter
   end
 
   def image_names
-    manifests.map{ |_,manifest| manifest['image_name'] }.sort.compact
+    manifests.map{ |_,manifest| manifest['image_name'] }.compact.sort.uniq
   end
 
   private
