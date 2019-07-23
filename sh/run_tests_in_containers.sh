@@ -6,10 +6,10 @@ readonly root_dir="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
 run_tests()
 {
-  local coverage_root=/tmp/coverage
-  local user="${1}"
-  local test_dir="${2}"
-  local cid=$(docker ps --all --quiet --filter "name=${3}")
+  local -r coverage_root=/tmp/coverage
+  local -r user="${1}"
+  local -r test_dir="${2}"
+  local -r cid=$(docker ps --all --quiet --filter "name=${3}")
 
   docker exec \
     --user "${user}" \
