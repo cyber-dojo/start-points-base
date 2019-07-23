@@ -58,7 +58,7 @@ services:
     init: true
     container_name: test-languages-server
     environment:
-      - NO_PROMETHEUS    
+      - NO_PROMETHEUS
     volumes:
       - ./test_languages_server:/app/test:ro
     read_only: true

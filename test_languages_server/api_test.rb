@@ -84,6 +84,21 @@ class ApiTest < TestBase
     assert_is_CSharp_NUnit_manifest(manifest)
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
+=begin
+  test 'EE4',
+  %w( image_names ) do
+    body,stderr = image_names(200)
+    assert_equal({}, stderr)
+    image_names = body['image_names']
+    expected = [
+      'dfgdfg'
+    ]
+    assert_equal expected, image_names
+  end
+=end
+
   private
 
   def expected_names

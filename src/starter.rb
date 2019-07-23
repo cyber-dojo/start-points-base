@@ -28,6 +28,10 @@ class Starter
     result
   end
 
+  #def image_names
+  #  ['sss','ttt']
+  #end
+
   private
 
   def read_names

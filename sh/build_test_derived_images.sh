@@ -162,8 +162,37 @@ build_test_languages_image()
 
 # - - - - - - - - - - - - - - - - -
 
+assert_base_sha_equal()
+{
+  local -r SP_BASE_SHA=$(docker run --rm $(image_name)-$2 sh -c 'echo -n ${BASE_SHA}')
+  if [ "${1}" != "${SP_BASE_SHA}" ]; then
+    echo 'ERROR'
+    echo "BASE_SHA=${1} cyberdojo/starter-base:latest"
+    echo "BASE_SHA=${SP_BASE_SHA} $(image_name)-$2"
+    exit 3
+  fi
+}
+
+# - - - - - - - - - - - - - - - - -
+# We need to create start-point images (to test) that use the
+# cyberdojo/starter-base image just created, and _not_
+# the one specified in versioner's /app/.env file
+# (via its env-var CYBER_DOJO_STARTER_BASE_SHA) which is
+# what the main cyber-dojo script will use, unless we set
+# the STARTER_BASE_TAG env-var to signal we want to tunnel it in.
+
+readonly BASE_SHA=$(docker run --rm cyberdojo/starter-base:latest sh -c 'echo -n ${BASE_SHA}')
+readonly TAG=${BASE_SHA:0:7}
+docker tag cyberdojo/starter-base:latest cyberdojo/starter-base:${TAG}
+export STARTER_BASE_TAG=${TAG}
+
 build_image_which_creates_test_data_git_repos
 exit_if_ROOT_DIR_not_in_context
+
 build_test_custom_image
 build_test_exercises_image
 build_test_languages_image
+
+assert_base_sha_equal "${BASE_SHA}" custom
+assert_base_sha_equal "${BASE_SHA}" exercises
+assert_base_sha_equal "${BASE_SHA}" languages

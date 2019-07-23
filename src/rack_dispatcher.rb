@@ -38,13 +38,16 @@ class RackDispatcher
     args = case method_name
       when /^ready$/          then []
       when /^sha$/            then []
+      #when /^image_names$/    then []
       when /^names$/          then []
       when /^manifests$/      then []
       when /^manifest$/       then [name]
       else
         raise ClientError, 'json:malformed'
     end
-    method_name += '?' if query?(method_name)
+    if query?(method_name)
+      method_name += '?'
+    end
     [method_name, args]
   end
 

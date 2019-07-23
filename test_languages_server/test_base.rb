@@ -34,6 +34,10 @@ class TestBase < HexMiniTest
     assert_rack_call_raw(status, 'manifest', args)
   end
 
+  #def image_names(status)
+  #  assert_rack_call_raw(status, 'image_names', '{}')
+  #end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_rack_call_raw(status, path_info, args)
@@ -42,7 +46,7 @@ class TestBase < HexMiniTest
     assert_equal status, response[0], stderr
     assert_equal({ 'Content-Type' => 'application/json' }, response[1])
     body = JSON.parse(response[2][0])
-    stderr = (stderr == '') ? {} : JSON.parse(stderr)
+    stderr = (stderr === '') ? {} : JSON.parse(stderr)
     [ body, stderr ]
   end
 
