@@ -34,6 +34,10 @@ class TestBase < HexMiniTest
     assert_rack_call_raw(status, 'manifest', args)
   end
 
+  def image_names(status)
+    assert_rack_call_raw(status, 'image_names', '{}')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_rack_call_raw(status, path_info, args)

@@ -86,18 +86,17 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-=begin
   test 'EE4',
   %w( image_names ) do
+    expected = %w(
+      cyberdojofoundation/csharp_nunit
+      cyberdojofoundation/python_unittest
+      cyberdojofoundation/ruby_mini_test
+    )
     body,stderr = image_names(200)
     assert_equal({}, stderr)
-    image_names = body['image_names']
-    expected = [
-      'dfgdfg'
-    ]
-    assert_equal expected, image_names
+    assert_equal expected, body['image_names']
   end
-=end
 
   private
 

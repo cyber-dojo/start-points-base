@@ -28,9 +28,9 @@ class Starter
     result
   end
 
-  #def image_names
-  #  ['sss','ttt']
-  #end
+  def image_names
+    manifests.map{ |_,manifest| manifest['image_name'] }.sort.compact
+  end
 
   private
 

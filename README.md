@@ -62,9 +62,9 @@ API:
 - [GET names()](#get-names)
 - [GET manifests()](#get-manifests)
 - [GET manifest(name)](#get-manifestname)
+- [GET image_names())](#get-imagenames)
 
 - - - -
-
 ### GET ready?()
 - parameters, none
 ```
@@ -77,7 +77,6 @@ API:
 ```
 
 - - - -
-
 ### GET sha()
 Returns the git commit sha used to create the docker image.
 - parameters, none
@@ -90,7 +89,6 @@ Returns the git commit sha used to create the docker image.
 ```
 
 - - - -
-
 ### GET names()
 - parameters, none
 ```
@@ -109,11 +107,10 @@ Returns the git commit sha used to create the docker image.
 ```
 
 - - - -
-
 ### GET manifests()
+...
 
 - - - -
-
 ### GET manifest(name)
 - parameters, name from a previous call to the names method above, eg
 ```
@@ -137,6 +134,22 @@ Returns the git commit sha used to create the docker image.
         }
       }
     }
+  }
+```
+
+- - - -
+### GET image_names()
+- parameters, none
+```
+  {}
+```
+- returns a sorted array of the image_names from all manifests, eg
+```
+  { "image_names": [
+      "cyberdojofoundation/csharp_nunit",
+      "cyberdojofoundation/python_unittest",
+      "cyberdojofoundation/ruby_mini_test"
+    ]
   }
 ```
 

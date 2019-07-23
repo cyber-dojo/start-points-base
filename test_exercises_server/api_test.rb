@@ -84,6 +84,16 @@ class ApiTest < TestBase
     assert_is_Gray_Code_manifest(manifest)
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test 'EE4',
+  %w( image_names ) do
+    expected = []
+    body,stderr = image_names(200)
+    assert_equal({}, stderr)
+    assert_equal expected, body['image_names']
+  end
+
   private
 
   def expected_names

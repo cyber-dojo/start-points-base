@@ -84,6 +84,22 @@ class ApiTest < TestBase
     assert_is_Yahtzee_refactoring_CSharp_NUnit_manifest(manifest)
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test 'EE4',
+  %w( image_names ) do
+    expected = %w(
+      cyberdojofoundation/csharp_nunit
+      cyberdojofoundation/gcc_assert
+      cyberdojofoundation/gpp_assert
+      cyberdojofoundation/java_junit
+      cyberdojofoundation/python_unittest
+    )
+    body,stderr = image_names(200)
+    assert_equal({}, stderr)
+    assert_equal expected, body['image_names']
+  end
+
   private
 
   def expected_names
