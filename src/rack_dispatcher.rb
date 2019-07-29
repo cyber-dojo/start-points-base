@@ -75,7 +75,11 @@ class RackDispatcher
   # - - - - - - - - - - - - - - - -
 
   def json_parse(body)
-    json = JSON.parse(body)
+    if body === ''
+      json = {}
+    else
+      json = JSON.parse(body)
+    end
     unless json.is_a?(Hash)
       raise ClientError, 'json:malformed'
     end

@@ -44,4 +44,13 @@ class RackDispatcherTest < TestBase
     assert_exception('ClientError', 'json:malformed', body, stderr)
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  test 'BB3',
+  %w( treat '' as {} for kubernetes liveness/readyness http probes ) do
+    body,stderr = assert_rack_call_raw(200, 'ready', '')
+    assert_equal({}, stderr)
+    assert_equal({"ready?"=> true}, body)
+  end
+
 end
