@@ -67,7 +67,6 @@ def languages_manifest_has_duplicate_keys
       ],
       "hidden_filenames": [ "TestResult\\.xml" ],
       "image_name": "cyberdojofoundation/csharp_nunit",
-      "runner_choice": "stateless",
       "filename_extension": ".cs"
     }
     MANIFEST
@@ -468,12 +467,6 @@ end
 
 def exercises_manifest_has_display_names_duplicate_2
   peturb_exercise_manifest('display_name', 'Dup', 'exercises-tiny-maze')
-end
-
-# - - - - - - - - - - - - - - - - - - - - - - -
-
-def languages_manifest_runner_choice_stateless
-  peturb_language_manifest('runner_choice', 'stateless')
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -

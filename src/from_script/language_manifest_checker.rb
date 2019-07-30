@@ -8,7 +8,6 @@ require_relative 'check_highlight_filenames'
 require_relative 'check_image_name'
 require_relative 'check_max_seconds'
 require_relative 'check_progress_regexs'
-require_relative 'check_runner_choice'
 require_relative 'check_tab_size'
 require_relative 'check_visible_filenames'
 require_relative 'clean_json'
@@ -43,7 +42,6 @@ class LanguageManifestChecker
       check_all_required_keys_exist(required_keys, url, filename, json, 21)
       check_required_keys(url, filename, json)
       check_optional_keys(url, filename, json)
-      check_deprecated_keys(url, filename, json)
       display_name = json['display_name']
       display_names[display_name] ||= []
       display_names[display_name] << [url,filename]
@@ -65,10 +63,6 @@ class LanguageManifestChecker
     check_progress_regexs(url, filename, json, 44)
   end
 
-  def check_deprecated_keys(url, filename, json)
-    check_runner_choice(url, filename, json, 50)
-  end
-
   include CheckAllRequiredKeysExist
   include CheckDisplayName
   include CheckDisplayNames
@@ -79,7 +73,6 @@ class LanguageManifestChecker
   include CheckMaxSeconds
   include CheckNoUnknownKeysExist
   include CheckProgressRegexs
-  include CheckRunnerChoice
   include CheckTabSize
   include CheckVisibleFilenames
   include CleanJson
@@ -91,7 +84,6 @@ class LanguageManifestChecker
         visible_filenames
         hidden_filenames
         image_name
-        runner_choice
         filename_extension
         highlight_filenames
         progress_regexs
