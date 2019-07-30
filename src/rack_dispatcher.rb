@@ -36,8 +36,9 @@ class RackDispatcher
   def validated_name_args(method_name, body)
     @args = json_parse(body)
     args = case method_name
-      when /^ready$/          then []
       when /^sha$/            then []
+      when /^alive$/          then []
+      when /^ready$/          then []
       when /^image_names$/    then []
       when /^names$/          then []
       when /^manifests$/      then []
@@ -69,7 +70,7 @@ class RackDispatcher
   end
 
   def query?(name)
-    ['ready'].include?(name)
+    %w( alive ready ).include?(name)
   end
 
   # - - - - - - - - - - - - - - - -

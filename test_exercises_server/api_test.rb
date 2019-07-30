@@ -20,6 +20,15 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - -
 
+  test '601', %w( its alive  ) do
+    body,stderr = alive?(200)
+    assert_equal({}, stderr)
+    result = body['alive?']
+    assert_equal true, result, body
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   test '602', %w( its ready ) do
     body,stderr = ready?(200)
     assert_equal({}, stderr)

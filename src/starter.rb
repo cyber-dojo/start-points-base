@@ -11,6 +11,10 @@ class Starter
     ENV['SHA'] || ENV['BASE_SHA']
   end
 
+  def alive?
+    true
+  end
+  
   def ready?
     true
   end
