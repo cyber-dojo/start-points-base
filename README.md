@@ -52,7 +52,7 @@ There are 2 kinds of start-points
 - [GET names()](#get-names)
 - [GET manifests()](#get-manifests)
 - [GET manifest(name)](#get-manifestname)
-- [GET image_names())](#get-imagenames)
+- [GET image_names()](#get-imagenames)
 
 - - - -
 # JSON in, JSON out  
