@@ -41,21 +41,10 @@ There are 2 kinds of start-points
 - exercises. These are specified with a subset of the languages/custom manifest.json files and have only two entries:
   - You must specify a display_name
   - You must specify the visible_filenames
-  - visible_filenames cannot contain a file called cyber-dojo.sh
+    - visible_filenames cannot contain a file called cyber-dojo.sh
 
 - - - -
-
-## micro-service API
-- A docker-containerized micro-service for [cyber-dojo](http://cyber-dojo.org).
-- Holds the start-points used when setting up a practice session.
-
-API:
-  * All methods receive their named arguments in a json hash.
-  * All methods return a json hash.
-    * If the method completes, a key equals the method's name.
-    * If the method raises an exception, a key equals "exception".
-
-#
+# API
 - [GET alive?()](#get-alive)
 - [GET ready?()](#get-ready)
 - [GET sha()](#get-sha)
@@ -64,6 +53,14 @@ API:
 - [GET manifests()](#get-manifests)
 - [GET manifest(name)](#get-manifestname)
 - [GET image_names())](#get-imagenames)
+
+- - - -
+# JSON in, JSON out  
+* All methods receive a JSON hash.
+  * The hash contains any method arguments as key-value pairs.
+* All methods return a JSON hash.
+  * If the method completes, a key equals the method's name.
+  * If the method raises an exception, a key equals "exception".
 
 - - - -
 ### GET alive?()
@@ -190,8 +187,5 @@ The image_names from all manifests.
   ```
 
 - - - -
-
-* [Take me to cyber-dojo's home github repo](https://github.com/cyber-dojo/cyber-dojo).
-* [Take me to the http://cyber-dojo.org site](http://cyber-dojo.org).
 
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
