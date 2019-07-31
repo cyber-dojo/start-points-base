@@ -56,6 +56,7 @@ API:
     * If the method raises an exception, a key equals "exception".
 
 #
+- [GET alive?()](#get-alive)
 - [GET ready?()](#get-ready)
 - [GET sha()](#get-sha)
 #
@@ -65,46 +66,73 @@ API:
 - [GET image_names())](#get-imagenames)
 
 - - - -
+### GET alive?()
+Useful as a liveness probe.
+- returns
+  * true
+  ```json
+    { "ready?": true }
+  ```
+- parameters
+  * none
+  ```json
+    {}
+  ```
+
+- - - -
 ### GET ready?()
-- parameters, none
-```
-  {}
-```
-- returns true if the service is ready, otherwise false, eg
-```
-  { "ready?": true }
-  { "ready?": false }
-```
+Useful as a readiness probe.
+- returns
+  * true if the service is ready
+  ```json
+    { "ready?": true }
+  ```  
+  * false if the service is not ready
+  ```json
+    { "ready?": false }
+  ```
+- parameters
+  * none
+  ```json
+    {}
+  ```
 
 - - - -
 ### GET sha()
-Returns the git commit sha used to create the docker image.
-- parameters, none
-```
-  {}
-```
-- returns the sha, eg
-```
-  { "sha": "b28b3e13c0778fe409a50d23628f631f87920ce5" }
-```
+The git commit sha used to create the docker image.
+- returns
+  * The 40 character sha string
+  * eg
+  ```json
+    { "sha": "b28b3e13c0778fe409a50d23628f631f87920ce5" }
+  ```
+- parameters
+  * none
+  ```json
+    {}
+  ```
 
 - - - -
 ### GET names()
-- parameters, none
-```
-  {}
-```
-- returns a sorted array of the display_names from all manifests, eg
-```
-  { "names": [
-      "C (gcc), assert",
-      "C#, NUnit",
-      "C++ (g++), assert",
-      "Python, py.test",
-      "Python, unittest"
-    ]
-  }
-```
+The display_names from all manifests.
+- returns
+  * A sorted array of strings.
+  * eg
+  ```json
+    { "names": [
+        "C (gcc), assert",
+        "C#, NUnit",
+        "C++ (g++), assert",
+        "Python, py.test",
+        "Python, unittest"
+      ]
+    }
+  ```
+- parameters
+  * none
+  ```json
+    {}
+  ```
 
 - - - -
 ### GET manifests()
@@ -112,46 +140,54 @@ Returns the git commit sha used to create the docker image.
 
 - - - -
 ### GET manifest(name)
-- parameters, name from a previous call to the names method above, eg
-```
-  {  "name": "C#, NUnit" }
-```
-- returns the manifest for the given name, eg
-```
-  { "manifest": {
-      "display_name": "C#, NUNit",
-      "image_name": "cyberdojofoundation/csharp_nunit",
-      "filename_extension": [ ".cs" ],
-      "visible_files": {
-        "Hiker.cs": {               
-          "content" => "public class Hiker..."
-        },
-        "HikerTest.cs": {
-          "content" => "using NUnit.Framework;..."
-        },
-        "cyber-dojo.sh": {
-          "content" => "NUNIT_PATH=/nunit/lib/net45..."
+The manifest for the given name.
+- returns
+  * eg
+  ```json
+    { "manifest": {
+        "display_name": "C#, NUNit",
+        "image_name": "cyberdojofoundation/csharp_nunit",
+        "filename_extension": [ ".cs" ],
+        "visible_files": {
+          "Hiker.cs": {               
+            "content": "public class Hiker..."
+          },
+          "HikerTest.cs": {
+            "content": "using NUnit.Framework;..."
+          },
+          "cyber-dojo.sh": {
+            "content": "NUNIT_PATH=/nunit/lib/net45..."
+          }
         }
       }
     }
-  }
-```
+  ```
+- parameters
+  * **name:String** from a previous call to the names method above
+  * eg
+  ```json
+    {  "name": "C#, NUnit" }
+  ```
 
 - - - -
 ### GET image_names()
-- parameters, none
-```
-  {}
-```
-- returns a sorted array of the image_names from all manifests, eg
-```
-  { "image_names": [
-      "cyberdojofoundation/csharp_nunit",
-      "cyberdojofoundation/python_unittest",
-      "cyberdojofoundation/ruby_mini_test"
-    ]
-  }
-```
+The image_names from all manifests.
+- returns
+  * A sorted array of strings.
+  * eg
+  ```json
+    { "image_names": [
+        "cyberdojofoundation/csharp_nunit",
+        "cyberdojofoundation/python_unittest",
+        "cyberdojofoundation/ruby_mini_test"
+      ]
+    }
+  ```
+- parameters
+  * none
+  ```json
+    {}
+  ```
 
 - - - -
 
