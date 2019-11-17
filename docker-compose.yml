@@ -1,5 +1,5 @@
 
-version: '2.2'
+version: '3.7'
 
 services:
 
@@ -17,8 +17,7 @@ services:
       - exercises
       - languages
     restart: 'no'
-    ports:
-      - 4528:4528
+    ports: [ "4528:4528" ]
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -27,42 +26,36 @@ services:
     image: cyberdojo/test-custom
     init: true
     container_name: test-custom-server
-    environment:
-      - NO_PROMETHEUS
+    environment: [ NO_PROMETHEUS ]
     volumes:
       - ./test_custom_server:/app/test:ro
     read_only: true
     tmpfs: /tmp
     restart: 'no'
-    ports:
-      - 4526:4526
+    ports: [ "4526:4526" ]
 
   exercises:
     user: nobody
     image: cyberdojo/test-exercises
     init: true
     container_name: test-exercises-server
-    environment:
-      - NO_PROMETHEUS
+    environment: [ NO_PROMETHEUS ]
     volumes:
       - ./test_exercises_server:/app/test:ro
     read_only: true
     tmpfs: /tmp
     restart: 'no'
-    ports:
-      - 4525:4525
+    ports: [ "4525:4525" ]
 
   languages:
     user: nobody
     image: cyberdojo/test-languages
     init: true
     container_name: test-languages-server
-    environment:
-      - NO_PROMETHEUS
+    environment: [ NO_PROMETHEUS ]
     volumes:
       - ./test_languages_server:/app/test:ro
     read_only: true
     tmpfs: /tmp
     restart: 'no'
-    ports:
-      - 4524:4524
+    ports: [ "4524:4524" ]
