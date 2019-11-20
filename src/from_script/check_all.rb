@@ -1,12 +1,14 @@
 #!/usr/bin/ruby
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Detects faults in the start-point files git-cloned from
-# the urls specified as arguments to the main Bash script:
-#   build_cyber_dojo_start_points_image.sh
-# which runs a [docker image build] whose Dockerfile's has
-# RUN /app/src/from_script/check_all.rb /app/repos $(image_type)
+# the urls specified as arguments to the main bash script:
+#   $ cyber-dojo start-point create <name> --custom <url> ...
+# which runs the cyber-dojo-inner bash script which runs a
+#   [docker image build ...]
+# whose Dockerfile has
+#   RUN /app/src/from_script/check_all.rb /app/repos $(image_type)
 # Thus, if this Ruby script returns a non-zero exit status
-# the [docker build] fails and the main Bash script fails
+# the [docker build] fails and the main bash script fails
 # to build a docker image.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
