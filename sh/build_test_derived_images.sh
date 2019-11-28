@@ -179,12 +179,13 @@ assert_base_sha_equal()
 # the one specified in versioner's /app/.env file
 # (via its env-var CYBER_DOJO_STARTER_BASE_SHA) which is
 # what the main cyber-dojo script will use, unless we set
-# the STARTER_BASE_TAG env-var to signal we want to tunnel it in.
+# the CYBER_DOJO_STARTER_BASE_TAG env-var to signal we want to
+# tunnel it in. See commander/cyber-dojo-inner extract_and_run()
 
 readonly BASE_SHA=$(docker run --rm cyberdojo/starter-base:latest sh -c 'echo -n ${BASE_SHA}')
 readonly TAG=${BASE_SHA:0:7}
 docker tag cyberdojo/starter-base:latest cyberdojo/starter-base:${TAG}
-export STARTER_BASE_TAG=${TAG}
+export CYBER_DOJO_STARTER_BASE_TAG=${TAG}
 
 build_image_which_creates_test_data_git_repos
 exit_if_ROOT_DIR_not_in_context
