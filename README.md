@@ -1,37 +1,42 @@
 
-<img src="https://raw.githubusercontent.com/cyber-dojo/nginx/master/images/home_page_logo.png" alt="cyber-dojo yin/yang logo" width="50px" height="50px"/>
+[![CircleCI](https://circleci.com/gh/cyber-dojo/start-points-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/start-points-base)
 
-[![CircleCI](https://circleci.com/gh/cyber-dojo/starter-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/starter-base)
+The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) docker image.
 
-The source for the [cyberdojo/starter-base](https://hub.docker.com/r/cyberdojo/starter-base) docker image.
+* You use the $[cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) ```start-point create ...``` command to create your own start-point images.
+  ```bash
+  $ ./cyber-dojo start-point create --help
+    Use:
+    cyber-dojo start-point create <name> --custom    <url> ...
+    cyber-dojo start-point create <name> --exercises <url> ...
+    cyber-dojo start-point create <name> --languages <url> ...
+    ...
+  ```
 
-## The build script
-* Use the [cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo)
-script to create your own start-point images.
-* It will use [cyberdojo/starter-base](https://hub.docker.com/r/cyberdojo/starter-base) as its base (FROM) image.
-
-```bash
-$ ./cyber-dojo start-point create --help
-  Use:
-  cyber-dojo start-point create <name> --custom    <url> ...
-  cyber-dojo start-point create <name> --exercises <url> ...
-  cyber-dojo start-point create <name> --languages <url> ...
+* If successful, the created image <name> will use [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) as its base (FROM) image and will http-serve copies of the start-points in the urls when named in a [cyber-dojo up] command. For example:
+  ```bash
+  $ ./cyber-dojo start-point create \
+        acme/my-languages-start-points \
+          --languages \
+            https://github.com/cyber-dojo-languages/csharp-nunit             \
+            https://github.com/cyber-dojo-languages/gplusplus-googlemock.git \
+            https://github.com/cyber-dojo-languages/java-junit.git
   ...
-```
-For example:
-```bash
-$ ./cyber-dojo start-point create \
-      acme/my-languages-start-points \
-        --languages \
-          https://github.com/cyber-dojo-languages/csharp-nunit             \
-          https://github.com/cyber-dojo-languages/gplusplus-googlemock.git \
-          https://github.com/cyber-dojo-languages/java-junit.git
+  Successfully built acme/my-languages-start-points
 
---languages      https://github.com/cyber-dojo-languages/csharp-nunit
---languages      https://github.com/cyber-dojo-languages/gplusplus-googlemock.git
---languages      https://github.com/cyber-dojo-languages/java-junit.git
-Successfully built acme/my-languages-start-points
-```
+  $ ./cyber-dojo up --languages=acme/my-languages-start-points
+  ...
+  ```
+
+* If unsuccessful, the command will print an error message. For example:
+  ```bash
+  $ ./cyber-dojo start-point create \
+        acme/my-custom-start-points \
+          --custom \
+            /users/fred/custom
+  ERROR: no manifest.json files in
+  --custom /users/fred/custom
+  ```
 
 - - - -
 
