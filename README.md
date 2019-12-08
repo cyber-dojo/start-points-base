@@ -5,7 +5,7 @@ The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberd
 
 * You use the $[cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) ```start-point create ...``` command to create your own start-point images.
   ```bash
-  $ ./cyber-dojo start-point create --help
+  $ cyber-dojo start-point create --help
     Use:
     cyber-dojo start-point create <name> --custom    <url> ...
     cyber-dojo start-point create <name> --exercises <url> ...
@@ -13,9 +13,9 @@ The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberd
     ...
   ```
 
-* If successful, the created image <name> will use [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) as its base (FROM) image and will http-serve copies of the start-points in the urls when named in a [cyber-dojo up] command. For example:
+* If successful, the created image <name> will use [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) as its base (FROM) image and will http-serve (copies of) the start-points in the urls when named in a [cyber-dojo up] command. For example:
   ```bash
-  $ ./cyber-dojo start-point create \
+  $ cyber-dojo start-point create \
         acme/my-languages-start-points \
           --languages \
             https://github.com/cyber-dojo-languages/csharp-nunit             \
@@ -24,13 +24,13 @@ The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberd
   ...
   Successfully built acme/my-languages-start-points
 
-  $ ./cyber-dojo up --languages=acme/my-languages-start-points
+  $ cyber-dojo up --languages=acme/my-languages-start-points
   ...
   ```
 
 * If unsuccessful, the command will print an error message. For example:
   ```bash
-  $ ./cyber-dojo start-point create \
+  $ cyber-dojo start-point create \
         acme/my-custom-start-points \
           --custom \
             /users/fred/custom
