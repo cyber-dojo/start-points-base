@@ -10,4 +10,5 @@ docker build \
   --tag cyberdojo/start-points-base:latest \
   "${ROOT_DIR}"
 
+echo "${BASE_SHA}"
 docker tag cyberdojo/start-points-base:latest cyberdojo/start-points-base:${TAG}
