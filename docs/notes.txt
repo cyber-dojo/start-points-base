@@ -1,0 +1,62 @@
+
+I would like to include the URL that a start-point was
+created from inside its own manifest. Currently a
+start-point image has the file
+
+/app/repos/shas.txt
+
+which contains lines like this
+
+3 	 e15091f2d67f8e31079092b6561b7961376af279 	 https://github.com/cyber-dojo-languages/asm-assert
+
+The 1st arg is the git repo sub-dir, eg /app/repos/3/
+The 2nd arg is the sha of the commit in the git repo
+The 3rd arg is the url of the git repo
+
+If the image was created from a local file-system the url (3rd arg) will look like
+/Users/jonjagger/repos/cyber-dojo-languages/kotlin-test
+
+Both URLs can be plugged into a browser.
+
+Underneath, eg, /app/repos/3/ will be
+/app/repos/3/start_point/manifest.json"
+
+How does the manifest get expanded?
+
+/src/starter.rb  read_manifests()
+
+So that function could read the shas.txt file and I'd like to add to
+the stored manifest...
+
+{ "image_name":...
+  "image_url":...add this...
+  "image_sha":...add this...
+}
+
+Code...
+
+def read_manifests
+  manifests = {}
+  repo_info = read_repo_info
+  pattern = "#{start_points_dir}/**/manifest.json"
+  Dir.glob(pattern).each do |manifest_filename|
+    manifest = JSON.parse!(IO.read(manifest_filename))
+    ...
+    n = manifest_filename.split('/')[3].to_i
+    manifest.merge!(repo_info[n])
+    manifests[display_name] = manifest
+  end
+  manifests
+end
+
+def read_repo_info
+  repo_info = {}
+  IO.read("#{start_points_dir}/shas.txt").lines.each do |line|
+    args = line.split
+    repo_info[args[0].to_i] = {
+      "image_sha" => args[1],
+      "image_url" => args[2]
+    }
+  end
+  repo_info
+end
