@@ -27,8 +27,7 @@ services:
     init: true
     container_name: test-custom-server
     environment: [ NO_PROMETHEUS ]
-    volumes:
-      - ./test_custom_server:/app/test:ro
+    volumes: [ "./test_custom_server:/app/test:ro" ]
     read_only: true
     tmpfs: /tmp
     restart: 'no'
@@ -40,8 +39,7 @@ services:
     init: true
     container_name: test-exercises-server
     environment: [ NO_PROMETHEUS ]
-    volumes:
-      - ./test_exercises_server:/app/test:ro
+    volumes: [ "./test_exercises_server:/app/test:ro" ]
     read_only: true
     tmpfs: /tmp
     restart: 'no'
@@ -53,8 +51,7 @@ services:
     init: true
     container_name: test-languages-server
     environment: [ NO_PROMETHEUS ]
-    volumes:
-      - ./test_languages_server:/app/test:ro
+    volumes: [ "./test_languages_server:/app/test:ro" ]
     read_only: true
     tmpfs: /tmp
     restart: 'no'

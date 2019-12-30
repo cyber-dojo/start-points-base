@@ -57,7 +57,7 @@ class Demo
     result = yield
     finished = Time.now
     duration = '%.4f' % (finished - started)
-    [result,duration]
+    [ result, duration ]
   end
 
   # - - - - - - - - - - - - - - - - -
