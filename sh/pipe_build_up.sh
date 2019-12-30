@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/bash -Eeu
 
 readonly SH_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 

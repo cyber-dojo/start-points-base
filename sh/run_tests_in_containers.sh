@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/bash -Eeu
 
 readonly root_dir="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
@@ -41,17 +40,17 @@ run_tests()
 run_server_tests()
 {
   echo 'Running custom tests'
-  run_tests nobody test_custom_server    test-custom-server    "${*}"
+  run_tests nobody test_custom_server    test-custom-server    "$@"
   echo 'Running exercises tests'
-  run_tests nobody test_exercises_server test-exercises-server "${*}"
+  run_tests nobody test_exercises_server test-exercises-server "$@"
   echo 'Running languages tests'
-  run_tests nobody test_languages_server test-languages-server "${*}"
+  run_tests nobody test_languages_server test-languages-server "$@"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_client_tests()
 {
-  run_tests nobody test_client test-starter-client "${*}"
+  run_tests nobody test_client test-starter-client "$@"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -

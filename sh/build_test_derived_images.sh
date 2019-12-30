@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/bash -Ee
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
@@ -56,7 +55,7 @@ build_image_which_creates_test_data_git_repos()
 
 on_CI()
 {
-  [[ ! -z "${CIRCLE_SHA1}" ]]
+  [ -n "${CIRCLE_SHA1}" ]
 }
 
 build_image_script_name()

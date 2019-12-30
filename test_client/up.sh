@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/bash -Eeu
 
 # The --host is needed for IPv4 and IPv6 addresses
 

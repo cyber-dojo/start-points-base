@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/bash -Eeu
 
 readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
@@ -12,4 +11,4 @@ readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 #  docker pull cyberdojo/start-points-base:${TAG}
 #fi
 
-"${MY_DIR}/../test_script/run_tests.sh" ${*}
+"${MY_DIR}/../test_script/run_tests.sh" "$@"

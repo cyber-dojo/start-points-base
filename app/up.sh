@@ -1,9 +1,8 @@
-#!/bin/bash
-set -e
+#!/bin/bash -Eeu
 
 if [ -z "${PORT}" ]; then
   echo "PORT environment variable not set"
-  exit 1
+  exit 42
 fi
 
 rackup             \
