@@ -1,4 +1,4 @@
-#!/bin/bash -Eeu
+#!/bin/bash -Ee
 
 ip_address()
 {
@@ -32,18 +32,18 @@ wait_until_ready()
   local -r name="${1}"
   local -r port="${2}"
   local -r max_tries=20
-  echo -n "Waiting until ${name} is ready"
+  printf "Waiting until ${name} is ready"
   for _ in $(seq ${max_tries})
   do
-    echo -n '.'
     if curl_cmd ${port} ready? ; then
-      echo 'OK'
+      printf '.OK\n'
       return
     else
+      printf '.'
       sleep 0.1
     fi
   done
-  echo 'FAIL'
+  printf 'FAIL\n'
   echo "${name} not ready after ${max_tries} tries"
   if [ -f /tmp/curl-probe ]; then
     echo "$(cat /tmp/curl-probe)"
@@ -58,7 +58,7 @@ exit_unless_clean()
 {
   local -r name="${1}"
   local -r docker_log=$(docker logs "${name}")
-  local -r line_count=$(echo -n "${docker_log}" | grep -c '^')
+  local -r line_count=$(echo -n "${docker_log}" | grep --count '^')
   echo -n "Checking ${name} started cleanly..."
   if [ "${line_count}" == '3' ]; then
     echo 'OK'
@@ -99,13 +99,16 @@ readonly LANGUAGES_CONTAINER_NAME=test-languages-server
 
 echo
 wait_until_ready  "${CUSTOM_CONTAINER_NAME}" 4526
-exit_unless_clean "${CUSTOM_CONTAINER_NAME}"
+#exit_unless_clean "${CUSTOM_CONTAINER_NAME}"
+echo_docker_log "${CUSTOM_CONTAINER_NAME}"
 
 wait_until_ready  "${EXERCISES_CONTAINER_NAME}" 4525
-exit_unless_clean "${EXERCISES_CONTAINER_NAME}"
+echo_docker_log "${EXERCISES_CONTAINER_NAME}"
+#exit_unless_clean "${EXERCISES_CONTAINER_NAME}"
 
 wait_until_ready  "${LANGUAGES_CONTAINER_NAME}" 4524
-exit_unless_clean "${LANGUAGES_CONTAINER_NAME}"
+echo_docker_log "${LANGUAGES_CONTAINER_NAME}"
+#exit_unless_clean "${LANGUAGES_CONTAINER_NAME}"
 
 #wait_until_ready  "test-starter-client" 4528
 #exit_unless_clean "test-starter-client"
