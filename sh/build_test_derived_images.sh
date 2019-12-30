@@ -35,7 +35,7 @@ declare TMP_DIR=''
 make_TMP_DIR()
 {
   [ -d "${ROOT_DIR}/tmp" ] || mkdir "${ROOT_DIR}/tmp"
-  TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
+  TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo.start-points-base.XXX")
   trap remove_TMP_DIR EXIT
   chmod 700 "${TMP_DIR}"
 }
@@ -158,34 +158,24 @@ build_test_languages_image()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 assert_base_sha_equal()
 {
-  local -r SP_BASE_SHA=$(docker run --rm $(image_name)-$2 sh -c 'echo -n ${BASE_SHA}')
-  if [ "${1}" != "${SP_BASE_SHA}" ]; then
+  local -r IMAGE_BASE_SHA=$(docker run --rm $(image_name)-$2 sh -c 'echo -n ${BASE_SHA}')
+  if [ "${1}" != "${IMAGE_BASE_SHA}" ]; then
     echo ERROR
     echo "BASE_SHA=${1} cyberdojo/start-points-base:latest"
-    echo "BASE_SHA=${SP_BASE_SHA} $(image_name)-$2"
+    echo "BASE_SHA=${IMAGE_BASE_SHA} $(image_name)-$2"
     exit 42
   fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-readonly BASE_SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
-readonly TAG=${BASE_SHA:0:7}
-
 build_image_which_creates_test_data_git_repos
 exit_if_ROOT_DIR_not_in_context
 
-# We need to create start-point images (to test) that use the
-# cyberdojo/start-points-base image:tag just created, and _not_
-# the one specified in versioner's /app/.env file, which is
-# what the main cyber-dojo script will use, unless we set
-# the CYBER_DOJO_START_POINTS_BASE_TAG env-var to signal we want to
-# tunnel it in. See commander/cyber-dojo-inner extract_and_run()
-export CYBER_DOJO_START_POINTS_BASE_IMAGE=cyberdojo/start-points-base
-export CYBER_DOJO_START_POINTS_BASE_TAG=${TAG}
 build_test_custom_image
 build_test_exercises_image
 build_test_languages_image
 
+readonly BASE_SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
 assert_base_sha_equal "${BASE_SHA}" custom
 assert_base_sha_equal "${BASE_SHA}" exercises
 assert_base_sha_equal "${BASE_SHA}" languages
