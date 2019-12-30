@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if [ -z "${PORT}" ]; then
   echo "PORT environment variable not set"
