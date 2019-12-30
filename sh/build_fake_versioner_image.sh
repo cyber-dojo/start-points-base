@@ -14,7 +14,7 @@ build_fake_versioner()
   docker run                  \
     --detach                  \
     --env RELEASE=999.999.999 \
-    --env SHA="${sha}"        \
+    --env SHA="${fake_sha}"   \
     --name "${fake}"          \
     alpine:latest             \
       sh -c 'mkdir /app' > /dev/null
