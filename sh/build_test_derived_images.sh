@@ -168,21 +168,20 @@ assert_base_sha_equal()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
+readonly BASE_SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
+readonly TAG=${BASE_SHA:0:7}
+
+build_image_which_creates_test_data_git_repos
+exit_if_ROOT_DIR_not_in_context
+
 # We need to create start-point images (to test) that use the
 # cyberdojo/start-points-base image:tag just created, and _not_
 # the one specified in versioner's /app/.env file, which is
 # what the main cyber-dojo script will use, unless we set
 # the CYBER_DOJO_START_POINTS_BASE_TAG env-var to signal we want to
 # tunnel it in. See commander/cyber-dojo-inner extract_and_run()
-
-readonly BASE_SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
-readonly TAG=${BASE_SHA:0:7}
 export CYBER_DOJO_START_POINTS_BASE_IMAGE=cyberdojo/start-points-base
 export CYBER_DOJO_START_POINTS_BASE_TAG=${TAG}
-
-build_image_which_creates_test_data_git_repos
-exit_if_ROOT_DIR_not_in_context
-
 build_test_custom_image
 build_test_exercises_image
 build_test_languages_image
