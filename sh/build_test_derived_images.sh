@@ -2,16 +2,17 @@
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
+# - - - - - - - - - - - - - - - - - - - - - - - -
 exit_if_ROOT_DIR_not_in_context()
 {
   if using_DockerToolbox && on_Mac; then
     if [ "${ROOT_DIR:0:6}" != "/Users" ]; then
-      echo 'ERROR'
-      echo 'You are using Docker-Toolbox for Mac'
+      echo ERROR
+      echo You are using Docker-Toolbox for Mac
       echo "This script lives off ${ROOT_DIR}"
-      echo 'It must live off /Users so the docker-context'
-      echo "is automatically mounted into the default VM"
-      exit 1
+      echo It must live off /Users so the docker-context
+      echo is automatically mounted into the default VM
+      exit 42
     fi
   fi
 }
@@ -28,8 +29,7 @@ on_Mac()
   [[ "$OSTYPE" == "darwin"* ]]
 }
 
-# - - - - - - - - - - - - - - - - -
-
+# - - - - - - - - - - - - - - - - - - - - - - - -
 declare TMP_DIR=''
 
 make_TMP_DIR()
@@ -45,31 +45,31 @@ remove_TMP_DIR()
   rm -rf "${TMP_DIR}" > /dev/null
 }
 
-# - - - - - - - - - - - - - - - - -
-
+# - - - - - - - - - - - - - - - - - - - - - - - -
 build_image_which_creates_test_data_git_repos()
 {
   # This builds cyberdojo/create-start-points-test-data
   "${ROOT_DIR}/test_data/build_docker_image.sh"
 }
 
-on_CI()
+# - - - - - - - - - - - - - - - - - - - - - - - -
+on_ci()
 {
   [ -n "${CIRCLE_SHA1}" ]
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - -
 build_image_script_name()
 {
-  if on_CI; then
+  if on_ci; then
     # ./circleci/config.yml curls the cyber-dojo script into /tmp
-    echo '/tmp/cyber-dojo'
+    echo /tmp/cyber-dojo
   else
     echo "${ROOT_DIR}/../commander/cyber-dojo"
   fi
 }
 
-# - - - - - - - - - - - - - - - - -
-
+# - - - - - - - - - - - - - - - - - - - - - - - -
 create_git_repo_in_TMP_DIR_from()
 {
   local data_set_name="${1}"
@@ -87,15 +87,13 @@ create_git_repo_in_TMP_DIR_from()
   echo "${data_dir}"
 }
 
-# - - - - - - - - - - - - - - - - -
-
+# - - - - - - - - - - - - - - - - - - - - - - - -
 image_name()
 {
-  echo 'cyberdojo/test'
+  echo cyberdojo/test
 }
 
-# - - - - - - - - - - - - - - - - -
-
+# - - - - - - - - - - - - - - - - - - - - - - - -
 build_test_custom_image()
 {
   make_TMP_DIR
@@ -111,8 +109,7 @@ build_test_custom_image()
   remove_TMP_DIR
 }
 
-# - - - - - - - - - - - - - - - - -
-
+# - - - - - - - - - - - - - - - - - - - - - - - -
 build_test_exercises_image()
 {
   make_TMP_DIR
@@ -138,8 +135,7 @@ build_test_exercises_image()
   remove_TMP_DIR
 }
 
-# - - - - - - - - - - - - - - - - -
-
+# - - - - - - - - - - - - - - - - - - - - - - - -
 build_test_languages_image()
 {
   make_TMP_DIR
@@ -159,20 +155,19 @@ build_test_languages_image()
   remove_TMP_DIR
 }
 
-# - - - - - - - - - - - - - - - - -
-
+# - - - - - - - - - - - - - - - - - - - - - - - -
 assert_base_sha_equal()
 {
   local -r SP_BASE_SHA=$(docker run --rm $(image_name)-$2 sh -c 'echo -n ${BASE_SHA}')
   if [ "${1}" != "${SP_BASE_SHA}" ]; then
-    echo 'ERROR'
+    echo ERROR
     echo "BASE_SHA=${1} cyberdojo/start-points-base:latest"
     echo "BASE_SHA=${SP_BASE_SHA} $(image_name)-$2"
-    exit 3
+    exit 42
   fi
 }
 
-# - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - -
 # We need to create start-point images (to test) that use the
 # cyberdojo/start-points-base image:tag just created, and _not_
 # the one specified in versioner's /app/.env file, which is

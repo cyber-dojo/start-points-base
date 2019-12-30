@@ -1,4 +1,4 @@
-#!/bin/bash -Eeu
+#!/bin/bash -Ee
 
 readonly root_dir="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
@@ -54,10 +54,10 @@ run_client_tests()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-if [ "$1" = 'server' ]; then
+if [ "${1}" = 'server' ]; then
   shift
   run_server_tests "$@"
-elif [ "$1" = 'client' ]; then
+elif [ "${1}" = 'client' ]; then
   shift
   run_client_tests "$@"
 else

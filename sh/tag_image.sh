@@ -1,0 +1,30 @@
+#!/bin/bash -Eeu
+
+readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+git_commit_sha()
+{
+  echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+image_name()
+{
+  # TODO: get this from versioner's .env
+  echo cyberdojo/start-points-base
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+tag_image()
+{
+  local -r image="$(image_name)"
+  local -r sha="$(git_commit_sha)"
+  local -r tag="${sha:0:7}"
+  docker tag "${image}:latest" "${image}:${tag}"
+  echo "${sha}"
+  echo "${tag}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+tag_image

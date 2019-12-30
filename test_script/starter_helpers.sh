@@ -18,16 +18,16 @@ root_dir()
   cd "$(my_dir)" && cd .. && pwd
 }
 
-on_CI()
+on_ci()
 {
-  [[ ! -z "${CIRCLE_SHA1}" ]]
+  [ -n "${CIRCLE_SHA1}" ]
 }
 
 script_name()
 {
-  if on_CI; then
+  if on_ci; then
     # ./circleci/config.yml curls the cyber-dojo script into /tmp
-    echo '/tmp/cyber-dojo'
+    echo /tmp/cyber-dojo
   else
     echo "$(root_dir)/../commander/cyber-dojo"
   fi
