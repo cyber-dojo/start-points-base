@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+
 readonly SH_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 "${SH_DIR}/build_base_docker_image.sh"
@@ -17,4 +18,5 @@ else
   declare ip=localhost
 fi
 
-echo "demo -> ${ip}:4528"
+sleep 1
+open "http://${ip}:4528"
