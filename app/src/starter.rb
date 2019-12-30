@@ -14,7 +14,7 @@ class Starter
   def alive?
     true
   end
-  
+
   def ready?
     true
   end
