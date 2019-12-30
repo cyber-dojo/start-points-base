@@ -31,7 +31,7 @@ services:
     read_only: true
     tmpfs: /tmp
     restart: 'no'
-    ports: [ "4526:4526" ]
+    ports: [ "${CYBER_DOJO_CUSTOM_START_POINTS_PORT}:${CYBER_DOJO_CUSTOM_START_POINTS_PORT}" ]
 
   exercises:
     user: nobody
@@ -43,7 +43,7 @@ services:
     read_only: true
     tmpfs: /tmp
     restart: 'no'
-    ports: [ "4525:4525" ]
+    ports: [ "${CYBER_DOJO_EXERCISES_START_POINTS_PORT}:${CYBER_DOJO_EXERCISES_START_POINTS_PORT}" ]
 
   languages:
     user: nobody
@@ -55,4 +55,4 @@ services:
     read_only: true
     tmpfs: /tmp
     restart: 'no'
-    ports: [ "4524:4524" ]
+    ports: [ "${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}:${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}" ]
