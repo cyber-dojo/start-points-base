@@ -74,11 +74,12 @@ exit_unless_clean()
 echo_docker_log()
 {
   local -r name="${1}"
-  local -r docker_log="${2}"
+  local -r docker_log="${2:-$(docker logs "${name}")}"
   echo "[docker logs ${name}]"
   echo "<docker_log>"
   echo "${docker_log}"
   echo "</docker_log>"
+  printf '\n'
 }
 
 # - - - - - - - - - - - - - - - - - - - -
@@ -89,7 +90,7 @@ echo
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
   up \
-  -d  \
+  --detach  \
   --force-recreate \
   starter_client
 
@@ -99,8 +100,8 @@ readonly LANGUAGES_CONTAINER_NAME=test-languages-server
 
 echo
 wait_until_ready  "${CUSTOM_CONTAINER_NAME}" 4526
-#exit_unless_clean "${CUSTOM_CONTAINER_NAME}"
 echo_docker_log "${CUSTOM_CONTAINER_NAME}"
+#exit_unless_clean "${CUSTOM_CONTAINER_NAME}"
 
 wait_until_ready  "${EXERCISES_CONTAINER_NAME}" 4525
 echo_docker_log "${EXERCISES_CONTAINER_NAME}"
