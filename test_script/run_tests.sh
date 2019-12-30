@@ -5,6 +5,7 @@ readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 
 # Set CYBER_DOJO_START_POINTS_BASE_TAG so we tunnel through
 # cyberdojo -> cyber-dojo-inner -> cat-start-point-create.sh
+# IDEA: Would it be better to create a fake cyberdojo/versioner:latest
 readonly BASE_SHA=$(cd "${my_dir}" && cd .. && git rev-parse HEAD)
 readonly TAG=${BASE_SHA:0:7}
 export CYBER_DOJO_START_POINTS_BASE_TAG=${TAG}

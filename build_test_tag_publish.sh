@@ -14,4 +14,12 @@ export $(cat_env_vars)
 "${SH_DIR}/run_tests_in_containers.sh" "$@"
 "${SH_DIR}/run_script_tests.sh"
 "${SH_DIR}/on_ci_publish_tagged_images.sh"
-#TODO: notify dependent repos
+
+# I would like to trigger dependent repos here. Viz
+#  - custom-start-points
+#  - exercises-start-points
+#  - languages-start-points
+# However that would not work since cyberdojo/versioner needs
+# to release a new .env file with the new values of
+# CYBER_DOJO_START_POINTS_BASE_SHA
+# CYBER_DOJO_START_POINTS_BASE_TAG
