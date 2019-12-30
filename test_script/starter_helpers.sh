@@ -187,7 +187,7 @@ assert_stdout_equals_use()
 
 cd_github_org()
 {
-  echo 'https://github.com/cyber-dojo'
+  echo https://github.com/cyber-dojo
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

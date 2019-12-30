@@ -19,7 +19,7 @@ export $(cat_env_vars)
 #  - custom-start-points
 #  - exercises-start-points
 #  - languages-start-points
-# However that would not work since cyberdojo/versioner needs
+# However does not work since cyberdojo/versioner needs
 # to release a new .env file with the new values of
 # CYBER_DOJO_START_POINTS_BASE_SHA
 # CYBER_DOJO_START_POINTS_BASE_TAG
