@@ -11,8 +11,7 @@ git_commit_sha()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 image_name()
 {
-  # TODO: get this from versioner's .env
-  echo cyberdojo/start-points-base
+  echo "${CYBER_DOJO_START_POINTS_BASE_IMAGE}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

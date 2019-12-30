@@ -27,14 +27,13 @@ on_ci()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 image_name()
 {
-  # TODO: get from versioner's .env
-  echo cyberdojo/start-points-base
+  echo "${CYBER_DOJO_START_POINTS_BASE_IMAGE}"   
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 image_sha()
 {
-  docker run --rm "$(image_name)" sh -c 'printf ${SHA}'
+  docker run --rm "$(image_name)" sh -c 'printf ${BASE_SHA}'
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

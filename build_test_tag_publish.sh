@@ -3,8 +3,9 @@
 readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 readonly SH_DIR="${MY_DIR}/sh"
 rm -rf "${MY_DIR}/tmp" && mkdir "${MY_DIR}/tmp"
-unset SHA
 
+source ${SH_DIR}/cat_env_vars.sh
+export $(cat_env_vars)
 "${SH_DIR}/build_base_docker_image.sh"
 "${SH_DIR}/tag_image.sh"
 "${SH_DIR}/build_docker_images.sh"
