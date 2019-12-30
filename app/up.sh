@@ -11,4 +11,4 @@ rackup             \
   --port "${PORT}" \
   --server thin    \
   --warn           \
-    config.ru
+    /app/config.ru
