@@ -9,8 +9,7 @@ test_custom_option_requires_image_name()
   build_start_points_image --custom
 
   assert_stdout_equals ''
-  # First test, output will include docker pull messages
-  assert_stderr_assert_stderr_includes 'ERROR: --custom requires preceding <image_name>'
+  assert_stderr_equals 'ERROR: --custom requires preceding <image_name>'
   assert_status_equals 4
 }
 
