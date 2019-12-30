@@ -9,7 +9,7 @@ readonly SH_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 docker-compose \
   --file "${SH_DIR}/../docker-compose.yml" \
   up \
-  -d  \
+  --detach  \
   --force-recreate
 
 if [ -n "${DOCKER_MACHINE_NAME}" ]; then
