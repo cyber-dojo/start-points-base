@@ -1,12 +1,8 @@
 version: 2
 jobs:
   build-publish-trigger:
-
     machine:
       image: ubuntu-1604:201903-01
-
-    working_directory: ~/repo
-
     steps:
       - checkout
       - run:
@@ -42,14 +38,6 @@ jobs:
             docker push cyberdojo/${NAME}:${TAG}
             docker push cyberdojo/${NAME}:latest
             docker logout
-      - run:
-          name: Trigger dependent repos
-          command: |
-            set -e
-            TRIGGER=trigger-dependent-repos.sh
-            curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${TRIGGER}
-            chmod 700 ./${TRIGGER}
-            # ./${TRIGGER} custom exercises languages # Off till fixed
 
 workflows:
   version: 2
