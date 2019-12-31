@@ -5,18 +5,18 @@ readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_fake_versioner()
 {
-  local -r fake_container=fake_versioner
-  local -r fake_image=cyberdojo/versioner:latest
-
   local -r sha_var_name=CYBER_DOJO_START_POINTS_BASE_SHA
   local -r tag_var_name=CYBER_DOJO_START_POINTS_BASE_TAG
+
+  local -r fake_sha="$(git_commit_sha)"
+  local -r fake_tag="${fake_sha:0:7}"
 
   local env_vars="${1}"
   env_vars=$(replace_with "${env_vars}" "${sha_var_name}" "${fake_sha}")
   env_vars=$(replace_with "${env_vars}" "${tag_var_name}" "${fake_tag}")
 
-  local -r fake_sha="$(git_commit_sha)"
-  local -r fake_tag="${fake_sha:0:7}"
+  local -r fake_container=fake_versioner
+  local -r fake_image=cyberdojo/versioner:latest
   
   docker rm --force "${fake_container}" > /dev/null 2>&1 | true
   docker run                   \
