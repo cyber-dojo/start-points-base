@@ -7,17 +7,17 @@ build_fake_versioner()
 {
   local -r fake_container=fake_versioner
   local -r fake_image=cyberdojo/versioner:latest
-  local env_vars="${1}"
 
   local -r sha_var_name=CYBER_DOJO_START_POINTS_BASE_SHA
   local -r tag_var_name=CYBER_DOJO_START_POINTS_BASE_TAG
 
-  local -r fake_sha="$(git_commit_sha)"
-  local -r fake_tag="${fake_sha:0:7}"
-
+  local env_vars="${1}"
   env_vars=$(replace_with "${env_vars}" "${sha_var_name}" "${fake_sha}")
   env_vars=$(replace_with "${env_vars}" "${tag_var_name}" "${fake_tag}")
 
+  local -r fake_sha="$(git_commit_sha)"
+  local -r fake_tag="${fake_sha:0:7}"
+  
   docker rm --force "${fake_container}" > /dev/null 2>&1 | true
   docker run                   \
     --detach                   \
@@ -31,8 +31,8 @@ build_fake_versioner()
   docker cp /tmp/.env "${fake_container}:/app/.env"
   docker commit "${fake_container}" "${fake_image}" > /dev/null 2>&1
   docker rm --force "${fake_container}" > /dev/null 2>&1
-  # check it
 
+  # check it
   expected="${sha_var_name}=${fake_sha}"
   actual=$(docker run --rm "${fake_image}" sh -c 'cat /app/.env' | grep "${sha_var_name}")
   assert_equal "${expected}" "${actual}"
