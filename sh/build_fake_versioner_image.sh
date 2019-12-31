@@ -17,7 +17,7 @@ build_fake_versioner()
 
   local -r fake_container=fake_versioner
   local -r fake_image=cyberdojo/versioner:latest
-  
+
   docker rm --force "${fake_container}" > /dev/null 2>&1 | true
   docker run                   \
     --detach                   \

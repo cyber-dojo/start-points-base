@@ -6,9 +6,6 @@ rm -rf "${MY_DIR}/tmp" && mkdir "${MY_DIR}/tmp"
 
 source ${SH_DIR}/cat_env_vars.sh
 export $(cat_env_vars)
-# Prevent env-var contamination of [start-point create] commands
-unset CYBER_DOJO_START_POINTS_BASE_SHA
-unset CYBER_DOJO_START_POINTS_BASE_TAG
 "${SH_DIR}/build_base_docker_image.sh"
 "${SH_DIR}/tag_image.sh"
 "${SH_DIR}/build_docker_images.sh"
