@@ -10,8 +10,8 @@ unset CYBER_DOJO_START_POINTS_BASE_TAG
 "${SH_DIR}/build_base_docker_image.sh"
 "${SH_DIR}/tag_image.sh"
 "${SH_DIR}/build_docker_images.sh"
-"${SH_DIR}/build_fake_versioner_image.sh"
 trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
+"${SH_DIR}/build_fake_versioner_image.sh"
 "${SH_DIR}/build_test_derived_images.sh"
 "${SH_DIR}/docker_containers_up.sh"
 "${SH_DIR}/run_tests_in_containers.sh" "$@"
