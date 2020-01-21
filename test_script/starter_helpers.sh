@@ -56,17 +56,10 @@ cyber_dojo()
 {
   local -r name=cyber-dojo
   if [ -x "$(command -v ${name})" ]; then
-    >&2 echo "Found executable ${name} on the PATH"
     echo "${name}"
   else
-    local -r tmp_dir=$(mktemp -d "/tmp/cyber-dojo-start-points-base.XXX")
-    TMP_DIRS+=("${tmp_dir}")
-    local -r url="https://raw.githubusercontent.com/cyber-dojo/commander/master/${name}"
-    >&2 echo "Did not find executable ${name} on the PATH"
-    >&2 echo "Attempting to curl it from ${url}"
-    curl --fail --output "${tmp_dir}/${name}" --silent "${url}"
-    chmod 700 "${tmp_dir}/${name}"
-    echo "${tmp_dir}/${name}"
+    echo "ERROR: cyber-dojo not on PATH"
+    exit 42
   fi
 }
 
