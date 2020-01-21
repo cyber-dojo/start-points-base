@@ -7,9 +7,9 @@ The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberd
   ```bash
   $ cyber-dojo start-point create --help
     Use:
-    cyber-dojo start-point create <name> --custom    <url> ...
-    cyber-dojo start-point create <name> --exercises <url> ...
-    cyber-dojo start-point create <name> --languages <url> ...
+    cyber-dojo start-point create <name> --custom    <url>...
+    cyber-dojo start-point create <name> --exercises <url>...
+    cyber-dojo start-point create <name> --languages <url>...
     ...
   ```
 
@@ -31,9 +31,7 @@ The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberd
 * If unsuccessful, the command will print an error message. For example:
   ```bash
   $ cyber-dojo start-point create \
-        acme/my-custom-start-points \
-          --custom \
-            /users/fred/custom
+      acme/my-custom-start-points --custom /users/fred/custom
   ERROR: no manifest.json files in
   --custom /users/fred/custom
   ```
