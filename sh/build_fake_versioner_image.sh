@@ -72,5 +72,5 @@ git_commit_sha()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-source ${ROOT_DIR}/sh/cat_env_vars.sh
-build_fake_versioner "$(cat_env_vars)"
+source ${ROOT_DIR}/sh/versioner_env_vars.sh
+build_fake_versioner "$(versioner_env_vars)"

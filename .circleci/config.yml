@@ -6,16 +6,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Curl cyber-dojo script
-          command: |
-            set -e
-            curl \
-              --silent \
-              --fail \
-              https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo \
-              --output /tmp/cyber-dojo
-            chmod 700 /tmp/cyber-dojo
-      - run:
           name: Build image, test it, tag it, publish it
           command: ./build_test_tag_publish.sh
 

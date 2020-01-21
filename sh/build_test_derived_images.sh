@@ -59,13 +59,19 @@ on_ci()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-build_image_script_name()
+cyber_dojo()
 {
-  if on_ci; then
-    # ./circleci/config.yml curls the cyber-dojo script into /tmp
-    echo /tmp/cyber-dojo
+  local -r name=cyber-dojo
+  if [ -x "$(command -v ${name})" ]; then
+    >&2 echo "Found executable ${name} on the PATH"
+    echo "${name}"
   else
-    echo "${ROOT_DIR}/../commander/cyber-dojo"
+    local -r url="https://raw.githubusercontent.com/cyber-dojo/commander/master/${name}"
+    >&2 echo "Did not find executable ${name} on the PATH"
+    >&2 echo "Attempting to curl it from ${url}"
+    curl --fail --output "${TMP_DIR}/${name}" --silent "${url}"
+    chmod 700 "${TMP_DIR}/${name}"
+    echo "${TMP_DIR}/${name}"
   fi
 }
 
@@ -101,7 +107,7 @@ build_test_custom_image()
 
   echo
   echo "Building $(image_name)-custom"
-  "$(build_image_script_name)"    \
+  "$(cyber_dojo)"    \
     start-point create            \
       "$(image_name)-custom"      \
         --custom                  \
@@ -122,7 +128,7 @@ build_test_exercises_image()
 
   echo
   echo "Building $(image_name)-exercises"
-  "$(build_image_script_name)"     \
+  "$(cyber_dojo)"     \
     start-point create             \
       "$(image_name)-exercises"    \
         --exercises                \
@@ -145,7 +151,7 @@ build_test_languages_image()
 
   echo
   echo "Building $(image_name)-languages"
-  "$(build_image_script_name)"     \
+  "$(cyber_dojo)"     \
     start-point create             \
       "$(image_name)-languages"    \
         --languages                \
