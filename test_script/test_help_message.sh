@@ -1,5 +1,6 @@
-#!/bin/bash
+#!/bin/bash -Eeu
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_no_arguments()
 {
   build_start_points_image
@@ -10,7 +11,6 @@ test_no_arguments()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 test_short_help_option()
 {
   build_start_points_image -h
@@ -21,7 +21,6 @@ test_short_help_option()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 test_long_help_option()
 {
   build_start_points_image --help
@@ -32,7 +31,6 @@ test_long_help_option()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh

@@ -1,12 +1,10 @@
-#!/bin/bash
+#!/bin/bash -Eeu
 
-echo "::${0##*/}"
-
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_one_git_repo()
 {
-  local image_name="${FUNCNAME[0]}"
-  make_TMP_DIR_for_git_repos
-  local L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
+  local -r image_name="${FUNCNAME[0]}"
+  local -r L_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
 
   build_start_points_image       \
     "${image_name}"              \
@@ -18,13 +16,11 @@ test_one_git_repo()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 test_more_than_one_git_repo()
 {
-  local image_name="${FUNCNAME[0]}"
-  make_TMP_DIR_for_git_repos
-  local L1_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
-  local L2_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-ruby-minitest)
+  local -r image_name="${FUNCNAME[0]}"
+  local -r L1_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
+  local -r L2_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-ruby-minitest)
 
   build_start_points_image \
     "${image_name}"        \
@@ -38,7 +34,7 @@ test_more_than_one_git_repo()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
 . ${my_dir}/shunit2_helpers.sh

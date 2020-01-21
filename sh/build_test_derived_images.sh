@@ -2,6 +2,26 @@
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
+declare -a TMP_DIRs=()
+remove_TMP_DIRS()
+{
+  for tmp_dir in "${TMP_DIRS[@]}"; do
+    if [ -n "${tmp_dir}" ]; then
+      rm -rf "${tmp_dir}"
+    fi
+  done
+}
+trap remove_TMP_DIRS INT EXIT
+
+make_tmp_dir()
+{
+  # Must be off ROOT_DIR so docker-context is mounted into default VM
+  [ -d "${ROOT_DIR}/tmp" ] || mkdir "${ROOT_DIR}/tmp"
+  local -r tmp_dir=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
+  TMP_DIRS+=("${tmp_dir}")
+  echo "${tmp_dir}"
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - - -
 exit_if_ROOT_DIR_not_in_context()
 {
@@ -30,22 +50,6 @@ on_Mac()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-declare TMP_DIR=''
-
-make_TMP_DIR()
-{
-  [ -d "${ROOT_DIR}/tmp" ] || mkdir "${ROOT_DIR}/tmp"
-  TMP_DIR=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo.start-points-base.XXX")
-  trap remove_TMP_DIR EXIT
-  chmod 700 "${TMP_DIR}"
-}
-
-remove_TMP_DIR()
-{
-  rm -rf "${TMP_DIR}" > /dev/null
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
 build_image_which_creates_test_data_git_repos()
 {
   # This builds cyberdojo/create-start-points-test-data
@@ -66,12 +70,13 @@ cyber_dojo()
     >&2 echo "Found executable ${name} on the PATH"
     echo "${name}"
   else
+    local -r tmp_dir=$(make_tmp_dir)
     local -r url="https://raw.githubusercontent.com/cyber-dojo/commander/master/${name}"
     >&2 echo "Did not find executable ${name} on the PATH"
-    >&2 echo "Attempting to curl it from ${url}"
-    curl --fail --output "${TMP_DIR}/${name}" --silent "${url}"
-    chmod 700 "${TMP_DIR}/${name}"
-    echo "${TMP_DIR}/${name}"
+    >&2 echo "Curling it from ${url}"
+    curl --fail --output "${tmp_dir}/${name}" --silent "${url}"
+    chmod 700 "${tmp_dir}/${name}"
+    echo "${tmp_dir}/${name}"
   fi
 }
 
@@ -79,7 +84,8 @@ cyber_dojo()
 create_git_repo_in_TMP_DIR_from()
 {
   local data_set_name="${1}"
-  local data_dir="${TMP_DIR}/${data_set_name}"
+  local tmp_dir="$(make_tmp_dir)"
+  local data_dir="${tmp_dir}/${data_set_name}"
   local user_id=$(id -u $(whoami))
 
   docker run                                \
@@ -102,9 +108,7 @@ image_name()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_test_custom_image()
 {
-  make_TMP_DIR
   readonly C1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from custom-yahtzee)
-
   echo
   echo "Building $(image_name)-custom"
   "$(cyber_dojo)"    \
@@ -112,20 +116,17 @@ build_test_custom_image()
       "$(image_name)-custom"      \
         --custom                  \
           "file://${C1_TMP_DIR}"
-  remove_TMP_DIR
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_test_exercises_image()
 {
-  make_TMP_DIR
   readonly E1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-bowling-game)
   readonly E2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-fizz-buzz)
   readonly E3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-leap-years)
   readonly E4_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-tiny-maze)
   readonly E5_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-calc-stats)
   readonly E6_TMP_DIR=$(create_git_repo_in_TMP_DIR_from exercises-gray-code)
-
   echo
   echo "Building $(image_name)-exercises"
   "$(cyber_dojo)"     \
@@ -138,17 +139,14 @@ build_test_exercises_image()
           "file://${E4_TMP_DIR}"   \
           "file://${E5_TMP_DIR}"   \
           "file://${E6_TMP_DIR}"
-  remove_TMP_DIR
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_test_languages_image()
 {
-  make_TMP_DIR
   readonly L1_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-csharp-nunit)
   readonly L2_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-python-unittest)
   readonly L3_TMP_DIR=$(create_git_repo_in_TMP_DIR_from languages-ruby-minitest)
-
   echo
   echo "Building $(image_name)-languages"
   "$(cyber_dojo)"     \
@@ -158,7 +156,6 @@ build_test_languages_image()
           "file://${L1_TMP_DIR}"   \
           "file://${L2_TMP_DIR}"   \
           "file://${L3_TMP_DIR}"
-  remove_TMP_DIR
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

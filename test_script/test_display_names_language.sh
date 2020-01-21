@@ -1,13 +1,13 @@
-#!/bin/bash
+#!/bin/bash -Eeu
 
 readonly error_code=40
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_failure_duplicates()
 {
-  local image_name="${FUNCNAME[0]}"
-  make_TMP_DIR_for_git_repos
-  local TMP_URL_1=$(git_repo_url_in_TMP_DIR_from languages_manifest_has_display_names_duplicate_1)
-  local TMP_URL_2=$(git_repo_url_in_TMP_DIR_from languages_manifest_has_display_names_duplicate_2)
+  local -r image_name="${FUNCNAME[0]}"
+  local -r TMP_URL_1=$(git_repo_url_in_TMP_DIR_from languages_manifest_has_display_names_duplicate_1)
+  local -r TMP_URL_2=$(git_repo_url_in_TMP_DIR_from languages_manifest_has_display_names_duplicate_2)
 
   build_start_points_image "${image_name}" \
     --languages \
@@ -27,7 +27,6 @@ test_failure_duplicates()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh

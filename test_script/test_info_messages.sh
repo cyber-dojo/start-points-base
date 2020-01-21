@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/bash -Eeu
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_each_url_is_printed_to_stdout_one_git_repo()
 {
-  local image_name="${FUNCNAME[0]}"
-  make_TMP_DIR_for_git_repos
-  local C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
+  local -r image_name="${FUNCNAME[0]}"
+  local -r C_TMP_URL=$(git_repo_url_in_TMP_DIR_from custom-tennis)
 
   build_start_points_image       \
     "${image_name}"              \
@@ -17,13 +17,11 @@ test_each_url_is_printed_to_stdout_one_git_repo()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 test_each_url_is_printed_to_stdout_more_than_one_git_repo()
 {
   local image_name="${FUNCNAME[0]}"
-  make_TMP_DIR_for_git_repos
-  local L1_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
-  local L2_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-ruby-minitest)
+  local -r L1_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-csharp-nunit)
+  local -r L2_TMP_URL=$(git_repo_url_in_TMP_DIR_from languages-ruby-minitest)
 
   build_start_points_image \
     "${image_name}"        \
@@ -39,7 +37,6 @@ test_each_url_is_printed_to_stdout_more_than_one_git_repo()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 echo "::${0##*/}"
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 . ${my_dir}/starter_helpers.sh
