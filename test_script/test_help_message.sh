@@ -1,4 +1,4 @@
-#!/bin/bash -Eeu
+#!/bin/bash
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_no_arguments()

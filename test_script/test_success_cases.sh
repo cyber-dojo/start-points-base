@@ -1,4 +1,4 @@
-#!/bin/bash -Eeu
+#!/bin/bash
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_one_git_repo()

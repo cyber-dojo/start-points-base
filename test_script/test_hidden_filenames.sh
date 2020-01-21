@@ -1,4 +1,4 @@
-#!/bin/bash -Eeu
+#!/bin/bash
 
 readonly error_code=40
 

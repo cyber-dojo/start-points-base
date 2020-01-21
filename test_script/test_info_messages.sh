@@ -1,4 +1,4 @@
-#!/bin/bash -Eeu
+#!/bin/bash
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_each_url_is_printed_to_stdout_one_git_repo()
