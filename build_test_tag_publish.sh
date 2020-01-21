@@ -11,7 +11,7 @@ export $(versioner_env_vars)
 "${SH_DIR}/build_docker_images.sh"
 trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
 "${SH_DIR}/build_fake_versioner_image.sh"
-"${SH_DIR}/build_test_derived_images.sh"  # <<<<<<<
+"${SH_DIR}/build_test_derived_images.sh"
 "${SH_DIR}/docker_containers_up.sh"
 "${SH_DIR}/run_tests_in_containers.sh" "$@"
 "${SH_DIR}/run_script_tests.sh"

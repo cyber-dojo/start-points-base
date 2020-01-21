@@ -1,44 +1,58 @@
 #!/bin/bash -Eeu
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+readonly TMP_DIR="$(mktemp -d /tmp/start-points-base.XXXXXXX)"
+remove_TMP_DIR() { rm -rf "${TMP_DIR} > /dev/null"; }
+trap remove_TMP_DIR INT EXIT
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_fake_versioner()
 {
+  # Build a fake cyberdojo/versioner:latest image that serves
+  # CYBER_DOJO_START_POINTS_BASE SHA/TAG values for the local repo.  
   local -r sha_var_name=CYBER_DOJO_START_POINTS_BASE_SHA
   local -r tag_var_name=CYBER_DOJO_START_POINTS_BASE_TAG
 
   local -r fake_sha="$(git_commit_sha)"
   local -r fake_tag="${fake_sha:0:7}"
 
-  local env_vars="${1}"
+  local env_vars="$(docker run --rm cyberdojo/versioner:latest)"
   env_vars=$(replace_with "${env_vars}" "${sha_var_name}" "${fake_sha}")
   env_vars=$(replace_with "${env_vars}" "${tag_var_name}" "${fake_tag}")
 
-  local -r fake_container=fake_versioner
+  echo "${env_vars}" > ${TMP_DIR}/.env
   local -r fake_image=cyberdojo/versioner:latest
+  {
+    echo 'FROM alpine:latest'
+    echo 'COPY . /app'
+    echo 'ARG SHA'
+    echo 'ENV SHA=${SHA}'
+    echo 'ARG RELEASE'
+    echo 'ENV RELEASE=${RELEASE}'
+    echo 'ENTRYPOINT [ "cat", "/app/.env" ]'
+  } > ${TMP_DIR}/Dockerfile
+  docker build \
+    --build-arg SHA="${fake_sha}" \
+    --build-arg RELEASE=999.999.999 \
+    --tag "${fake_image}" \
+    "${TMP_DIR}"
 
-  docker rm --force "${fake_container}" > /dev/null 2>&1 | true
-  docker run                   \
-    --detach                   \
-    --env RELEASE=999.999.999  \
-    --env SHA="${fake_sha}"    \
-    --name "${fake_container}" \
-    alpine:latest              \
-      sh -c 'mkdir /app' > /dev/null
+  echo "Checking fake ${fake_image}"
 
-  echo "${env_vars}" >  /tmp/.env
-  docker cp /tmp/.env "${fake_container}:/app/.env"
-  docker commit "${fake_container}" "${fake_image}" > /dev/null 2>&1
-  docker rm --force "${fake_container}" > /dev/null 2>&1
-
-  # check it
   expected="${sha_var_name}=${fake_sha}"
-  actual=$(docker run --rm "${fake_image}" sh -c 'cat /app/.env' | grep "${sha_var_name}")
+  actual=$(docker run --rm "${fake_image}" | grep "${sha_var_name}")
   assert_equal "${expected}" "${actual}"
 
   expected="${tag_var_name}=${fake_tag}"
-  actual=$(docker run --rm "${fake_image}" sh -c 'cat /app/.env' | grep "${tag_var_name}")
+  actual=$(docker run --rm "${fake_image}" | grep "${tag_var_name}")
+  assert_equal "${expected}" "${actual}"
+
+  expected='RELEASE=999.999.999'
+  actual=RELEASE=$(docker run --entrypoint "" --rm "${fake_image}" sh -c 'echo ${RELEASE}')
+  assert_equal "${expected}" "${actual}"
+
+  expected="SHA=${fake_sha}"
+  actual=SHA=$(docker run --entrypoint "" --rm "${fake_image}" sh -c 'echo ${SHA}')
   assert_equal "${expected}" "${actual}"
 }
 
@@ -57,10 +71,10 @@ assert_equal()
 {
   local -r expected="${1}"
   local -r actual="${2}"
+  echo "expected: '${expected}'"
+  echo "  actual: '${actual}'"
   if [ "${expected}" != "${actual}" ]; then
-    echo "ERROR"
-    echo "expected:${expected}"
-    echo "  actual:${actual}"
+    echo "ERROR: assert_equal failed"
     exit 42
   fi
 }
