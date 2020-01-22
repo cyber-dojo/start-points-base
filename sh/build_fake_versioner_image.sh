@@ -1,6 +1,6 @@
 #!/bin/bash -Eeu
 
-readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+readonly ROOT_DIR="$( cd "$( dirname "${0}" )/.." && pwd )"
 readonly TMP_DIR="$(mktemp -d /tmp/start-points-base.XXXXXXX)"
 remove_TMP_DIR() { rm -rf "${TMP_DIR} > /dev/null"; }
 trap remove_TMP_DIR INT EXIT
@@ -9,7 +9,7 @@ trap remove_TMP_DIR INT EXIT
 build_fake_versioner()
 {
   # Build a fake cyberdojo/versioner:latest image that serves
-  # CYBER_DOJO_START_POINTS_BASE SHA/TAG values for the local repo.  
+  # CYBER_DOJO_START_POINTS_BASE SHA/TAG values for the local repo.
   local -r sha_var_name=CYBER_DOJO_START_POINTS_BASE_SHA
   local -r tag_var_name=CYBER_DOJO_START_POINTS_BASE_TAG
 
@@ -86,5 +86,4 @@ git_commit_sha()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-source ${ROOT_DIR}/sh/versioner_env_vars.sh
-build_fake_versioner "$(versioner_env_vars)"
+build_fake_versioner
