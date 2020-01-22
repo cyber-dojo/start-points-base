@@ -17,7 +17,7 @@ make_tmp_dir()
 {
   # Must be off ROOT_DIR so docker-context is mounted into default VM
   [ -d "${ROOT_DIR}/tmp" ] || mkdir "${ROOT_DIR}/tmp"
-  local -r tmp_dir=$(mktemp -d "${ROOT_DIR}/tmp/cyber-dojo-start-points-base.XXX")
+  local -r tmp_dir=$(mktemp -d "${ROOT_DIR}/tmp/XXXXXX")
   TMP_DIRS+=("${tmp_dir}")
   echo "${tmp_dir}"
 }

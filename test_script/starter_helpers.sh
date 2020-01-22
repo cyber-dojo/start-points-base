@@ -95,7 +95,7 @@ exit_if_bad_ROOT_DIR
 #- - - - - - - - - - - - - - - - - - - - - - -
 make_tmp_dir()
 {
-  local -r tmp_dir=$(mktemp -d "$(root_dir)/tmp/cyber-dojo-start-points-base.XXX")
+  local -r tmp_dir=$(mktemp -d "$(root_dir)/tmp/XXXXXX")
   TMP_DIRS+=("${tmp_dir}")
   echo "${tmp_dir}"
 }
