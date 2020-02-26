@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/local/bin/ruby
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Checks command-line arguments passed to the main Bash script:
 #   cyber_dojo_start_points_create.sh

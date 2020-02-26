@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/local/bin/ruby
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Detects faults in the start-point files git-cloned from
 # the urls specified as arguments to the main bash script:
