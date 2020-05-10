@@ -28,9 +28,8 @@ module CheckHiddenFilenames
 
   def hidden_filenames_well_formed?(hidden_filenames)
     hidden_filenames.is_a?(Array) &&
-      hidden_filenames != [] &&
-        hidden_filenames.all?{|s| s.is_a?(String) } &&
-          hidden_filenames.all?{|s| s != '' }
+      hidden_filenames.all?{|s| s.is_a?(String) } &&
+        hidden_filenames.all?{|s| s != '' }
   end
 
   def check_hidden_filenames_bad_regexp(url, manifest_filename, json, error_code)

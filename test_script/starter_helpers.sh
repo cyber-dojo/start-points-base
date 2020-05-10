@@ -106,6 +106,8 @@ git_repo_url_in_TMP_DIR_from()
   local -r data_dir="$(make_tmp_dir)/${data_set_name}"
   local -r user_id=$(id -u $(whoami))
 
+  # cyberdojo/create-start-points-test-data
+  # is created by test_data/build_docker_image.sh
   docker run                                \
     --rm                                    \
     --volume "${data_dir}:/app/tmp/:rw"     \
@@ -171,9 +173,9 @@ assert_image_created()
 assert_stdout_equals_use()
 {
   local -r help_line_1="Use:"
-  local -r help_line_2="cyber-dojo start-point create <name> --custom    <url> ..."
-  local -r help_line_3="cyber-dojo start-point create <name> --exercises <url> ..."
-  local -r help_line_4="cyber-dojo start-point create <name> --languages <url> ..."
+  local -r help_line_2="cyber-dojo start-point create <name> --custom    <url>..."
+  local -r help_line_3="cyber-dojo start-point create <name> --exercises <url>..."
+  local -r help_line_4="cyber-dojo start-point create <name> --languages <url>..."
   assert_stdout_includes "${help_line_1}"
   assert_stdout_includes "${help_line_2}"
   assert_stdout_includes "${help_line_3}"
