@@ -8,6 +8,9 @@ source ${SH_DIR}/versioner_env_vars.sh
 export $(versioner_env_vars)
 "${SH_DIR}/build_base_docker_image.sh"
 "${SH_DIR}/tag_image.sh"
+if [ "${1}" == --build-only ] || [ "${1}" == -bo ]; then
+  exit 0
+fi
 "${SH_DIR}/build_docker_images.sh"
 trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
 "${SH_DIR}/build_fake_versioner_image.sh"
