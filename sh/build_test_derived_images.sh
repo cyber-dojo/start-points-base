@@ -1,6 +1,6 @@
 #!/bin/bash -Ee
 
-readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+readonly ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 declare -a TMP_DIRs=()
 remove_TMP_DIRS()
@@ -37,11 +37,13 @@ exit_if_ROOT_DIR_not_in_context()
   fi
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - -
 using_DockerToolbox()
 {
   [ -n "${DOCKER_MACHINE_NAME}" ]
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - -
 on_Mac()
 {
   # detect OS from bash

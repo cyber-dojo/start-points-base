@@ -27,7 +27,7 @@ on_ci()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 image_name()
 {
-  echo "${CYBER_DOJO_START_POINTS_BASE_IMAGE}"   
+  echo "${CYBER_DOJO_START_POINTS_BASE_IMAGE}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

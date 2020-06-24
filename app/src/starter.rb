@@ -95,7 +95,7 @@ class Starter
       re = /#{Regexp.quote(start_points_dir)}\/(?<index>\d+)\//
       match = filename.match(re)
       manifest = JSON.parse(IO.read(filename))
-      map[match[:index]] = manifest['display_name'] 
+      map[match[:index]] = manifest['display_name']
     end
     map
   end

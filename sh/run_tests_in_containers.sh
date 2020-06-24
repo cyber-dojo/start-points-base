@@ -1,6 +1,6 @@
 #!/bin/bash -Ee
 
-readonly root_dir="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+readonly root_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_tests()

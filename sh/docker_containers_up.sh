@@ -1,5 +1,6 @@
 #!/bin/bash -Ee
 
+# - - - - - - - - - - - - - - - - - - - -
 ip_address()
 {
   if [ -n "${DOCKER_MACHINE_NAME}" ]; then
@@ -12,7 +13,6 @@ ip_address()
 readonly IP_ADDRESS=$(ip_address)
 
 # - - - - - - - - - - - - - - - - - - - -
-
 curl_cmd()
 {
   local -r port="${1}"
@@ -26,7 +26,6 @@ curl_cmd()
 }
 
 # - - - - - - - - - - - - - - - - - - - -
-
 wait_until_ready()
 {
   local -r name="${1}"
@@ -53,7 +52,6 @@ wait_until_ready()
 }
 
 # - - - - - - - - - - - - - - - - - - - -
-
 exit_unless_clean()
 {
   local -r name="${1}"
@@ -70,7 +68,6 @@ exit_unless_clean()
 }
 
 # - - - - - - - - - - - - - - - - - - - -
-
 echo_docker_log()
 {
   local -r name="${1}"
