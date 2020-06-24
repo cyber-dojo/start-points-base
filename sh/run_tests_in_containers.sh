@@ -19,10 +19,6 @@ run_tests()
 
   local status=$?
   set -e
-  if [ "${status}" != '0' ]; then
-    docker logs "${cid}"
-    exit 42
-  fi
 
   # You can't [docker cp] from a tmpfs, so tar-piping coverage out.
   docker exec "${cid}" \
@@ -33,6 +29,12 @@ run_tests()
 
   echo "Coverage report copied to ${test_dir}/coverage/"
   cat "${root_dir}/${test_dir}/coverage/done.txt"
+
+  if [ "${status}" != '0' ]; then
+    docker logs "${cid}"
+    exit 42
+  fi
+  
   return ${status}
 }
 
