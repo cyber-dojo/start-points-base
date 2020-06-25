@@ -1,1 +1,1 @@
-A good place to start in the comment at the top of check_all.rb
+A good place to start is the comment at the top of check_all.rb
