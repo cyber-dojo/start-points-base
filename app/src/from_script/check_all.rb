@@ -2,7 +2,7 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Detects faults in the start-point files git-cloned from
 # the urls specified as arguments to the main bash script:
-#   $ cyber-dojo start-point create <name> --custom <url> ...
+#   $ cyber-dojo start-point create <name> --custom <url>...
 # which runs the cyber-dojo-inner bash script which runs a
 #   [docker image build ...]
 # whose Dockerfile has
