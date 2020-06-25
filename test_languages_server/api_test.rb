@@ -135,7 +135,7 @@ class ApiTest < TestBase
     diagnostic = [
       "filename:#{filename}",
       "expected:#{content}:",
-      "--actual:#{actual.split[0]}:"
+      "  actual:#{actual.split[0]}:"
     ].join("\n")
     assert actual.start_with?(content), diagnostic
   end
