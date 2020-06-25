@@ -14,9 +14,9 @@ The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberd
   ```
 
 * If successful, the created image <name> will use [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) as its base (FROM) image and will http-serve (copies of) the start-points in the urls when named in a [cyber-dojo up] command. For example:
-  ```
+  <pre>
   $ cyber-dojo start-point create \
-        ```**```acme/my-languages-start-points```**``` \
+        <b>acme/my-languages-start-points</b> \
           --languages \
             https://github.com/cyber-dojo-languages/csharp-nunit             \
             https://github.com/cyber-dojo-languages/gplusplus-googlemock.git \
@@ -24,9 +24,9 @@ The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberd
   ...
   Successfully built acme/my-languages-start-points
 
-  $ cyber-dojo up --languages=acme/my-languages-start-points
+  $ cyber-dojo up --languages=<b>acme/my-languages-start-points</b>
   ...
-  ```
+  </pre>
 
 * If unsuccessful, the command will print an error message. For example:
   ```bash
