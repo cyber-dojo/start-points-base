@@ -7,8 +7,6 @@ if [ -z "${PORT}" ]; then
   exit 42
 fi
 
-ruby "${MY_DIR}/src/pull.rb" > /tmp/startup.pull.log &
-
 rackup             \
   --env production \
   --host 0.0.0.0   \
