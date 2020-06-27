@@ -16,7 +16,7 @@ end
 
 root_dir = '/app/repos'
 json = {}
-lines = `cat #{root_dir}/build.shas`.lines
+lines = `cat #{root_dir}/shas.txt`.lines
 lines.each do |line|
   index,sha,url = line.split
   tag = sha[0...7]
