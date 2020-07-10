@@ -8,11 +8,6 @@ unless ENV['NO_PROMETHEUS']
   use Prometheus::Middleware::Exporter
 end
 
-#unless ENV['NO_IMAGE_PULLS']
-#  command = "ruby #{__dir__}/src/pull.rb > /tmp/startup.pull.log &"
-#  system(command)
-#end
-
 require_relative 'src/rack_dispatcher'
 require 'rack'
 dispatcher = RackDispatcher.new(Rack::Request)

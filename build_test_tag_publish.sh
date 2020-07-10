@@ -20,11 +20,14 @@ trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
 "${SH_DIR}/run_script_tests.sh"
 "${SH_DIR}/on_ci_publish_tagged_images.sh"
 
-# To update dependent:
-#  - custom-start-points
-#  - exercises-start-points
-#  - languages-start-points
-# you must update cyberdojo/versioner with
-# a new .env file with the new values of
-# CYBER_DOJO_START_POINTS_BASE_SHA
-# CYBER_DOJO_START_POINTS_BASE_TAG
+# Dependents of start-points-base are:
+#  custom-start-points
+#  exercises-start-points
+#  languages-start-points
+# To update these
+# - update cyberdojo/versioner with
+#   a new .env file with the new values of
+#   CYBER_DOJO_START_POINTS_BASE_SHA
+#   CYBER_DOJO_START_POINTS_BASE_TAG
+# - build a new versioner
+# - force a rebuild the dependents
