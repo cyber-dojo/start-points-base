@@ -1,4 +1,4 @@
-FROM cyberdojo/docker-base:7976545
+FROM cyberdojo/docker-base:d0da6ee
 LABEL maintainer=jon@jaggersoft.com
 
 COPY . /app
