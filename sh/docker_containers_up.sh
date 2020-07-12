@@ -58,12 +58,13 @@ exit_unless_clean()
   local -r docker_log=$(docker logs "${name}")
   local -r line_count=$(echo -n "${docker_log}" | grep --count '^')
   echo -n "Checking ${name} started cleanly..."
-  if [ "${line_count}" == '3' ]; then
+  # puma startup log has 6 lines
+  if [ "${line_count}" == '6' ]; then
     echo 'OK'
   else
     echo 'FAIL'
     echo_docker_log "${name}" "${docker_log}"
-    exit 1
+    exit 42
   fi
 }
 
@@ -97,16 +98,13 @@ readonly LANGUAGES_CONTAINER_NAME=test-languages-server
 
 echo
 wait_until_ready  "${CUSTOM_CONTAINER_NAME}" 4526
-echo_docker_log "${CUSTOM_CONTAINER_NAME}"
-#exit_unless_clean "${CUSTOM_CONTAINER_NAME}"
+exit_unless_clean "${CUSTOM_CONTAINER_NAME}"
 
 wait_until_ready  "${EXERCISES_CONTAINER_NAME}" 4525
-echo_docker_log "${EXERCISES_CONTAINER_NAME}"
-#exit_unless_clean "${EXERCISES_CONTAINER_NAME}"
+exit_unless_clean "${EXERCISES_CONTAINER_NAME}"
 
 wait_until_ready  "${LANGUAGES_CONTAINER_NAME}" 4524
-echo_docker_log "${LANGUAGES_CONTAINER_NAME}"
-#exit_unless_clean "${LANGUAGES_CONTAINER_NAME}"
+exit_unless_clean "${LANGUAGES_CONTAINER_NAME}"
 
 #wait_until_ready  "test-starter-client" 4528
 #exit_unless_clean "test-starter-client"

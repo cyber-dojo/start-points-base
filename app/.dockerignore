@@ -2,4 +2,5 @@
 !repos/inspect.rb
 !src
 !config.ru
+!puma.rb
 !up.sh

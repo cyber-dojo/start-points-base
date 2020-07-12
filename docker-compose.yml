@@ -24,7 +24,6 @@ services:
   custom:
     user: nobody
     image: cyberdojo/test-custom
-    init: true
     container_name: test-custom-server
     environment: [ NO_PROMETHEUS ]
     volumes: [ "./test_custom_server:/app/test:ro" ]
@@ -36,7 +35,6 @@ services:
   exercises:
     user: nobody
     image: cyberdojo/test-exercises
-    init: true
     container_name: test-exercises-server
     environment: [ NO_PROMETHEUS ]
     volumes: [ "./test_exercises_server:/app/test:ro" ]
@@ -48,7 +46,6 @@ services:
   languages:
     user: nobody
     image: cyberdojo/test-languages
-    init: true
     container_name: test-languages-server
     environment: [ NO_PROMETHEUS ]
     volumes: [ "./test_languages_server:/app/test:ro" ]

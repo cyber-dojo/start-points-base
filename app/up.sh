@@ -7,10 +7,8 @@ if [ -z "${PORT:-}" ]; then
   exit 42
 fi
 
-rackup             \
-  --env production \
-  --host 0.0.0.0   \
-  --port "${PORT}" \
-  --server thin    \
-  --warn           \
-    "${MY_DIR}/config.ru"
+export RUBYOPT='-W2'
+
+puma \
+  --port=${PORT} \
+  --config=${MY_DIR}/puma.rb
