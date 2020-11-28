@@ -1,8 +1,8 @@
 version: 2
 jobs:
-  build-publish-trigger:
+  build-tag-publish:
     machine:
-      image: ubuntu-1604:201903-01
+      image: ubuntu-2004:202008-01
     steps:
       - checkout
       - run:
@@ -11,9 +11,9 @@ jobs:
 
 workflows:
   version: 2
-  build-publish-trigger:
+  build-tag-publish:
     jobs:
-      - build-publish-trigger:
+      - build-tag-publish:
           context: cyberdojo-context
           filters:
             branches:
