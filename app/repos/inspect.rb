@@ -19,7 +19,6 @@ json = {}
 lines = `cat #{root_dir}/shas.txt`.lines
 lines.each do |line|
   index,sha,url = line.split
-  tag = sha[0...7]
   repo_dir_name = "#{root_dir}/#{index}"
   manifest_filenames = Dir.glob("#{repo_dir_name}/**/manifest.json")
   manifest_filenames.each do |manifest_filename|
@@ -31,7 +30,7 @@ lines.each do |line|
       'sha' => sha
     }
     unless image_type == 'exercises'
-      json[display_name]['image_name'] = manifest['image_name']+':'+tag
+      json[display_name]['image_name'] = manifest['image_name']
     end
   end
 end
