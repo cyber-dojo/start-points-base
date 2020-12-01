@@ -2,5 +2,6 @@
 !repos/inspect.rb
 !src
 !config.ru
+!healthcheck.sh
 !puma.rb
 !up.sh
