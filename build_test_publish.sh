@@ -33,7 +33,7 @@ build_test_derived_images
 docker_containers_up
 run_tests_in_containers "$@"
 run_script_tests "$@"
-on_ci_publish_tagged_images
+# on_ci_publish_tagged_images
 
 
 # Dependents of start-points-base are:

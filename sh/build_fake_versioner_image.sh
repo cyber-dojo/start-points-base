@@ -20,12 +20,12 @@ build_fake_versioner_image()
   env_vars=$(replace_with "${env_vars}" "${tag_var_name}" "${fake_tag}")
 
   # For debugging; there is a circular dependency on commander
-  #  local -r sha_var_name2=CYBER_DOJO_COMMANDER_SHA
-  #  local -r tag_var_name2=CYBER_DOJO_COMMANDER_TAG
-  #  local -r fake_sha2="06af282130bb1be620534d796081ba945309a81e"
-  #  local -r fake_tag2="${fake_sha2:0:7}"
-  #  env_vars=$(replace_with "${env_vars}" "${sha_var_name2}" "${fake_sha2}")
-  #  env_vars=$(replace_with "${env_vars}" "${tag_var_name2}" "${fake_tag2}")
+  local -r sha_var_name2=CYBER_DOJO_COMMANDER_SHA
+  local -r tag_var_name2=CYBER_DOJO_COMMANDER_TAG
+  local -r fake_sha2="a00459c07aa8f70c803c955d1ee3e26bdbeb81a5"
+  local -r fake_tag2="${fake_sha2:0:7}"
+  env_vars=$(replace_with "${env_vars}" "${sha_var_name2}" "${fake_sha2}")
+  env_vars=$(replace_with "${env_vars}" "${tag_var_name2}" "${fake_tag2}")
 
   echo "${env_vars}" > ${TMP_DIR}/.env
   local -r fake_image=cyberdojo/versioner:latest
