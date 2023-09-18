@@ -1,0 +1,90 @@
+Lots of assertions in test_client like this...
+
+  assert_stdout_includes "ERROR: display_name duplicate"
+  assert_stdout_includes "--exercises ${TMP_URL_1}"
+  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
+  assert_stdout_includes '"display_name": "Dup"'
+  assert_stdout_includes "--exercises ${TMP_URL_2}"
+  assert_stdout_includes "manifest='exercises-tiny-maze/manifest.json'"
+  assert_stdout_includes '"display_name": "Dup"'
+  assert_stdout_line_count_equals 7
+
+This has duplication: a higher level abstraction would be good here...
+Something like...
+
+  expected=(
+    "ERROR: display_name duplicate"
+    "--exercises ${TMP_URL_1}"
+    "manifest='exercises-fizz-buzz/manifest.json'"
+    '"display_name": "Dup"'
+    "--exercises ${TMP_URL_2}"
+    "manifest='exercises-tiny-maze/manifest.json'"
+    '"display_name": "Dup"'
+  )
+  assert_diagnostic_is "${expected[@]}"
+
+assert_diagnostic_is()
+{
+  local -r expected=("$@")
+  for line in "${expected[@]}";
+  do
+     assert_stdout_includes "$line"
+  done
+  local -r stdout="`de_warned_cat ${stdoutF}`
+  local -r length=$(echo "${stdout}" | wc -l | awk '{ print $1 }')
+  assert_equal ${#expected[@]} "${length}"
+}
+
+This isolates the choice of stdout/stderr to one place.
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+I wonder whether I should make the grep filtering of commander's output of a
+cyber-dojo start-point create ...
+command more robust?
+For example, suppose the error that was printed was not...
+
+#8 0.337 ERROR: bad JSON in manifest.json file
+#8 0.337 --languages file:///Users/jonathonjagger/repos/cyber-dojo/start-points-base/tmp/JcYR8i/languages_bad_json
+#8 0.337 manifest='languages-python-unittest/start_point/manifest.json'
+#8 0.337 unexpected token at 'sdfsdf'
+
+but
+
+#8 0.337 CYBER_DOJO_START_POINT_ERROR: ERROR: bad JSON in manifest.json file
+#8 0.337 CYBER_DOJO_START_POINT_ERROR: --languages file:///Users/jonathonjagger/repos/cyber-dojo/start-points-base/tmp/JcYR8i/languages_bad_json
+#8 0.337 CYBER_DOJO_START_POINT_ERROR: manifest='languages-python-unittest/start_point/manifest.json'
+#8 0.337 CYBER_DOJO_START_POINT_ERROR: unexpected token at 'sdfsdf'
+
+then I could grep only for lines matching CYBER_DOJO_START_POINT_ERROR
+and strip out the prefix of each line...
+
+Should be able to do that by modifying
+app/src/from_script/show_error.rb
+
+  def show_error(title, url, filename, msg = '')
+    stream = STDERR
+    stream.puts("ERROR: #{title}")
+    stream.puts("--#{@type} #{url}")
+    stream.puts("manifest='#{relative(filename)}'")
+    unless msg.empty?
+      stream.puts(msg)
+    end
+    stream.flush
+  end
+
+To something like...
+
+  def show_error(title, url, filename, msg = '')
+    prefix = "CYBER_DOJO_START_POINT_ERROR: "
+    stream = STDERR
+    stream.puts("#{prefix}ERROR: #{title}")
+    stream.puts("#{prefix}--#{@type} #{url}")
+    stream.puts("#{prefix}manifest='#{relative(filename)}'")
+    unless msg.empty?
+      msg.each_line do |line|
+        stream.puts("#{prefix}#{line}")
+      end
+    end
+    stream.flush
+  end
