@@ -1,5 +1,5 @@
 
-[![CircleCI](https://circleci.com/gh/cyber-dojo/start-points-base.svg?style=svg)](https://circleci.com/gh/cyber-dojo/start-points-base)
+[![Github Action (main)](https://github.com/cyber-dojo/start-points-base/actions/workflows/main.yml/badge.svg)](https://github.com/cyber-dojo/start-points-base/actions)
 
 The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) docker image.
 

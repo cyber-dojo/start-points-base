@@ -41,14 +41,9 @@ my_dir()
   cd "$( dirname "${BASH_ARGV[0]}" )" && pwd
 }
 
-root_dir()
-{
-  cd "$(my_dir)" && cd .. && pwd
-}
-
 on_ci()
 {
-  [ -n "${CIRCLE_SHA1}" ]
+  [ -n "${CI:-}" ]
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -
@@ -62,35 +57,6 @@ cyber_dojo()
     exit 42
   fi
 }
-
-#- - - - - - - - - - - - - - - - - - - - - - -
-exit_if_bad_ROOT_DIR()
-{
-  if using_DockerToolbox && on_Mac; then
-    declare -r ROOT_DIR=$(root_dir)
-    if [ "${ROOT_DIR:0:6}" != '/Users' ]; then
-      >&2 echo 'ERROR'
-      >&2 echo 'You are using Docker-Toolbox for Mac'
-      >&2 echo "This script lives off ${ROOT_DIR}"
-      >&2 echo 'It must live off /Users so the docker-context'
-      >&2 echo "is automatically mounted into the default VM"
-      exit 1
-    fi
-  fi
-}
-
-using_DockerToolbox()
-{
-  [ -n "${DOCKER_MACHINE_NAME}" ]
-}
-
-on_Mac()
-{
-  # https://stackoverflow.com/questions/394230
-  [[ "$OSTYPE" == "darwin"* ]]
-}
-
-exit_if_bad_ROOT_DIR
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 make_tmp_dir()

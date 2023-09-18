@@ -1,21 +1,24 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
-readonly SH_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+root_dir() { git rev-parse --show-toplevel; }
+sh_dir() { echo "$(root_dir)/sh"; }
 
-"${SH_DIR}/build_base_docker_image.sh"
-"${SH_DIR}/build_docker_images.sh"
+. "$(sh_dir)/build_base_docker_image.sh"
+. "$(sh_dir)/build_docker_images.sh"
 
-docker-compose \
-  --file "${SH_DIR}/../docker-compose.yml" \
-  up \
-  --detach  \
-  --force-recreate
+run_demo()
+{
+  docker-compose \
+    --file "$(root_dir)/docker-compose.yml" \
+    up \
+    --detach  \
+    --force-recreate
 
-if [ -n "${DOCKER_MACHINE_NAME}" ]; then
-  declare ip=$(docker-machine ip "${DOCKER_MACHINE_NAME}")
-else
-  declare ip=localhost
-fi
+  sleep 1
+  open "http://localhost:4528"
+}
 
-sleep 1
-open "http://${ip}:4528"
+build_base_docker_image
+build_docker_images
+run_demo

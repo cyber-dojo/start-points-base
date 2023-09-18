@@ -11,13 +11,18 @@ services:
     init: true
     container_name: test-starter-client
     read_only: true
-    tmpfs: /tmp
     depends_on:
       - custom
       - exercises
       - languages
     restart: 'no'
     ports: [ "4528:4528" ]
+    volumes:
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 52428800 # 50MB
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -26,30 +31,45 @@ services:
     image: cyberdojo/test-custom
     container_name: test-custom-server
     environment: [ NO_PROMETHEUS ]
-    volumes: [ "./test_custom_server:/app/test:ro" ]
     read_only: true
-    tmpfs: /tmp
     restart: 'no'
     ports: [ "${CYBER_DOJO_CUSTOM_START_POINTS_PORT}:${CYBER_DOJO_CUSTOM_START_POINTS_PORT}" ]
+    volumes:
+      - "./test_custom_server:/app/test:ro"
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 52428800 # 50MB
 
   exercises:
     user: nobody
     image: cyberdojo/test-exercises
     container_name: test-exercises-server
     environment: [ NO_PROMETHEUS ]
-    volumes: [ "./test_exercises_server:/app/test:ro" ]
     read_only: true
-    tmpfs: /tmp
     restart: 'no'
     ports: [ "${CYBER_DOJO_EXERCISES_START_POINTS_PORT}:${CYBER_DOJO_EXERCISES_START_POINTS_PORT}" ]
+    volumes:
+      - "./test_exercises_server:/app/test:ro"
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 52428800 # 50MB
 
   languages:
     user: nobody
     image: cyberdojo/test-languages
     container_name: test-languages-server
     environment: [ NO_PROMETHEUS ]
-    volumes: [ "./test_languages_server:/app/test:ro" ]
     read_only: true
-    tmpfs: /tmp
     restart: 'no'
     ports: [ "${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}:${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}" ]
+    volumes:
+      - "./test_languages_server:/app/test:ro"
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 52428800 # 50MB

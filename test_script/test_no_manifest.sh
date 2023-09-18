@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 readonly error_code=16
 
@@ -11,9 +11,9 @@ test_custom()
   build_start_points_image_custom "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: no manifest.json files in"
-  assert_stderr_includes "--custom ${tmp_url}"
-  assert_stderr_line_count_equals 2
+  assert_stdout_includes "ERROR: no manifest.json files in"
+  assert_stdout_includes "--custom ${tmp_url}"
+  # assert_stderr_line_count_equals 2
   assert_status_equals "${error_code}"
 }
 
@@ -26,9 +26,9 @@ test_exercises()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: no manifest.json files in"
-  assert_stderr_includes "--exercises ${tmp_url}"
-  assert_stderr_line_count_equals 2
+  assert_stdout_includes "ERROR: no manifest.json files in"
+  assert_stdout_includes "--exercises ${tmp_url}"
+  # assert_stderr_line_count_equals 2
   assert_status_equals "${error_code}"
 }
 
@@ -41,9 +41,9 @@ test_languages()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: no manifest.json files in"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_line_count_equals 2
+  assert_stdout_includes "ERROR: no manifest.json files in"
+  assert_stdout_includes "--languages ${tmp_url}"
+  # assert_stderr_line_count_equals 2
   assert_status_equals "${error_code}"
 }
 

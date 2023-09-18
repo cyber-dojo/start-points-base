@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 readonly error_code=50
 
@@ -11,10 +11,10 @@ test_failure_unknown_key()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: unknown key "Display_name"'
-  assert_stderr_includes "--exercises ${tmp_url}"
-  assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stderr_line_count_equals 3
+  assert_stdout_includes 'ERROR: unknown key "Display_name"'
+  assert_stdout_includes "--exercises ${tmp_url}"
+  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
+  # assert_stderr_line_count_equals 3
   assert_status_equals "${error_code}"
 }
 

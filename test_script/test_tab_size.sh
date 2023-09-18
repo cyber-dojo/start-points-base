@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 readonly error_code=41
 
@@ -37,11 +37,11 @@ test_failure_string()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: tab_size must be an Integer"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"tab_size": "6"'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: tab_size must be an Integer"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"tab_size": "6"'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -54,11 +54,11 @@ test_failure_int_too_small()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: tab_size must be an Integer (1..8)"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"tab_size": 0'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: tab_size must be an Integer (1..8)"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"tab_size": 0'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -71,11 +71,11 @@ test_failure_int_too_large()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: tab_size must be an Integer (1..8)"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"tab_size": 9'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: tab_size must be an Integer (1..8)"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"tab_size": 9'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 

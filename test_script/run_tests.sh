@@ -1,4 +1,5 @@
-#!/bin/bash -Ee
+#!/usr/bin/env bash
+set -Eeu
 
 readonly my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 readonly tmp_dir=$(mktemp -d "/tmp/cyber-dojo-start-points-base.XXX")
@@ -23,7 +24,8 @@ ensure_cyber_dojo_is_on_PATH()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 ensure_cyber_dojo_is_on_PATH
 
-if [ "$1" = '' ]; then
+echo
+if [ "${1:-}" == '' ]; then
   for test_file in ${my_dir}/test_*; do
     ${test_file}
   done

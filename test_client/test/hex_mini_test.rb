@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 
-class HexMiniTest < MiniTest::Test
+class HexMiniTest < Minitest::Test
 
   @@args = (ARGV.sort.uniq - ['--']).map(&:upcase) # eg 2E4
   @@seen_hex_ids = []

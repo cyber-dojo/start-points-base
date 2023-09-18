@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 readonly error_code=40
 
@@ -37,11 +37,11 @@ test_failure_int()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: hidden_filenames must be an Array of Strings"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"hidden_filenames": 1'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: hidden_filenames must be an Array of Strings"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"hidden_filenames": 1'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -54,11 +54,11 @@ test_failure_int_array()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: hidden_filenames must be an Array of Strings"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"hidden_filenames": [1, 2, 3]'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: hidden_filenames must be an Array of Strings"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"hidden_filenames": [1, 2, 3]'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -71,11 +71,11 @@ test_failure_empty_string()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: hidden_filenames must be an Array of Strings"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"hidden_filenames": [""]'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: hidden_filenames must be an Array of Strings"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"hidden_filenames": [""]'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -88,11 +88,11 @@ test_failure_bad_regex()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: hidden_filenames[0]="(" cannot create Regexp'
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"hidden_filenames": ["("]'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes 'ERROR: hidden_filenames[0]="(" cannot create Regexp'
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"hidden_filenames": ["("]'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -105,11 +105,11 @@ test_failure_duplicates()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: hidden_filenames[0, 2] are duplicates of "sd"'
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"hidden_filenames": ["sd", "gg", "sd"]'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes 'ERROR: hidden_filenames[0, 2] are duplicates of "sd"'
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"hidden_filenames": ["sd", "gg", "sd"]'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 

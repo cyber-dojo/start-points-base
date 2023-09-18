@@ -1,6 +1,5 @@
-#!/bin/bash -Ee
-
-readonly root_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+#!/usr/bin/env bash
+set -Eeu
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_tests()
@@ -25,10 +24,10 @@ run_tests()
     tar Ccf \
       "$(dirname "${coverage_root}")" \
       - "$(basename "${coverage_root}")" \
-        | tar Cxf "${root_dir}/${test_dir}/" -
+        | tar Cxf "$(root_dir)/${test_dir}/" -
 
   echo "Coverage report copied to ${test_dir}/coverage/"
-  cat "${root_dir}/${test_dir}/coverage/done.txt"
+  cat "$(root_dir)/${test_dir}/coverage/done.txt"
 
   if [ "${status}" != '0' ]; then
     docker logs "${cid}"
@@ -56,16 +55,19 @@ run_client_tests()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-if [ "${1}" = 'server' ]; then
-  shift
-  run_server_tests "$@"
-elif [ "${1}" = 'client' ]; then
-  shift
-  run_client_tests "$@"
-else
-  run_server_tests "$@"
-  run_client_tests "$@"
-fi
-echo '------------------------------------------------------'
-echo 'All passed'
-echo
+run_tests_in_containers()
+{
+  if [ "${1:-}" = 'server' ]; then
+    shift
+    run_server_tests "$@"
+  elif [ "${1:-}" = 'client' ]; then
+    shift
+    run_client_tests "$@"
+  else
+    run_server_tests "$@"
+    run_client_tests "$@"
+  fi
+  echo '------------------------------------------------------'
+  echo 'All passed'
+  echo
+}

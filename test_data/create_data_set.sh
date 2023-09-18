@@ -1,5 +1,8 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -Eeu
+
+# This script must not produce any output
+# If it does it will foul up create_git_repo_in_TMP_DIR_from
 
 readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 readonly DATA_SET_NAME="${1}"
@@ -48,7 +51,7 @@ create_data_set_in_target_dir()
 create_git_repo_in_target_dir()
 {
   cd "${TARGET_DIR}"
-  git init > /dev/null
+  git init -b master > /dev/null
   git config --global user.email "jon@jaggersoft.com"
   git config --global user.name "Jon Jagger"
   git add .
@@ -68,4 +71,4 @@ set_permissions_on_target_dir()
 make_target_dir
 create_data_set_in_target_dir
 create_git_repo_in_target_dir
-set_permissions_on_target_dir
+# set_permissions_on_target_dir

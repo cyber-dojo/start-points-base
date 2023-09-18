@@ -1,11 +1,10 @@
-#!/bin/bash -Eeu
-
-readonly ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+#!/usr/bin/env bash
+set -Eeu
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 git_commit_sha()
 {
-  echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
+  echo $(cd "$(root_dir)" && git rev-parse HEAD)
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -21,9 +20,8 @@ tag_image()
   local -r sha="$(git_commit_sha)"
   local -r tag="${sha:0:7}"
   docker tag "${image}:latest" "${image}:${tag}"
+  docker push "${image}:${tag}"
   echo "${sha}"
   echo "${tag}"
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - -
-tag_image

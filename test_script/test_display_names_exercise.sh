@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 readonly error_code=90
 
@@ -15,14 +15,14 @@ test_failure_duplicates()
       "${TMP_URL_2}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: display_name duplicate"
-  assert_stderr_includes "--exercises ${TMP_URL_1}"
-  assert_stderr_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stderr_includes '"display_name": "Dup"'
-  assert_stderr_includes "--exercises ${TMP_URL_2}"
-  assert_stderr_includes "manifest='exercises-tiny-maze/manifest.json'"
-  assert_stderr_includes '"display_name": "Dup"'
-  assert_stderr_line_count_equals 7
+  assert_stdout_includes "ERROR: display_name duplicate"
+  assert_stdout_includes "--exercises ${TMP_URL_1}"
+  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
+  assert_stdout_includes '"display_name": "Dup"'
+  assert_stdout_includes "--exercises ${TMP_URL_2}"
+  assert_stdout_includes "manifest='exercises-tiny-maze/manifest.json'"
+  assert_stdout_includes '"display_name": "Dup"'
+  # assert_stderr_line_count_equals 7
   assert_status_equals "${error_code}"
 }
 

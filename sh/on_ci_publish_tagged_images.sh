@@ -1,4 +1,5 @@
-#!/bin/bash -Ee
+#!/usr/bin/env bash
+set -Eeu
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci_publish_tagged_images()
@@ -21,7 +22,7 @@ on_ci_publish_tagged_images()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci()
 {
-  [ -n "${CIRCLE_SHA1}" ]
+  [ -n "${CI:-}" ]
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -36,5 +37,3 @@ image_sha()
   docker run --rm "$(image_name)" sh -c 'printf ${BASE_SHA}'
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - -
-on_ci_publish_tagged_images

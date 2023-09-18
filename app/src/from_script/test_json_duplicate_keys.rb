@@ -2,7 +2,7 @@ require_relative 'coverage'
 require_relative 'json_duplicate_keys'
 require 'minitest/autorun'
 
-class TestJsonDuplicateKeys < MiniTest::Test
+class TestJsonDuplicateKeys < Minitest::Test
 
   include JsonDuplicateKeys
 

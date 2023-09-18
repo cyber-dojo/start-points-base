@@ -1,24 +1,31 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
-readonly ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 readonly TMP_DIR="$(mktemp -d /tmp/start-points-base.XXXXXXX)"
 remove_TMP_DIR() { rm -rf "${TMP_DIR} > /dev/null"; }
 trap remove_TMP_DIR INT EXIT
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-build_fake_versioner()
+build_fake_versioner_image()
 {
   # Build a fake cyberdojo/versioner:latest image that serves
   # CYBER_DOJO_START_POINTS_BASE SHA/TAG values for the local repo.
+  local env_vars="$(docker run --rm cyberdojo/versioner:latest)"
+
   local -r sha_var_name=CYBER_DOJO_START_POINTS_BASE_SHA
   local -r tag_var_name=CYBER_DOJO_START_POINTS_BASE_TAG
-
   local -r fake_sha="$(git_commit_sha)"
   local -r fake_tag="${fake_sha:0:7}"
-
-  local env_vars="$(docker run --rm cyberdojo/versioner:latest)"
   env_vars=$(replace_with "${env_vars}" "${sha_var_name}" "${fake_sha}")
   env_vars=$(replace_with "${env_vars}" "${tag_var_name}" "${fake_tag}")
+
+  # For debugging; there is a circular dependency on commander
+  #  local -r sha_var_name2=CYBER_DOJO_COMMANDER_SHA
+  #  local -r tag_var_name2=CYBER_DOJO_COMMANDER_TAG
+  #  local -r fake_sha2="06af282130bb1be620534d796081ba945309a81e"
+  #  local -r fake_tag2="${fake_sha2:0:7}"
+  #  env_vars=$(replace_with "${env_vars}" "${sha_var_name2}" "${fake_sha2}")
+  #  env_vars=$(replace_with "${env_vars}" "${tag_var_name2}" "${fake_tag2}")
 
   echo "${env_vars}" > ${TMP_DIR}/.env
   local -r fake_image=cyberdojo/versioner:latest
@@ -31,6 +38,7 @@ build_fake_versioner()
     echo 'ENV RELEASE=${RELEASE}'
     echo 'ENTRYPOINT [ "cat", "/app/.env" ]'
   } > ${TMP_DIR}/Dockerfile
+
   docker build \
     --build-arg SHA="${fake_sha}" \
     --build-arg RELEASE=999.999.999 \
@@ -82,8 +90,6 @@ assert_equal()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 git_commit_sha()
 {
-  echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
+  echo $(cd "$(root_dir)" && git rev-parse HEAD)
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - -
-build_fake_versioner

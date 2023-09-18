@@ -1,7 +1,10 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
-readonly ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+build_docker_images()
+{
+  docker-compose \
+    --file "$(root_dir)/docker-compose.yml" \
+    build
+}
 
-docker-compose \
-  --file "${ROOT_DIR}/docker-compose.yml" \
-  build

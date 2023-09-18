@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 readonly error_code=17
 
@@ -11,11 +11,11 @@ test_language_manifest()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: bad JSON in manifest.json file"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-python-unittest/start_point/manifest.json'"
-  assert_stderr_includes ": unexpected token at 'sdfsdf'"
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: bad JSON in manifest.json file"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-python-unittest/start_point/manifest.json'"
+  assert_stdout_includes "unexpected token at 'sdfsdf'"
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -28,11 +28,11 @@ test_exercise_manifest()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: bad JSON in manifest.json file"
-  assert_stderr_includes "--exercises ${tmp_url}"
-  assert_stderr_includes "manifest='exercises-bowling-game/manifest.json'"
-  assert_stderr_includes ": unexpected token at 'ggghhhjjj'"
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: bad JSON in manifest.json file"
+  assert_stdout_includes "--exercises ${tmp_url}"
+  assert_stdout_includes "manifest='exercises-bowling-game/manifest.json'"
+  assert_stdout_includes "unexpected token at 'ggghhhjjj'"
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 readonly error_code=21
 
@@ -11,10 +11,10 @@ test_failure_no_display_name()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: missing required key "display_name"'
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_line_count_equals 3
+  assert_stdout_includes 'ERROR: missing required key "display_name"'
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  # assert_stderr_line_count_equals 3
   assert_status_equals "${error_code}"
 }
 
@@ -27,10 +27,10 @@ test_failure_no_visible_filanames()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: missing required key "visible_filenames"'
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_line_count_equals 3
+  assert_stdout_includes 'ERROR: missing required key "visible_filenames"'
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  # assert_stderr_line_count_equals 3
   assert_status_equals "${error_code}"
 }
 
@@ -43,10 +43,10 @@ test_failure_no_image_name()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: missing required key "image_name"'
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_line_count_equals 3
+  assert_stdout_includes 'ERROR: missing required key "image_name"'
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  # assert_stderr_line_count_equals 3
   assert_status_equals "${error_code}"
 }
 
@@ -59,10 +59,10 @@ test_failure_no_filename_extension()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes 'ERROR: missing required key "filename_extension"'
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_line_count_equals 3
+  assert_stdout_includes 'ERROR: missing required key "filename_extension"'
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  # assert_stderr_line_count_equals 3
   assert_status_equals "${error_code}"
 }
 

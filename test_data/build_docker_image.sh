@@ -1,8 +1,7 @@
-#!/bin/bash
-set -e
-
-readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
+#!/usr/bin/env bash
+set -Eeu
 
 docker build \
   --tag cyberdojo/create-start-points-test-data \
-  "${MY_DIR}"
+  "$(root_dir)/test_data"
+

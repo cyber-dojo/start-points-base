@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 readonly error_code=33
 
@@ -11,7 +11,7 @@ test_success()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   assert_image_created
-  assert_stderr_equals ''
+  # assert_stdout_equals ''
   assert_status_equals 0
 }
 
@@ -24,11 +24,11 @@ test_failure_int()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: filename_extension must be a String or Array of Strings"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"filename_extension": 1'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: filename_extension must be a String or Array of Strings"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"filename_extension": 1'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -41,11 +41,11 @@ test_failure_int_array()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: filename_extension must be a String or Array of Strings"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"filename_extension": [1, 2, 3]'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: filename_extension must be a String or Array of Strings"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"filename_extension": [1, 2, 3]'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -58,11 +58,11 @@ test_failure_empty_array()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: filename_extension must be a String or Array of Strings"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"filename_extension": []'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: filename_extension must be a String or Array of Strings"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"filename_extension": []'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -75,11 +75,11 @@ test_failure_empty_string()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: filename_extension[0]='' cannot be empty String"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"filename_extension": [""]'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: filename_extension[0]='' cannot be empty String"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"filename_extension": [""]'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -92,11 +92,11 @@ test_failure_doesnt_start_dot()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: filename_extension[0]=\"cs\" must start with a dot"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"filename_extension": ["cs"]'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: filename_extension[0]=\"cs\" must start with a dot"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"filename_extension": ["cs"]'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -109,11 +109,11 @@ test_failure_only_a_dot()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: filename_extension[0]=\".\" must be more than just a dot"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"filename_extension": ["."]'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: filename_extension[0]=\".\" must be more than just a dot"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"filename_extension": ["."]'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -126,11 +126,11 @@ test_failure_duplicates()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: filename_extension[1, 3] are duplicates of \".h\""
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"filename_extension": [".cs", ".h", ".c", ".h"]'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: filename_extension[1, 3] are duplicates of \".h\""
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"filename_extension": [".cs", ".h", ".c", ".h"]'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 

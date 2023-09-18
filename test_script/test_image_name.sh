@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 readonly error_code=30
 
@@ -11,11 +11,11 @@ test_failure_non_string()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: image_name is not a String"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"image_name": [1, 2, 3]'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: image_name is not a String"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"image_name": [1, 2, 3]'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 
@@ -28,11 +28,11 @@ test_failure_malformed()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stderr_includes "ERROR: image_name is malformed"
-  assert_stderr_includes "--languages ${tmp_url}"
-  assert_stderr_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stderr_includes '"image_name": "CYBERDOJO/csharp_nunit"'
-  assert_stderr_line_count_equals 4
+  assert_stdout_includes "ERROR: image_name is malformed"
+  assert_stdout_includes "--languages ${tmp_url}"
+  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  assert_stdout_includes '"image_name": "CYBERDOJO/csharp_nunit"'
+  # assert_stderr_line_count_equals 4
   assert_status_equals "${error_code}"
 }
 

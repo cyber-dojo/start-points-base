@@ -104,7 +104,7 @@ module CheckVisibleFilenames
   def check_all_visible_filename_exists(visible_filenames, filename, index, url, manifest_filename, error_code)
     result = true
     dir_name = File.dirname(manifest_filename)
-    unless File.exists?(dir_name + '/' + filename)
+    unless File.exist?(dir_name + '/' + filename)
       title = "visible_filenames[#{index}]=#{quoted(filename)} does not exist"
       key = quoted('visible_filenames')
       msg = "#{key}: #{visible_filenames}"
