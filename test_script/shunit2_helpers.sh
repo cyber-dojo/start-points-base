@@ -1,4 +1,22 @@
 
+assert_diagnostic_includes()
+{
+  local stdout="`de_warned_cat ${stdoutF}`"
+  local stderr="`de_warned_cat ${stderrF}`"
+  local output="${stdout}${stderr}"
+  if [[ "${output}" != *"${1}"* ]]; then
+    echo "<stdout>"
+    echo "${stdout}"
+    echo "</stdout>"
+    echo "<stderr>"
+    echo "${stderr}"
+    echo "</stderr>"
+    fail "expected output to include ${1}"
+  fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 assert_stdout_equals()
 {
   assertEquals 'stdout' "$1" "`de_warned_cat ${stdoutF}`"

@@ -20,7 +20,13 @@ tag_image()
   local -r sha="$(git_commit_sha)"
   local -r tag="${sha:0:7}"
   docker tag "${image}:latest" "${image}:${tag}"
-  # docker push "${image}:${tag}"
+  if on_ci; then
+    echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
+  fi
+  docker push "${image}:${tag}"
+  if on_ci; then
+    docker logout
+  fi
   echo "${sha}"
   echo "${tag}"
 }
