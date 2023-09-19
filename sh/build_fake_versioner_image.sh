@@ -22,7 +22,7 @@ build_fake_versioner_image()
   # For debugging; there is a circular dependency on commander
   local -r comm_sha_var_name=CYBER_DOJO_COMMANDER_SHA
   local -r comm_tag_var_name=CYBER_DOJO_COMMANDER_TAG
-  local -r comm_fake_sha="cae818145b5deb2385707736d799902eee6c250a"
+  local -r comm_fake_sha="286233ae0dc638df35106187a6582d58f247afef"
   local -r comm_fake_tag="${comm_fake_sha:0:7}"
   env_vars=$(replace_with "${env_vars}" "${comm_sha_var_name}" "${comm_fake_sha}")
   env_vars=$(replace_with "${env_vars}" "${comm_tag_var_name}" "${comm_fake_tag}")
