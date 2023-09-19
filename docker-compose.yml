@@ -30,7 +30,6 @@ services:
     user: nobody
     image: cyberdojo/test-custom
     container_name: test-custom-server
-    environment: [ NO_PROMETHEUS ]
     read_only: true
     restart: 'no'
     ports: [ "${CYBER_DOJO_CUSTOM_START_POINTS_PORT}:${CYBER_DOJO_CUSTOM_START_POINTS_PORT}" ]
@@ -46,7 +45,6 @@ services:
     user: nobody
     image: cyberdojo/test-exercises
     container_name: test-exercises-server
-    environment: [ NO_PROMETHEUS ]
     read_only: true
     restart: 'no'
     ports: [ "${CYBER_DOJO_EXERCISES_START_POINTS_PORT}:${CYBER_DOJO_EXERCISES_START_POINTS_PORT}" ]
@@ -62,7 +60,6 @@ services:
     user: nobody
     image: cyberdojo/test-languages
     container_name: test-languages-server
-    environment: [ NO_PROMETHEUS ]
     read_only: true
     restart: 'no'
     ports: [ "${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}:${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}" ]
