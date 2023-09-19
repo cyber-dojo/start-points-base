@@ -9,13 +9,18 @@ ip_address()
 
 readonly IP_ADDRESS=$(ip_address)
 
+curl_output_path()
+{
+  echo /tmp/curl-probe
+}
+
 # - - - - - - - - - - - - - - - - - - - -
 curl_cmd()
 {
   local -r port="${1}"
   local -r path="${2}"
-  local -r cmd="curl --output /tmp/curl-probe --silent --fail -X GET http://${IP_ADDRESS}:${port}/${path}"
-  if ${cmd} && [ "$(cat /tmp/curl-probe)" = '{"ready?":true}' ]; then
+  local -r cmd="curl --output $(curl_output_path) --silent --fail -X GET http://${IP_ADDRESS}:${port}/${path}"
+  if ${cmd} && [ "$(cat "$(curl_output_path)")" == '{"ready?":true}' ]; then
     true
   else
     false
@@ -28,7 +33,7 @@ wait_until_ready()
   local -r name="${1}"
   local -r port="${2}"
   local -r max_tries=20
-  printf "Waiting until ${name} is ready"
+  printf "Waiting until %s is ready" "${name}"
   for _ in $(seq ${max_tries})
   do
     if curl_cmd ${port} ready? ; then
@@ -41,10 +46,10 @@ wait_until_ready()
   done
   printf 'FAIL\n'
   echo "${name} not ready after ${max_tries} tries"
-  if [ -f /tmp/curl-probe ]; then
-    echo "$(cat /tmp/curl-probe)"
+  if [ -f "$(curl_output_path)" ]; then
+    cat "$(curl_output_path)"
   fi
-  docker logs ${name}
+  docker logs "${name}"
   exit 1
 }
 
