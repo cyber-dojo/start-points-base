@@ -31,10 +31,10 @@ build_base_docker_image
 tag_base_docker_image
 build_fake_versioner_image
 exit_zero_if_build_only "$@"
-#build_docker_images
-#build_test_derived_images
-#docker_containers_up
-#run_tests_in_containers "$@"
+build_docker_images
+build_test_derived_images
+docker_containers_up
+run_tests_in_containers "$@"
 run_script_tests "$@"
 # on_ci_publish_tagged_images
 
