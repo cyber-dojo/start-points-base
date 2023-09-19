@@ -27,6 +27,7 @@ checker = case image_type
 when 'custom'    then LanguageManifestChecker.new(image_type)
 when 'exercises' then ExerciseManifestChecker.new(image_type)
 when 'languages' then LanguageManifestChecker.new(image_type)
+else raise "Unknown image type! #{image_type}"
 end
 
 checker.check_all(root_dir)

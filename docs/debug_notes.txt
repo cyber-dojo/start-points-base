@@ -378,3 +378,19 @@ A problem with this is that the image _will_ be built.
 So I could build the image with a name including 'tmp' (say)
 Then if the command succeeds, I can tag the image,
 if the command fails, I can remove the image.
+
+Can now run this...
+docker container run --entrypoint= --rm --tty cyberdojo/temporary_start_points ruby /app/src/from_script/check_all.rb exercises
+
+fails with...
+/app/src/from_script/check_all.rb:32:in `<main>': undefined method `check_all' for nil:NilClass (NoMethodError)
+checker.check_all(root_dir)
+
+Looks like I'm getting a zero exit code when it should be non-zero
+Yes. This is the old issue of whether the code is from the 'docker run ... X' or fom the X
+https://stackoverflow.com/questions/46300610
+$ docker wait c2c769c4b9ef
+to get exit-code of container c2c769c4b9ef
+or
+$ docker inspect c2c769c4b9ef --format='{{.State.ExitCode}}'
+
