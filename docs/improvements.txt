@@ -1,3 +1,11 @@
+
+build_test_publish.sh
+- add check for installed docker
+- add check for installed docker-compose
+- any other dependent tooling? jq?
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 Lots of assertions in test_client like this...
 
   assert_stdout_includes "ERROR: display_name duplicate"
@@ -88,3 +96,16 @@ To something like...
     end
     stream.flush
   end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+I think I will need to create a special version of commander with no --quiet
+and no output filtering in the 'docker build' command inside create_start_point.sh
+Then push that to dockerhub
+Then add that to build_fake_versioner_image
+That should give me improved diagnostics...
+
+If this works ... should there be a --verbose flag that you can add to
+$ cyber-dojo start-point create ...
+which controls whether --quiet is added as a flag or not?
+Better still, have an env-var that is automatically passed in?

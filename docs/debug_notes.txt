@@ -310,14 +310,22 @@ Expected message is not appearing in stdout or stderr.
 All I see is
 ERROR: failed to solve: process "/bin/sh -c ruby /app/src/from_script/check_all.rb /app/repos languages" did not complete successfully: exit code: 17
 
-I think I will need to create a special version of commander with no --quiet
-and no output filtering in the 'docker build' command inside create_start_point.sh
-Then push that to dockerhub
-Then add that to build_fake_versioner_image
-That should give me improved diagnostics...
+Now I see
+test_language_manifest
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+<stdout>
+git clone file:///Users/jonathonjagger/repos/cyber-dojo/start-points-base/tmp/pGUMAK/languages_bad_json
+--languages 	 file:///Users/jonathonjagger/repos/cyber-dojo/start-points-base/tmp/pGUMAK/languages_bad_json
+output
+</stdout>
+<stderr>
+./start-point-create.sh: line 220: exit: 	runtime/asm_arm64.s:1172: numeric argument required
+</stderr>
+ASSERT:expected output to include ERROR: bad JSON in manifest.json file
 
-If this works ... should there be a --verbose flag that you can add to
-$ cyber-dojo start-point create ...
-which controls whether --quiet is added as a flag or not?
+!!!!
+I think I need to
+- upgrade docker-compose in commander
+- run snyk to confirm no vulns
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
