@@ -328,4 +328,7 @@ I think I need to
 - upgrade docker-compose in commander
 - run snyk to confirm no vulns
 
+Tried that. Still get
+./start-point-create.sh: line 220: exit: 	runtime/asm_arm64.s:1172: numeric argument required
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
