@@ -1,14 +1,12 @@
 
 exit_non_zero_unless_installed()
 {
-  local -r package="${1}"
-  printf "Checking %s is installed..." "${package}"
-  if ! installed "${package}" ; then
-    stderr "ERROR: ${package} is not installed!"
-    exit 42
-  else
-    echo It is
-  fi
+  for tool in "$@"; do
+    if ! installed "${tool}" ; then
+      stderr "ERROR: ${tool} is not installed!"
+      exit 42
+    fi
+  done
 }
 
 installed()
