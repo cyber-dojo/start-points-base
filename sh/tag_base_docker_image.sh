@@ -14,7 +14,7 @@ image_name()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-tag_image()
+tag_base_docker_image()
 {
   local -r image="$(image_name)"
   local -r sha="$(git_commit_sha)"
