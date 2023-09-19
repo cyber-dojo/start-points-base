@@ -44,7 +44,7 @@ test_failure_string()
     '"max_seconds": "6"'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -63,7 +63,7 @@ test_failure_int_too_small()
     '"max_seconds": 0'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -82,7 +82,7 @@ test_failure_int_too_large()
     '"max_seconds": 21'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

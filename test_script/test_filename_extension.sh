@@ -11,7 +11,7 @@ test_success()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   assert_image_created
-  # assert_stdout_equals ''
+  assert_stdout_empty
   assert_status_0
 }
 
@@ -31,7 +31,7 @@ test_failure_int()
     '"filename_extension": 1'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -50,7 +50,7 @@ test_failure_int_array()
     '"filename_extension": [1, 2, 3]'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -69,7 +69,7 @@ test_failure_empty_array()
     '"filename_extension": []'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -88,7 +88,7 @@ test_failure_empty_string()
     '"filename_extension": [""]'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -107,7 +107,7 @@ test_failure_doesnt_start_dot()
     '"filename_extension": ["cs"]'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -126,7 +126,7 @@ test_failure_only_a_dot()
     '"filename_extension": ["."]'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -145,7 +145,7 @@ test_failure_duplicates()
     '"filename_extension": [".cs", ".h", ".c", ".h"]'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

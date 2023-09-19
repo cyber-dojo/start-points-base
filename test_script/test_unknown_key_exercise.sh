@@ -17,7 +17,7 @@ test_failure_unknown_key()
     "manifest='exercises-fizz-buzz/manifest.json'"
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
