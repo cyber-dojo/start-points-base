@@ -1,4 +1,6 @@
 
+Rename default branch to main
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Should there be a --verbose flag that you can add to
