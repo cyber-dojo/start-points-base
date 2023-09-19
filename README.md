@@ -59,11 +59,11 @@ There are 2 kinds of start-points
 
 - - - -
 # JSON in, JSON out  
-* All methods receive a JSON hash.
-  * The hash contains any method arguments as key-value pairs.
-* All methods return a JSON hash.
-  * If the method completes, a key equals the method's name.
-  * If the method raises an exception, a key equals "exception".
+* All API calls receive a JSON hash.
+  * The hash contains any arguments as key-value pairs.
+* All API calls return a JSON hash.
+  * If the call completes, a key equals the call name.
+  * If the call raises an exception, a key equals "exception".
 
 - - - -
 ### GET alive?()
@@ -71,7 +71,7 @@ Useful as a liveness probe.
 - returns
   * true
   ```json
-    { "ready?": true }
+    { "alive?": true }
   ```
 - parameters
   * none
