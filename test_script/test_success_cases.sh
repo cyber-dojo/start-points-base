@@ -11,8 +11,8 @@ test_one_git_repo()
       --languages "${L_TMP_URL}"
 
   assert_image_created
-  assert_stderr_equals ''
-  assert_status_equals 0
+  assert_stderr_empty
+  assert_status_0
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -29,8 +29,8 @@ test_more_than_one_git_repo()
         "${L2_TMP_URL}"
 
   assert_image_created
-  assert_stderr_equals ''
-  assert_status_equals 0
+  assert_stderr_empty
+  assert_status_0
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -44,8 +44,8 @@ test_one_git_repo_with_tagged_url()
       --languages "${L_URL}"
 
   assert_image_created
-  assert_stderr_equals ''
-  assert_status_equals 0
+  assert_stderr_empty
+  assert_status_0
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -62,8 +62,8 @@ test_more_than_one_git_repo_with_tagged_urls()
         "${L2_URL}"
 
   assert_image_created
-  assert_stderr_equals ''
-  assert_status_equals 0
+  assert_stderr_empty
+  assert_status_0
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

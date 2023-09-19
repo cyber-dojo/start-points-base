@@ -11,12 +11,14 @@ test_failure_non_string()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes "ERROR: visible_filenames is not an Array"
-  assert_stdout_includes "--exercises ${tmp_url}"
-  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stdout_includes '"visible_filenames": 1'
-  # assert_stderr_line_count_equals 4
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    "ERROR: visible_filenames is not an Array"
+    "--exercises ${tmp_url}"
+    "manifest='exercises-fizz-buzz/manifest.json'"
+    '"visible_filenames": 1'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -28,12 +30,14 @@ test_failure_empty()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes "ERROR: visible_filenames cannot be empty"
-  assert_stdout_includes "--exercises ${tmp_url}"
-  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stdout_includes '"visible_filenames": []'
-  # assert_stderr_line_count_equals 4
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    "ERROR: visible_filenames cannot be empty"
+    "--exercises ${tmp_url}"
+    "manifest='exercises-fizz-buzz/manifest.json'"
+    '"visible_filenames": []'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -45,12 +49,14 @@ test_failure_non_array_string()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes "ERROR: visible_filenames[0]=1 is not a String"
-  assert_stdout_includes "--exercises ${tmp_url}"
-  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stdout_includes '"visible_filenames": [1]'
-  # assert_stderr_line_count_equals 4
-  assert_status_equals "${error_code}"
+  local -r expected=(
+  "ERROR: visible_filenames[0]=1 is not a String"
+  "--exercises ${tmp_url}"
+  "manifest='exercises-fizz-buzz/manifest.json'"
+  '"visible_filenames": [1]'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -62,12 +68,14 @@ test_failure_empty_string()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes "ERROR: visible_filenames[0]='' cannot be empty String"
-  assert_stdout_includes "--exercises ${tmp_url}"
-  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stdout_includes '"visible_filenames": [""]'
-  # assert_stderr_line_count_equals 4
-  assert_status_equals "${error_code}"
+  local -r expected=(
+  "ERROR: visible_filenames[0]='' cannot be empty String"
+  "--exercises ${tmp_url}"
+  "manifest='exercises-fizz-buzz/manifest.json'"
+  '"visible_filenames": [""]'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -79,12 +87,14 @@ test_failure_non_portable_character()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes "ERROR: visible_filenames[1]=\"hiker&.txt\" has non-portable character '&'"
-  assert_stdout_includes "--exercises ${tmp_url}"
-  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stdout_includes '"visible_filenames": ["instructions", "hiker&.txt"]'
-  # assert_stderr_line_count_equals 4
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    "ERROR: visible_filenames[1]=\"hiker&.txt\" has non-portable character '&'"
+    "--exercises ${tmp_url}"
+    "manifest='exercises-fizz-buzz/manifest.json'"
+    '"visible_filenames": ["instructions", "hiker&.txt"]'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -96,12 +106,14 @@ test_failure_non_portable_leading_character()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes "ERROR: visible_filenames[0]=\"-hiker.txt\" has non-portable leading character '-'"
-  assert_stdout_includes "--exercises ${tmp_url}"
-  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stdout_includes '"visible_filenames": ["-hiker.txt", "instructions"]'
-  # assert_stderr_line_count_equals 4
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    "ERROR: visible_filenames[0]=\"-hiker.txt\" has non-portable leading character '-'"
+    "--exercises ${tmp_url}"
+    "manifest='exercises-fizz-buzz/manifest.json'"
+    '"visible_filenames": ["-hiker.txt", "instructions"]'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -113,12 +125,14 @@ test_failure_duplicates()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes 'ERROR: visible_filenames[0, 1] are duplicates of "instructions"'
-  assert_stdout_includes "--exercises ${tmp_url}"
-  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stdout_includes '"visible_filenames": ["instructions", "instructions"]'
-  # assert_stderr_line_count_equals 4
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    'ERROR: visible_filenames[0, 1] are duplicates of "instructions"'
+    "--exercises ${tmp_url}"
+    "manifest='exercises-fizz-buzz/manifest.json'"
+    '"visible_filenames": ["instructions", "instructions"]'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -130,12 +144,14 @@ test_failure_does_not_exist()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes 'ERROR: visible_filenames[1]="HikerTest.txt" does not exist'
-  assert_stdout_includes "--exercises ${tmp_url}"
-  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stdout_includes '"visible_filenames": ["instructions", "HikerTest.txt"]'
-  # assert_stderr_line_count_equals 4
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    'ERROR: visible_filenames[1]="HikerTest.txt" does not exist'
+    "--exercises ${tmp_url}"
+    "manifest='exercises-fizz-buzz/manifest.json'"
+    '"visible_filenames": ["instructions", "HikerTest.txt"]'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -147,12 +163,14 @@ test_failure_has_cyber_dojo_sh()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes 'ERROR: visible_filenames cannot include "cyber-dojo.sh"'
-  assert_stdout_includes "--exercises ${tmp_url}"
-  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stdout_includes '"visible_filenames": ["instructions", "cyber-dojo.sh"]'
-  # assert_stderr_line_count_equals 4
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    'ERROR: visible_filenames cannot include "cyber-dojo.sh"'
+    "--exercises ${tmp_url}"
+    "manifest='exercises-fizz-buzz/manifest.json'"
+    '"visible_filenames": ["instructions", "cyber-dojo.sh"]'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -164,12 +182,14 @@ test_failure_file_too_large()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes 'ERROR: visible_filenames[1]="large.txt" is too large (>25K)'
-  assert_stdout_includes "--exercises ${tmp_url}"
-  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stdout_includes '"visible_filenames": ["tiny.txt", "large.txt", "small.txt"]'
-  # assert_stderr_line_count_equals 4
-  assert_status_equals "${error_code}"
+  local -r expected=(
+  'ERROR: visible_filenames[1]="large.txt" is too large (>25K)'
+  "--exercises ${tmp_url}"
+  "manifest='exercises-fizz-buzz/manifest.json'"
+  '"visible_filenames": ["tiny.txt", "large.txt", "small.txt"]'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

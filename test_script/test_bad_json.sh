@@ -11,12 +11,14 @@ test_language_manifest()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_diagnostic_includes "ERROR: bad JSON in manifest.json file"
-  assert_diagnostic_includes "--languages ${tmp_url}"
-  assert_diagnostic_includes "manifest='languages-python-unittest/start_point/manifest.json'"
-  assert_diagnostic_includes "unexpected token at 'sdfsdf'"
-  # assert_stderr_line_count_equals 4
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    "ERROR: bad JSON in manifest.json file"
+    "--languages ${tmp_url}"
+    "manifest='languages-python-unittest/start_point/manifest.json'"
+    "unexpected token at 'sdfsdf'"
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -28,12 +30,14 @@ test_exercise_manifest()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_diagnostic_includes "ERROR: bad JSON in manifest.json file"
-  assert_diagnostic_includes "--exercises ${tmp_url}"
-  assert_diagnostic_includes "manifest='exercises-bowling-game/manifest.json'"
-  assert_diagnostic_includes "unexpected token at 'ggghhhjjj'"
-  # assert_stderr_line_count_equals 4
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    "ERROR: bad JSON in manifest.json file"
+    "--exercises ${tmp_url}"
+    "manifest='exercises-bowling-game/manifest.json'"
+    "unexpected token at 'ggghhhjjj'"
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

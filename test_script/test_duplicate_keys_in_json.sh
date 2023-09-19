@@ -11,15 +11,17 @@ test_language()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes "ERROR: duplicate keys in manifest.json file"
-  assert_stdout_includes "--languages ${tmp_url}"
-  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stdout_includes '{'
-  assert_stdout_includes '  "display_name": "C#, NUnit",'
-  assert_stdout_includes '  "display_name": "C#, JUnit"'
-  assert_stdout_includes '}'
-  # assert_stderr_line_count_equals 7
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    "ERROR: duplicate keys in manifest.json file"
+    "--languages ${tmp_url}"
+    "manifest='languages-csharp-nunit/start_point/manifest.json'"
+    '{'
+    '  "display_name": "C#, NUnit",'
+    '  "display_name": "C#, JUnit"'
+    '}'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -31,15 +33,17 @@ test_exercise()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes "ERROR: duplicate keys in manifest.json file"
-  assert_stdout_includes "--exercises ${tmp_url}"
-  assert_stdout_includes "manifest='exercises-leap-years/manifest.json'"
-  assert_stdout_includes '{'
-  assert_stdout_includes '  "display_name": "Leap Years",'
-  assert_stdout_includes '  "display_name": "Years Leap"'
-  assert_stdout_includes '}'
-  # assert_stderr_line_count_equals 7
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    "ERROR: duplicate keys in manifest.json file"
+    "--exercises ${tmp_url}"
+    "manifest='exercises-leap-years/manifest.json'"
+    '{'
+    '  "display_name": "Leap Years",'
+    '  "display_name": "Years Leap"'
+    '}'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

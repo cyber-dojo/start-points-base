@@ -6,8 +6,8 @@ test_no_arguments()
   build_start_points_image
 
   assert_stdout_equals_use
-  assert_stderr_equals ''
-  assert_status_equals 0
+  assert_stderr_empty
+  assert_status_0
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -16,8 +16,8 @@ test_short_help_option()
   build_start_points_image -h
 
   assert_stdout_equals_use
-  assert_stderr_equals ''
-  assert_status_equals 0
+  assert_stderr_empty
+  assert_status_0
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -26,8 +26,8 @@ test_long_help_option()
   build_start_points_image --help
 
   assert_stdout_equals_use
-  assert_stderr_equals ''
-  assert_status_equals 0
+  assert_stderr_empty
+  assert_status_0
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

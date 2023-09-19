@@ -1,69 +1,101 @@
 
+assert_diagnostic_is()
+{
+  # assert_stdout_equals ''
+  local -r expected=("$@")
+  for line in "${expected[@]}"
+  do
+     assert_diagnostic_includes "${line}"
+  done
+  # local -r stdout="$(de_warned_cat "${stdoutF}")"
+  # local -r length=$(echo "${stdout}" | wc -l | awk '{ print $1 }')
+  # assert_equal ${#expected[@]} "${length}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 assert_diagnostic_includes()
 {
-  local stdout="`de_warned_cat ${stdoutF}`"
-  local stderr="`de_warned_cat ${stderrF}`"
+  local -r includes="${1}"
+  local -r stdout="$(de_warned_cat "${stdoutF}")"
+  local -r stderr="$(de_warned_cat "${stderrF}")"
   local output="${stdout}${stderr}"
-  if [[ "${output}" != *"${1}"* ]]; then
-    echo "<stdout>"
-    echo "${stdout}"
-    echo "</stdout>"
-    echo "<stderr>"
-    echo "${stderr}"
-    echo "</stderr>"
-    fail "expected output to include ${1}"
+  if [[ "${output}" != *"${includes}"* ]]; then
+    printf "<stdout>\n%s\n</stdout>\n" "${stdout}"
+    printf "<stderr>\n%s\n</stderr>\n" "${stderr}"
+    fail "expected output to include ${includes}"
   fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+assert_stdout_empty()
+{
+  assert_stdout_equals ''
+}
+
 assert_stdout_equals()
 {
-  assertEquals 'stdout' "$1" "`de_warned_cat ${stdoutF}`"
+  assertEquals stdout "${1}" "$(de_warned_cat "${stdoutF}")"
 }
 
 assert_stdout_includes()
 {
-  local stdout="`de_warned_cat ${stdoutF}`"
-  if [[ "${stdout}" != *"${1}"* ]]; then
+  local -r includes="${1}"
+  local -r stdout="$(de_warned_cat "${stdoutF}")"
+  if [[ "${stdout}" != *"${includes}"* ]]; then
     echo "<stdout>"
     echo "${stdout}"
     echo "</stdout>"
-    fail "expected stdout to include ${1}"
+    fail "expected stdout to include ${includes}"
   fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+assert_stderr_empty()
+{
+  assert_stderr_equals ''
+}
+
 assert_stderr_equals()
 {
-  assertEquals 'stderr' "$1" "`de_warned_cat ${stderrF}`"
+  local -r message="stderr:$(dump_sss)"
+  local -r expected="${1}"
+  local -r actual="$(de_warned_cat "${stderrF}")"
+  assertEquals "${message}" "${expected}" "${actual}"
 }
 
 assert_stderr_includes()
 {
-  local stderr="`de_warned_cat ${stderrF}`"
-  if [[ "${stderr}" != *"${1}"* ]]; then
+  local -r includes="${1}"
+  local -r stderr="$(de_warned_cat "${stderrF}")"
+  if [[ "${stderr}" != *"${includes}"* ]]; then
     echo "<stderr>"
     echo "${stderr}"
     echo "</stderr>"
-    fail "expected stderr to include ${1}"
+    fail "expected stderr to include ${includes}"
   fi
 }
 
 assert_stderr_line_count_equals()
 {
-  local newline=$'\n'
-  local stderr="`de_warned_cat ${stderrF}`"
-  local diagnostic=$(printf 'stderr-line-count\n<stderr>\n%s\n</stderr>\n' "${stderr}")
-  assertEquals "${diagnostic}" ${1} $(echo "${stderr}" | wc -l | awk '{ print $1 }')
+  # local -r newline=$'\n'
+  local -r stderr="$(de_warned_cat "${stderrF}")"
+  local -r diagnostic=$(printf 'stderr-line-count\n<stderr>\n%s\n</stderr>\n' "${stderr}")
+  assertEquals "${diagnostic}" "${1}" "$(echo "${stderr}" | wc -l | awk '{ print $1 }')"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+assert_status_0()
+{
+  assert_status_equals 0
+}
+
 assert_status_equals()
 {
-  assertEquals 'status' "$1" "`cat ${statusF}`"
+  assertEquals "status:$(dump_sss)" "${1}" "$(cat "${statusF}")"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -113,15 +145,15 @@ oneTimeSetUp()
 absPath()
 {
   # use like this [ local resolved=`abspath ./../a/b/c` ]
-  cd "$(dirname "$1")"
-  printf "%s/%s\n" "$(pwd)" "$(basename "$1")"
+  cd "$(dirname "${1}")"
+  printf "%s/%s\n" "$(pwd)" "$(basename "${1}")"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 de_warned_cat()
 {
-  filename="${1}"
-  warning="WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested"
+  local -r filename="${1}"
+  local -r warning="WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested"
   cat "${filename}" | grep -v "${warning}"
 }

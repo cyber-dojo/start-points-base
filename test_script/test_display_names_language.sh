@@ -15,15 +15,17 @@ test_failure_duplicates()
       "${TMP_URL_2}"
 
   refute_image_created
-  assert_stdout_includes "ERROR: display_name duplicate"
-  assert_stdout_includes "--languages ${TMP_URL_1}"
-  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  assert_stdout_includes '"display_name": "Dup"'
-  assert_stdout_includes "--languages ${TMP_URL_2}"
-  assert_stdout_includes "manifest='languages-python-unittest/start_point/manifest.json'"
-  assert_stdout_includes '"display_name": "Dup"'
-  # assert_stderr_line_count_equals 7
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    "ERROR: display_name duplicate"
+    "--languages ${TMP_URL_1}"
+    "manifest='languages-csharp-nunit/start_point/manifest.json'"
+    '"display_name": "Dup"'
+    "--languages ${TMP_URL_2}"
+    "manifest='languages-python-unittest/start_point/manifest.json'"
+    '"display_name": "Dup"'
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

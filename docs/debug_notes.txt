@@ -332,3 +332,16 @@ Tried that. Still get
 ./start-point-create.sh: line 220: exit: 	runtime/asm_arm64.s:1172: numeric argument required
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Added set-x to start_point_create.sh created from commander.
+It works. Lots more debug output now...
+One line that catches my eye is...
+
+#3 [internal] load metadata for docker.io/cyberdojo/start-points-base:bdc1f92
+
+why bdc1f92?
+that is the previous commit in start_points_base repo.
+Ok. That was because I rebuilt commander first.
+Now I get a different failure...
+ASSERT:status expected:<17> but was:<2>
+Would like to see stdout/stderr for that assert...

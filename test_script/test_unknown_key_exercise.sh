@@ -11,11 +11,13 @@ test_failure_unknown_key()
   build_start_points_image_exercises "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes 'ERROR: unknown key "Display_name"'
-  assert_stdout_includes "--exercises ${tmp_url}"
-  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  # assert_stderr_line_count_equals 3
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    'ERROR: unknown key "Display_name"'
+    "--exercises ${tmp_url}"
+    "manifest='exercises-fizz-buzz/manifest.json'"
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

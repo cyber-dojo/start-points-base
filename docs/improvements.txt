@@ -1,47 +1,6 @@
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-Lots of assertions in test_client like this...
-
-  assert_stdout_includes "ERROR: display_name duplicate"
-  assert_stdout_includes "--exercises ${TMP_URL_1}"
-  assert_stdout_includes "manifest='exercises-fizz-buzz/manifest.json'"
-  assert_stdout_includes '"display_name": "Dup"'
-  assert_stdout_includes "--exercises ${TMP_URL_2}"
-  assert_stdout_includes "manifest='exercises-tiny-maze/manifest.json'"
-  assert_stdout_includes '"display_name": "Dup"'
-  assert_stdout_line_count_equals 7
-
-This has duplication: a higher level abstraction would be good here...
-Something like...
-
-  expected=(
-    "ERROR: display_name duplicate"
-    "--exercises ${TMP_URL_1}"
-    "manifest='exercises-fizz-buzz/manifest.json'"
-    '"display_name": "Dup"'
-    "--exercises ${TMP_URL_2}"
-    "manifest='exercises-tiny-maze/manifest.json'"
-    '"display_name": "Dup"'
-  )
-  assert_diagnostic_is "${expected[@]}"
-
-assert_diagnostic_is()
-{
-  local -r expected=("$@")
-  for line in "${expected[@]}";
-  do
-     assert_stdout_includes "$line"
-  done
-  local -r stdout="`de_warned_cat ${stdoutF}`
-  local -r length=$(echo "${stdout}" | wc -l | awk '{ print $1 }')
-  assert_equal ${#expected[@]} "${length}"
-}
-
-This isolates the choice of stdout/stderr to one place.
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 I wonder whether I should make the grep filtering of commander's output of a
 cyber-dojo start-point create ...
 command more robust?
@@ -91,6 +50,13 @@ To something like...
     end
     stream.flush
   end
+
+and then commander's start_point_create.sh
+will need to filter the output
+
+The way start_point_create.sh determines the exit-code is fragile.
+It relies on the exit-code being the last output.
+Again, print the exit-code with a known leading Prefix.
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

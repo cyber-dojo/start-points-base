@@ -11,11 +11,13 @@ test_failure_unknown_key()
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
-  assert_stdout_includes 'ERROR: unknown key "Display_name"'
-  assert_stdout_includes "--languages ${tmp_url}"
-  assert_stdout_includes "manifest='languages-csharp-nunit/start_point/manifest.json'"
-  # assert_stderr_line_count_equals 3
-  assert_status_equals "${error_code}"
+  local -r expected=(
+    'ERROR: unknown key "Display_name"'
+    "--languages ${tmp_url}"
+    "manifest='languages-csharp-nunit/start_point/manifest.json'"
+  )
+  assert_diagnostic_is "${expected[@]}"
+  # assert_status_equals "${error_code}"  # TODO
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

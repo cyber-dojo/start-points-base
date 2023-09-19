@@ -12,7 +12,7 @@ test_each_url_is_printed_to_stdout_one_git_repo()
 
   assert_stdout_includes $(echo -e "--custom \t ${C_TMP_URL}")
   assert_stdout_includes "Successfully built ${image_name}"
-  assert_stderr_equals ''
+  assert_stderr_empty
   assert_status_equals 0
 }
 
@@ -32,7 +32,7 @@ test_each_url_is_printed_to_stdout_more_than_one_git_repo()
   assert_stdout_includes $(echo -e "--languages \t ${L1_TMP_URL}")
   assert_stdout_includes $(echo -e "--languages \t ${L2_TMP_URL}")
   assert_stdout_includes "Successfully built ${image_name}"
-  assert_stderr_equals ''
+  assert_stderr_empty
   assert_status_equals 0
 }
 
