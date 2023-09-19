@@ -9,6 +9,7 @@ rm -rf "$(root_dir)/tmp" && mkdir "$(root_dir)/tmp"
 source "$(sh_dir)/versioner_env_vars.sh"
 export $(versioner_env_vars)
 
+. "$(sh_dir)/exit_non_zero_unless_installed.sh"
 . "$(sh_dir)/on_ci_upgrade_docker_compose.sh"
 . "$(sh_dir)/build_base_docker_image.sh"
 . "$(sh_dir)/tag_base_docker_image.sh"
@@ -22,6 +23,8 @@ trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
 . "$(sh_dir)/run_script_tests.sh"
 . "$(sh_dir)/on_ci_publish_tagged_images.sh"
 
+exit_non_zero_unless_installed docker
+exit_non_zero_unless_installed docker-compose
 exit_if_ROOT_DIR_not_in_context
 on_ci_upgrade_docker_compose
 build_base_docker_image

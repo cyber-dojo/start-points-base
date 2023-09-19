@@ -1,9 +1,4 @@
 
-build_test_publish.sh
-- add check for installed docker
-- add check for installed docker-compose
-- any other dependent tooling? jq?
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Lots of assertions in test_client like this...
