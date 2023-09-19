@@ -22,7 +22,7 @@ and then you get some stderr, eg
   manifest='languages-python-unittest/start_point/manifest.json'
   unexpected token at 'sdfsdf'
 
-It would be better if you only got stderr when there is an error,
-and only got stdout when there is no error.
+Would it be better if you only got stderr when there is an error,
+and only got stdout when there is no error?
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
