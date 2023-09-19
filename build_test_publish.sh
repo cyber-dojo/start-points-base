@@ -11,7 +11,7 @@ export $(versioner_env_vars)
 
 . "$(sh_dir)/on_ci_upgrade_docker_compose.sh"
 . "$(sh_dir)/build_base_docker_image.sh"
-. "$(sh_dir)/tag_image.sh"
+. "$(sh_dir)/tag_base_docker_image.sh"
 . "$(sh_dir)/exit_zero_if_build_only.sh"
 . "$(sh_dir)/build_docker_images.sh"
 trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
@@ -25,7 +25,7 @@ trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
 exit_if_ROOT_DIR_not_in_context
 on_ci_upgrade_docker_compose
 build_base_docker_image
-tag_image
+tag_base_docker_image
 exit_zero_if_build_only "$@"
 build_docker_images
 build_fake_versioner_image
