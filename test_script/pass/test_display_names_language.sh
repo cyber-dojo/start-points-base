@@ -25,7 +25,7 @@ test_failure_duplicates()
     '"display_name": "Dup"'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

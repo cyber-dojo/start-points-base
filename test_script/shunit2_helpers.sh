@@ -1,15 +1,19 @@
 
 assert_diagnostic_is()
 {
-  # assert_stdout_equals ''
+  # assert_stdout_empty
+
+  local -r stderr="$(de_warned_cat "${stderrF}")"
   local expected_diagnostic=("$@")
   for expected_line in "${expected_diagnostic[@]}"
   do
-     assert_diagnostic_includes "${expected_line}"
+    if [[ "${stderr}" != *"${expected_line}"* ]]; then
+      dump_sss
+      fail "expected stderr to include '${expected_line}'"
+    fi
   done
-  # local -r stdout="$(de_warned_cat "${stdoutF}")"
-  # local -r length=$(echo "${stdout}" | wc -l | awk '{ print $1 }')
-  # assert_equal ${#expected[@]} "${length}"
+  local -r length=$(echo "${stderr}" | wc -l | awk '{ print $1 }')
+  assertEquals "check-no-of-lines-in-stderr:$(dump_sss)" "${#expected[@]}" "${length}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -17,12 +21,11 @@ assert_diagnostic_is()
 assert_diagnostic_includes()
 {
   local -r includes="${1}"
-  local -r stdout="$(de_warned_cat "${stdoutF}")"
+  #local -r stdout="$(de_warned_cat "${stdoutF}")"
   local -r stderr="$(de_warned_cat "${stderrF}")"
-  local output="${stdout}${stderr}"
-  if [[ "${output}" != *"${includes}"* ]]; then
-    printf "<stdout>\n%s\n</stdout>\n" "${stdout}"
-    printf "<stderr>\n%s\n</stderr>\n" "${stderr}"
+  #local output="${stdout}${stderr}"
+  if [[ "${stderr}" != *"${includes}"* ]]; then
+    dump_sss
     fail "expected output to include ${includes}"
   fi
 }
@@ -118,7 +121,7 @@ dump_stdout()
 {
   echo
   echo '<stdout>'
-  cat "${stdoutF}"
+  de_warned_cat "${stdoutF}"
   echo '</stdout>'
 }
 
@@ -126,7 +129,7 @@ dump_stderr()
 {
   echo
   echo '<stderr>'
-  cat "${stderrF}"
+  de_warned_cat "${stderrF}"
   echo '</stderr>'
 }
 
@@ -134,7 +137,7 @@ dump_status()
 {
   echo
   echo '<status>'
-  cat "${statusF}"
+  de_warned_cat "${statusF}"
   echo '</status>'
 }
 

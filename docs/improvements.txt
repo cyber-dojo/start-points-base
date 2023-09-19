@@ -1,72 +1,28 @@
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-I wonder whether I should make the grep filtering of commander's output of a
-cyber-dojo start-point create ...
-command more robust?
-For example, suppose the error that was printed was not...
-
-#8 0.337 ERROR: bad JSON in manifest.json file
-#8 0.337 --languages file:///Users/jonathonjagger/repos/cyber-dojo/start-points-base/tmp/JcYR8i/languages_bad_json
-#8 0.337 manifest='languages-python-unittest/start_point/manifest.json'
-#8 0.337 unexpected token at 'sdfsdf'
-
-but
-
-#8 0.337 CYBER_DOJO_START_POINT_ERROR: ERROR: bad JSON in manifest.json file
-#8 0.337 CYBER_DOJO_START_POINT_ERROR: --languages file:///Users/jonathonjagger/repos/cyber-dojo/start-points-base/tmp/JcYR8i/languages_bad_json
-#8 0.337 CYBER_DOJO_START_POINT_ERROR: manifest='languages-python-unittest/start_point/manifest.json'
-#8 0.337 CYBER_DOJO_START_POINT_ERROR: unexpected token at 'sdfsdf'
-
-then I could grep only for lines matching CYBER_DOJO_START_POINT_ERROR
-and strip out the prefix of each line...
-
-Should be able to do that by modifying
-app/src/from_script/show_error.rb
-
-  def show_error(title, url, filename, msg = '')
-    stream = STDERR
-    stream.puts("ERROR: #{title}")
-    stream.puts("--#{@type} #{url}")
-    stream.puts("manifest='#{relative(filename)}'")
-    unless msg.empty?
-      stream.puts(msg)
-    end
-    stream.flush
-  end
-
-To something like...
-
-  def show_error(title, url, filename, msg = '')
-    prefix = "CYBER_DOJO_START_POINT_ERROR: "
-    stream = STDERR
-    stream.puts("#{prefix}ERROR: #{title}")
-    stream.puts("#{prefix}--#{@type} #{url}")
-    stream.puts("#{prefix}manifest='#{relative(filename)}'")
-    unless msg.empty?
-      msg.each_line do |line|
-        stream.puts("#{prefix}#{line}")
-      end
-    end
-    stream.flush
-  end
-
-and then commander's start_point_create.sh
-will need to filter the output
-
-The way start_point_create.sh determines the exit-code is fragile.
-It relies on the exit-code being the last output.
-Again, print the exit-code with a known leading Prefix.
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-I think I will need to create a special version of commander with no --quiet
-and no output filtering in the 'docker build' command inside create_start_point.sh
-Then push that to dockerhub
-Then add that to build_fake_versioner_image
-That should give me improved diagnostics...
-
-If this works ... should there be a --verbose flag that you can add to
+Should there be a --verbose flag that you can add to
 $ cyber-dojo start-point create ...
 which controls whether --quiet is added as a flag or not?
 Better still, have an env-var that is automatically passed in?
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+At the moment, when a
+$ cyber-dojo start-point create ...
+command fails, you can get some stdout, eg
+
+  git clone file:///Users/jonathonjagger/repos/cyber-dojo/start-points-base/tmp/h1TP1y/languages_bad_json
+  --languages 	 file:///Users/jonathonjagger/repos/cyber-dojo/start-points-base/tmp/h1TP1y/languages_bad_json
+
+and then you get some stderr, eg
+
+  ERROR: bad JSON in manifest.json file
+  --languages ${tmp_url}
+  manifest='languages-python-unittest/start_point/manifest.json'
+  unexpected token at 'sdfsdf'
+
+It would be better if you only got stderr when there is an error,
+and only got stdout when there is no error.
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

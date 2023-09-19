@@ -18,7 +18,7 @@ test_failure_non_string()
     '"display_name": [1, 2, 3]'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -36,7 +36,7 @@ test_failure_empty_string()
     "manifest='exercises-fizz-buzz/manifest.json'"
     '"display_name": ""'
   )
-  # assert_status_equals "${error_code}" # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

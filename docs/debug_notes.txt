@@ -389,8 +389,10 @@ checker.check_all(root_dir)
 Looks like I'm getting a zero exit code when it should be non-zero
 Yes. This is the old issue of whether the code is from the 'docker run ... X' or fom the X
 https://stackoverflow.com/questions/46300610
-$ docker wait c2c769c4b9ef
-to get exit-code of container c2c769c4b9ef
-or
-$ docker inspect c2c769c4b9ef --format='{{.State.ExitCode}}'
 
+Note there is no --rm in the 'docker container run'
+
+$ local -r rand=$(uuidgen)
+$ docker container run --name=${rand} --entrypoint= --tty cyberdojo/temporary_start_points ruby /app/src/from_script/check_all.rb exercises
+$ exit_code=$(docker inspect ${rand} --format='{{.State.ExitCode}}')
+$ docker container rm ${rand}

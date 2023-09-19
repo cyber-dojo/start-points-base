@@ -17,9 +17,10 @@ test_bad_git_url()
   local -r expected=(
     'ERROR: bad git clone <url>'
     "--custom ${bad_url}"
+    "Cloning into '0'..."
+    "git: 'remote-abc' is not a git command. See 'git --help'."
   )
   assert_diagnostic_is "${expected[@]}"
-  # "fatal: Unable to find remote helper for 'abc'"
   assert_status_equals "${error_code}"
 }
 

@@ -1,43 +1,43 @@
 #!/usr/bin/env bash
 
-readonly error_code=17
+readonly error_code=31
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-test_language_manifest()
+test_failure_non_string()
 {
   local -r image_name="${FUNCNAME[0]}"
-  local -r tmp_url=$(git_repo_url_in_TMP_DIR_from languages_bad_json)
+  local -r tmp_url=$(git_repo_url_in_TMP_DIR_from languages_manifest_has_non_string_display_name)
 
   build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
   local -r expected=(
-    "ERROR: bad JSON in manifest.json file"
+    "ERROR: display_name is not a String"
     "--languages ${tmp_url}"
-    "manifest='languages-python-unittest/start_point/manifest.json'"
-    "unexpected token at 'sdfsdf'"
+    "manifest='languages-csharp-nunit/start_point/manifest.json'"
+    '"display_name": [1, 2, 3]'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-test_exercise_manifest()
+test_failure_empty_string()
 {
   local -r image_name="${FUNCNAME[0]}"
-  local -r tmp_url=$(git_repo_url_in_TMP_DIR_from exercises_bad_json)
+  local -r tmp_url=$(git_repo_url_in_TMP_DIR_from languages_manifest_has_empty_display_name)
 
-  build_start_points_image_exercises "${image_name}" "${tmp_url}"
+  build_start_points_image_languages "${image_name}" "${tmp_url}"
 
   refute_image_created
   local -r expected=(
-    "ERROR: bad JSON in manifest.json file"
-    "--exercises ${tmp_url}"
-    "manifest='exercises-bowling-game/manifest.json'"
-    "unexpected token at 'ggghhhjjj'"
+    "ERROR: display_name cannot be empty String"
+    "--languages ${tmp_url}"
+    "manifest='languages-csharp-nunit/start_point/manifest.json'"
+    '"display_name": ""'
   )
   assert_diagnostic_is "${expected[@]}"
-  # assert_status_equals "${error_code}"  # TODO
+  assert_status_equals "${error_code}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

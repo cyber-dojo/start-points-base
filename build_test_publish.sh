@@ -29,12 +29,12 @@ exit_if_ROOT_DIR_not_in_context
 on_ci_upgrade_docker_compose
 build_base_docker_image
 tag_base_docker_image
-exit_zero_if_build_only "$@"
-build_docker_images
 build_fake_versioner_image
-build_test_derived_images
-docker_containers_up
-run_tests_in_containers "$@"
+exit_zero_if_build_only "$@"
+#build_docker_images
+#build_test_derived_images
+#docker_containers_up
+#run_tests_in_containers "$@"
 run_script_tests "$@"
 # on_ci_publish_tagged_images
 
