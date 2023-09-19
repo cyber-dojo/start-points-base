@@ -345,3 +345,36 @@ Ok. That was because I rebuilt commander first.
 Now I get a different failure...
 ASSERT:status expected:<17> but was:<2>
 Would like to see stdout/stderr for that assert...
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+With set -x in start_point_create.sh getting failure...
+
+#7 [3/3] RUN ruby /app/src/from_script/check_all.rb /app/repos exercises
+#7 0.307 ERROR: bad JSON in manifest.json file
+#7 0.307 --exercises file:///Users/jonathonjagger/repos/cyber-dojo/start-points-base/tmp/J0UQsh/exercises_bad_json
+#7 0.307 manifest='\''exercises-bowling-game/manifest.json'\''
+#7 0.307 unexpected token at '\''ggghhhjjj'\''
+
+This is the diagnostic from check_all.rb
+The test assert has this...
+
+    "ERROR: bad JSON in manifest.json file"
+    "--languages ${tmp_url}"
+    "manifest='languages-python-unittest/start_point/manifest.json'"
+    "unexpected token at 'sdfsdf'"
+
+So the problem is the extra single-quotes...
+
+I think I need to fix that, and then put in the more robust harvesting
+of error messages and exit-code, using known prefix strings.
+
+But I cannot use set-x to force output since start_point_create.sh is
+cat'ed to /tmp and run directly by cyber-dojo root script.
+So it seems like I need a way to do
+    echo "RUN ruby /app/src/from_script/check_all.rb /app/repos $(image_type)"
+that is _not_ inside a Dockerfile.
+A problem with this is that the image _will_ be built.
+So I could build the image with a name including 'tmp' (say)
+Then if the command succeeds, I can tag the image,
+if the command fails, I can remove the image.

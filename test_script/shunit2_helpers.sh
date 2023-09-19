@@ -2,10 +2,10 @@
 assert_diagnostic_is()
 {
   # assert_stdout_equals ''
-  local -r expected=("$@")
-  for line in "${expected[@]}"
+  local expected_diagnostic=("$@")
+  for expected_line in "${expected_diagnostic[@]}"
   do
-     assert_diagnostic_includes "${line}"
+     assert_diagnostic_includes "${expected_line}"
   done
   # local -r stdout="$(de_warned_cat "${stdoutF}")"
   # local -r length=$(echo "${stdout}" | wc -l | awk '{ print $1 }')
@@ -36,7 +36,11 @@ assert_stdout_empty()
 
 assert_stdout_equals()
 {
-  assertEquals stdout "${1}" "$(de_warned_cat "${stdoutF}")"
+  local -r message="stdout:$(dump_sss)"
+  local -r expected="${1}"
+  local -r actual="$(de_warned_cat "${stdoutF}")"
+  assertEquals "${message}" "${expected}" "${actual}"
+
 }
 
 assert_stdout_includes()
@@ -95,7 +99,10 @@ assert_status_0()
 
 assert_status_equals()
 {
-  assertEquals "status:$(dump_sss)" "${1}" "$(cat "${statusF}")"
+  local -r message="status:$(dump_sss)"
+  local -r expected="${1}"
+  local -r actual="$(cat "${statusF}")"
+  assertEquals "${message}" "${expected}" "${actual}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -109,6 +116,7 @@ dump_sss()
 
 dump_stdout()
 {
+  echo
   echo '<stdout>'
   cat "${stdoutF}"
   echo '</stdout>'
@@ -116,6 +124,7 @@ dump_stdout()
 
 dump_stderr()
 {
+  echo
   echo '<stderr>'
   cat "${stderrF}"
   echo '</stderr>'
@@ -123,6 +132,7 @@ dump_stderr()
 
 dump_status()
 {
+  echo
   echo '<status>'
   cat "${statusF}"
   echo '</status>'
