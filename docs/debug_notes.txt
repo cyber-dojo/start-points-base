@@ -396,3 +396,23 @@ $ local -r rand=$(uuidgen)
 $ docker container run --name=${rand} --entrypoint= --tty cyberdojo/temporary_start_points ruby /app/src/from_script/check_all.rb exercises
 $ exit_code=$(docker inspect ${rand} --format='{{.State.ExitCode}}')
 $ docker container rm ${rand}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+All passing on CI except test_script/test_help_message.sh
+It gives...
+<stderr>
+./start-point-create.sh: line 21: ORG: unbound variable
+</stderr>
+
+Searching for ORG in commander; found it
+app/sh/start-point-create.sh
+56:    ORG=https://raw.githubusercontent.com/cyber-dojo
+61:          \$(curl --silent ${ORG}/${REPO}/master/start-points/git_repo_urls.all.tagged)
+
+This is from the example help text.
+Think it is the
+  cat <<- EOF
+  ...
+EOF
+the EOF needs to be single-quoted
