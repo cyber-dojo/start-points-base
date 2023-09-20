@@ -136,11 +136,14 @@ build_test_languages_image()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 assert_base_sha_equal()
 {
-  local -r IMAGE_BASE_SHA=$(docker run --rm $(test_image_name)-$2 sh -c 'echo -n ${BASE_SHA}')
-  if [ "${1}" != "${IMAGE_BASE_SHA}" ]; then
+  local -r expected="${1}"
+  local -r type="${2}"
+  local -r IMAGE_BASE_SHA=$(docker run --rm $(test_image_name)-${type} sh -c 'echo -n ${BASE_SHA}')
+
+  if [ "${expected}" != "${IMAGE_BASE_SHA}" ]; then
     echo ERROR
-    echo "BASE_SHA=${1} cyberdojo/start-points-base:latest"
-    echo "BASE_SHA=${IMAGE_BASE_SHA} $(test_image_name)-$2"
+    echo "BASE_SHA=${expected} from cyberdojo/start-points-base:latest"
+    echo "BASE_SHA=${IMAGE_BASE_SHA} from $(test_image_name)-${type}"
     exit 42
   fi
 }
@@ -148,7 +151,7 @@ assert_base_sha_equal()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_test_derived_images()
 {
-  readonly BASE_SHA=$(cd "$(root_dir)" && git rev-parse HEAD)
+  readonly BASE_SHA=$(git_commit_sha)
 
   build_image_which_creates_test_data_git_repos
 

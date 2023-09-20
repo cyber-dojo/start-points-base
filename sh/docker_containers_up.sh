@@ -7,8 +7,7 @@ ip_address()
   echo localhost
 }
 
-readonly IP_ADDRESS=$(ip_address)
-
+# - - - - - - - - - - - - - - - - - - - -
 curl_output_path()
 {
   echo /tmp/curl-probe
@@ -19,7 +18,7 @@ curl_cmd()
 {
   local -r port="${1}"
   local -r path="${2}"
-  local -r cmd="curl --output $(curl_output_path) --silent --fail -X GET http://${IP_ADDRESS}:${port}/${path}"
+  local -r cmd="curl --output $(curl_output_path) --silent --fail -X GET http://$(ip_address):${port}/${path}"
   if ${cmd} && [ "$(cat "$(curl_output_path)")" == '{"ready?":true}' ]; then
     true
   else

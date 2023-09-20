@@ -12,3 +12,10 @@ git_commit_sha()
 {
   cd "$(root_dir)" && git rev-parse HEAD
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+image_tag()
+{
+  local -r sha="$(git_commit_sha)"
+  echo "${sha:0:7}"
+}

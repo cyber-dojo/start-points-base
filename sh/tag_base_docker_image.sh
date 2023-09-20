@@ -3,18 +3,13 @@ set -Eeu
 
 tag_base_docker_image()
 {
-  local -r image="$(image_name)"
-  local -r sha="$(git_commit_sha)"
-  local -r tag="${sha:0:7}"
-  docker tag "${image}:latest" "${image}:${tag}"
+  docker tag "$(image_name):latest" "$(image_name):$(image_tag)"
   if on_ci; then
     echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
   fi
-  docker push "${image}:${tag}"
+  docker push "$(image_name):$(image_tag)"
   if on_ci; then
     docker logout
   fi
-  echo "${sha}"
-  echo "${tag}"
 }
 
