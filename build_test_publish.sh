@@ -50,5 +50,5 @@ run_script_tests "$@"
 #     a new .env file with the new values of
 #     CYBER_DOJO_START_POINTS_BASE_SHA
 #     CYBER_DOJO_START_POINTS_BASE_TAG
-#   - build a new versioner
+#   - publish a new versioner:latest
 #   - force rebuild the dependents
