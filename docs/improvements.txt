@@ -1,8 +1,4 @@
 
-Rename default branch to main
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 Protect main branch.
 See message at top of https://github.com/cyber-dojo/start-points-base
 
