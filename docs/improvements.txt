@@ -3,6 +3,11 @@ Rename default branch to main
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+Protect main branch.
+See message at top of https://github.com/cyber-dojo/start-points-base
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 Should there be a --verbose flag that you can add to
 $ cyber-dojo start-point create ...
 which controls whether --quiet is added as a flag or not?
