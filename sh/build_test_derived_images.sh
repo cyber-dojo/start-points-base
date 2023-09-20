@@ -2,6 +2,7 @@
 set -Eeu
 
 declare -a TMP_DIRs=()
+
 remove_TMP_DIRS()
 {
   for tmp_dir in "${TMP_DIRS[@]}"; do
@@ -14,7 +15,7 @@ trap remove_TMP_DIRS INT EXIT
 
 make_tmp_dir()
 {
-  # Must be off ROOT_DIR so docker-context is mounted into default VM
+  # Must be off root_dir so docker-context is mounted into default VM
   [ -d "$(root_dir)/tmp" ] || mkdir "$(root_dir)/tmp"
   local -r tmp_dir=$(mktemp -d "$(root_dir)/tmp/XXXXXX")
   TMP_DIRS+=("${tmp_dir}")
@@ -22,25 +23,18 @@ make_tmp_dir()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-exit_if_ROOT_DIR_not_in_context()
+exit_non_zero_unless_root_dir_in_context()
 {
   if on_Mac; then
     local -r repo_root=$(root_dir)
     if [ "${repo_root:0:6}" != '/Users' ]; then
-      >&2 echo 'ERROR'
-      >&2 echo "This script lives off ${ROOT_DIR}"
-      >&2 echo 'It must live off /Users so the docker-context'
-      >&2 echo "is automatically volume-mounted"
+      echo_stderr 'ERROR'
+      echo_stderr "This script lives off $(root_dir)"
+      echo_stderr 'It must live off /Users so the docker-context'
+      echo_stderr "is automatically volume-mounted"
       exit 1
     fi
   fi
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
-on_Mac()
-{
-  # detect OS from bash: https://stackoverflow.com/questions/394230
-  [[ "$OSTYPE" == "darwin"* ]]
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -48,12 +42,6 @@ build_image_which_creates_test_data_git_repos()
 {
   # This builds cyberdojo/create-start-points-test-data
   "$(root_dir)/test_data/build_docker_image.sh"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
-on_ci()
-{
-  [ -n "${CI}" ]
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

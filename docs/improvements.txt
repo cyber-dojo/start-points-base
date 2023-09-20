@@ -22,7 +22,7 @@ and then you get some stderr, eg
   ERROR: bad JSON in manifest.json file
   --languages ${tmp_url}
   manifest='languages-python-unittest/start_point/manifest.json'
-  unexpected token at 'sdfsdf'
+  744: unexpected token at 'sdfsdf'
 
 Would it be better if you only got stderr when there is an error,
 and only got stdout when there is no error?

@@ -6,17 +6,16 @@ sh_dir() { echo "$(root_dir)/sh"; }
 export -f root_dir
 rm -rf "$(root_dir)/tmp" && mkdir "$(root_dir)/tmp"
 
-source "$(sh_dir)/versioner_env_vars.sh"
-export $(versioner_env_vars)
-
+. "$(sh_dir)/lib.sh"
+. "$(sh_dir)/config.sh"
 . "$(sh_dir)/exit_non_zero_unless_installed.sh"
 . "$(sh_dir)/on_ci_upgrade_docker_compose.sh"
+. "$(sh_dir)/build_fake_versioner_image.sh"
+. "$(sh_dir)/echo_versioner_env_vars.sh"
 . "$(sh_dir)/build_base_docker_image.sh"
 . "$(sh_dir)/tag_base_docker_image.sh"
 . "$(sh_dir)/exit_zero_if_build_only.sh"
 . "$(sh_dir)/build_docker_images.sh"
-trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
-. "$(sh_dir)/build_fake_versioner_image.sh"
 . "$(sh_dir)/build_test_derived_images.sh"
 . "$(sh_dir)/docker_containers_up.sh"
 . "$(sh_dir)/run_tests_in_containers.sh"
@@ -24,11 +23,15 @@ trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
 . "$(sh_dir)/on_ci_publish_tagged_images.sh"
 
 exit_non_zero_unless_installed docker docker-compose
-exit_if_ROOT_DIR_not_in_context
+exit_non_zero_unless_root_dir_in_context
 on_ci_upgrade_docker_compose
+
+build_fake_versioner_image
+trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
+export $(echo_versioner_env_vars)
+
 build_base_docker_image
 tag_base_docker_image
-build_fake_versioner_image
 exit_zero_if_build_only "$@"
 build_docker_images
 build_test_derived_images

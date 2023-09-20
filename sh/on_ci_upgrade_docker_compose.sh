@@ -1,5 +1,4 @@
 
-# - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci_upgrade_docker_compose()
 {
   echo

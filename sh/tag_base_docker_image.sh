@@ -1,19 +1,6 @@
 #!/usr/bin/env bash
 set -Eeu
 
-# - - - - - - - - - - - - - - - - - - - - - - - -
-git_commit_sha()
-{
-  echo $(cd "$(root_dir)" && git rev-parse HEAD)
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
-image_name()
-{
-  echo "${CYBER_DOJO_START_POINTS_BASE_IMAGE}"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
 tag_base_docker_image()
 {
   local -r image="$(image_name)"

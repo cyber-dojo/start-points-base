@@ -20,18 +20,6 @@ on_ci_publish_tagged_images()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-on_ci()
-{
-  [ -n "${CI:-}" ]
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
-image_name()
-{
-  echo "${CYBER_DOJO_START_POINTS_BASE_IMAGE}"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
 image_sha()
 {
   docker run --rm "$(image_name)" sh -c 'printf ${BASE_SHA}'

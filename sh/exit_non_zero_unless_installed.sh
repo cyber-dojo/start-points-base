@@ -3,7 +3,7 @@ exit_non_zero_unless_installed()
 {
   for tool in "$@"; do
     if ! installed "${tool}" ; then
-      stderr "ERROR: ${tool} is not installed!"
+      echo_stderr "ERROR: ${tool} is not installed!"
       exit 42
     fi
   done
@@ -16,9 +16,4 @@ installed()
   else
     false
   fi
-}
-
-stderr()
-{
-  >&2 echo "${1}"
 }
