@@ -34,12 +34,12 @@ build_fake_versioner_image()
   env_vars=$(replace_with "${env_vars}" "${spb_tag_var_name}" "${spb_fake_tag}")
 
   # For debugging; there is a circular dependency on commander
-  local -r comm_sha_var_name=CYBER_DOJO_COMMANDER_SHA
-  local -r comm_tag_var_name=CYBER_DOJO_COMMANDER_TAG
-  local -r comm_fake_sha="b9a5eb34d952fb04f1292d6a2eaa36a3dc3e1f4f"
-  local -r comm_fake_tag="${comm_fake_sha:0:7}"
-  env_vars=$(replace_with "${env_vars}" "${comm_sha_var_name}" "${comm_fake_sha}")
-  env_vars=$(replace_with "${env_vars}" "${comm_tag_var_name}" "${comm_fake_tag}")
+  #  local -r comm_sha_var_name=CYBER_DOJO_COMMANDER_SHA
+  #  local -r comm_tag_var_name=CYBER_DOJO_COMMANDER_TAG
+  #  local -r comm_fake_sha="b9a5eb34d952fb04f1292d6a2eaa36a3dc3e1f4f"
+  #  local -r comm_fake_tag="${comm_fake_sha:0:7}"
+  #  env_vars=$(replace_with "${env_vars}" "${comm_sha_var_name}" "${comm_fake_sha}")
+  #  env_vars=$(replace_with "${env_vars}" "${comm_tag_var_name}" "${comm_fake_tag}")
 
   echo "${env_vars}" > ${TMP_DIR}/.env
   local -r fake_image=cyberdojo/versioner:latest
@@ -71,13 +71,13 @@ build_fake_versioner_image()
   assert_equal "${expected}" "${actual}" CYBERDOJO_START_POINTS_BASE_TAG
 
   # CYBER_DOJO_COMMANDER
-  expected="${comm_sha_var_name}=${comm_fake_sha}"
-  actual=$(docker run --rm "${fake_image}" | grep "${comm_sha_var_name}")
-  assert_equal "${expected}" "${actual}" CYBER_DOJO_COMMANDER_SHA
-
-  expected="${comm_tag_var_name}=${comm_fake_tag}"
-  actual=$(docker run --rm "${fake_image}" | grep "${comm_tag_var_name}")
-  assert_equal "${expected}" "${actual}" CYBER_DOJO_COMMANDER_TAG
+  #  expected="${comm_sha_var_name}=${comm_fake_sha}"
+  #  actual=$(docker run --rm "${fake_image}" | grep "${comm_sha_var_name}")
+  #  assert_equal "${expected}" "${actual}" CYBER_DOJO_COMMANDER_SHA
+  #
+  #  expected="${comm_tag_var_name}=${comm_fake_tag}"
+  #  actual=$(docker run --rm "${fake_image}" | grep "${comm_tag_var_name}")
+  #  assert_equal "${expected}" "${actual}" CYBER_DOJO_COMMANDER_TAG
 
   # RELEASE
   expected=RELEASE='999.999.999'
