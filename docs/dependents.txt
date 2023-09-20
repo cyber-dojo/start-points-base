@@ -1,0 +1,12 @@
+
+Dependents of start-points-base are:
+  custom-start-points
+  exercises-start-points
+  languages-start-points
+To update these
+  - update cyberdojo/versioner with
+    a new .env file with the new values of
+    CYBER_DOJO_START_POINTS_BASE_SHA
+    CYBER_DOJO_START_POINTS_BASE_TAG
+  - publish a new versioner:latest
+  - force rebuild the dependents
