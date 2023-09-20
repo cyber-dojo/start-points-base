@@ -18,20 +18,6 @@ assert_diagnostic_is()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-assert_diagnostic_includes()
-{
-  local -r includes="${1}"
-  #local -r stdout="$(de_warned_cat "${stdoutF}")"
-  local -r stderr="$(de_warned_cat "${stderrF}")"
-  #local output="${stdout}${stderr}"
-  if [[ "${stderr}" != *"${includes}"* ]]; then
-    dump_sss
-    fail "expected output to include ${includes}"
-  fi
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 assert_stdout_empty()
 {
   assert_stdout_equals ''
