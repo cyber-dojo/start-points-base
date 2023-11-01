@@ -1,4 +1,4 @@
-FROM cyberdojo/ruby-base:d945333
+FROM cyberdojo/ruby-base:0644024
 LABEL maintainer=jon@jaggersoft.com
 
 RUN apk --update --upgrade add git

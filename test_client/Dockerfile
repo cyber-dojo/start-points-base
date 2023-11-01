@@ -1,4 +1,4 @@
-FROM cyberdojo/docker-base:0b9a792
+FROM cyberdojo/docker-base:103fe8d
 LABEL maintainer=jon@jaggersoft.com
 
 COPY --chown=nobody:nogroup . /app
