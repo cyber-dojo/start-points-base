@@ -146,7 +146,7 @@ The manifest for the given name.
   ```json
     { "manifest": {
         "display_name": "C#, NUNit",
-        "image_name": "cyberdojofoundation/csharp_nunit",
+        "image_name": "cyberdojofoundation/csharp_nunit:1452bb7",
         "filename_extension": [ ".cs" ],
         "visible_files": {
           "Hiker.cs": {               
@@ -177,9 +177,9 @@ The image_names from all manifests.
   * eg
   ```json
     { "image_names": [
-        "cyberdojofoundation/csharp_nunit",
-        "cyberdojofoundation/python_unittest",
-        "cyberdojofoundation/ruby_mini_test"
+        "cyberdojofoundation/csharp_nunit:1452bb7",
+        "cyberdojofoundation/python_unittest:51c7d93",
+        "cyberdojofoundation/ruby_mini_test:a074c0a"
       ]
     }
   ```
