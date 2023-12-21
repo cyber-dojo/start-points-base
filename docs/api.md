@@ -95,7 +95,6 @@
         "max_seconds": 10,
         "tab_size": 4,
         "visible_files": {}
-        }
       },
       "C++ (g++), GoogleMock": {
         "image_name": "cyberdojofoundation/gpp_googlemock:129f26f",
@@ -104,7 +103,6 @@
         "max_seconds": 15,
         "tab_size": 4,
         "visible_files": {}
-        }
       },
       "Java 21, JUnit 5": {
         "image_name": "cyberdojofoundation/java_junit:edf2565",
