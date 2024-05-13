@@ -74,7 +74,7 @@ clean_top_5()
   # FROM cyberdojo/docker-base:0b9a792
 
   local -r L1="Puma starting in single mode..."
-  local -r L2='* Puma version: 6.4.2 (ruby 3.3.0-p0) ("The Eagle of Durango")'
+  local -r L2='* Puma version: 6.4.2 (ruby 3.3.1-p55) ("The Eagle of Durango")'
   local -r L3="*  Min threads: 0"
   local -r L4="*  Max threads: 5"
   local -r L5="*  Environment: production"
