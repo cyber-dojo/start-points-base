@@ -14,5 +14,8 @@ set -Eeu
 readonly READY_LOG_FILENAME=/tmp/ready.log
 
 wget http://0.0.0.0:${PORT}/ready -q -O - >> "${READY_LOG_FILENAME}" 2>&1
+echo >> "${READY_LOG_FILENAME}"  # add a newline
 
-sed -i '501,$ d' "${READY_LOG_FILENAME}"
+# keep only most recent 500 lines
+tail -n500 "${READY_LOG_FILENAME}" > "${READY_LOG_FILENAME}.tmp"
+mv "${READY_LOG_FILENAME}.tmp" "${READY_LOG_FILENAME}"
