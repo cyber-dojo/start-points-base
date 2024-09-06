@@ -100,7 +100,7 @@ echo_docker_log()
 docker_containers_up()
 {
   echo
-  docker-compose \
+  docker compose \
     --file "$(root_dir)/docker-compose.yml" \
     up \
     --detach  \

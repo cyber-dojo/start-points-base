@@ -3,7 +3,7 @@ set -Eeu
 
 build_docker_images()
 {
-  docker-compose \
+  docker compose \
     --file "$(root_dir)/docker-compose.yml" \
     build
 }

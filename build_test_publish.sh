@@ -9,7 +9,7 @@ for script in "$(root_dir)/sh"/*.sh; do
   source "${script}"
 done
 
-exit_non_zero_unless_installed docker docker-compose
+exit_non_zero_unless_installed docker
 exit_non_zero_unless_root_dir_in_context
 on_ci_upgrade_docker_compose
 

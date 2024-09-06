@@ -9,7 +9,7 @@ sh_dir() { echo "$(root_dir)/sh"; }
 
 run_demo()
 {
-  docker-compose \
+  docker compose \
     --file "$(root_dir)/docker-compose.yml" \
     up \
     --detach  \
