@@ -6,12 +6,12 @@ export -f root_dir
 rm -rf "$(root_dir)/tmp" && mkdir "$(root_dir)/tmp"
 
 for script in "$(root_dir)/sh"/*.sh; do
-  source "${script}"
+  #source "${script}"
 done
 
 exit_non_zero_unless_installed docker
 exit_non_zero_unless_root_dir_in_context
-on_ci_upgrade_docker_compose
+#on_ci_upgrade_docker_compose
 
 build_fake_versioner_image
 trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
