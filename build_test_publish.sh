@@ -11,7 +11,6 @@ done
 
 exit_non_zero_unless_installed docker
 exit_non_zero_unless_root_dir_in_context
-#on_ci_upgrade_docker_compose
 
 build_fake_versioner_image
 trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
