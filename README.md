@@ -2,9 +2,9 @@
 [![Github Action (main)](https://github.com/cyber-dojo/start-points-base/actions/workflows/main.yml/badge.svg)](https://github.com/cyber-dojo/start-points-base/actions)
 
 The source for the [cyberdojo/start-points-base](https://hub.docker.com/r/cyberdojo/start-points-base) docker image.
-The  image is built in its CI workflow, and is the base image for start-point images created
+The image is built in its CI workflow, and is the base image for start-point images created
 with the cyber-dojo script (as described below). A newly built start-points-base image only becomes "live" 
-after a subsequent update to the [cyberdojo/versioner](https://github.com/cyber-dojo/versioner) image.
+after a subsequent update to the [cyberdojo/versioner:latest](https://github.com/cyber-dojo/versioner) image.
 
 
 * You use the $[cyber-dojo](https://github.com/cyber-dojo/commander/blob/master/cyber-dojo) ```start-point create ...``` command to create your own start-point images.
