@@ -15,7 +15,7 @@ test_language_manifest()
     "ERROR: bad JSON in manifest.json file"
     "--languages ${tmp_url}"
     "manifest='languages-python-unittest/start_point/manifest.json'"
-    "unexpected token at 'sdfsdf'"
+    "unexpected character at 'sdfsdf'"
   )
   assert_diagnostic_is "${expected[@]}"
   assert_status_equals "${error_code}"
@@ -34,7 +34,7 @@ test_exercise_manifest()
     "ERROR: bad JSON in manifest.json file"
     "--exercises ${tmp_url}"
     "manifest='exercises-bowling-game/manifest.json'"
-    "unexpected token at 'ggghhhjjj'"
+    "unexpected character at 'ggghhhjjj'"
   )
   assert_diagnostic_is "${expected[@]}"
   assert_status_equals "${error_code}"
