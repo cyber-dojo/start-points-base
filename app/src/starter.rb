@@ -19,9 +19,9 @@ class Starter
     ENV['SHA'] || ENV['BASE_SHA']
   end
 
-  def base_image
-    ENV['BASE_IMAGE']
-  end
+#   def base_image
+#     ENV['BASE_IMAGE']
+#   end
 
   attr_reader :names, :manifests
 
