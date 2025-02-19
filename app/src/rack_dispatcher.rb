@@ -37,9 +37,10 @@ class RackDispatcher
   def validated_name_args(method_name, body)
     @args = json_parse(body)
     args = case method_name
-      when /^sha$/            then []
       when /^alive$/          then []
       when /^ready$/          then []
+      when /^sha$/            then []
+      when /^base_image$/     then []
       when /^image_names$/    then []
       when /^names$/          then []
       when /^manifests$/      then []

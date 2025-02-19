@@ -1,4 +1,4 @@
-FROM cyberdojo/sinatra-base:db948c1
+FROM cyberdojo/sinatra-base:97cbc87@sha256:fcd7994b7d6c2a7545bbaf99367d874f060f999e0257cb03528bfe0d0e446cb2
 LABEL maintainer=jon@jaggersoft.com
 
 WORKDIR /app

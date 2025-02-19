@@ -7,16 +7,20 @@ class Starter
     @manifests = read_manifests
   end
 
-  def sha
-    ENV['SHA'] || ENV['BASE_SHA']
-  end
-
   def alive?
     true
   end
 
   def ready?
     true
+  end
+
+  def sha
+    ENV['SHA'] || ENV['BASE_SHA']
+  end
+
+  def base_image
+    ENV['BASE_IMAGE']
   end
 
   attr_reader :names, :manifests
@@ -48,8 +52,6 @@ class Starter
     display_names.sort
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
-
   def read_manifests
     manifests = {}
     pattern = "#{start_points_dir}/**/manifest.json"
@@ -71,13 +73,9 @@ class Starter
     manifests
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
-
   def start_points_dir
     '/app/repos'
   end
-
-  # - - - - - - - - - - - - - - - - - - - -
 
   def error(name, diagnostic)
     raise ArgumentError.new("#{name}:#{diagnostic}")
