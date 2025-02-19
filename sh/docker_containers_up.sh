@@ -1,19 +1,16 @@
 #!/usr/bin/env bash
 set -Eeu
 
-# - - - - - - - - - - - - - - - - - - - -
 ip_address()
 {
   echo localhost
 }
 
-# - - - - - - - - - - - - - - - - - - - -
 curl_output_path()
 {
   echo /tmp/curl-probe
 }
 
-# - - - - - - - - - - - - - - - - - - - -
 curl_cmd()
 {
   local -r port="${1}"
@@ -26,7 +23,6 @@ curl_cmd()
   fi
 }
 
-# - - - - - - - - - - - - - - - - - - - -
 wait_until_ready()
 {
   local -r name="${1}"
@@ -52,7 +48,6 @@ wait_until_ready()
   exit 1
 }
 
-# - - - - - - - - - - - - - - - - - - - -
 exit_unless_clean()
 {
   local -r container_name="${1}"
@@ -74,8 +69,8 @@ clean_top_5()
   # FROM cyberdojo/docker-base:db948c1
 
   local -r L1="Puma starting in single mode..."
-  local -r L2='* Puma version: 6.5.0 ("Sky'"'"'s Version")'
-  local -r L3='* Ruby version: ruby 3.3.6 (2024-11-05 revision 75015d4c1f) [x86_64-linux-musl]'
+  local -r L2='* Puma version: 6.6.0 ("Return to Forever")'
+  local -r L3='* Ruby version: ruby 3.3.7 (2025-01-15 revision be31f993d7) [x86_64-linux-musl]'
   local -r L4="*  Min threads: 0"
   local -r L5="*  Max threads: 5"
   #
@@ -83,7 +78,6 @@ clean_top_5()
   echo "${top5}"
 }
 
-# - - - - - - - - - - - - - - - - - - - -
 echo_docker_log()
 {
   local -r container_name="${1}"
@@ -94,8 +88,6 @@ echo_docker_log()
   echo "</docker_log>"
   printf '\n'
 }
-
-# - - - - - - - - - - - - - - - - - - - -
 
 docker_containers_up()
 {
