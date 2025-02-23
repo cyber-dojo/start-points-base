@@ -47,7 +47,7 @@ class RackDispatcherTest < TestBase
   # - - - - - - - - - - - - - - - - -
 
   test 'BB3',
-  %w( treat '' as {} for kubernetes liveness/readyness http probes ) do
+  %w( treat '' as {} for liveness/readyness http probes ) do
     body,stderr = assert_rack_call_raw(200, 'ready', '')
     assert_equal({}, stderr)
     assert_equal({"ready?"=> true}, body)
