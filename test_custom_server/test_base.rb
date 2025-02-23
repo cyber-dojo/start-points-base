@@ -23,6 +23,12 @@ class TestBase < HexMiniTest
     assert_rack_call_raw(status, 'sha', '{}')
   end
 
+  # :nocov:
+  def base_image(status)
+    assert_rack_call_raw(status, 'base_image', '{}')
+  end
+  # :nocov:
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def names(status)

@@ -8,18 +8,6 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '190', %w( sha looks like a sha ) do
-    body,stderr = sha(200)
-    assert_equal({}, stderr)
-    sha = body['sha']
-    assert_equal 40, sha.size, body
-    sha.each_char do |ch|
-      assert "0123456789abcdef".include?(ch)
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
   test '601', %w( its alive  ) do
     body,stderr = alive?(200)
     assert_equal({}, stderr)
@@ -34,6 +22,18 @@ class ApiTest < TestBase
     assert_equal({}, stderr)
     result = body['ready?']
     assert_equal true, result, body
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '190', %w( sha looks like a sha ) do
+    body,stderr = sha(200)
+    assert_equal({}, stderr)
+    sha = body['sha']
+    assert_equal 40, sha.size, body
+    sha.each_char do |ch|
+      assert "0123456789abcdef".include?(ch)
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
