@@ -16,12 +16,14 @@ class Starter
   end
 
   def sha
-    ENV['SHA'] || ENV['BASE_SHA']
+    ENV['SHA']
   end
 
+  # :nocov:
   def base_image
     ENV['BASE_IMAGE']
   end
+  # :nocov:
 
   attr_reader :names, :manifests
 

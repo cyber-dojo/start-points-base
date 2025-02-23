@@ -28,10 +28,10 @@ exit_non_zero_unless_root_dir_in_context()
   if on_Mac; then
     local -r repo_root=$(root_dir)
     if [ "${repo_root:0:6}" != '/Users' ]; then
-      echo_stderr 'ERROR'
-      echo_stderr "This script lives off $(root_dir)"
-      echo_stderr 'It must live off /Users so the docker-context'
-      echo_stderr "is automatically volume-mounted"
+      stderr 'ERROR'
+      stderr "This script lives off $(root_dir)"
+      stderr 'It must live off /Users so the docker-context'
+      stderr "is automatically volume-mounted"
       exit 1
     fi
   fi
@@ -135,16 +135,18 @@ build_test_languages_image()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-assert_base_sha_equal()
+assert_sha_equal()
 {
-  local -r expected="${1}"
-  local -r type="${2}"
-  local -r IMAGE_BASE_SHA=$(docker run --rm $(test_image_name)-${type} sh -c 'echo -n ${BASE_SHA}')
+  local -r expected="${1}"  # the git-commit-sha that built the start-points-base image
+  local -r type="${2}"      # eg custom
+  local -r base_image="$(docker run --rm $(test_image_name)-${type} sh -c 'echo -n ${BASE_IMAGE}')"
+  local -r actual="$(docker run --rm "${base_image}" sh -c 'echo -n ${SHA}')"
 
-  if [ "${expected}" != "${IMAGE_BASE_SHA}" ]; then
-    echo ERROR
-    echo "BASE_SHA=${expected} from cyberdojo/start-points-base:latest"
-    echo "BASE_SHA=${IMAGE_BASE_SHA} from $(test_image_name)-${type}"
+  if [ "${expected}" != "${actual}" ]; then
+    stderr ERROR
+    stderr "BASE_IMAGE=${base_image} from $(test_image_name)-${type}"
+    stderr "SHA=${expected} from cyberdojo/start-points-base:latest"
+    stderr "SHA=${actual} from BASE_IMAGE of $(test_image_name)-${type}"
     exit 42
   fi
 }
@@ -152,16 +154,16 @@ assert_base_sha_equal()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_test_derived_images()
 {
-  readonly BASE_SHA=$(git_commit_sha)
+  readonly SHA=$(git_commit_sha)
 
   build_image_which_creates_test_data_git_repos
 
   build_test_custom_image
-  assert_base_sha_equal "${BASE_SHA}" custom
+  assert_sha_equal "${SHA}" custom
 
   build_test_exercises_image
-  assert_base_sha_equal "${BASE_SHA}" exercises
+  assert_sha_equal "${SHA}" exercises
 
   build_test_languages_image
-  assert_base_sha_equal "${BASE_SHA}" languages
+  assert_sha_equal "${SHA}" languages
 }

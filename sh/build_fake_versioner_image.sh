@@ -6,18 +6,18 @@ remove_TMP_DIR() { rm -rf "${TMP_DIR} > /dev/null"; }
 trap remove_TMP_DIR INT EXIT
 
 # Other cyber-dojo repos overwrite specific cyberdojo/versioner env-vars
-# by having an echo_versioner_env_vars function that runs cyberdojo/versioner
+# by having an echo_env_vars function that runs cyberdojo/versioner
 # and then overwrites the env-vars that need to be stubbed with trailing
 # explicit echo statements. Then they set all the env-vars by doing a:
-#   $ export $(echo_versioner_env_vars)
-# Eg, see https://github.com/cyber-dojo/web/blob/main/sh/echo_versioner_env_vars.sh
+#   $ export $(echo_env_vars)
+# Eg, see https://github.com/cyber-dojo/web/blob/main/sh/echo_env_vars.sh
 #
 # We can't do that for the this repo because this repo's tests
 # make calls to commander's top-level cyberdojo script, to run
 #   $ cyber-dojo start-point create <NAME> --custom <URL>...
 # and commander's /app/sh/cat-start-point-create.sh does a
 #   $ readonly ENV_VARS="$(docker run --entrypoint=cat --rm cyberdojo/versioner:latest /app/.env)"
-# and we need that cyberdojo/versioner:latest to be the fake one
+# so we need that cyberdojo/versioner:latest to be the fake one
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_fake_versioner_image()
@@ -45,11 +45,11 @@ build_fake_versioner_image()
   local -r fake_image=cyberdojo/versioner:latest
   {
     echo 'FROM alpine:latest'
-    echo 'COPY . /app'
     echo 'ARG SHA'
     echo 'ENV SHA=${SHA}'
     echo 'ARG RELEASE'
     echo 'ENV RELEASE=${RELEASE}'
+    echo 'COPY . /app'
     echo 'ENTRYPOINT [ "cat", "/app/.env" ]'
   } > ${TMP_DIR}/Dockerfile
 

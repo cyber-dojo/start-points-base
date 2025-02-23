@@ -22,6 +22,6 @@ on_ci_publish_tagged_images()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 image_sha()
 {
-  docker run --rm "$(image_name)" sh -c 'printf ${BASE_SHA}'
+  docker run --rm "$(image_name)" sh -c 'printf ${SHA}'
 }
 

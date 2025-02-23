@@ -40,7 +40,9 @@ class RackDispatcher
       when /^alive$/          then []
       when /^ready$/          then []
       when /^sha$/            then []
+      # :nocov:
       when /^base_image$/     then []
+      # :nocov:
       when /^image_names$/    then []
       when /^names$/          then []
       when /^manifests$/      then []
