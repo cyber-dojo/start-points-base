@@ -1,4 +1,4 @@
-FROM cyberdojo/sinatra-base:97cbc87@sha256:fcd7994b7d6c2a7545bbaf99367d874f060f999e0257cb03528bfe0d0e446cb2
+FROM cyberdojo/sinatra-base:759c4e9@sha256:d5f87f343a9f88a598b810c0f02b81db0bb67319701a956aec3577cbd51c1c24
 LABEL maintainer=jon@jaggersoft.com
 
 ARG SHA
