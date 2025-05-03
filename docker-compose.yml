@@ -28,7 +28,7 @@ services:
     user: nobody
     image: cyberdojo/test-custom
     build:
-      context: app
+      context: .
     container_name: test-custom-server
     read_only: true
     restart: 'no'
@@ -45,7 +45,7 @@ services:
     user: nobody
     image: cyberdojo/test-exercises
     build:
-      context: app
+      context: .
     container_name: test-exercises-server
     read_only: true
     restart: 'no'
@@ -62,7 +62,7 @@ services:
     user: nobody
     image: cyberdojo/test-languages
     build:
-      context: app
+      context: .
     container_name: test-languages-server
     read_only: true
     restart: 'no'
