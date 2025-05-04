@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-readonly error_code=5
+readonly error_code=3
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_bad_git_url()
