@@ -17,7 +17,7 @@ trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
 export $(echo_env_vars)
 
 build_base_docker_image          # Builds  cyberdojo/start-points-base:latest
-tag_base_docker_image            # Tags to cyberdojo/start-points-base:TAG (based on short-sha) and does docker push
+tag_base_docker_image            # Tags to cyberdojo/start-points-base:TAG (based on short-sha)
 exit_zero_if_build_only "$@"
 
 build_docker_images
@@ -25,4 +25,3 @@ build_test_derived_images
 docker_containers_up
 run_tests_in_containers "$@"
 run_script_tests "$@"
-on_ci_publish_tagged_images

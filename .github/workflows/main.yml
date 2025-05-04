@@ -17,6 +17,11 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
 
-      - name: Build Test Publish
+      - name: Build and Test
         run:
-          ./build_test_publish.sh
+          ./build_test.sh
+
+      - name: Publish
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run:
+          ./publish.sh
