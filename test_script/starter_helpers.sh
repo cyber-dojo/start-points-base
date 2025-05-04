@@ -61,7 +61,8 @@ cyber_dojo()
 #- - - - - - - - - - - - - - - - - - - - - - -
 make_tmp_dir()
 {
-  local -r tmp_dir=$(mktemp -d "/tmp/XXXXXX")
+  # Must be off root_dir so docker-context is mounted into default VM
+  local -r tmp_dir=$(mktemp -d "$(root_dir)/tmp/XXXXXX")
   TMP_DIRS+=("${tmp_dir}")
   echo "${tmp_dir}"
 }
