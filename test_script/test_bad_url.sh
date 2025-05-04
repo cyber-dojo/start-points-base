@@ -18,6 +18,8 @@ test_bad_git_url()
     'ERROR: bad git clone <url>'
     "--custom ${bad_url}"
     "Cloning into '0'..."
+    "git: 'remote-abc' is not a git command. See 'git --help'."
+    "fatal: remote helper 'abc' aborted session"
   )
   assert_diagnostic_is "${expected[@]}"
   assert_status_equals "${error_code}"
