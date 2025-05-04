@@ -61,7 +61,7 @@ cyber_dojo()
 #- - - - - - - - - - - - - - - - - - - - - - -
 make_tmp_dir()
 {
-  local -r tmp_dir=$(mktemp -d "$(root_dir)/tmp/XXXXXX")
+  local -r tmp_dir=$(mktemp -d "/tmp/XXXXXX")
   TMP_DIRS+=("${tmp_dir}")
   echo "${tmp_dir}"
 }
