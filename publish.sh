@@ -3,7 +3,6 @@ set -Eeu
 
 root_dir() { git rev-parse --show-toplevel; }
 export -f root_dir
-rm -rf "$(root_dir)/tmp" && mkdir "$(root_dir)/tmp"
 
 for script in "$(root_dir)/sh"/*.sh; do
   source "${script}"
