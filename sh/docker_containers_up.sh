@@ -52,8 +52,8 @@ exit_unless_clean()
 {
   local -r container_name="${1}"
   local -r docker_log=$(docker logs "${container_name}" 2>&1)
-  local -r top5=$(echo "${docker_log}" | head -5)
-  if [ "${top5}" == "$(clean_top_5)" ]; then
+  local -r top2=$(echo "${docker_log}" | head -2)
+  if [ "${top2}" == "$(clean_top_2)" ]; then
     echo "${container_name} started cleanly."
   else
     echo "${container_name} did not start cleanly."
@@ -62,12 +62,21 @@ exit_unless_clean()
   fi
 }
 
+clean_top_2()
+{
+  # 1st 2 lines on Puma server startup. These are determined by the Dockerfile's FROM statement.
+  local -r L1="Puma starting in single mode..."
+  local -r L2='* Puma version: 6.6.0 ("Return to Forever")'
+  #
+  local -r top2="$(printf "%s\n%s" "${L1}" "${L2}")"
+  echo "${top2}"
+}
+
 clean_top_5()
 {
-  # 1st 5 lines on Puma server startup. These are determined by the base image
-  # in app/Dockerfile, which is something like this:
-  # FROM cyberdojo/docker-base:db948c1
-
+  # 1st 5 lines on Puma server startup. These are determined by the Dockerfile's FROM statement.
+  # Not using this because when debugging on a Mac, with locally built images, the architecture
+  # on line 3 is different (arm).
   local -r L1="Puma starting in single mode..."
   local -r L2='* Puma version: 6.6.0 ("Return to Forever")'
   local -r L3='* Ruby version: ruby 3.3.7 (2025-01-15 revision be31f993d7) [x86_64-linux-musl]'

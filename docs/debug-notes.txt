@@ -1,0 +1,65 @@
+  # eg file:///Users/jonathonjagger/repos/cyber-dojo/github/start-points-base/tmp/hDs26y/languages_manifest_has_duplicate_keys
+  # has sub-dir languages-csharp-nunit/start_point/manifest.json
+  # contents confirmed to have two "display_name" entries
+  # Is check_all being called?
+  # commander's start-point-create.sh uses CYBER_DOJO_START_POINTS_BASE_IMAGE:CYBER_DOJO_START_POINTS_BASE_TAG as its base image
+  # This comes from versioner. Fake versioner does set CYBER_DOJO_START_POINTS_BASE_TAG
+  # Main cyber-dojo script does NOT export env-vars. It captures CYBER_DOJO_COMMANDER_TAG
+  # The check_all.rb call in commander uses TMP_IMAGE_NAME.
+  # That is cyberdojo/temporary_start_points
+  # This is built in start-point-create.sh from the git repos cloned into a temp context dir
+  # If successfully built, the image is tagged, otherwise it is removed.
+  # Overall output is "Successfully built test_language"
+  # But there is no image called test_language
+  # So I think I will have to parallel debug commander; see build_fake_versioner_image.sh
+  # Should NOT delete cyberdojo/temporary_start_points
+  # tag_clean_image_else_exit_non_zero() has a lot of piping to /dev/null/
+  # There is also
+  #     docker container rm --force "${RAND}" &> /dev/null
+  # Which could be commented out to leave the container running.
+  # Exited container with RAND name is B63DE22F-0843-422F-861E-07D20D4E7A9B.
+  # Its log is clean.
+  # Its exit code is zero.
+  # cyberdojo/temporary_start_points image now exists.
+  # It is run with:
+  # docker container run --entrypoint="" --name="${RAND}" --tty cyberdojo/temporary_start_points ruby /app/src/from_script/check_all.rb /app/repos languages
+  # This prints nothing.
+  # Looking inside the image
+  # docker container run --entrypoint="" --name="${RAND}" --tty -i cyberdojo/temporary_start_points bash
+  # Yup it has /app/repos/0/languages-csharp-nunit/start_point with two display_names
+  # So looking like the check for duplicate json keys is failing
+  # Now need to add debug statements to check_all.rb
+  # How to get that to be in the base-image of cyberdojo/temporary_start_points ?
+  # Current git commit on start-points-base is 6be4f46
+  # The fake versioner prints this as its TAG
+  # The locally built cyberdojo/start-points-base:TAG contains the updated check_all.rb
+  # It's name is cyberdojo/start-points-base:6be4f46
+  # The image cyberdojo/temporary_start_points does not contain the updated check_all.rb
+  # Output is saying Successfully built test_language
+  # This is wrong. Work back from that.
+  # start-point-create.sh now cats check_all.rb and it does not have the print()
+  # Why?
+  # Because the FROM in the Dockerfile was
+  # FROM cyberdojo/sinatra-base:eca4305@sha256:e40c4a0b92569f2260a1ab67e3d2438fa32aea8a14739ba84bb429d258290dd4
+  # so it failed to pick up the local cyberdojo/sinatra-base:eca4305
+  #
+  # I think there will be a problem if the FROM has a digest.
+  # It will work on the CI workflow, but locally (on a Mac) it will cause problems.
+  # So for now, use a FROM without a digest
+
+
+
+Debug comments from top of Dockerfile
+
+# This passes all tests
+# FROM cyberdojo/sinatra-base:759c4e9@sha256:d5f87f343a9f88a598b810c0f02b81db0bb67319701a956aec3577cbd51c1c24
+
+# Next commit: This passes all tests
+# FROM cyberdojo/sinatra-base:a903598@sha256:12f9997694fbc19acbdc2ac4c3e616ff5896c4e8e7bc5d37a961af2245e5e18d
+
+# Next commit: This fails script-test test_duplicate_keys_in_json()
+# FROM cyberdojo/sinatra-base:d8b8a99@sha256:0a4452c577b732d9ce88aa9e3e2fc898a50aee5ad9cc2b0ea425140a17a10884
+
+# This is a version of sinatra-base with the last known working build_image.sh script restored
+# FROM cyberdojo/sinatra-base:eca4305@sha256:e40c4a0b92569f2260a1ab67e3d2438fa32aea8a14739ba84bb429d258290dd4
+
