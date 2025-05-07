@@ -4,10 +4,10 @@ set -Eeu
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_tests()
 {
-  local -r coverage_root=/tmp/coverage
   local -r user="${1}"
   local -r test_dir="${2}"
   local -r cid=$(docker ps --all --quiet --filter "name=${3}")
+  local -r coverage_root=/tmp/coverage
 
   set +e
   docker exec \

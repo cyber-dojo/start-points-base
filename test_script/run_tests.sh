@@ -6,6 +6,12 @@ readonly tmp_dir=$(mktemp -d "/tmp/cyber-dojo-start-points-base.XXX")
 remove_tmp_dir() { rm -rf "${tmp_dir}" > /dev/null; }
 trap remove_tmp_dir INT EXIT
 
+root_dir()
+{
+  cd "${my_dir}/.." && pwd
+}
+export -f root_dir
+
 # - - - - - - - - - - - - - - - - - - - - - - - -
 ensure_cyber_dojo_is_on_PATH()
 {

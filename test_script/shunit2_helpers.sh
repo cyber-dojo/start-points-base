@@ -12,8 +12,11 @@ assert_diagnostic_is()
       fail "expected stderr to include '${expected_line}'"
     fi
   done
-  local -r length=$(echo "${stderr}" | wc -l | awk '{ print $1 }')
-  assertEquals "check-no-of-lines-in-stderr:$(dump_sss)" "${#expected[@]}" "${length}"
+  # Do NOT check for exact match - in CI workflow, stderr/stdout are often interleaved
+  # and you can sometimes get extra output lines.
+  #
+  # local -r length=$(echo "${stderr}" | wc -l | awk '{ print $1 }')
+  # assertEquals "check-no-of-lines-in-stderr:$(dump_sss)" "${#expected[@]}" "${length}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

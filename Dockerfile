@@ -1,4 +1,4 @@
-FROM cyberdojo/sinatra-base:759c4e9@sha256:d5f87f343a9f88a598b810c0f02b81db0bb67319701a956aec3577cbd51c1c24
+FROM cyberdojo/sinatra-base:9b39ce0@sha256:217226b001970ff0bcf3e1edc52710534cf6e664dac9aac8b882c2b514e41edd
 # The FROM statement above is typically set via an automated pull-request from the sinatra-base repo
 LABEL maintainer=jon@jaggersoft.com
 
