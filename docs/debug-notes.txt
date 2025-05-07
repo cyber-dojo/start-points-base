@@ -46,7 +46,25 @@
   # I think there will be a problem if the FROM has a digest.
   # It will work on the CI workflow, but locally (on a Mac) it will cause problems.
   # So for now, use a FROM without a digest
-
+  #
+  # FROM cyberdojo/sinatra-base:759c4e9
+  #
+  # This fails test_duplicate_keys_in_json.sh, same as failure on CI workflow
+  # Trying using this with commander showing extra information.
+  # Then it passes.
+  # So, a classic Heisenbug
+  # So with a locally built commander, the test passes.
+  # With a commander built in the CI workflow, it fails.
+  #
+  # I also notice that tag_base_docker_image.sh used to push an image to dockerhub.
+  # This could also have pushed a locally [Mac] built image.
+  #
+  #
+  # When this is fixed I should update commander so that it can be passed a DEBUG flag in some way
+  # and when present:
+  #  o) temporary images are not deleted
+  #  o) all output is echoed
+  #
 
 
 Debug comments from top of Dockerfile
