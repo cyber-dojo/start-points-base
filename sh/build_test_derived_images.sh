@@ -23,21 +23,6 @@ make_tmp_dir()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-exit_non_zero_unless_root_dir_in_context()
-{
-  if on_Mac; then
-    local -r repo_root=$(root_dir)
-    if [ "${repo_root:0:6}" != '/Users' ]; then
-      stderr 'ERROR'
-      stderr "This script lives off $(root_dir)"
-      stderr 'It must live off /Users so the docker-context'
-      stderr "is automatically volume-mounted"
-      exit 1
-    fi
-  fi
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
 build_image_which_creates_test_data_git_repos()
 {
   # This builds cyberdojo/create-start-points-test-data

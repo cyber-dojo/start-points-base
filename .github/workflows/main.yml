@@ -3,25 +3,204 @@ name: Main
 on:
   push:
 
+env:
+  IMAGE_TAR_FILENAME: /tmp/${{ github.event.repository.name }}.${{ github.sha }}.tar
+  DOCKER_API_VERSION: ${{ vars.DOCKER_API_VERSION }}
+
 jobs:
-  build-test-publish:
+  setup:
     runs-on: ubuntu-latest
     needs: []
+    outputs:
+      image_sha:   ${{ steps.vars.outputs.image_sha }}
+      image_tag:   ${{ steps.vars.outputs.image_tag }}
+      image_name:  ${{ steps.vars.outputs.image_name }}
+      branch_name: ${{ steps.vars.outputs.branch_name }}
+    steps:
+      - name: Prepare outputs for workflow jobs
+        id: vars
+        run: |
+          TAG="${GITHUB_SHA:0:7}"
+          echo "image_sha=${GITHUB_SHA}"                       >> ${GITHUB_OUTPUT}          
+          echo "image_tag=${TAG}"                              >> ${GITHUB_OUTPUT}          
+          echo "image_name=cyberdojo/start-points-base:${TAG}" >> ${GITHUB_OUTPUT}
+          echo "branch_name=update-base-image-${TAG}"          >> ${GITHUB_OUTPUT}
+  
+
+  snyk-code-scan:
+    needs: [setup]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
+
+      - name: Setup Snyk
+        uses: snyk/actions/setup@master
+
+      - name: Run Snyk code scan
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run:
+          snyk code test 
+            --policy-path=.snyk 
+            --sarif 
+            --sarif-file-output=snyk.code.scan.json 
+            .
+
+
+  build-image:
+    runs-on: ubuntu-latest
+    needs: [setup, snyk-code-scan]
+    env:
+      IMAGE_NAME: ${{ needs.setup.outputs.image_name }}
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Build and Test
+        run:
+          make image test_image
+
+      - name: Tar Docker image
+        run:
+          docker image save "${IMAGE_NAME}"
+            --output "${IMAGE_TAR_FILENAME}"
+
+      - name: Cache Docker image
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.IMAGE_TAR_FILENAME }}
+          key:  ${{ env.IMAGE_NAME }}
+
+
+  snyk-container-scan:
+    needs: [setup, build-image]
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
+    steps:
+      - name: Retrieve Docker image from cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.IMAGE_TAR_FILENAME }}
+          key:  ${{ env.IMAGE_NAME }}
+
+      - name: Load Docker image
+        run:
+          docker image load --input "${IMAGE_TAR_FILENAME}"
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Snyk
+        uses: snyk/actions/setup@master
+
+      - name: Run Snyk container scan
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run:
+          snyk container test ${IMAGE_NAME} 
+            --policy-path=.snyk
+            --sarif 
+            --sarif-file-output=snyk.container.scan.json
+
+
+  push-image:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    needs: [setup, snyk-container-scan]
+    env:
+      IMAGE_NAME: ${{ needs.setup.outputs.image_name }}
+    outputs:
+      digest: ${{ steps.variables.outputs.digest }}
+    steps:
+      - name: Retrieve Docker image from cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.IMAGE_TAR_FILENAME }}
+          key:  ${{ env.IMAGE_NAME }}
+
+      - name: Load Docker image
+        run:
+          docker image load --input "${IMAGE_TAR_FILENAME}"
 
       - uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
 
-      - name: Build and Test
+      - name: Push docker image to DockerHub
         run:
-          ./build_test.sh
+          docker push "${IMAGE_NAME}"
 
-      - name: Publish
-        if: ${{ github.ref == 'refs/heads/main' }}
+      - name: Setup Kosli CLI
+        uses: kosli-dev/setup-cli-action@v2
+        with:
+          version: ${{ vars.KOSLI_CLI_VERSION }}
+
+      - name: Make artifact digest available to following jobs
+        id: variables
+        run: |
+          DIGEST=$(kosli fingerprint "${IMAGE_NAME}" --artifact-type=oci)        
+          echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}      
+
+
+  create-pr-on-downstream-repos:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: [setup, push-image]
+    runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ needs.setup.outputs.branch_name }}
+    strategy:
+      matrix:
+        repo: [ custom-start-points ]
+        # repo: [ custom-start-points, exercises-start-points, languages-start-points ]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: cyber-dojo/${{ matrix.repo }}
+          token: ${{ secrets.BASE_IMAGE_UPGRADE }}
+          fetch-depth: 0
+
+      - name: Create branch
         run:
-          ./publish.sh
+          git checkout -b ${BRANCH_NAME}
+
+      - name: Create new Basefile.env
+        env:
+          IMAGE:  cyberdojo/start-points-base
+          SHA:    ${{ needs.setup.outputs.image_sha }}
+          TAG:    ${{ needs.setup.outputs.image_tag }}
+          DIGEST: ${{ needs.push-image.outputs.digest }}
+        run: |
+          filename=Basefile.env
+          prefix=CYBER_DOJO_START_POINTS_BASE_IMAGE
+          echo "${prefix}_IMAGE=${IMAGE}"    > ${filename}
+          echo "${prefix}_SHA=${SHA}"       >> ${filename}
+          echo "${prefix}_TAG=${TAG}"       >> ${filename}
+          echo "${prefix}_DIGEST=${DIGEST}" >> ${filename}
+
+      - name: Commit
+        run: |
+          git config --global user.email "{{ github.actor }}"
+          git config --global user.name "${{ github.event.sender.login }}@users.noreply.github.com"
+          git add .
+          git commit --message "Dockerfile - Automated base-image update"
+          git push --set-upstream origin ${BRANCH_NAME}
+
+      - name: Create pull request
+        env:
+          GH_TOKEN: ${{ secrets.BASE_IMAGE_UPGRADE }}
+        run:
+          gh pr create
+            --base main
+            --head ${BRANCH_NAME}
+            --title 'Merge update-base-image into main'
+            --body 'Created by Github action'
+
