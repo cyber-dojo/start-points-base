@@ -6,3 +6,6 @@
 version: v1.25.0
 
 patch: {}
+exclude:
+  global:
+    - test_data
