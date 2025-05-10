@@ -22,8 +22,6 @@ services:
           mode: 01777
           size: 52428800 # 50MB
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   custom:
     user: nobody
     image: cyberdojo/test-custom
