@@ -24,8 +24,8 @@ build_fake_versioner_image        # Because tests call the top-level cyber-dojo 
 trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
 export $(echo_env_vars)
 
-build_docker_images
-build_test_derived_images
-docker_containers_up
-run_tests_in_containers "$@"
+#build_docker_images
+#build_test_derived_images
+#docker_containers_up
+#run_tests_in_containers "$@"
 run_script_tests "$@"

@@ -81,3 +81,57 @@ Debug comments from top of Dockerfile
 # This is a version of sinatra-base with the last known working build_image.sh script restored
 # FROM cyberdojo/sinatra-base:eca4305@sha256:e40c4a0b92569f2260a1ab67e3d2438fa32aea8a14739ba84bb429d258290dd4
 
+
+
+Have a version of commander with prints extra debug info.
+Now running test_script/test_duplicate_keys_in_json.sh gives
+
+DEBUG: docker --log-level=ERROR container run ... cyberdojo/temporary_start_points ruby /app/src/from_script/check_all.rb /app/repos exercises
+ERROR: missing required key "visible_filenames"
+--exercises file:///Users/jonathonjagger/repos/cyber-dojo/github/start-points-base/tmp/aScJQ7/exercises_manifest_has_duplicate_keys
+manifest='exercises-leap-years/manifest.json'
+
+And the creation of the manifest creates _only_ two keys called display_name
+So maybe the check for duplicate json keys needs to come first?
+No - looks like the clean_json check comes first.
+Adding debug print() to clean_json.rb
+The debug prints() to not appear.
+It looks like I'm somehow not getting the correct base image?
+
+Dockerfile starts
+FROM cyberdojo/start-points-base:ed2b1f2
+
+docker run --rm -it --entrypoint='' cyberdojo/start-points-base:ed2b1f2 bash
+
+The print statement is inside the image.
+Does it need a flush?
+Added a flush.
+Not getting printed.
+And test is no longer failing :-(
+
+Commented out 'docker image rm' call in commander.
+So I can look at that.
+And run the command myself.
+There are no print() statements. Ok. So some progress.
+
+cyberdojo/start-points-base:ed2b1f2
+
+Is that getting built, or being pulled?
+$ make image
+$ docker run --rm --tty --entrypoint='' cyberdojo/start-points-base:ed2b1f2 bash -c 'cat /app/src/from_script/clean_json.rb'
+
+It is getting built.
+Is there a cyberdojo/start-points-base:ed2b1f2 on dockerhub ?
+Yes.
+Is it using that?
+
+Let's create a new branch with its own commit.
+
+
+
+
+
+
+
+
+

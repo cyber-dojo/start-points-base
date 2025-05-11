@@ -9,6 +9,10 @@ module CleanJson
 
   def clean_json(url, filename)
     content = IO.read(filename)
+    print("X"*42)
+    print(content)
+    print("X"*42)
+    stdout.flush
     json = parse_json(url, filename, content)
     duplicates = json_duplicate_keys(content)
     if duplicates == {}
