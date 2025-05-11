@@ -11,7 +11,7 @@ source $(root_dir)/sh/config.sh
 source $(root_dir)/sh/echo_env_vars.sh
 source $(root_dir)/sh/exit_non_zero_unless_installed.sh
 source $(root_dir)/sh/lib.sh
-source $(root_dir)/sh/tag_base_docker_image.sh
+source $(root_dir)/sh/tag_and_push_base_docker_image.sh
 
 
 exit_non_zero_unless_installed docker
@@ -19,4 +19,4 @@ exit_non_zero_unless_root_dir_in_context
 export $(echo_env_vars)
 
 build_base_docker_image          # Builds  cyberdojo/start-points-base:latest
-tag_base_docker_image            # Tags to cyberdojo/start-points-base:TAG (based on short-sha)
+tag_and_push_base_docker_image   # Tags to cyberdojo/start-points-base:TAG (based on short-sha)

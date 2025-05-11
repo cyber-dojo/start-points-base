@@ -19,6 +19,16 @@ trap remove_TMP_DIR INT EXIT
 #   $ readonly ENV_VARS="$(docker run --entrypoint=cat --rm cyberdojo/versioner:latest /app/.env)"
 # so we need that cyberdojo/versioner:latest to be the fake one
 
+debug_commander()
+{
+  # For debugging; there is a circular dependency on commander.
+  # If you have a locally built commander image you wish to use
+  # make this function return true, and use it SHA below
+
+  return 1 # false
+  # return 0 # true
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_fake_versioner_image()
 {
@@ -33,13 +43,14 @@ build_fake_versioner_image()
   env_vars=$(replace_with "${env_vars}" "${spb_sha_var_name}" "${spb_fake_sha}")
   env_vars=$(replace_with "${env_vars}" "${spb_tag_var_name}" "${spb_fake_tag}")
 
-  # For debugging; there is a circular dependency on commander
-  #  local -r comm_sha_var_name=CYBER_DOJO_COMMANDER_SHA
-  #  local -r comm_tag_var_name=CYBER_DOJO_COMMANDER_TAG
-  #  local -r comm_fake_sha="b9a5eb34d952fb04f1292d6a2eaa36a3dc3e1f4f"
-  #  local -r comm_fake_tag="${comm_fake_sha:0:7}"
-  #  env_vars=$(replace_with "${env_vars}" "${comm_sha_var_name}" "${comm_fake_sha}")
-  #  env_vars=$(replace_with "${env_vars}" "${comm_tag_var_name}" "${comm_fake_tag}")
+  if debug_commander; then
+    local -r comm_sha_var_name=CYBER_DOJO_COMMANDER_SHA
+    local -r comm_tag_var_name=CYBER_DOJO_COMMANDER_TAG
+    local -r comm_fake_sha="1631c0995a4abd21959445af32f88f7849c7c3c5"
+    local -r comm_fake_tag="${comm_fake_sha:0:7}"
+    env_vars=$(replace_with "${env_vars}" "${comm_sha_var_name}" "${comm_fake_sha}")
+    env_vars=$(replace_with "${env_vars}" "${comm_tag_var_name}" "${comm_fake_tag}")
+  fi
 
   echo "${env_vars}" > ${TMP_DIR}/.env
   local -r fake_image=cyberdojo/versioner:latest
@@ -70,14 +81,15 @@ build_fake_versioner_image()
   actual=$(docker run --rm "${fake_image}" | grep "${spb_tag_var_name}")
   assert_equal "${expected}" "${actual}" CYBERDOJO_START_POINTS_BASE_TAG
 
-  # CYBER_DOJO_COMMANDER
-  #  expected="${comm_sha_var_name}=${comm_fake_sha}"
-  #  actual=$(docker run --rm "${fake_image}" | grep "${comm_sha_var_name}")
-  #  assert_equal "${expected}" "${actual}" CYBER_DOJO_COMMANDER_SHA
-  #
-  #  expected="${comm_tag_var_name}=${comm_fake_tag}"
-  #  actual=$(docker run --rm "${fake_image}" | grep "${comm_tag_var_name}")
-  #  assert_equal "${expected}" "${actual}" CYBER_DOJO_COMMANDER_TAG
+  if debug_commander; then
+    expected="${comm_sha_var_name}=${comm_fake_sha}"
+    actual=$(docker run --rm "${fake_image}" | grep "${comm_sha_var_name}")
+    assert_equal "${expected}" "${actual}" CYBER_DOJO_COMMANDER_SHA
+
+    expected="${comm_tag_var_name}=${comm_fake_tag}"
+    actual=$(docker run --rm "${fake_image}" | grep "${comm_tag_var_name}")
+    assert_equal "${expected}" "${actual}" CYBER_DOJO_COMMANDER_TAG
+  fi
 
   # RELEASE
   expected=RELEASE='999.999.999'

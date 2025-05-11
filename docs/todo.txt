@@ -1,12 +1,14 @@
 
-TODO
+--------TODO
 
-The test_script/test_duplicate_keys_in_json.sh has been turned off by moving into an off/ directory.
-I do not yet know why this is failing.
+Add test for JSON in manifest.json that includes bad escape character. Eg Testfile\\.xml
 
 Restore broken run_demo.sh
 
 ---------DONE
+
+The test_script/test_duplicate_keys_in_json.sh has been turned off by moving into an off/ directory.
+I do not yet know why this is failing.
 
 Add Makefile with target for image and test_image
 

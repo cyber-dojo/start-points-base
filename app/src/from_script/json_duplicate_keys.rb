@@ -1,56 +1,43 @@
 require 'json'
+require 'json/stream'
 
 module JsonDuplicateKeys
 
   def json_duplicate_keys(doc)
-    JSON.parse(doc, { object_class:JsonDuplicateKeyErrorRaiser })
-    {}
-  rescue JsonDuplicateKeyError => e
-    { 'key' => e.key, 'values' => e.values }
+    parser = JSON::Stream::Parser.new
+    builder = MyBuilder.new(parser)
+    parser << doc
+    builder.duplicate_keys
   end
 
-  def json_pretty_duplicate_keys(h)
-    [ "{",
-        debracketed(h['key'], h['values'][0]) + ",",
-        debracketed(h['key'], h['values'][1]),
-      "}"
-    ].join("\n")
-  end
+  # https://www.rubydoc.info/gems/json-stream/0.2.1/JSON/Stream/Builder
+  class MyBuilder < JSON::Stream::Builder
 
-  def debracketed(key, value)
-    JSON.pretty_generate({ key => value })[2..-3]
-  end
+    def initialize(parser)
+      super(parser)
+      @level = 0
+      @keys = []
+    end
 
-  class JsonDuplicateKeyErrorRaiser
-    def initialize
-      @entries = {}
+    def duplicate_keys
+      @keys.select{ |e| @keys.count(e) > 1}.uniq.sort
     end
-    def []=(key, value)
-      seen(key, value)
-      if duplicate?(key)
-        raise JsonDuplicateKeyError.new(key, values(key))
-      end
-    end
-    private
-    def seen(key, value)
-      entries[key] ||= []
-      entries[key] << value
-    end
-    def duplicate?(key)
-      entries[key].size == 2
-    end
-    def values(key)
-      entries[key]
-    end
-    attr_reader :entries
-  end
 
-  class JsonDuplicateKeyError < RuntimeError
-    def initialize(key, values)
-      @key = key
-      @values = values
+    def key(key)
+      super
+      @keys << key if @level == 1
     end
-    attr_reader :key, :values
+
+    def start_object
+      super
+      @level += 1
+    end
+
+    def end_object
+      super
+      @level -= 1
+    end
+
   end
 
 end

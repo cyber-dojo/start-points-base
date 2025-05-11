@@ -81,3 +81,147 @@ Debug comments from top of Dockerfile
 # This is a version of sinatra-base with the last known working build_image.sh script restored
 # FROM cyberdojo/sinatra-base:eca4305@sha256:e40c4a0b92569f2260a1ab67e3d2438fa32aea8a14739ba84bb429d258290dd4
 
+
+
+Have a version of commander with prints extra debug info.
+Now running test_script/test_duplicate_keys_in_json.sh gives
+
+DEBUG: docker --log-level=ERROR container run ... cyberdojo/temporary_start_points ruby /app/src/from_script/check_all.rb /app/repos exercises
+ERROR: missing required key "visible_filenames"
+--exercises file:///Users/jonathonjagger/repos/cyber-dojo/github/start-points-base/tmp/aScJQ7/exercises_manifest_has_duplicate_keys
+manifest='exercises-leap-years/manifest.json'
+
+And the creation of the manifest creates _only_ two keys called display_name
+So maybe the check for duplicate json keys needs to come first?
+No - looks like the clean_json check comes first.
+Adding debug print() to clean_json.rb
+The debug prints() to not appear.
+It looks like I'm somehow not getting the correct base image?
+
+Dockerfile starts
+FROM cyberdojo/start-points-base:ed2b1f2
+
+docker run --rm -it --entrypoint='' cyberdojo/start-points-base:ed2b1f2 bash
+
+The print statement is inside the image.
+Does it need a flush?
+Added a flush.
+Not getting printed.
+And test is no longer failing :-(
+
+Commented out 'docker image rm' call in commander.
+So I can look at that.
+And run the command myself.
+There are no print() statements. Ok. So some progress.
+
+cyberdojo/start-points-base:ed2b1f2
+
+Is that getting built, or being pulled?
+$ make image
+$ docker run --rm --tty --entrypoint='' cyberdojo/start-points-base:ed2b1f2 bash -c 'cat /app/src/from_script/clean_json.rb'
+
+It is getting built.
+Is there a cyberdojo/start-points-base:ed2b1f2 on dockerhub ?
+Yes.
+Is it using that?
+
+Let's create a new branch with its own commit.
+sha is b22dc168cbb252beeb0af55e355103185268b587
+tag is b22dc16
+
+docker pull cyberdojo/start-points-base:b22dc16
+
+That is not on dockerhub.
+
+$ make image test_image
+Now getting exit-status=1
+
+build_image_from_context_dir() is failing
+The 'docker image build' is failing.
+And it inside a subshell  $(docker image build)
+So why do we not get past this?
+
+Echoing the build command, and keeping the CONTEXT_DIR
+Command is...
+$  docker image build --tag cyberdojo/temporary_start_points /Users/jonathonjagger/tmp.cyber-dojo.commander.start-point.build.context-dir.dSjZ7g
+
+Error is...
+Dockerfile:1
+--------------------
+   1 | >>> FROM cyberdojo/start-points-base:b22dc16
+   2 |     LABEL org.cyber-dojo.start-point=languages
+   3 |     COPY . /app/repos
+--------------------
+ERROR: failed to solve: cyberdojo/start-points-base:b22dc16: failed to resolve source metadata for docker.io/cyberdojo/start-points-base:b22dc16: docker.io/cyberdojo/start-points-base:b22dc16: not found
+
+That does exist locally.
+
+So what is happening?
+And why is the failure of the subshell failing the script itself?
+
+I have to push the image.
+Now we are getting to be able to actually debug the problem!
+clean_json.rb is indeed no longer finding duplicates.
+
+It seems that in JsonDuplicateKeyErrorRaiser []=(key, value) is no longer being called twice...
+Found a fix!
+No I didnt. It also says there are duplicates when there isn't.
+And a second solution worked on my local ruby, but not on the later Ruby inside the container.
+I think I need a stream JSON parser.
+
+Gemfile
+-------
+gem 'json-stream'
+
+Code
+----
+require 'json/stream'
+
+# https://www.rubydoc.info/gems/json-stream/0.2.1/JSON/Stream/Builder
+class MyBuilder < JSON::Stream::Builder
+
+  def initialize(parser)
+    super(parser)
+    @level = 0
+    @keys = []
+  end
+
+  def duplicate_keys
+    @keys.select{ |e| @keys.count(e) > 1}.uniq.sort
+  end
+
+  def key(key)
+    super
+    @keys << key if @level == 1
+  end
+
+  def start_object
+    super
+    @level += 1
+  end
+
+  def end_object
+    super
+    @level -= 1
+  end
+end
+
+
+parser = JSON::Stream::Parser.new
+builder = MyBuilder.new(parser)
+parser << '{"answer": 42, "question": {"inner":[1,2,3]}, "answer": 24}'
+builder.duplicate_keys
+
+
+
+
+
+
+
+
+
+
+
+
+
+

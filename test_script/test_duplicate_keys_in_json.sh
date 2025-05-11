@@ -15,10 +15,7 @@ test_language()
     "ERROR: duplicate keys in manifest.json file"
     "--languages ${tmp_url}"
     "manifest='languages-csharp-nunit/start_point/manifest.json'"
-    '{'
-    '  "display_name": "C#, NUnit",'
-    '  "display_name": "C#, JUnit"'
-    '}'
+    '["display_name"]'
   )
   assert_diagnostic_is "${expected[@]}"
   assert_status_equals "${error_code}"
@@ -37,10 +34,7 @@ test_exercise()
     "ERROR: duplicate keys in manifest.json file"
     "--exercises ${tmp_url}"
     "manifest='exercises-leap-years/manifest.json'"
-    '{'
-    '  "display_name": "Leap Years",'
-    '  "display_name": "Years Leap"'
-    '}'
+    '["display_name"]'
   )
   assert_diagnostic_is "${expected[@]}"
   assert_status_equals "${error_code}"

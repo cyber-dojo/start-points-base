@@ -8,7 +8,7 @@
     "cyber-dojo.sh"
   ],
 
-  "hidden_filenames": [ "TestResult\\.xml" ],
+  "hidden_filenames": [ "TestResult.xml" ],
 
   "image_name": "cyberdojofoundation/csharp_nunit",
 

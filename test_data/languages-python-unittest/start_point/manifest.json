@@ -7,7 +7,7 @@
     "cyber-dojo.sh"
   ],
 
-  "hidden_filenames": [ "\\.coverage" ],
+  "hidden_filenames": [ ".coverage" ],
 
   "image_name": "cyberdojofoundation/python_unittest",
 
