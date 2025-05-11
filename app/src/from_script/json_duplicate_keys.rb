@@ -3,60 +3,58 @@ require 'json'
 module JsonDuplicateKeys
 
   def json_duplicate_keys(doc)
-    JSON.parse(doc, { object_class:JsonDuplicateKeyErrorRaiser })
-    {}
-  rescue JsonDuplicateKeyError => e
-    { 'key' => e.key, 'values' => e.values }
+    json.loads(doc, object_pairs_hook=validate_data)
+    []
+  rescue JsonDuplicateKeys => e
+    e.keys
+#     obj = JSON.parse(doc, { object_class:JsonKeyCollector })
+#     all_keys = obj.all_keys
+#     all_keys.select{ |e| all_keys.count(e) > 1 }.uniq.sort
   end
 
-  def json_pretty_duplicate_keys(h)
-    [ "{",
-        debracketed(h['key'], h['values'][0]) + ",",
-        debracketed(h['key'], h['values'][1]),
-      "}"
-    ].join("\n")
+  def validate_data(list_of_pairs)
+    key_count = collections.Counter(k for k,v in list_of_pairs)
+    duplicate_keys = ', '.join(k for k,v in key_count.items() if v>1)
+    if len(duplicate_keys) != 0:
+        raise ValueError('Duplicate key(s) found: {}'.format(duplicate_keys))
+
+  class JsonDuplicateKeys < ValueError
+    def initialize(keys)
+      @keys = keys
+    end
+    attr_reader :keys
   end
 
-  def debracketed(key, value)
-    JSON.pretty_generate({ key => value })[2..-3]
-  end
+#   def json_pretty_duplicate_keys(h)
+#     [ "{",
+#         debracketed(h['key'], h['values'][0]) + ",",
+#         debracketed(h['key'], h['values'][1]),
+#       "}"
+#     ].join("\n")
+#   end
+#
+#   def debracketed(key, value)
+#     JSON.pretty_generate({ key => value })[2..-3]
+#   end
 
-  class JsonDuplicateKeyErrorRaiser < Hash
-    def initialize(*)
-      super
-      @dup_entries = {}
+  class JsonKeyCollector < Hash
+    def initialize
+      #super
+      @keys = []
     end
 
     alias old_brackets []=
 
     def []=(key, value)
-      old_brackets(key, value)
-      seen(key, value)
-      if has_key?(key)
-        raise JsonDuplicateKeyError.new(key, dup_values(key))
-      end
+      p("...[]=(#{key},#{value})")
+      # old_brackets(key, value)
+      @keys << key
     end
 
-    private
-
-    def seen(key, value)
-      dup_entries[key] ||= []
-      dup_entries[key] << value
+    def all_keys
+      @keys
     end
 
-    def dup_values(key)
-      dup_entries[key]
-    end
-
-    attr_reader :dup_entries
-  end
-
-  class JsonDuplicateKeyError < RuntimeError
-    def initialize(key, values)
-      @key = key
-      @values = values
-    end
-    attr_reader :key, :values
   end
 
 end

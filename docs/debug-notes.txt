@@ -165,6 +165,57 @@ clean_json.rb is indeed no longer finding duplicates.
 
 It seems that in JsonDuplicateKeyErrorRaiser []=(key, value) is no longer being called twice...
 Found a fix!
+No I didnt. It also says there are duplicates when there isn't.
+And a second solution worked on my local ruby, but not on the later Ruby inside the container.
+I think I need a stream JSON parser.
+
+Gemfile
+-------
+gem 'json-stream'
+
+Code
+----
+require 'json/stream'
+
+# https://www.rubydoc.info/gems/json-stream/0.2.1/JSON/Stream/Builder
+class MyBuilder < JSON::Stream::Builder
+
+  def initialize(parser)
+    super(parser)
+    @level = 0
+    @keys = []
+  end
+
+  def duplicate_keys
+    @keys.select{ |e| @keys.count(e) > 1}.uniq.sort
+  end
+
+  def key(key)
+    super
+    @keys << key if @level == 1
+  end
+
+  def start_object
+    super
+    @level += 1
+  end
+
+  def end_object
+    super
+    @level -= 1
+  end
+end
+
+
+parser = JSON::Stream::Parser.new
+builder = MyBuilder.new(parser)
+parser << '{"answer": 42, "question": {"inner":[1,2,3]}, "answer": 24}'
+obj = builder.result
+puts obj
+builder.duplicate_keys
+
+
+
 
 
 

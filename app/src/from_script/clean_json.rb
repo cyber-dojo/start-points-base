@@ -9,14 +9,14 @@ module CleanJson
 
   def clean_json(url, filename)
     content = IO.read(filename)
-    json = parse_json(url, filename, content)
+    #json = parse_json(url, filename, content)
     duplicates = json_duplicate_keys(content)
-    if duplicates == {}
-      json
+    if duplicates === []
+      parse_json(url, filename, content)
     else
-      msg = json_pretty_duplicate_keys(duplicates)
+      #msg = json_pretty_duplicate_keys(duplicates)
       title = 'duplicate keys in manifest.json file'
-      show_error(title, url, filename, msg)
+      show_error(title, url, filename, duplicates.to_s)
       exit(18)
     end
   end
