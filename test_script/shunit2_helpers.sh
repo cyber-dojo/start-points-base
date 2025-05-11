@@ -15,6 +15,7 @@ assert_diagnostic_is()
   done
 
   if [ "${missing_diagnostic}" == 'true' ]; then
+    dump_sss
     exit 42
   fi
 
