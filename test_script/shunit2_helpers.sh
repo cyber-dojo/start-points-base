@@ -2,10 +2,10 @@
 assert_diagnostic_is()
 {
   # assert_stdout_empty
-
   local -r stderr="$(de_warned_cat "${stderrF}")"
   local expected_diagnostic=("$@")
   local missing_diagnostic=false
+
   for expected_line in "${expected_diagnostic[@]}"
   do
     if [[ "${stderr}" != *"${expected_line}"* ]]; then
@@ -13,8 +13,9 @@ assert_diagnostic_is()
       fail "expected stderr to include '${expected_line}'"
     fi
   done
+
   if [ "${missing_diagnostic}" == 'true' ]; then
-    dump_sss
+    exit 42
   fi
 
   # Do NOT check for exact match - in CI workflow, stderr/stdout are often interleaved

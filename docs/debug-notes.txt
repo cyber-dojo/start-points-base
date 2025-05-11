@@ -210,8 +210,6 @@ end
 parser = JSON::Stream::Parser.new
 builder = MyBuilder.new(parser)
 parser << '{"answer": 42, "question": {"inner":[1,2,3]}, "answer": 24}'
-obj = builder.result
-puts obj
 builder.duplicate_keys
 
 

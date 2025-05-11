@@ -65,7 +65,7 @@ def languages_manifest_has_duplicate_keys
         "Hiker.cs",
         "cyber-dojo.sh"
       ],
-      "hidden_filenames": [ "TestResult\\.xml" ],
+      "hidden_filenames": [ "TestResult.xml" ],
       "image_name": "cyberdojofoundation/csharp_nunit",
       "filename_extension": ".cs"
     }
