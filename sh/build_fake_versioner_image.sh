@@ -25,8 +25,8 @@ debug_commander()
   # If you have a locally built commander image you wish to use
   # make this function return true, and use it SHA below
 
-  # return 1 # false
-  return 0 # true
+  return 1 # false
+  # return 0 # true
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
