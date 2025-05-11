@@ -126,6 +126,40 @@ Yes.
 Is it using that?
 
 Let's create a new branch with its own commit.
+sha is b22dc168cbb252beeb0af55e355103185268b587
+tag is b22dc16
+
+docker pull cyberdojo/start-points-base:b22dc16
+
+That is not on dockerhub.
+
+$ make image test_image
+Now getting exit-status=1
+
+build_image_from_context_dir() is failing
+The 'docker image build' is failing.
+And it inside a subshell  $(docker image build)
+So why do we not get past this?
+
+Echoing the build command, and keeping the CONTEXT_DIR
+Command is...
+$  docker image build --tag cyberdojo/temporary_start_points /Users/jonathonjagger/tmp.cyber-dojo.commander.start-point.build.context-dir.dSjZ7g
+
+Error is...
+Dockerfile:1
+--------------------
+   1 | >>> FROM cyberdojo/start-points-base:b22dc16
+   2 |     LABEL org.cyber-dojo.start-point=languages
+   3 |     COPY . /app/repos
+--------------------
+ERROR: failed to solve: cyberdojo/start-points-base:b22dc16: failed to resolve source metadata for docker.io/cyberdojo/start-points-base:b22dc16: docker.io/cyberdojo/start-points-base:b22dc16: not found
+
+That does exist locally.
+
+So what is happening?
+And why is the failure of the subshell failing the script itself?
+
+
 
 
 
