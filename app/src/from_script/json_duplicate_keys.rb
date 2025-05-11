@@ -21,28 +21,34 @@ module JsonDuplicateKeys
     JSON.pretty_generate({ key => value })[2..-3]
   end
 
-  class JsonDuplicateKeyErrorRaiser
-    def initialize
-      @entries = {}
+  class JsonDuplicateKeyErrorRaiser < Hash
+    def initialize(*)
+      super
+      @dup_entries = {}
     end
+
+    alias old_brackets []=
+
     def []=(key, value)
+      old_brackets(key, value)
       seen(key, value)
-      if duplicate?(key)
-        raise JsonDuplicateKeyError.new(key, values(key))
+      if has_key?(key)
+        raise JsonDuplicateKeyError.new(key, dup_values(key))
       end
     end
+
     private
+
     def seen(key, value)
-      entries[key] ||= []
-      entries[key] << value
+      dup_entries[key] ||= []
+      dup_entries[key] << value
     end
-    def duplicate?(key)
-      entries[key].size == 2
+
+    def dup_values(key)
+      dup_entries[key]
     end
-    def values(key)
-      entries[key]
-    end
-    attr_reader :entries
+
+    attr_reader :dup_entries
   end
 
   class JsonDuplicateKeyError < RuntimeError

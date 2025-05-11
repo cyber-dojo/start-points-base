@@ -159,6 +159,13 @@ That does exist locally.
 So what is happening?
 And why is the failure of the subshell failing the script itself?
 
+I have to push the image.
+Now we are getting to be able to actually debug the problem!
+clean_json.rb is indeed no longer finding duplicates.
+
+It seems that in JsonDuplicateKeyErrorRaiser []=(key, value) is no longer being called twice...
+Found a fix!
+
 
 
 
