@@ -25,8 +25,8 @@ debug_commander()
   # If you have a locally built commander image you wish to use
   # make this function return true, and set commander_fake_sha to its commit-sha below
 
-  return 1 # false
-  # return 0 # true
+  # return 1 # false
+  return 0 # true
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -46,7 +46,7 @@ build_fake_versioner_image()
   if debug_commander; then
     local -r commander_sha_var_name=CYBER_DOJO_COMMANDER_SHA
     local -r commander_tag_var_name=CYBER_DOJO_COMMANDER_TAG
-    local -r commander_fake_sha="1631c0995a4abd21959445af32f88f7849c7c3c5"
+    local -r commander_fake_sha="dbac9a5a2ce3b8577bc7e2af397d45536886c234"
     local -r commander_fake_tag="${commander_fake_sha:0:7}"
     env_vars=$(replace_with "${env_vars}" "${commander_sha_var_name}" "${commander_fake_sha}")
     env_vars=$(replace_with "${env_vars}" "${commander_tag_var_name}" "${commander_fake_tag}")
