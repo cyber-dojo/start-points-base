@@ -1,7 +1,8 @@
 
 assert_diagnostic_is()
 {
-  # assert_stdout_empty
+  # Do NOT check for exact match - in CI workflow, stderr/stdout are often interleaved
+  # and you will get extra output if the CYBER_DOJO_DEBUG env-var is set to true
   local -r stderr="$(de_warned_cat "${stderrF}")"
   local expected_diagnostic=("$@")
   local missing_diagnostic=false
@@ -15,15 +16,11 @@ assert_diagnostic_is()
   done
 
   if [ "${missing_diagnostic}" == 'true' ]; then
-    dump_sss
+    dump_stderr
+    dump_stdout
+    dump_status
     exit 42
   fi
-
-  # Do NOT check for exact match - in CI workflow, stderr/stdout are often interleaved
-  # and you can sometimes get extra output lines.
-  #
-  # local -r length=$(echo "${stderr}" | wc -l | awk '{ print $1 }')
-  # assertEquals "check-no-of-lines-in-stderr:$(dump_sss)" "${#expected[@]}" "${length}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -108,9 +105,9 @@ assert_status_equals()
 
 dump_sss()
 {
-  dump_stdout
-  dump_stderr
   dump_status
+  dump_stderr
+  dump_stdout
 }
 
 dump_stdout()

@@ -23,7 +23,7 @@ debug_commander()
 {
   # For debugging; there is a circular dependency on commander.
   # If you have a locally built commander image you wish to use
-  # make this function return true, and use it SHA below
+  # make this function return true, and set commander_fake_sha to its commit-sha below
 
   return 1 # false
   # return 0 # true
@@ -44,12 +44,12 @@ build_fake_versioner_image()
   env_vars=$(replace_with "${env_vars}" "${spb_tag_var_name}" "${spb_fake_tag}")
 
   if debug_commander; then
-    local -r comm_sha_var_name=CYBER_DOJO_COMMANDER_SHA
-    local -r comm_tag_var_name=CYBER_DOJO_COMMANDER_TAG
-    local -r comm_fake_sha="1631c0995a4abd21959445af32f88f7849c7c3c5"
-    local -r comm_fake_tag="${comm_fake_sha:0:7}"
-    env_vars=$(replace_with "${env_vars}" "${comm_sha_var_name}" "${comm_fake_sha}")
-    env_vars=$(replace_with "${env_vars}" "${comm_tag_var_name}" "${comm_fake_tag}")
+    local -r commander_sha_var_name=CYBER_DOJO_COMMANDER_SHA
+    local -r commander_tag_var_name=CYBER_DOJO_COMMANDER_TAG
+    local -r commander_fake_sha="1631c0995a4abd21959445af32f88f7849c7c3c5"
+    local -r commander_fake_tag="${commander_fake_sha:0:7}"
+    env_vars=$(replace_with "${env_vars}" "${commander_sha_var_name}" "${commander_fake_sha}")
+    env_vars=$(replace_with "${env_vars}" "${commander_tag_var_name}" "${commander_fake_tag}")
   fi
 
   echo "${env_vars}" > ${TMP_DIR}/.env
@@ -82,12 +82,12 @@ build_fake_versioner_image()
   assert_equal "${expected}" "${actual}" CYBERDOJO_START_POINTS_BASE_TAG
 
   if debug_commander; then
-    expected="${comm_sha_var_name}=${comm_fake_sha}"
-    actual=$(docker run --rm "${fake_image}" | grep "${comm_sha_var_name}")
+    expected="${commander_sha_var_name}=${commander_fake_sha}"
+    actual=$(docker run --rm "${fake_image}" | grep "${commander_sha_var_name}")
     assert_equal "${expected}" "${actual}" CYBER_DOJO_COMMANDER_SHA
 
-    expected="${comm_tag_var_name}=${comm_fake_tag}"
-    actual=$(docker run --rm "${fake_image}" | grep "${comm_tag_var_name}")
+    expected="${commander_tag_var_name}=${commander_fake_tag}"
+    actual=$(docker run --rm "${fake_image}" | grep "${commander_tag_var_name}")
     assert_equal "${expected}" "${actual}" CYBER_DOJO_COMMANDER_TAG
   fi
 
