@@ -184,7 +184,7 @@ jobs:
           DIGEST: ${{ needs.push-image.outputs.digest }}
         run: |
           filename=Basefile.env
-          prefix=CYBER_DOJO_START_POINTS_BASE_IMAGE
+          prefix=CYBER_DOJO_START_POINTS_BASE
           echo "${prefix}_IMAGE=${IMAGE}"    > ${filename}
           echo "${prefix}_SHA=${SHA}"       >> ${filename}
           echo "${prefix}_TAG=${TAG}"       >> ${filename}
