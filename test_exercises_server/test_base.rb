@@ -23,10 +23,6 @@ class TestBase < HexMiniTest
     assert_rack_call_raw(status, 'sha', '{}')
   end
 
-  def base_image(status)
-    assert_rack_call_raw(status, 'base_image', '{}')
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def names(status)

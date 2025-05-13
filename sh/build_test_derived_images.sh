@@ -120,35 +120,11 @@ build_test_languages_image()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-assert_sha_equal()
-{
-  local -r expected="${1}"  # the git-commit-sha that built the start-points-base image
-  local -r type="${2}"      # eg custom
-  local -r base_image="$(docker run --rm $(test_image_name)-${type} sh -c 'echo -n ${BASE_IMAGE}')"
-  local -r actual="$(docker run --rm "${base_image}" sh -c 'echo -n ${SHA}')"
-
-  if [ "${expected}" != "${actual}" ]; then
-    stderr ERROR
-    stderr "BASE_IMAGE=${base_image} from $(test_image_name)-${type}"
-    stderr "SHA=${expected} from cyberdojo/start-points-base:latest"
-    stderr "SHA=${actual} from BASE_IMAGE of $(test_image_name)-${type}"
-    exit 42
-  fi
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
 build_test_derived_images()
 {
-  readonly SHA=$(git_commit_sha)
-
   build_image_which_creates_test_data_git_repos
 
   build_test_custom_image
-  assert_sha_equal "${SHA}" custom
-
   build_test_exercises_image
-  assert_sha_equal "${SHA}" exercises
-
   build_test_languages_image
-  assert_sha_equal "${SHA}" languages
 }
