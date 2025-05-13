@@ -40,7 +40,6 @@ class RackDispatcher
       when /^alive$/          then []
       when /^ready$/          then []
       when /^sha$/            then []
-      when /^base_image$/     then []
       when /^image_names$/    then []
       when /^names$/          then []
       when /^manifests$/      then []

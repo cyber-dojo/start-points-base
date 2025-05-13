@@ -95,11 +95,6 @@ build_fake_versioner_image()
   expected=RELEASE='999.999.999'
   actual=RELEASE=$(docker run --entrypoint "" --rm "${fake_image}" sh -c 'echo ${RELEASE}')
   assert_equal "${expected}" "${actual}" RELEASE
-
-  # SHA
-  expected=SHA="${spb_fake_sha}"
-  actual=SHA=$(docker run --entrypoint "" --rm "${fake_image}" sh -c 'echo ${SHA}')
-  assert_equal "${expected}" "${actual}" SHA
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

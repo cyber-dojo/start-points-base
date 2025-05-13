@@ -36,15 +36,6 @@ class ApiTest < TestBase
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '191', %w( base_image looks like a base_image ) do
-    body,stderr = base_image(200)
-    assert_equal({}, stderr)
-    base_image = body['base_image']
-    assert base_image =~ /cyberdojo\/start-points-base:[0-9a-f]{7}/
-  end
-
   # - - - - - - - - - - - - - - - - -
 
   test '6C1',
