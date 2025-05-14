@@ -51,6 +51,14 @@ def exercises_bad_json
   end
 end
 
+def exercises_bad_escape_char_json
+  `cp -R /app/exercises-bowling-game #{target_dir}`
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    IO.write(manifest_filename, '{"filename": "Testfile\\.xml"}')
+    break
+  end
+end
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_has_duplicate_keys
