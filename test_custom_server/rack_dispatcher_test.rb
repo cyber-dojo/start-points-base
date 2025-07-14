@@ -27,10 +27,10 @@ class RackDispatcherTest < TestBase
   test 'BB1',
   %w( invalid json in http payload becomes exception ) do
     body,stderr = assert_rack_call_raw(500, 'start_points', 'sdfsdf')
-    assert_exception('JSON::ParserError', "unexpected character: 'sdfsdf'", body, stderr)
+    assert_exception('JSON::ParserError', "unexpected character: 'sdfsdf' at line 1 column 1", body, stderr)
 
     body,stderr = assert_rack_call_raw(500, 'start_points', 'nil')
-    assert_exception('JSON::ParserError', "unexpected token at 'nil'", body, stderr)
+    assert_exception('JSON::ParserError', "unexpected token 'nil' at line 1 column 1", body, stderr)
   end
 
   # - - - - - - - - - - - - - - - - -
