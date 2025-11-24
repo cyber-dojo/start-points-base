@@ -78,8 +78,8 @@ clean_top_5()
   # Not using this because when debugging on a Mac, with locally built images, the architecture
   # on line 3 is different (arm).
   local -r L1="Puma starting in single mode..."
-  local -r L2='* Puma version: 7.0.4 ("Romantic Warrior")'
-  local -r L3='* Ruby version: ruby 3.3.7 (2025-01-15 revision be31f993d7) [x86_64-linux-musl]'
+  local -r L2='* Puma version: 7.1.0 ("Neon Witch")'
+  local -r L3='* Ruby version: ruby 3.3.10 (2025-10-23 revision 343ea05002) [x86_64-linux-musl]'
   local -r L4="*  Min threads: 0"
   local -r L5="*  Max threads: 5"
   #
