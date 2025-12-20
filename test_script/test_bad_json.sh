@@ -50,10 +50,11 @@ test_exercise_manifest_bad_escape_char()
 
   refute_image_created
   local -r expected=(
+    "ERROR: Failed to build test_exercise_manifest_bad_escape_char"
     "ERROR: bad JSON in manifest.json file"
     "--exercises ${tmp_url}"
     "manifest='exercises-bowling-game/manifest.json'"
-    "Expected escaped character: char 23"
+    "invalid escape character in string: '\.xml\"}' at line 1 column 23"
   )
   assert_diagnostic_is "${expected[@]}"
   assert_status_equals "${error_code}"
