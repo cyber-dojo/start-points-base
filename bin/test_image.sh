@@ -5,16 +5,16 @@ root_dir() { git rev-parse --show-toplevel; }
 export -f root_dir
 rm -rf "$(root_dir)/tmp" && mkdir "$(root_dir)/tmp"
 
-source $(root_dir)/sh/build_docker_images.sh
-source $(root_dir)/sh/build_fake_versioner_image.sh
-source $(root_dir)/sh/build_test_derived_images.sh
-source $(root_dir)/sh/config.sh
-source $(root_dir)/sh/docker_containers_up.sh
-source $(root_dir)/sh/echo_env_vars.sh
-source $(root_dir)/sh/exit_non_zero_unless_installed.sh
-source $(root_dir)/sh/lib.sh
-source $(root_dir)/sh/run_script_tests.sh
-source $(root_dir)/sh/run_tests_in_containers.sh
+source $(root_dir)/bin/build_docker_images.sh
+source $(root_dir)/bin/build_fake_versioner_image.sh
+source $(root_dir)/bin/build_test_derived_images.sh
+source $(root_dir)/bin/config.sh
+source $(root_dir)/bin/docker_containers_up.sh
+source $(root_dir)/bin/echo_env_vars.sh
+source $(root_dir)/bin/exit_non_zero_unless_installed.sh
+source $(root_dir)/bin/lib.sh
+source $(root_dir)/bin/run_script_tests.sh
+source $(root_dir)/bin/run_tests_in_containers.sh
 
 
 exit_non_zero_unless_installed docker
