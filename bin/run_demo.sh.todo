@@ -2,15 +2,15 @@
 set -Eeu
 
 root_dir() { git rev-parse --show-toplevel; }
-#sh_dir() { echo "$(root_dir)/sh"; }
+#bin_dir() { echo "$(root_dir)/bin"; }
 
-for script in "$(root_dir)/sh"/*.sh; do
+for script in "$(root_dir)/bin"/*.sh; do
   source "${script}"
 done
 
-#. "$(sh_dir)/lib.sh"
-#. "$(sh_dir)/build_base_docker_image.sh"
-#. "$(sh_dir)/build_docker_images.sh"
+#. "$(bin_dir)/lib.sh"
+#. "$(bin_dir)/build_base_docker_image.sh"
+#. "$(bin_dir)/build_docker_images.sh"
 
 run_demo()
 {
