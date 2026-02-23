@@ -1,7 +1,2 @@
 
-
-workflow main.yml has step to push image to dockerhub
-- remove image being pushed to dockerhub in bin/tag_and_push_base_docker_image.sh
-
 Restore broken run_demo.sh
-
