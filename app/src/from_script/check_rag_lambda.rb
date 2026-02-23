@@ -46,7 +46,7 @@ module CheckRagLambda
     result = true
     dir_name = File.dirname(manifest_filename)
     unless File.exist?(dir_name + '/' + filename)
-      title = "rag_lambda=#{quoted(filename)} does not exist"
+      title = "rag_lambda file does not exist"
       key = quoted('rag_lambda')
       value = quoted(filename)
       msg = "#{key}: #{value}"

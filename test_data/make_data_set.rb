@@ -501,7 +501,7 @@ def languages_manifest_rag_lambda_empty_string
 end
 
 def languages_manifest_rag_lambda_does_not_exist
-  peturb_language_manifest('rag_lambda', 'red_amber_green.rb')
+  peturb_language_manifest('rag_lambda', 'not_red_amber_green.rb')
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
