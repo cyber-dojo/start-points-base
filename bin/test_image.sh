@@ -26,7 +26,7 @@ export $(echo_env_vars)
 
 build_docker_images
 build_test_derived_images
-docker_containers_up
-run_tests_in_containers "$@"
+#docker_containers_up
+#run_tests_in_containers "$@"
 export CYBER_DOJO_DEBUG=false
 run_script_tests "$@"

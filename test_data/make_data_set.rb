@@ -478,6 +478,33 @@ def exercises_manifest_has_display_names_duplicate_2
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
+# rag_lambda
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+def languages_manifest_rag_lambda
+  filename = 'red_amber_green.rb'
+  peturb_language_manifest('rag_lambda', filename)
+
+  Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
+    dir = File.dirname(manifest_filename)
+    IO.write("#{dir}/#{filename}", 'lambda { |stdout,stderr,status| return :red }')
+    break
+  end
+end
+
+def languages_manifest_rag_lambda_not_string
+  peturb_language_manifest('rag_lambda', 42)
+end
+
+def languages_manifest_rag_lambda_empty_string
+  peturb_language_manifest('rag_lambda', '')
+end
+
+def languages_manifest_rag_lambda_does_not_exist
+  peturb_language_manifest('rag_lambda', 'red_amber_green.rb')
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturb_language_manifest(key, value, dir_name = 'languages-csharp-nunit')
   `cp -R /app/#{dir_name} #{target_dir}`

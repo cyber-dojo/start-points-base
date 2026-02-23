@@ -8,6 +8,7 @@ require_relative 'check_highlight_filenames'
 require_relative 'check_image_name'
 require_relative 'check_max_seconds'
 require_relative 'check_progress_regexs'
+require_relative 'check_rag_lambda'
 require_relative 'check_tab_size'
 require_relative 'check_visible_filenames'
 require_relative 'clean_json'
@@ -61,6 +62,7 @@ class LanguageManifestChecker
     check_max_seconds(url, filename, json, 42)
     check_highlight_filenames(url, filename, json, 43)
     check_progress_regexs(url, filename, json, 44)
+    check_rag_lambda(url, filename, json, 45)
   end
 
   include CheckAllRequiredKeysExist
@@ -73,6 +75,7 @@ class LanguageManifestChecker
   include CheckMaxSeconds
   include CheckNoUnknownKeysExist
   include CheckProgressRegexs
+  include CheckRagLambda
   include CheckTabSize
   include CheckVisibleFilenames
   include CleanJson
@@ -87,6 +90,7 @@ class LanguageManifestChecker
         filename_extension
         highlight_filenames
         progress_regexs
+        rag_lambda
         tab_size
         max_seconds
       )
