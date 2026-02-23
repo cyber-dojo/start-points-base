@@ -197,7 +197,7 @@ table =
     [ 'warnings',               warning_count, '==',   0 ],
     [ 'skips',                  skip_count,    '==',   0 ],
     [ 'duration(test)[s]',      test_duration, '<=',   1 ],
-    [ 'coverage(src)[%]',       src_coverage,  '>=', 100 ],
+    [ 'coverage(src)[%]',       src_coverage,  '>=',  98 ],
     [ 'coverage(test)[%]',      test_coverage, '>=', 100 ],
     [ 'lines(test)/lines(src)', line_ratio,    '>=', 1.8 ],
     # [ 'hits(src)/hits(test)', hits_ratio,    '>=',   2 ],

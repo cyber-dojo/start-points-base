@@ -117,6 +117,7 @@ class ApiTest < TestBase
     expected_keys = %w(
       display_name visible_files image_name
       hidden_filenames filename_extension
+      rag_lambda
     )
     assert_equal expected_keys.sort, manifest.keys.sort
     assert_equal 'C#, NUnit', manifest['display_name']
@@ -128,6 +129,7 @@ class ApiTest < TestBase
     assert_starts_with(visible_files, 'Hiker.cs', 'public class Hiker')
     assert_starts_with(visible_files, 'HikerTest.cs', 'using NUnit.Framework;')
     assert_starts_with(visible_files, 'cyber-dojo.sh', 'NUNIT_PATH=/nunit/lib/net45')
+    assert_equal manifest['rag_lambda'], rag_lambda
   end
 
   def assert_starts_with(visible_files, filename, content)
@@ -138,6 +140,17 @@ class ApiTest < TestBase
       "  actual:#{actual.split[0]}:"
     ].join("\n")
     assert actual.start_with?(content), diagnostic
+  end
+
+  def rag_lambda
+    [
+      "lambda { |stdout,stderr,status|",
+      "  output = stdout + stderr",
+      "  return :green if /^Passed!/.match(output)",
+      "  return :red   if /^Failed!/.match(output)",
+      "  return :amber",
+      "}"
+  ].join("\n")
   end
 
 end
