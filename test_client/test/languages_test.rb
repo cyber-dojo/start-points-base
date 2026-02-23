@@ -114,7 +114,7 @@ class LanguagesTest < TestBase
 
   def assert_is_CSharp_NUnit_manifest(manifest)
     expected_keys = %w( display_name filename_extension
-      hidden_filenames image_name visible_files )
+      hidden_filenames image_name visible_files rag_lambda )
     assert_equal expected_keys.sort, manifest.keys.sort
 
     assert_equal 'C#, NUnit', manifest['display_name']

@@ -8,6 +8,8 @@
     "cyber-dojo.sh"
   ],
 
+  "rag_lambda": "red_amber_green.rb",
+
   "hidden_filenames": [ "TestResult.xml" ],
 
   "image_name": "cyberdojofoundation/csharp_nunit",

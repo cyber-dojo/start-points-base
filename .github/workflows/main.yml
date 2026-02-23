@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
 
-      - name: Build and Test
+      - name: Build image
         run:
           make image
 

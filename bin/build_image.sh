@@ -16,6 +16,8 @@ source $(root_dir)/bin/tag_and_push_base_docker_image.sh
 
 exit_non_zero_unless_installed docker
 exit_non_zero_unless_root_dir_in_context
+# 'make test_image' creates a fake cyberdojo/versioner so ensure start with a real one
+docker pull --platform=linux/amd64 cyberdojo/versioner:latest
 export $(echo_env_vars)
 
 build_base_docker_image          # Builds  cyberdojo/start-points-base:latest

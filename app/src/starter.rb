@@ -65,6 +65,10 @@ class Starter
       fe = manifest['filename_extension']
       manifest['filename_extension'] = [ fe ] if fe.is_a?(String)
       manifests[display_name] = manifest
+      if manifest.key?('rag_lambda')
+        filename = manifest['rag_lambda']
+        manifest['rag_lambda'] = IO.read("#{dir}/#{filename}")
+      end
     end
     manifests
   end
