@@ -1,18 +1,7 @@
 
---------TODO
+
+workflow main.yml has step to push image to dockerhub
+- remove image being pushed to dockerhub in bin/tag_and_push_base_docker_image.sh
 
 Restore broken run_demo.sh
-
---------DONE
-
-Add test for JSON in manifest.json that includes bad escape character. Eg Testfile\\.xml
-
-The test_script/test_duplicate_keys_in_json.sh has been turned off by moving into an off/ directory.
-I do not yet know why this is failing.
-
-Add Makefile with target for image and test_image
-
-Use makefile in main.yml
-
-Drop build_test.sh file
 
