@@ -172,7 +172,10 @@ jobs:
       BRANCH_NAME: ${{ needs.setup.outputs.branch_name }}
     strategy:
       matrix:
-        repo: [ custom-start-points, exercises-start-points, languages-start-points ]
+        repo:
+          - custom-start-points
+          - exercises-start-points
+          - languages-start-points
     steps:
       - uses: actions/checkout@v4
         with:
