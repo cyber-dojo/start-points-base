@@ -16,7 +16,6 @@ source $(root_dir)/bin/lib.sh
 source $(root_dir)/bin/run_script_tests.sh
 source $(root_dir)/bin/run_tests_in_containers.sh
 
-
 exit_non_zero_unless_installed docker
 exit_non_zero_unless_root_dir_in_context
 
