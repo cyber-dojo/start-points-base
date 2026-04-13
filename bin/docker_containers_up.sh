@@ -66,7 +66,7 @@ clean_top_2()
 {
   # 1st 2 lines on Puma server startup. These are determined by the Dockerfile's FROM statement.
   local -r L1="Puma starting in single mode..."
-  local -r L2='* Puma version: 7.2.0 ("On The Corner")'
+  local -r L2='* Puma version: 8.0.0 ("Into the Arena")'
   #
   local -r top2="$(printf "%s\n%s" "${L1}" "${L2}")"
   echo "${top2}"
