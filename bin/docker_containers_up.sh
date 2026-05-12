@@ -66,7 +66,7 @@ clean_top_2()
 {
   # 1st 2 lines on Puma server startup. These are determined by the Dockerfile's FROM statement.
   local -r L1="Puma starting in single mode..."
-  local -r L2='* Puma version: 8.0.0 ("Into the Arena")'
+  local -r L2='* Puma version: 8.0.1 ("Into the Arena")'
   #
   local -r top2="$(printf "%s\n%s" "${L1}" "${L2}")"
   echo "${top2}"
@@ -78,8 +78,8 @@ clean_top_5()
   # Not using this because when debugging on a Mac, with locally built images, the architecture
   # on line 3 is different (arm).
   local -r L1="Puma starting in single mode..."
-  local -r L2='* Puma version: 7.2.0 ("On The Corner")'
-  local -r L3='* Ruby version: ruby 3.3.10 (2025-10-23 revision 343ea05002) [x86_64-linux-musl]'
+  local -r L2='* 8.0.1 ("Into the Arena")'
+  local -r L3='* Ruby version: ruby 4.0.4 (2026-05-12 revision b89eb1bcbf) +PRISM [x86_64-linux-musl]'
   local -r L4="*  Min threads: 0"
   local -r L5="*  Max threads: 5"
   #

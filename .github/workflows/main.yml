@@ -153,7 +153,7 @@ jobs:
           docker push "${IMAGE_NAME}"
 
       - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v2
+        uses: kosli-dev/setup-cli-action@v3
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
