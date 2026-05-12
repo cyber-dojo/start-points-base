@@ -59,7 +59,7 @@ class TestBase < HexMiniTest
   def with_captured_stderr
     begin
       old_stderr = $stderr
-      $stderr = StringIO.new('', 'w')
+      $stderr = StringIO.new(+'', 'w')
       response = yield
       return [ response, $stderr.string ]
     ensure
