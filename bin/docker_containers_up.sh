@@ -48,43 +48,25 @@ wait_until_ready()
   exit 1
 }
 
+# Verify a server container started cleanly: its log must begin with the normal
+# Puma startup banner and nothing before it (no warnings/errors). The exact Puma
+# version and codename on line 2 are determined by the base image's FROM and
+# change whenever the base image is updated, so match line 2 by prefix rather
+# than pinning the full version string.
 exit_unless_clean()
 {
   local -r container_name="${1}"
   local -r docker_log=$(docker logs "${container_name}" 2>&1)
-  local -r top2=$(echo "${docker_log}" | head -2)
-  if [ "${top2}" == "$(clean_top_2)" ]; then
+  local -r line1=$(echo "${docker_log}" | sed -n '1p')
+  local -r line2=$(echo "${docker_log}" | sed -n '2p')
+  if [ "${line1}" == "Puma starting in single mode..." ] \
+  && [[ "${line2}" == '* Puma version: '* ]]; then
     echo "${container_name} started cleanly."
   else
     echo "${container_name} did not start cleanly."
     echo_docker_log "${container_name}" "${docker_log}"
     exit 42
   fi
-}
-
-clean_top_2()
-{
-  # 1st 2 lines on Puma server startup. These are determined by the Dockerfile's FROM statement.
-  local -r L1="Puma starting in single mode..."
-  local -r L2='* Puma version: 8.0.1 ("Into the Arena")'
-  #
-  local -r top2="$(printf "%s\n%s" "${L1}" "${L2}")"
-  echo "${top2}"
-}
-
-clean_top_5()
-{
-  # 1st 5 lines on Puma server startup. These are determined by the Dockerfile's FROM statement.
-  # Not using this because when debugging on a Mac, with locally built images, the architecture
-  # on line 3 is different (arm).
-  local -r L1="Puma starting in single mode..."
-  local -r L2='* 8.0.1 ("Into the Arena")'
-  local -r L3='* Ruby version: ruby 4.0.4 (2026-05-12 revision b89eb1bcbf) +PRISM [x86_64-linux-musl]'
-  local -r L4="*  Min threads: 0"
-  local -r L5="*  Max threads: 5"
-  #
-  local -r top5="$(printf "%s\n%s\n%s\n%s\n%s" "${L1}" "${L2}" "${L3}" "${L4}" "${L5}")"
-  echo "${top5}"
 }
 
 echo_docker_log()
