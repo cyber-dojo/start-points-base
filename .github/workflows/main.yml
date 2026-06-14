@@ -20,10 +20,12 @@ jobs:
         id: vars
         run: |
           TAG="${GITHUB_SHA:0:7}"
-          echo "image_sha=${GITHUB_SHA}"                       >> ${GITHUB_OUTPUT}          
-          echo "image_tag=${TAG}"                              >> ${GITHUB_OUTPUT}          
-          echo "image_name=cyberdojo/start-points-base:${TAG}" >> ${GITHUB_OUTPUT}
-          echo "branch_name=update-base-image-${TAG}"          >> ${GITHUB_OUTPUT}
+          {
+            echo "image_sha=${GITHUB_SHA}"
+            echo "image_tag=${TAG}"
+            echo "image_name=cyberdojo/start-points-base:${TAG}"
+            echo "branch_name=update-base-image-${TAG}"
+          } >> ${GITHUB_OUTPUT}
   
 
   build-image:
