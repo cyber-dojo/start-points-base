@@ -20,10 +20,12 @@ jobs:
         id: vars
         run: |
           TAG="${GITHUB_SHA:0:7}"
-          echo "image_sha=${GITHUB_SHA}"                       >> ${GITHUB_OUTPUT}          
-          echo "image_tag=${TAG}"                              >> ${GITHUB_OUTPUT}          
-          echo "image_name=cyberdojo/start-points-base:${TAG}" >> ${GITHUB_OUTPUT}
-          echo "branch_name=update-base-image-${TAG}"          >> ${GITHUB_OUTPUT}
+          {
+            echo "image_sha=${GITHUB_SHA}"
+            echo "image_tag=${TAG}"
+            echo "image_name=cyberdojo/start-points-base:${TAG}"
+            echo "branch_name=update-base-image-${TAG}"
+          } >> ${GITHUB_OUTPUT}
   
 
   build-image:
@@ -35,9 +37,7 @@ jobs:
       id-token: write
       contents: write
     steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
+      - uses: cyber-dojo/pinned-checkout@main
 
       - uses: docker/login-action@v4
         with:
@@ -131,6 +131,8 @@ jobs:
     outputs:
       digest: ${{ steps.variables.outputs.digest }}
     steps:
+      - uses: cyber-dojo/setup-kosli-cli@main
+
       - name: Retrieve Docker image from cache
         uses: actions/cache@v5
         with:
@@ -150,11 +152,6 @@ jobs:
       - name: Push docker image to DockerHub
         run:
           docker push "${IMAGE_NAME}"
-
-      - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v3
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
 
       - name: Make image digest available to following jobs
         id: variables

@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -Eeu
 
+# Suppress the Docker CLI "What's next: ... docker scout quickview" hints.
+export DOCKER_CLI_HINTS=false
+
+# Build/run amd64 images even on an arm64 host (eg Apple Silicon), so local
+# builds match the amd64 images produced by CI. Explicit --platform flags
+# still win; this only sets the default for commands that omit it -- notably
+# the commander 'cyber-dojo start-point create' build that has no --platform.
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
 root_dir() { git rev-parse --show-toplevel; }
 export -f root_dir
 rm -rf "$(root_dir)/tmp" && mkdir "$(root_dir)/tmp"
