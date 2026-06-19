@@ -505,6 +505,46 @@ def languages_manifest_rag_lambda_does_not_exist
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
+# language
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+def languages_manifest_language_success
+  peturb_language_manifest('language', ['Ruby', '4.0.1'])
+end
+
+def languages_manifest_language_empty_version
+  peturb_language_manifest('language', ['bash', ''])
+end
+
+def languages_manifest_language_not_array
+  peturb_language_manifest('language', 42)
+end
+
+def languages_manifest_language_wrong_length
+  peturb_language_manifest('language', ['Ruby'])
+end
+
+def languages_manifest_language_non_string_element
+  peturb_language_manifest('language', ['Ruby', 4])
+end
+
+def languages_manifest_language_empty_name
+  peturb_language_manifest('language', ['', '4.0.1'])
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# test_framework
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+def languages_manifest_test_framework_success
+  peturb_language_manifest('test_framework', ['Test::Unit', '3.7.5'])
+end
+
+def languages_manifest_test_framework_empty_name
+  peturb_language_manifest('test_framework', ['', '3.7.5'])
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturb_language_manifest(key, value, dir_name = 'languages-csharp-nunit')
   `cp -R /app/#{dir_name} #{target_dir}`
