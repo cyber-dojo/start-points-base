@@ -2,13 +2,9 @@ require_relative 'test_base'
 
 class LanguagesTest < TestBase
 
-  def self.hex_prefix
-    '444'
-  end
-
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '190', %w( sha looks like a sha ) do
+  test '444190', %w( sha looks like a sha ) do
     sha = languages.sha
     assert_equal 40, sha.size
     sha.each_char do |ch|
@@ -18,20 +14,20 @@ class LanguagesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '602', %w( its ready ) do
+  test '444602', %w( its ready ) do
     assert languages.ready?
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '9C1',
+  test '4449C1',
   %w( names are unique and sorted ) do
     assert_equal expected_names.sort, languages.names
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '71D',
+  test '44471D',
   %w( manifests ) do
     manifests = languages.manifests
     assert manifests.is_a?(Hash)
@@ -42,7 +38,7 @@ class LanguagesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '8C0',
+  test '4448C0',
   %w( unknown method raises ) do
     error = assert_raises(ServiceError) {
       languages.wibble
@@ -57,7 +53,7 @@ class LanguagesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '8C1',
+  test '4448C1',
   %w( manifest with non-string (int) name becomes exception ) do
     error = assert_raises(ServiceError) {
       languages.manifest(42)
@@ -72,7 +68,7 @@ class LanguagesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '8C2',
+  test '4448C2',
   %w( manifest with non-string (nil) name becomes exception ) do
     error = assert_raises(ServiceError) {
       languages.manifest(nil)
@@ -87,7 +83,7 @@ class LanguagesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '8C3',
+  test '4448C3',
   %w( manifest with unknown name becomes exception ) do
     error = assert_raises(ServiceError) {
       languages.manifest('xxx')

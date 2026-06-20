@@ -7,8 +7,8 @@ class HexMiniTest < Minitest::Test
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def self.test(hex_suffix, *lines, &test_block)
-    hex_id = checked_hex_id(hex_suffix, lines)
+  def self.test(hex_id, *lines, &test_block)
+    hex_id = checked_hex_id(hex_id, lines)
     if @@args == [] || @@args.any?{ |arg| hex_id.include?(arg) }
       hex_name = lines.join(space = ' ')
       execute_around = lambda {
@@ -20,32 +20,22 @@ class HexMiniTest < Minitest::Test
           _hex_teardown_caller
         end
       }
-      name = "hex '#{hex_suffix}',\n'#{hex_name}'"
+      name = "hex '#{hex_id}',\n'#{hex_name}'"
       define_method("test_\n#{name}".to_sym, &execute_around)
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def self.checked_hex_id(hex_suffix, lines)
-    method = 'def self.hex_prefix'
-    pointer = ' ' * method.index('.') + '!'
-    pointee = (['',pointer,method,'','']).join("\n")
-    pointer.prepend("\n\n")
-    raise "#{pointer}missing#{pointee}" unless respond_to?(:hex_prefix)
-    raise "#{pointer}empty#{pointee}" if hex_prefix == ''
-    raise "#{pointer}not hex#{pointee}" unless hex_prefix =~ /^[0-9A-F]+$/
-
-    method = "test '#{hex_suffix}',"
+  def self.checked_hex_id(hex_id, lines)
+    method = "test '#{hex_id}',"
     pointer = ' ' * method.index("'") + '!'
     proposition = lines.join(space = ' ')
     pointee = ['',pointer,method,"'#{proposition}'",'',''].join("\n")
-    hex_id = hex_prefix + hex_suffix
     pointer.prepend("\n\n")
-    raise "#{pointer}empty#{pointee}" if hex_suffix == ''
-    raise "#{pointer}not hex#{pointee}" unless hex_suffix =~ /^[0-9A-F]+$/
+    raise "#{pointer}empty#{pointee}" if hex_id == ''
+    raise "#{pointer}not 6-digit hex#{pointee}" unless hex_id =~ /^[0-9A-F]{6}$/
     raise "#{pointer}duplicate#{pointee}" if @@seen_hex_ids.include?(hex_id)
-    raise "#{pointer}overlap#{pointee}" if hex_prefix[-2..-1] == hex_suffix[0..1]
     @@seen_hex_ids << hex_id
     hex_id
   end

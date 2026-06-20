@@ -8,6 +8,7 @@ require_relative 'check_highlight_filenames'
 require_relative 'check_image_name'
 require_relative 'check_max_seconds'
 require_relative 'check_name_version_pair'
+require_relative 'check_name_version_pairs_together'
 require_relative 'check_progress_regexs'
 require_relative 'check_rag_lambda'
 require_relative 'check_tab_size'
@@ -66,6 +67,7 @@ class LanguageManifestChecker
     check_rag_lambda(url, filename, json, 45)
     check_name_version_pair('language', url, filename, json, 46)
     check_name_version_pair('test_framework', url, filename, json, 47)
+    check_name_version_pairs_together(url, filename, json, 48)
   end
 
   include CheckAllRequiredKeysExist
@@ -77,6 +79,7 @@ class LanguageManifestChecker
   include CheckImageName
   include CheckMaxSeconds
   include CheckNameVersionPair
+  include CheckNameVersionPairsTogether
   include CheckNoUnknownKeysExist
   include CheckProgressRegexs
   include CheckRagLambda
