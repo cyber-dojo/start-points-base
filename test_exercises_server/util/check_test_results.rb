@@ -197,9 +197,15 @@ table =
     [ 'warnings',               warning_count, '==',   0 ],
     [ 'skips',                  skip_count,    '==',   0 ],
     [ 'duration(test)[s]',      test_duration, '<=',   1 ],
-    [ 'coverage(src)[%]',       src_coverage,  '>=',  98 ],
+    # Lower than the languages suite: names_from's construct-from-pairs
+    # branch is languages-only (exercise start-points have no language/
+    # test_framework pairs) so this suite cannot exercise it.
+    [ 'coverage(src)[%]',       src_coverage,  '>=',  96 ],
     [ 'coverage(test)[%]',      test_coverage, '>=', 100 ],
-    [ 'lines(test)/lines(src)', line_ratio,    '>=', 1.7 ],
+    # Lowered (1.6): the shared starter.rb grew with languages-only methods
+    # this suite cannot add matching tests for, lowering its test-to-source
+    # line ratio.
+    [ 'lines(test)/lines(src)', line_ratio,    '>=', 1.6 ],
     # [ 'hits(src)/hits(test)',   hits_ratio,    '>=',   2 ],
   ]
 
