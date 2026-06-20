@@ -126,14 +126,20 @@ image_exists()
 
 refute_image_created()
 {
-  local -r msg="refute_image_created ${IMAGE_NAME}"
-  assertFalse "${msg}" image_exists
+  # Fails (dumping status/stderr/stdout) if the image WAS created.
+  if image_exists; then
+    fail "refute_image_created"
+    dump_sss
+  fi
 }
 
 assert_image_created()
 {
-  local -r msg="assert_image_created ${IMAGE_NAME}"
-  assertTrue "${msg}" image_exists
+  # Fails (dumping status/stderr/stdout) if the image was NOT created.
+  if ! image_exists; then
+    fail "assert_image_created"
+    dump_sss
+  fi
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - -

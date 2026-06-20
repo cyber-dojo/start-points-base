@@ -509,11 +509,17 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_language_success
-  peturb_language_manifest('language', ['Ruby', '4.0.1'])
+  peturb_language_manifest_keys(
+    'language' => ['Ruby', '4.0.1'],
+    'test_framework' => ['Test::Unit', '3.7.5']
+  )
 end
 
 def languages_manifest_language_empty_version
-  peturb_language_manifest('language', ['bash', ''])
+  peturb_language_manifest_keys(
+    'language' => ['bash', ''],
+    'test_framework' => ['Test::Unit', '3.7.5']
+  )
 end
 
 def languages_manifest_language_not_array
@@ -537,7 +543,10 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 def languages_manifest_test_framework_success
-  peturb_language_manifest('test_framework', ['Test::Unit', '3.7.5'])
+  peturb_language_manifest_keys(
+    'language' => ['Ruby', '4.0.1'],
+    'test_framework' => ['Test::Unit', '3.7.5']
+  )
 end
 
 def languages_manifest_test_framework_empty_name
@@ -545,15 +554,33 @@ def languages_manifest_test_framework_empty_name
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - -
+# language and test_framework (both-or-neither)
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+def languages_manifest_only_language
+  peturb_language_manifest('language', ['Ruby', '4.0.1'])
+end
+
+def languages_manifest_only_test_framework
+  peturb_language_manifest('test_framework', ['Test::Unit', '3.7.5'])
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - -
 
 def peturb_language_manifest(key, value, dir_name = 'languages-csharp-nunit')
+  peturb_language_manifest_keys({ key => value }, dir_name)
+end
+
+def peturb_language_manifest_keys(keys, dir_name = 'languages-csharp-nunit')
   `cp -R /app/#{dir_name} #{target_dir}`
   Dir.glob("#{target_dir}/**/manifest.json").sort.each do |manifest_filename|
     json = JSON.parse!(IO.read(manifest_filename))
-    if value.nil?
-      json.delete(key)
-    else
-      json[key] = value
+    keys.each do |key, value|
+      if value.nil?
+        json.delete(key)
+      else
+        json[key] = value
+      end
     end
     IO.write(manifest_filename, JSON.pretty_generate(json))
     break
