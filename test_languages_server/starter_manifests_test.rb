@@ -3,15 +3,11 @@ require_relative '../src/starter'
 
 class StarterManifestsTest < HexMiniTest
 
-  def self.hex_prefix
-    'D2F'
-  end
-
   # When every manifest has both a language and a test_framework
   # [name,version] pair, and the constructed "name, framework" strings
   # are all unique, each manifest is keyed by its constructed name and
   # its display_name field is overwritten to match (versions dropped).
-  test '01',
+  test 'D2F001',
   %w( all manifests have unique pairs so each is keyed and named by its pair-names ) do
     java = { 'display_name' => 'Java 21, JUnit 5',
              'image_name' => 'cyberdojofoundation/java_junit',
@@ -28,7 +24,7 @@ class StarterManifestsTest < HexMiniTest
 
   # When any manifest lacks a test_framework pair, all manifests fall
   # back to being keyed and named by their raw display_name.
-  test '02',
+  test 'D2F002',
   %w( one manifest missing test_framework so all keyed by raw display_name ) do
     java = { 'display_name' => 'Java 21, JUnit 5',
              'language' => ['Java', '21'], 'test_framework' => ['JUnit', '5'] }
@@ -41,7 +37,7 @@ class StarterManifestsTest < HexMiniTest
 
   # When any manifest lacks a language pair, all manifests fall back to
   # being keyed and named by their raw display_name.
-  test '03',
+  test 'D2F003',
   %w( one manifest missing language so all keyed by raw display_name ) do
     java = { 'display_name' => 'Java 21, JUnit 5',
              'test_framework' => ['JUnit', '5'] }
@@ -55,7 +51,7 @@ class StarterManifestsTest < HexMiniTest
   # When every manifest has both pairs but two construct to the same
   # "name, framework" string, all manifests fall back to being keyed and
   # named by their raw display_name.
-  test '04',
+  test 'D2F004',
   %w( duplicate constructed names so all keyed by raw display_name ) do
     older = { 'display_name' => 'Ruby 3.4, MiniTest 5.20',
               'language' => ['Ruby', '3.4'], 'test_framework' => ['MiniTest', '5.20'] }

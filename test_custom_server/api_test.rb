@@ -2,13 +2,9 @@ require_relative 'test_base'
 
 class ApiTest < TestBase
 
-  def self.hex_prefix
-    '477'
-  end
-
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '601', %w( its alive  ) do
+  test '477601', %w( its alive  ) do
     body,stderr = alive?(200)
     assert_equal({}, stderr)
     result = body['alive?']
@@ -17,7 +13,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '602', %w( its ready ) do
+  test '477602', %w( its ready ) do
     body,stderr = ready?(200)
     assert_equal({}, stderr)
     result = body['ready?']
@@ -26,7 +22,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '190', %w( sha looks like a sha ) do
+  test '477190', %w( sha looks like a sha ) do
     body,stderr = sha(200)
     assert_equal({}, stderr)
     sha = body['sha']
@@ -38,7 +34,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '6C1',
+  test '4776C1',
   %w( names are unique and sorted ) do
     body,stderr = names(200)
     assert_equal({}, stderr)
@@ -48,7 +44,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '71D',
+  test '47771D',
   %w( manifests ) do
     body,stderr = manifests(200)
     assert_equal({}, stderr)
@@ -61,7 +57,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C0',
+  test '4779C0',
   %w( manifest with missing name becomes exception ) do
     body,stderr = assert_rack_call_raw(500, 'manifest', '{}')
     assert_exception('ArgumentError', 'name:missing', body, stderr)
@@ -69,7 +65,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C1',
+  test '4779C1',
   %w( manifest with non-string name becomes exception ) do
     body,stderr = manifest(500, 42)
     assert_exception('ArgumentError', 'name:!string', body, stderr)
@@ -77,7 +73,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C2',
+  test '4779C2',
   %w( manifest with unknown name becomes exception ) do
     body,stderr = manifest(500, 'xxx')
     assert_exception('ArgumentError', 'name:xxx:unknown', body, stderr)
@@ -85,7 +81,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C3',
+  test '4779C3',
   %w( manifest with known name ) do
     body,stderr = manifest(200, 'Yahtzee refactoring, C# NUnit')
     assert_equal({}, stderr)
@@ -95,7 +91,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test 'EE4',
+  test '477EE4',
   %w( image_names ) do
     expected = %w(
       cyberdojofoundation/csharp_nunit

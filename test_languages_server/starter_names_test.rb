@@ -3,15 +3,11 @@ require_relative '../src/starter'
 
 class StarterNamesTest < HexMiniTest
 
-  def self.hex_prefix
-    'C7A'
-  end
-
   # When every manifest has both a language and a test_framework
   # [name,version] pair, and the constructed "name, framework" strings
   # are all unique, names are built from the pair-names only (versions
   # dropped) and returned sorted.
-  test '01',
+  test 'C7A001',
   %w( all manifests have unique pairs so names are constructed without versions ) do
     jsons = [
       { 'display_name' => 'Java 21, JUnit 5',
@@ -24,7 +20,7 @@ class StarterNamesTest < HexMiniTest
 
   # When any manifest lacks a test_framework pair, all manifests fall
   # back to their raw display_name (which still carries the versions).
-  test '02',
+  test 'C7A002',
   %w( one manifest missing test_framework so all fall back to display_name ) do
     jsons = [
       { 'display_name' => 'Java 21, JUnit 5',
@@ -37,7 +33,7 @@ class StarterNamesTest < HexMiniTest
 
   # When any manifest lacks a language pair, all manifests fall back
   # to their raw display_name.
-  test '03',
+  test 'C7A003',
   %w( one manifest missing language so all fall back to display_name ) do
     jsons = [
       { 'display_name' => 'Java 21, JUnit 5',
@@ -50,7 +46,7 @@ class StarterNamesTest < HexMiniTest
 
   # When every manifest has both pairs but two construct to the same
   # "name, framework" string, all manifests fall back to display_name.
-  test '04',
+  test 'C7A004',
   %w( duplicate constructed names so all fall back to display_name ) do
     jsons = [
       { 'display_name' => 'Ruby 3.4, MiniTest 5.20',

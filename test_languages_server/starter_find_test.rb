@@ -3,13 +3,9 @@ require_relative '../src/starter'
 
 class StarterFindTest < HexMiniTest
 
-  def self.hex_prefix
-    'E4B'
-  end
-
   # In construction mode (every manifest has unique pairs) manifest(name)
   # resolves a constructed display_name to its manifest.
-  test '01',
+  test 'E4B001',
   %w( constructed display_name resolves in construction mode ) do
     by_constructed, by_raw = Starter.lookups_from(construction_manifests)
     found = Starter.find('Java, JUnit', by_constructed, by_raw)
@@ -18,7 +14,7 @@ class StarterFindTest < HexMiniTest
 
   # In construction mode, a name that is not a constructed display_name
   # falls back to matching a raw (versioned) display_name.
-  test '02',
+  test 'E4B002',
   %w( raw display_name resolves as a fallback in construction mode ) do
     by_constructed, by_raw = Starter.lookups_from(construction_manifests)
     found = Starter.find('Java 21, JUnit 5', by_constructed, by_raw)
@@ -27,7 +23,7 @@ class StarterFindTest < HexMiniTest
 
   # A name matching neither a constructed nor a raw display_name resolves
   # to nil.
-  test '03',
+  test 'E4B003',
   %w( unknown name resolves to nil ) do
     by_constructed, by_raw = Starter.lookups_from(construction_manifests)
     assert_nil Starter.find('No Such Thing', by_constructed, by_raw)
@@ -35,7 +31,7 @@ class StarterFindTest < HexMiniTest
 
   # In fallback mode (a manifest lacks its pairs) there are no constructed
   # display_names, so manifest(name) resolves only raw display_names.
-  test '04',
+  test 'E4B004',
   %w( fallback mode resolves raw display_name and not a constructed one ) do
     by_constructed, by_raw = Starter.lookups_from(fallback_manifests)
     found = Starter.find('Java 21, JUnit 5', by_constructed, by_raw)

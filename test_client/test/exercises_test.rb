@@ -2,13 +2,9 @@ require_relative 'test_base'
 
 class ExercisesTest < TestBase
 
-  def self.hex_prefix
-    '949'
-  end
-
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '190', %w( sha looks like a sha ) do
+  test '949190', %w( sha looks like a sha ) do
     sha = exercises.sha
     assert_equal 40, sha.size
     sha.each_char do |ch|
@@ -18,20 +14,20 @@ class ExercisesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '602', %w( its ready ) do
+  test '949602', %w( its ready ) do
     assert exercises.ready?
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '9C1',
+  test '9499C1',
   %w( names are unique and sorted ) do
     assert_equal expected_names.sort, exercises.names
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '71D',
+  test '94971D',
   %w( manifests ) do
     manifests = exercises.manifests
     assert manifests.is_a?(Hash)
@@ -42,7 +38,7 @@ class ExercisesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C3',
+  test '9499C3',
   %w( manifest with known name ) do
     manifest = exercises.manifest('Gray Code')
     assert_is_Gray_Code_manifest(manifest)
@@ -50,7 +46,7 @@ class ExercisesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '8C0',
+  test '9498C0',
   %w( unknown method raises ) do
     error = assert_raises(ServiceError) {
       exercises.wibble
@@ -65,7 +61,7 @@ class ExercisesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '8C1',
+  test '9498C1',
   %w( manifest with non-string (int) name becomes exception ) do
     error = assert_raises(ServiceError) {
       exercises.manifest(42)
@@ -80,7 +76,7 @@ class ExercisesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '8C2',
+  test '9498C2',
   %w( manifest with non-string (nil) name becomes exception ) do
     error = assert_raises(ServiceError) {
       exercises.manifest(nil)
@@ -95,7 +91,7 @@ class ExercisesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '8C3',
+  test '9498C3',
   %w( manifest with unknown name becomes exception ) do
     error = assert_raises(ServiceError) {
       exercises.manifest('xxx')

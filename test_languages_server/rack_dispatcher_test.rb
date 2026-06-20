@@ -4,13 +4,9 @@ require_relative 'test_base'
 
 class RackDispatcherTest < TestBase
 
-  def self.hex_prefix
-    'D06'
-  end
-
   # - - - - - - - - - - - - - - - - -
 
-  test 'BB0',
+  test 'D06BB0',
   %w( unknown method-name becomes exception ) do
     body,stderr = assert_rack_call_raw(400, 'blah', '{}')
     assert_exception('ClientError', 'json:malformed', body, stderr)
@@ -24,7 +20,7 @@ class RackDispatcherTest < TestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'BB1',
+  test 'D06BB1',
   %w( invalid json in http payload becomes exception ) do
     body,stderr = assert_rack_call_raw(500, 'start_points', 'sdfsdf')
     assert_exception('JSON::ParserError', "unexpected character: 'sdfsdf' at line 1 column 1", body, stderr)
@@ -35,7 +31,7 @@ class RackDispatcherTest < TestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'BB2',
+  test 'D06BB2',
   %w( non-hash in http payload becomes exception ) do
     body,stderr = assert_rack_call_raw(400, 'start_points', 'null')
     assert_exception('ClientError', 'json:malformed', body, stderr)
@@ -46,7 +42,7 @@ class RackDispatcherTest < TestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'BB3',
+  test 'D06BB3',
   %w( treat '' as {} for liveness/readyness http probes ) do
     body,stderr = assert_rack_call_raw(200, 'ready', '')
     assert_equal({}, stderr)

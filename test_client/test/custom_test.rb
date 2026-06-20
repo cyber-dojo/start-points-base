@@ -2,13 +2,9 @@ require_relative 'test_base'
 
 class CustomTest < TestBase
 
-  def self.hex_prefix
-    '9E6'
-  end
-
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '190', %w( sha looks like a sha ) do
+  test '9E6190', %w( sha looks like a sha ) do
     sha = custom.sha
     assert_equal 40, sha.size
     sha.each_char do |ch|
@@ -18,20 +14,20 @@ class CustomTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '602', %w( its ready ) do
+  test '9E6602', %w( its ready ) do
     assert custom.ready?
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '9C1',
+  test '9E69C1',
   %w( names are unique and sorted ) do
     assert_equal expected_names.sort, custom.names
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '71D',
+  test '9E671D',
   %w( manifests ) do
     manifests = custom.manifests
     assert manifests.is_a?(Hash)
@@ -42,7 +38,7 @@ class CustomTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '9C3',
+  test '9E69C3',
   %w( manifest with known name ) do
     manifest = custom.manifest('Yahtzee refactoring, C# NUnit')
     assert_is_Yahtzee_refactoring_CSharp_NUnit_manifest(manifest)
@@ -50,7 +46,7 @@ class CustomTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '8C0',
+  test '9E68C0',
   %w( unknown method raises ) do
     error = assert_raises(ServiceError) {
       custom.wibble
@@ -65,7 +61,7 @@ class CustomTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '8C1',
+  test '9E68C1',
   %w( manifest with non-string (int) name becomes exception ) do
     error = assert_raises(ServiceError) {
       custom.manifest(42)
@@ -80,7 +76,7 @@ class CustomTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '8C2',
+  test '9E68C2',
   %w( manifest with non-string (nil) name becomes exception ) do
     error = assert_raises(ServiceError) {
       custom.manifest(nil)
@@ -95,7 +91,7 @@ class CustomTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '8C3',
+  test '9E68C3',
   %w( manifest with unknown name becomes exception ) do
     error = assert_raises(ServiceError) {
       custom.manifest('xxx')

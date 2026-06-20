@@ -2,13 +2,9 @@ require_relative 'test_base'
 
 class ApiTest < TestBase
 
-  def self.hex_prefix
-    'FB3'
-  end
-
   # - - - - - - - - - - - - - - - - -
 
-  test '601', %w( its alive  ) do
+  test 'FB3601', %w( its alive  ) do
     body,stderr = alive?(200)
     assert_equal({}, stderr)
     result = body['alive?']
@@ -17,7 +13,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '602', %w( its ready ) do
+  test 'FB3602', %w( its ready ) do
     body,stderr = ready?(200)
     assert_equal({}, stderr)
     result = body['ready?']
@@ -26,7 +22,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '190', %w( sha looks like a sha ) do
+  test 'FB3190', %w( sha looks like a sha ) do
     body,stderr = sha(200)
     assert_equal({}, stderr)
     sha = body['sha']
@@ -38,7 +34,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '6C1',
+  test 'FB36C1',
   %w( names are unique and sorted ) do
     body,stderr = names(200)
     assert_equal({}, stderr)
@@ -48,7 +44,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '71D',
+  test 'FB371D',
   %w( manifests ) do
     body,stderr = manifests(200)
     assert_equal({}, stderr)
@@ -61,7 +57,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'D7A',
+  test 'FB3D7A',
   %w( manifest with missing name becomes exception ) do
     body,stderr = assert_rack_call_raw(500, 'manifest', '{}')
     assert_exception('ArgumentError', 'name:missing', body, stderr)
@@ -69,7 +65,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test 'D7B',
+  test 'FB3D7B',
   %w( manifest with non-string argument becomes exception ) do
     body,stderr = manifest(500, 42)
     assert_exception('ArgumentError', 'name:!string', body, stderr)
@@ -77,7 +73,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test 'D7E',
+  test 'FB3D7E',
   %w( manifest with unknown name becomes exception ) do
     body,stderr = manifest(500, 'xxx')
     assert_exception('ArgumentError', 'name:xxx:unknown', body, stderr)
@@ -85,7 +81,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '751',
+  test 'FB3751',
   %w( manifest with known name ) do
     body,stderr = manifest(200, 'Gray Code')
     assert_equal({}, stderr)
@@ -95,7 +91,7 @@ class ApiTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test 'EE4',
+  test 'FB3EE4',
   %w( image_names ) do
     expected = []
     body,stderr = image_names(200)
