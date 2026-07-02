@@ -53,11 +53,13 @@ jobs:
           docker image save "${IMAGE_NAME}"
             --output="${IMAGE_TAR_FILENAME}"
 
-      - name: Cache Docker image
-        uses: actions/cache@v5
+      - name: Upload Docker image
+        uses: actions/upload-artifact@v4
         with:
+          name: docker-image
           path: ${{ env.IMAGE_TAR_FILENAME }}
-          key:  ${{ env.IMAGE_NAME }}
+          retention-days: 1
+          if-no-files-found: error
 
 
   test-image:
@@ -66,11 +68,11 @@ jobs:
     env:
       IMAGE_NAME: ${{ needs.setup.outputs.image_name }}
     steps:
-      - name: Retrieve Docker image from cache
-        uses: actions/cache@v5
+      - name: Download Docker image
+        uses: actions/download-artifact@v4
         with:
-          path: ${{ env.IMAGE_TAR_FILENAME }}
-          key:  ${{ env.IMAGE_NAME }}
+          name: docker-image
+          path: /tmp
 
       - name: Load Docker image
         run:
@@ -92,11 +94,11 @@ jobs:
     env:
       IMAGE_NAME: ${{ needs.setup.outputs.image_name }}
     steps:
-      - name: Retrieve Docker image from cache
-        uses: actions/cache@v5
+      - name: Download Docker image
+        uses: actions/download-artifact@v4
         with:
-          path: ${{ env.IMAGE_TAR_FILENAME }}
-          key:  ${{ env.IMAGE_NAME }}
+          name: docker-image
+          path: /tmp
 
       - name: Load Docker image
         run:
@@ -133,11 +135,11 @@ jobs:
     steps:
       - uses: cyber-dojo/setup-kosli-cli@main
 
-      - name: Retrieve Docker image from cache
-        uses: actions/cache@v5
+      - name: Download Docker image
+        uses: actions/download-artifact@v4
         with:
-          path: ${{ env.IMAGE_TAR_FILENAME }}
-          key:  ${{ env.IMAGE_NAME }}
+          name: docker-image
+          path: /tmp
 
       - name: Load Docker image
         run:
