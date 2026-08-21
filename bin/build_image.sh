@@ -19,6 +19,7 @@ source $(root_dir)/bin/config.sh
 source $(root_dir)/bin/echo_env_vars.sh
 source $(root_dir)/bin/exit_non_zero_unless_installed.sh
 source $(root_dir)/bin/lib.sh
+source $(root_dir)/bin/remove_old_images.sh
 source $(root_dir)/bin/tag_base_docker_image.sh
 
 
@@ -30,3 +31,7 @@ export $(echo_env_vars)
 
 build_base_docker_image   # Builds cyberdojo/start-points-base:latest
 tag_base_docker_image     # Tags to cyberdojo/start-points-base:TAG (based on short-sha)
+# After tagging, so removing an earlier build's tags takes its last tag with
+# them and the image itself goes, rather than being left dangling when :latest
+# moves to this build.
+remove_old_images
