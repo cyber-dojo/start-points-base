@@ -14,6 +14,5 @@ ruby -e "${SCRIPT}" -- ${TEST_ARGS[@]} 2>&1 | tee ${TEST_LOG}
 
 ruby ${MY_DIR}/check_test_results.rb \
   ${TEST_LOG} \
-  ${COVERAGE_ROOT}/index.html \
   ${COVERAGE_ROOT}/coverage.json \
     > ${COVERAGE_ROOT}/done.txt

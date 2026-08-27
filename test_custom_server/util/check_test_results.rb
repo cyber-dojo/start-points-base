@@ -1,33 +1,12 @@
 require 'json'
 
-def index_html
-  $index_html = begin
-    if ARGV[1].nil?
-      fatal_error("ARGV[1] must be the path to the coverage html file")
-    else
-      cleaned(IO.read(ARGV[1]))  # eg /app/data/index.html
-    end
-  end
-end
-
 def coverage_json
   $coverage_json = begin
-    if ARGV[2].nil?
-      fatal_error("ARGV[2] must be the path to the coverage json file")
+    if ARGV[1].nil?
+      fatal_error("ARGV[1] must be the path to the coverage json file")
     else
-      JSON.parse(IO.read(ARGV[2]))  # eg /app/data/coverage.json
+      JSON.parse(IO.read(ARGV[1]))  # eg /app/data/coverage.json
     end
-  end
-end
-
-def version
-  $version ||= begin
-    %w( 0.17.0 0.17.1 0.18.1 0.19.0 0.19.1 0.21.2 0.22.0 ).each do |n|
-      if index_html.include?("v#{n}")
-        return n
-      end
-    end
-    fatal_error("Unknown simplecov version!\n#{index_html}")
   end
 end
 
@@ -62,78 +41,6 @@ def colourize(code, word)
   "\e[#{code}m#{word}\e[0m"
 end
 
-def get_index_stats(name)
-  case version
-    when '0.17.0' then get_index_stats_gem_0_17_0(name, '0.17.0')
-    when '0.17.1' then get_index_stats_gem_0_17_0(name, '0.17.1')
-    when '0.18.1' then get_index_stats_gem_0_18_1(name, '0.18.1')
-    when '0.19.0' then coverage_json['groups'][name]
-    when '0.19.1' then coverage_json['groups'][name]
-    when '0.21.2' then coverage_json['groups'][name]
-    when '0.22.0' then coverage_json['groups'][name]
-    else           fatal_error("Unknown simplecov version #{version}")
-  end
-end
-
-def get_index_stats_gem_0_17_0(name, version)
-  pattern = /<div class=\"file_list_container\" id=\"#{name}\">
-  \s*<h2>\s*<span class=\"group_name\">#{name}<\/span>
-  \s*\(<span class=\"covered_percent\"><span class=\"\w+\">([\d\.]*)\%<\/span><\/span>
-  \s*covered at
-  \s*<span class=\"covered_strength\">
-  \s*<span class=\"\w+\">
-  \s*(#{number})
-  \s*<\/span>
-  \s*<\/span> hits\/line\)
-  \s*<\/h2>
-  \s*<a name=\"#{name}\"><\/a>
-  \s*<div>
-  \s*<b>#{number}<\/b> files in total.
-  \s*<b>(#{number})<\/b> relevant lines./m
-
-  r = index_html.match(pattern)
-  fatal_error("#{version} REGEX match failed...") if r.nil?
-
-  h = {}
-  h[:coverage]      = f2(r[1])
-  h[:hits_per_line] = f2(r[2])
-  h[:line_count]    = r[3].to_i
-  h[:name] = name
-  h
-end
-
-def get_index_stats_gem_0_18_1(name, version)
-  pattern = /<div class=\"file_list_container\" id=\"#{name}\">
-  \s*<h2>\s*<span class=\"group_name\">#{name}<\/span>
-  \s*\(<span class=\"covered_percent\">
-  \s*<span class=\"\w+\">
-  \s*([\d\.]*)\%\s*<\/span>\s*<\/span>
-  \s*covered at
-  \s*<span class=\"covered_strength\">
-  \s*<span class=\"\w+\">
-  \s*(#{number})
-  \s*<\/span>
-  \s*<\/span> hits\/line
-  \s*\)
-  \s*<\/h2>\s*
-  \s*<a name=\"#{name}\"><\/a>\s*
-  \s*<div>\s*
-  \s*<b>#{number}<\/b> files in total.\s*
-  \s*<\/div>\s*
-  \s*<div class=\"t-line-summary\">\s*
-  \s*<b>(#{number})<\/b> relevant lines./m
-
-  r = index_html.match(pattern)
-  fatal_error("#{version} REGEX match failed...") if r.nil?
-
-  h = {}
-  h[:coverage]      = f2(r[1])
-  h[:hits_per_line] = f2(r[2])
-  h[:line_count]    = r[3].to_i
-  h[:name] = name
-  h
-end
-
 def get_test_log_stats
   test_log = `cat #{ARGV[0]}`
   test_log = cleaned(test_log)
@@ -166,8 +73,8 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 log_stats = get_test_log_stats
-test_stats = get_index_stats('test')
-src_stats = get_index_stats('src')
+test_stats = coverage_json['groups']['test']
+src_stats = coverage_json['groups']['src']
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
