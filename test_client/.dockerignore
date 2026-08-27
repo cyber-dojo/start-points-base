@@ -2,4 +2,5 @@
 !src
 !test
 !config.ru
+!puma.rb
 !up.sh

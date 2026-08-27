@@ -11,13 +11,17 @@ class HttpHelper
   end
 
   def get(*args)
-    call('get', name_of(caller), *args)
+    call('get', calling_method_name, *args)
   end
 
   private
 
-  def name_of(caller)
-    /`(?<name>[^']*)/ =~ caller[0] && name
+  # The name of the method that called get, which is also the name of the
+  # endpoint being asked for. caller_locations answers it as a value, where
+  # matching a backtrace string relies on a format ruby is free to change:
+  # 3.4 moved from `name' to 'Class#name', which base_label sees past.
+  def calling_method_name
+    caller_locations(2, 1).first.base_label
   end
 
   def call(gp, method, *args)

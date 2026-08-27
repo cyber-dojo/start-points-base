@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 set -Eeu
 
-# The --host is needed for IPv4 and IPv6 addresses
+readonly MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-rackup \
-  --warn \
-  --host 0.0.0.0 \
-  --port 4528 \
-  --server thin \
-  --env production \
-    config.ru
+export RUBYOPT=-w
+
+puma \
+  --port=4528 \
+  --config=${MY_DIR}/puma.rb
