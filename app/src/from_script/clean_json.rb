@@ -9,8 +9,10 @@ module CleanJson
 
   def clean_json(url, filename)
     content = IO.read(filename)
-    parsed = JSON.parse!(content)
-    # json_duplicate_keys() could raise so it is important it is called after parse_json()
+    # JSON.parse! rejects duplicate keys by default, and names only the first one.
+    # allow_duplicate_key:true lets json_duplicate_keys() name all of them instead.
+    parsed = JSON.parse!(content, allow_duplicate_key: true)
+    # json_duplicate_keys() could raise so it is important it is called after JSON.parse!()
     duplicates = json_duplicate_keys(content)
     if duplicates === []
       parsed
