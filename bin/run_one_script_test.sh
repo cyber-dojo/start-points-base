@@ -14,10 +14,6 @@ set -Eeu
 # Suppress the Docker CLI "What's next: ... docker scout quickview" hints.
 export DOCKER_CLI_HINTS=false
 
-# Build/run amd64 images even on an arm64 host (eg Apple Silicon), so local
-# builds match the amd64 images produced by CI.
-export DOCKER_DEFAULT_PLATFORM=linux/amd64
-
 root_dir() { git rev-parse --show-toplevel; }
 export -f root_dir
 
@@ -71,7 +67,7 @@ exit_non_zero_unless_root_dir_in_context
 
 # Make cyberdojo/versioner:latest the fake that serves this repo's SHA/TAG,
 # then export the env-vars commander needs to find the base image.
-docker pull --platform=linux/amd64 cyberdojo/versioner:latest
+docker pull cyberdojo/versioner:latest
 build_fake_versioner_image
 trap 'docker image rm --force cyberdojo/versioner:latest' EXIT
 export $(echo_env_vars)
